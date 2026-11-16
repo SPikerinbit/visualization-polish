@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="980" viewBox="0 0 1000 980" role="img"><title>Node replay and pointer update</title><desc>Two rows show initialization and a subsequent refresh of the same node. During refresh the old pointer is R, the new right segment enters logical slot R, and the parent loser enters logical slot L. Slot L exhausts first, so the pointer flips to L. Replay uses an existing rank map and is not an additional LLM call.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#262b30"/></marker><marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#899198"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, Helvetica, sans-serif">
+<text id="t1" x="155" y="40" text-anchor="middle" font-size="30" fill="#262b30" font-weight="600">State</text>
+<text id="t2" x="500" y="40" text-anchor="middle" font-size="30" fill="#262b30" font-weight="600">Node replay</text>
+<text id="t3" x="845" y="40" text-anchor="middle" font-size="30" fill="#262b30" font-weight="600">Updated state</text>
+<text id="t4" x="30" y="94" text-anchor="start" font-size="30" fill="#262b30" font-weight="600">(a) Build</text>
+<line x1="155" y1="205" x2="80" y2="335" stroke="#899198" stroke-width="1.8" />
+<line x1="155" y1="205" x2="230" y2="335" stroke="#899198" stroke-width="1.8" />
+<g id="build-before-parent-empty" data-edit-group="build-before-parent-empty">
+<rect x="106" y="180" width="98" height="50" rx="12" fill="white" stroke="#899198" stroke-width="1.8"/>
+</g>
+<text id="t5" x="155" y="167" text-anchor="middle" font-size="28" fill="#7b838b" >P</text>
+<g id="build-before-left" data-edit-group="build-before-left">
+<rect x="33.5" y="310" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="58.5" cy="335" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t6" x="58.5" y="343" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="101.5" cy="335" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t7" x="101.5" y="343" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-before-right" data-edit-group="build-before-right">
+<rect x="183.5" y="310" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="208.5" cy="335" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t8" x="208.5" y="343" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="251.5" cy="335" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t9" x="251.5" y="343" text-anchor="middle" font-size="25" fill="white" >5</text>
+</g>
+<text id="t10" x="80" y="392" text-anchor="middle" font-size="28" fill="#7b838b" >L</text>
+<text id="t11" x="230" y="392" text-anchor="middle" font-size="28" fill="#7b838b" >R</text>
+<g id="build-replay-scope" data-edit-group="build-replay-scope">
+<rect x="339" y="110" width="322" height="324" rx="14" fill="none" stroke="#d3d8dc" stroke-width="1.5"/>
+</g>
+<text id="t12" x="425" y="149" text-anchor="middle" font-size="28" fill="#7b838b" >L</text>
+<text id="t13" x="575" y="149" text-anchor="middle" font-size="28" fill="#7b838b" >R</text>
+<g id="build-replay-slot-L" data-edit-group="build-replay-slot-L">
+<rect x="378.5" y="161" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="403.5" cy="186" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t14" x="403.5" y="194" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="446.5" cy="186" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t15" x="446.5" y="194" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-replay-slot-R" data-edit-group="build-replay-slot-R">
+<rect x="528.5" y="161" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="553.5" cy="186" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t16" x="553.5" y="194" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="596.5" cy="186" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t17" x="596.5" y="194" text-anchor="middle" font-size="25" fill="white" >5</text>
+</g>
+<line x1="500" y1="220" x2="500" y2="243" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<text id="t18" x="395" y="273" text-anchor="middle" font-size="25" fill="#7b838b" >R</text>
+<circle cx="395" cy="306" r="22" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t19" x="395" y="314" text-anchor="middle" font-size="25" fill="white" >1</text>
+<text id="t20" x="465" y="273" text-anchor="middle" font-size="25" fill="#7b838b" >L</text>
+<circle cx="465" cy="306" r="22" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t21" x="465" y="314" text-anchor="middle" font-size="25" fill="white" >3</text>
+<text id="t22" x="535" y="273" text-anchor="middle" font-size="25" fill="#7b838b" >R</text>
+<circle cx="535" cy="306" r="22" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t23" x="535" y="314" text-anchor="middle" font-size="25" fill="white" >5</text>
+<text id="t24" x="605" y="273" text-anchor="middle" font-size="25" fill="#7b838b" >L</text>
+<circle cx="605" cy="306" r="22" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t25" x="605" y="314" text-anchor="middle" font-size="25" fill="white" >7</text>
+<path d="M369,339 V344 H491 V339" fill="none" stroke="#7b838b" stroke-width="1.4" />
+<text id="t26" x="430" y="372" text-anchor="middle" font-size="22" fill="#7b838b" >winner</text>
+<path d="M509,339 V344 H631 V339" fill="none" stroke="#7b838b" stroke-width="1.4" />
+<text id="t27" x="570" y="372" text-anchor="middle" font-size="22" fill="#7b838b" >loser</text>
+<path d="M511,332 H559" fill="none" stroke="#c44c3c" stroke-width="3" />
+<text id="t28" x="500" y="412" text-anchor="middle" font-size="29" fill="#c44c3c" >R exhausts first</text>
+<line x1="845" y1="205" x2="770" y2="335" stroke="#899198" stroke-width="1.8" />
+<line x1="845" y1="205" x2="920" y2="335" stroke="#899198" stroke-width="1.8" />
+<line x1="863.75" y1="237" x2="899" y2="299" stroke="#262b30" stroke-width="2.8" marker-end="url(#arrow)"/>
+<g id="build-after-parent" data-edit-group="build-after-parent">
+<rect x="798.5" y="180" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="823.5" cy="205" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t29" x="823.5" y="213" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="866.5" cy="205" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t30" x="866.5" y="213" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-after-left" data-edit-group="build-after-left">
+<rect x="723.5" y="310" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="748.5" cy="335" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t31" x="748.5" y="343" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="791.5" cy="335" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t32" x="791.5" y="343" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="build-after-right" data-edit-group="build-after-right">
+<rect x="873.5" y="310" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="898.5" cy="335" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t33" x="898.5" y="343" text-anchor="middle" font-size="25" fill="#9ba3aa" >6</text>
+<circle cx="941.5" cy="335" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t34" x="941.5" y="343" text-anchor="middle" font-size="25" fill="#9ba3aa" >14</text>
+</g>
+<text id="t35" x="770" y="392" text-anchor="middle" font-size="28" fill="#7b838b" >L</text>
+<text id="t36" x="920" y="392" text-anchor="middle" font-size="28" fill="#7b838b" >R</text>
+<line x1="845" y1="175" x2="845" y2="154" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="build-after-winner" data-edit-group="build-after-winner">
+<rect x="798.5" y="100" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="823.5" cy="125" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t37" x="823.5" y="133" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="866.5" cy="125" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t38" x="866.5" y="133" text-anchor="middle" font-size="25" fill="white" >3</text>
+</g>
+<g id="build-to-replay" data-edit-group="build-to-replay">
+<path d="M284,223 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<g id="build-to-state" data-edit-group="build-to-state">
+<path d="M676,223 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<text id="t39" x="30" y="554" text-anchor="start" font-size="30" fill="#262b30" font-weight="600">(b) Refresh</text>
+<line x1="155" y1="665" x2="80" y2="795" stroke="#899198" stroke-width="1.8" />
+<line x1="155" y1="665" x2="230" y2="795" stroke="#899198" stroke-width="1.8" />
+<line x1="173.75" y1="697" x2="209" y2="759" stroke="#262b30" stroke-width="2.8" marker-end="url(#arrow)"/>
+<g id="refresh-before-parent" data-edit-group="refresh-before-parent">
+<rect x="108.5" y="640" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="133.5" cy="665" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t40" x="133.5" y="673" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="176.5" cy="665" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t41" x="176.5" y="673" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<text id="t42" x="155" y="627" text-anchor="middle" font-size="28" fill="#7b838b" >P</text>
+<g id="refresh-before-left" data-edit-group="refresh-before-left">
+<rect x="33.5" y="770" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="58.5" cy="795" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t43" x="58.5" y="803" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="101.5" cy="795" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t44" x="101.5" y="803" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="refresh-before-right" data-edit-group="refresh-before-right">
+<rect x="183.5" y="770" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="208.5" cy="795" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t45" x="208.5" y="803" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="251.5" cy="795" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t46" x="251.5" y="803" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t47" x="80" y="852" text-anchor="middle" font-size="28" fill="#7b838b" >L</text>
+<text id="t48" x="230" y="852" text-anchor="middle" font-size="28" fill="#7b838b" >R</text>
+<g id="refresh-replay-scope" data-edit-group="refresh-replay-scope">
+<rect x="339" y="570" width="322" height="324" rx="14" fill="none" stroke="#d3d8dc" stroke-width="1.5"/>
+</g>
+<text id="t49" x="425" y="609" text-anchor="middle" font-size="28" fill="#7b838b" >P → L</text>
+<text id="t50" x="575" y="609" text-anchor="middle" font-size="28" fill="#7b838b" >R → R</text>
+<g id="refresh-replay-slot-L" data-edit-group="refresh-replay-slot-L">
+<rect x="378.5" y="621" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="403.5" cy="646" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t51" x="403.5" y="654" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="446.5" cy="646" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t52" x="446.5" y="654" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="refresh-replay-slot-R" data-edit-group="refresh-replay-slot-R">
+<rect x="528.5" y="621" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="553.5" cy="646" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t53" x="553.5" y="654" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="596.5" cy="646" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t54" x="596.5" y="654" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<line x1="500" y1="680" x2="500" y2="703" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<text id="t55" x="395" y="733" text-anchor="middle" font-size="25" fill="#7b838b" >L</text>
+<circle cx="395" cy="766" r="22" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t56" x="395" y="774" text-anchor="middle" font-size="25" fill="white" >5</text>
+<text id="t57" x="465" y="733" text-anchor="middle" font-size="25" fill="#7b838b" >R</text>
+<circle cx="465" cy="766" r="22" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t58" x="465" y="774" text-anchor="middle" font-size="25" fill="white" >6</text>
+<text id="t59" x="535" y="733" text-anchor="middle" font-size="25" fill="#7b838b" >L</text>
+<circle cx="535" cy="766" r="22" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t60" x="535" y="774" text-anchor="middle" font-size="25" fill="white" >7</text>
+<text id="t61" x="605" y="733" text-anchor="middle" font-size="25" fill="#7b838b" >R</text>
+<circle cx="605" cy="766" r="22" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t62" x="605" y="774" text-anchor="middle" font-size="25" fill="white" >14</text>
+<path d="M369,799 V804 H491 V799" fill="none" stroke="#7b838b" stroke-width="1.4" />
+<text id="t63" x="430" y="832" text-anchor="middle" font-size="22" fill="#7b838b" >winner</text>
+<path d="M509,799 V804 H631 V799" fill="none" stroke="#7b838b" stroke-width="1.4" />
+<text id="t64" x="570" y="832" text-anchor="middle" font-size="22" fill="#7b838b" >loser</text>
+<path d="M511,792 H559" fill="none" stroke="#c44c3c" stroke-width="3" />
+<text id="t65" x="500" y="872" text-anchor="middle" font-size="29" fill="#c44c3c" >L exhausts first</text>
+<line x1="845" y1="665" x2="770" y2="795" stroke="#899198" stroke-width="1.8" />
+<line x1="845" y1="665" x2="920" y2="795" stroke="#899198" stroke-width="1.8" />
+<line x1="826.25" y1="697" x2="791" y2="759" stroke="#262b30" stroke-width="2.8" marker-end="url(#arrow)"/>
+<g id="refresh-after-parent" data-edit-group="refresh-after-parent">
+<rect x="798.5" y="640" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="823.5" cy="665" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t66" x="823.5" y="673" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="866.5" cy="665" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t67" x="866.5" y="673" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<g id="refresh-after-left" data-edit-group="refresh-after-left">
+<rect x="723.5" y="770" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="748.5" cy="795" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t68" x="748.5" y="803" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="791.5" cy="795" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t69" x="791.5" y="803" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="refresh-after-right" data-edit-group="refresh-after-right">
+<rect x="895" y="770" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<text id="t70" x="920" y="803" text-anchor="middle" font-size="25" fill="#9ba3aa" >∅</text>
+</g>
+<text id="t71" x="770" y="852" text-anchor="middle" font-size="28" fill="#7b838b" >L</text>
+<text id="t72" x="920" y="852" text-anchor="middle" font-size="28" fill="#7b838b" >R</text>
+<line x1="845" y1="635" x2="845" y2="614" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="refresh-after-winner" data-edit-group="refresh-after-winner">
+<rect x="798.5" y="560" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="823.5" cy="585" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t73" x="823.5" y="593" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="866.5" cy="585" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t74" x="866.5" y="593" text-anchor="middle" font-size="25" fill="white" >6</text>
+</g>
+<g id="refresh-to-replay" data-edit-group="refresh-to-replay">
+<path d="M284,683 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<g id="refresh-to-state" data-edit-group="refresh-to-state">
+<path d="M676,683 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<g id="pointer-rule-legend" data-edit-group="pointer-rule-legend">
+<line x1="60" y1="944" x2="110" y2="944" stroke="#262b30" stroke-width="2.6" marker-end="url(#arrow)"/>
+<text id="t75" x="125" y="953" text-anchor="start" font-size="25" fill="#7b838b" >pointer</text>
+<circle cx="375" cy="944" r="17" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t76" x="375" y="952" text-anchor="middle" font-size="22" fill="white" >1</text>
+<text id="t77" x="404" y="953" text-anchor="start" font-size="25" fill="#7b838b" >winner</text>
+<circle cx="670" cy="944" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t78" x="670" y="952" text-anchor="middle" font-size="22" fill="#9ba3aa" >12</text>
+<text id="t79" x="699" y="953" text-anchor="start" font-size="25" fill="#7b838b" >next unread</text>
+</g>
+</g></svg>

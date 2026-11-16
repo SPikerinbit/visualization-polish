@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="880" viewBox="0 0 1660 880" role="img"><title>Pairwise merging and listwise SD / LT</title><desc>One two-way merge baseline with k=2,h=1 compares two run heads and emits the smaller item. SD with k=4,h=2 connects four run-prefix leaves to a common root and ranks the eight selected items. LT with k=8,h=2 ranks four segments along a refresh path, enclosed by a smooth dashed curve. Ellipses below the leaves indicate the remaining items in the sorted runs.</desc><rect width="100%" height="100%" fill="white" /><g font-family="Arial,Helvetica,sans-serif">
+<g id="intro-text-1" data-edit-group="intro-text-1"><text x="205" y="48" text-anchor="middle" font-size="31" fill="#24282c" font-weight="600">Pairwise</text>
+</g><g id="intro-text-2" data-edit-group="intro-text-2"><text x="1027" y="48" text-anchor="middle" font-size="31" fill="#24282c" font-weight="600">Listwise</text>
+</g><g id="intro-line-3" data-edit-group="intro-line-3"><line x1="398" y1="77" x2="398" y2="846" stroke="#e0e3e6" stroke-width="1" />
+</g><g id="intro-line-4" data-edit-group="intro-line-4"><line x1="424" y1="400" x2="1636" y2="400" stroke="#e0e3e6" stroke-width="1" />
+</g><g id="intro-line-5" data-edit-group="intro-line-5"><line x1="121" y1="490" x2="205" y2="354" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-6" data-edit-group="intro-line-6"><line x1="289" y1="490" x2="205" y2="354" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-circle-7" data-edit-group="intro-circle-7"><circle cx="205" cy="354" r="20" fill="#92989d" />
+<text x="205" y="362" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-circle-8" data-edit-group="intro-circle-8"><circle cx="121" cy="490" r="20" fill="#92989d" />
+<text x="121" y="498" text-anchor="middle" font-size="24" fill="#fff">3</text>
+</g><g id="intro-circle-9" data-edit-group="intro-circle-9"><circle cx="289" cy="490" r="20" fill="#92989d" />
+<text x="289" y="498" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-rect-10" data-edit-group="intro-rect-10"><rect x="88" y="458" width="234" height="64" rx="12" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-line-11" data-edit-group="intro-line-11"><line x1="121" y1="514" x2="121" y2="536" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-circle-12" data-edit-group="intro-circle-12"><circle cx="121" cy="558" r="18" fill="#d4d8dc" />
+<text x="121" y="566" text-anchor="middle" font-size="24" fill="#ffffff">7</text>
+</g><g id="intro-text-13" data-edit-group="intro-text-13"><text x="121" y="607" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-line-14" data-edit-group="intro-line-14"><line x1="289" y1="514" x2="289" y2="536" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-circle-15" data-edit-group="intro-circle-15"><circle cx="289" cy="558" r="18" fill="#d4d8dc" />
+<text x="289" y="566" text-anchor="middle" font-size="24" fill="#ffffff">5</text>
+</g><g id="intro-text-16" data-edit-group="intro-text-16"><text x="289" y="607" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-text-17" data-edit-group="intro-text-17"><text x="205" y="671" text-anchor="middle" font-size="27" fill="#24282c">(a) fan-in k = 2, head h = 1</text>
+</g><g id="intro-line-18" data-edit-group="intro-line-18"><line x1="697" y1="101" x2="502" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-19" data-edit-group="intro-line-19"><line x1="697" y1="101" x2="632" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-20" data-edit-group="intro-line-20"><line x1="697" y1="101" x2="762" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-21" data-edit-group="intro-line-21"><line x1="697" y1="101" x2="892" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-circle-22" data-edit-group="intro-circle-22"><circle cx="697" cy="101" r="7" fill="#777e85" />
+</g><g id="intro-rect-23" data-edit-group="intro-rect-23"><rect x="453" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="478" cy="188" r="20" fill="#92989d" />
+<text x="478" y="196" text-anchor="middle" font-size="24" fill="#fff">3</text>
+<circle cx="526" cy="188" r="20" fill="#92989d" />
+<text x="526" y="196" text-anchor="middle" font-size="24" fill="#fff">7</text>
+</g><g id="intro-line-24" data-edit-group="intro-line-24"><line x1="502" y1="229" x2="502" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-25" data-edit-group="intro-text-25"><text x="502" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-26" data-edit-group="intro-rect-26"><rect x="583" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="608" cy="188" r="20" fill="#92989d" />
+<text x="608" y="196" text-anchor="middle" font-size="24" fill="#fff">1</text>
+<circle cx="656" cy="188" r="20" fill="#92989d" />
+<text x="656" y="196" text-anchor="middle" font-size="24" fill="#fff">5</text>
+</g><g id="intro-line-27" data-edit-group="intro-line-27"><line x1="632" y1="229" x2="632" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-28" data-edit-group="intro-text-28"><text x="632" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-29" data-edit-group="intro-rect-29"><rect x="713" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="738" cy="188" r="20" fill="#92989d" />
+<text x="738" y="196" text-anchor="middle" font-size="24" fill="#fff">2</text>
+<circle cx="786" cy="188" r="20" fill="#92989d" />
+<text x="786" y="196" text-anchor="middle" font-size="24" fill="#fff">8</text>
+</g><g id="intro-line-30" data-edit-group="intro-line-30"><line x1="762" y1="229" x2="762" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-31" data-edit-group="intro-text-31"><text x="762" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-32" data-edit-group="intro-rect-32"><rect x="843" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="868" cy="188" r="20" fill="#92989d" />
+<text x="868" y="196" text-anchor="middle" font-size="24" fill="#fff">4</text>
+<circle cx="916" cy="188" r="20" fill="#92989d" />
+<text x="916" y="196" text-anchor="middle" font-size="24" fill="#fff">6</text>
+</g><g id="intro-line-33" data-edit-group="intro-line-33"><line x1="892" y1="229" x2="892" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-34" data-edit-group="intro-text-34"><text x="892" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-35" data-edit-group="intro-rect-35"><rect x="443" y="150" width="508" height="76" rx="12" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-path-36" data-edit-group="intro-path-36"><path d="M983,178 h50 v-10 l20,20 -20,20 v-10 h-50 Z" fill="white" stroke="#24282c" stroke-width="1.7" stroke-linejoin="round" />
+</g><g id="intro-circle-37" data-edit-group="intro-circle-37"><circle cx="1101" cy="188" r="20" fill="#92989d" />
+<text x="1101" y="196" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-circle-38" data-edit-group="intro-circle-38"><circle cx="1170" cy="188" r="20" fill="#92989d" />
+<text x="1170" y="196" text-anchor="middle" font-size="24" fill="#fff">2</text>
+</g><g id="intro-circle-39" data-edit-group="intro-circle-39"><circle cx="1239" cy="188" r="20" fill="#92989d" />
+<text x="1239" y="196" text-anchor="middle" font-size="24" fill="#fff">3</text>
+</g><g id="intro-circle-40" data-edit-group="intro-circle-40"><circle cx="1308" cy="188" r="20" fill="#92989d" />
+<text x="1308" y="196" text-anchor="middle" font-size="24" fill="#fff">4</text>
+</g><g id="intro-circle-41" data-edit-group="intro-circle-41"><circle cx="1377" cy="188" r="20" fill="#92989d" />
+<text x="1377" y="196" text-anchor="middle" font-size="24" fill="#fff">5</text>
+</g><g id="intro-circle-42" data-edit-group="intro-circle-42"><circle cx="1446" cy="188" r="20" fill="#92989d" />
+<text x="1446" y="196" text-anchor="middle" font-size="24" fill="#fff">6</text>
+</g><g id="intro-circle-43" data-edit-group="intro-circle-43"><circle cx="1515" cy="188" r="20" fill="#92989d" />
+<text x="1515" y="196" text-anchor="middle" font-size="24" fill="#fff">7</text>
+</g><g id="intro-circle-44" data-edit-group="intro-circle-44"><circle cx="1584" cy="188" r="20" fill="#92989d" />
+<text x="1584" y="196" text-anchor="middle" font-size="24" fill="#fff">8</text>
+</g><g id="intro-text-45" data-edit-group="intro-text-45"><text x="1027" y="366" text-anchor="middle" font-size="27" fill="#24282c">(b) Sliding Window · fan-in k = 4, head h = 2</text>
+</g><g id="intro-line-46" data-edit-group="intro-line-46"><line x1="712.5" y1="536" x2="562.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-47" data-edit-group="intro-line-47"><line x1="712.5" y1="536" x2="862.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-48" data-edit-group="intro-line-48"><line x1="562.5" y1="614" x2="487.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-49" data-edit-group="intro-line-49"><line x1="562.5" y1="614" x2="637.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-50" data-edit-group="intro-line-50"><line x1="487.5" y1="692" x2="450" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-51" data-edit-group="intro-line-51"><line x1="487.5" y1="692" x2="525" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-52" data-edit-group="intro-line-52"><line x1="637.5" y1="692" x2="600" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-53" data-edit-group="intro-line-53"><line x1="637.5" y1="692" x2="675" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-54" data-edit-group="intro-line-54"><line x1="862.5" y1="614" x2="787.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-55" data-edit-group="intro-line-55"><line x1="862.5" y1="614" x2="937.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-56" data-edit-group="intro-line-56"><line x1="787.5" y1="692" x2="750" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-57" data-edit-group="intro-line-57"><line x1="787.5" y1="692" x2="825" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-58" data-edit-group="intro-line-58"><line x1="937.5" y1="692" x2="900" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-59" data-edit-group="intro-line-59"><line x1="937.5" y1="692" x2="975" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-60" data-edit-group="intro-line-60"><line x1="712.5" y1="512" x2="712.5" y2="495" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-rect-61" data-edit-group="intro-rect-61"><rect x="678.5" y="515" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="696.5" cy="536" r="15.5" fill="#92989d" />
+<text x="696.5" y="543" text-anchor="middle" font-size="21" fill="#fff">9</text>
+<circle cx="728.5" cy="536" r="15.5" fill="#92989d" />
+<text x="728.5" y="543" text-anchor="middle" font-size="21" fill="#fff">10</text>
+</g><g id="intro-rect-62" data-edit-group="intro-rect-62"><rect x="528.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="546.5" cy="614" r="15.5" fill="#92989d" />
+<text x="546.5" y="621" text-anchor="middle" font-size="21" fill="#fff">5</text>
+<circle cx="578.5" cy="614" r="15.5" fill="#92989d" />
+<text x="578.5" y="621" text-anchor="middle" font-size="21" fill="#fff">6</text>
+</g><g id="intro-rect-63" data-edit-group="intro-rect-63"><rect x="453.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="471.5" cy="692" r="15.5" fill="#92989d" />
+<text x="471.5" y="699" text-anchor="middle" font-size="21" fill="#fff">3</text>
+<circle cx="503.5" cy="692" r="15.5" fill="#92989d" />
+<text x="503.5" y="699" text-anchor="middle" font-size="21" fill="#fff">4</text>
+</g><g id="intro-rect-64" data-edit-group="intro-rect-64"><rect x="416" y="749" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="434" cy="770" r="15.5" fill="#92989d" />
+<text x="434" y="777" text-anchor="middle" font-size="21" fill="#fff">17</text>
+<circle cx="466" cy="770" r="15.5" fill="#92989d" />
+<text x="466" y="777" text-anchor="middle" font-size="21" fill="#fff">18</text>
+</g><g id="intro-text-65" data-edit-group="intro-text-65"><text x="450" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-66" data-edit-group="intro-rect-66"><rect x="491" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="509" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="509" y="777" text-anchor="middle" font-size="21" fill="#ffffff">19</text>
+<circle cx="541" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="541" y="777" text-anchor="middle" font-size="21" fill="#ffffff">20</text>
+</g><g id="intro-text-67" data-edit-group="intro-text-67"><text x="525" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-68" data-edit-group="intro-rect-68"><rect x="603.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="621.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="621.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">7</text>
+<circle cx="653.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="653.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">8</text>
+</g><g id="intro-rect-69" data-edit-group="intro-rect-69"><rect x="566" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="584" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="584" y="777" text-anchor="middle" font-size="21" fill="#ffffff">21</text>
+<circle cx="616" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="616" y="777" text-anchor="middle" font-size="21" fill="#ffffff">22</text>
+</g><g id="intro-text-70" data-edit-group="intro-text-70"><text x="600" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-71" data-edit-group="intro-rect-71"><rect x="641" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="659" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="659" y="777" text-anchor="middle" font-size="21" fill="#ffffff">23</text>
+<circle cx="691" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="691" y="777" text-anchor="middle" font-size="21" fill="#ffffff">24</text>
+</g><g id="intro-text-72" data-edit-group="intro-text-72"><text x="675" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-73" data-edit-group="intro-rect-73"><rect x="828.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="846.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="846.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">13</text>
+<circle cx="878.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="878.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">14</text>
+</g><g id="intro-rect-74" data-edit-group="intro-rect-74"><rect x="753.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="771.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="771.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">11</text>
+<circle cx="803.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="803.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">12</text>
+</g><g id="intro-rect-75" data-edit-group="intro-rect-75"><rect x="716" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="734" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="734" y="777" text-anchor="middle" font-size="21" fill="#ffffff">25</text>
+<circle cx="766" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="766" y="777" text-anchor="middle" font-size="21" fill="#ffffff">26</text>
+</g><g id="intro-text-76" data-edit-group="intro-text-76"><text x="750" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-77" data-edit-group="intro-rect-77"><rect x="791" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="809" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="809" y="777" text-anchor="middle" font-size="21" fill="#ffffff">27</text>
+<circle cx="841" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="841" y="777" text-anchor="middle" font-size="21" fill="#ffffff">28</text>
+</g><g id="intro-text-78" data-edit-group="intro-text-78"><text x="825" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-79" data-edit-group="intro-rect-79"><rect x="903.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="921.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="921.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">15</text>
+<circle cx="953.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="953.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">16</text>
+</g><g id="intro-rect-80" data-edit-group="intro-rect-80"><rect x="866" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="884" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="884" y="777" text-anchor="middle" font-size="21" fill="#ffffff">29</text>
+<circle cx="916" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="916" y="777" text-anchor="middle" font-size="21" fill="#ffffff">30</text>
+</g><g id="intro-text-81" data-edit-group="intro-text-81"><text x="900" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-82" data-edit-group="intro-rect-82"><rect x="941" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="959" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="959" y="777" text-anchor="middle" font-size="21" fill="#ffffff">31</text>
+<circle cx="991" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="991" y="777" text-anchor="middle" font-size="21" fill="#ffffff">32</text>
+</g><g id="intro-text-83" data-edit-group="intro-text-83"><text x="975" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-84" data-edit-group="intro-rect-84"><rect x="678.5" y="451" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="696.5" cy="472" r="15.5" fill="#92989d" />
+<text x="696.5" y="479" text-anchor="middle" font-size="21" fill="#fff">1</text>
+<circle cx="728.5" cy="472" r="15.5" fill="#92989d" />
+<text x="728.5" y="479" text-anchor="middle" font-size="21" fill="#fff">2</text>
+</g><g id="intro-path-85" data-edit-group="intro-path-85"><path d="M 751.5 536 C 751.5 586.7, 601.5 563.3, 601.5 614 C 601.5 664.7, 526.5 641.3, 526.5 692 C 526.5 742.7, 489 719.3, 489 770 C 489 810, 411 810, 411 770 C 411 719.3, 448.5 742.7, 448.5 692 C 448.5 641.3, 523.5 664.7, 523.5 614 C 523.5 563.3, 673.5 586.7, 673.5 536 C 673.5 496, 751.5 496, 751.5 536 Z" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-path-86" data-edit-group="intro-path-86"><path d="M999,611 h44 v-10 l20,20 -20,20 v-10 h-44 Z" fill="white" stroke="#24282c" stroke-width="1.7" stroke-linejoin="round" />
+</g><g id="intro-line-87" data-edit-group="intro-line-87"><line x1="1352.5" y1="536" x2="1202.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-88" data-edit-group="intro-line-88"><line x1="1352.5" y1="536" x2="1502.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-89" data-edit-group="intro-line-89"><line x1="1202.5" y1="614" x2="1127.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-90" data-edit-group="intro-line-90"><line x1="1202.5" y1="614" x2="1277.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-91" data-edit-group="intro-line-91"><line x1="1127.5" y1="692" x2="1090" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-92" data-edit-group="intro-line-92"><line x1="1127.5" y1="692" x2="1165" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-93" data-edit-group="intro-line-93"><line x1="1277.5" y1="692" x2="1240" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-94" data-edit-group="intro-line-94"><line x1="1277.5" y1="692" x2="1315" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-95" data-edit-group="intro-line-95"><line x1="1502.5" y1="614" x2="1427.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-96" data-edit-group="intro-line-96"><line x1="1502.5" y1="614" x2="1577.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-97" data-edit-group="intro-line-97"><line x1="1427.5" y1="692" x2="1390" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-98" data-edit-group="intro-line-98"><line x1="1427.5" y1="692" x2="1465" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-99" data-edit-group="intro-line-99"><line x1="1577.5" y1="692" x2="1540" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-100" data-edit-group="intro-line-100"><line x1="1577.5" y1="692" x2="1615" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-101" data-edit-group="intro-line-101"><line x1="1352.5" y1="512" x2="1352.5" y2="495" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-rect-102" data-edit-group="intro-rect-102"><rect x="1318.5" y="515" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1336.5" cy="536" r="15.5" fill="#92989d" />
+<text x="1336.5" y="543" text-anchor="middle" font-size="21" fill="#fff">9</text>
+<circle cx="1368.5" cy="536" r="15.5" fill="#92989d" />
+<text x="1368.5" y="543" text-anchor="middle" font-size="21" fill="#fff">10</text>
+</g><g id="intro-rect-103" data-edit-group="intro-rect-103"><rect x="1168.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1186.5" cy="614" r="15.5" fill="#92989d" />
+<text x="1186.5" y="621" text-anchor="middle" font-size="21" fill="#fff">5</text>
+<circle cx="1218.5" cy="614" r="15.5" fill="#92989d" />
+<text x="1218.5" y="621" text-anchor="middle" font-size="21" fill="#fff">6</text>
+</g><g id="intro-rect-104" data-edit-group="intro-rect-104"><rect x="1093.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1111.5" cy="692" r="15.5" fill="#92989d" />
+<text x="1111.5" y="699" text-anchor="middle" font-size="21" fill="#fff">17</text>
+<circle cx="1143.5" cy="692" r="15.5" fill="#92989d" />
+<text x="1143.5" y="699" text-anchor="middle" font-size="21" fill="#fff">18</text>
+</g><g id="intro-rect-105" data-edit-group="intro-rect-105"><rect x="1056" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1074" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1074" y="777" text-anchor="middle" font-size="21" fill="#ffffff">33</text>
+<circle cx="1106" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1106" y="777" text-anchor="middle" font-size="21" fill="#ffffff">34</text>
+</g><g id="intro-text-106" data-edit-group="intro-text-106"><text x="1090" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-107" data-edit-group="intro-rect-107"><rect x="1131" y="749" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1149" cy="770" r="15.5" fill="#92989d" />
+<text x="1149" y="777" text-anchor="middle" font-size="21" fill="#fff">19</text>
+<circle cx="1181" cy="770" r="15.5" fill="#92989d" />
+<text x="1181" y="777" text-anchor="middle" font-size="21" fill="#fff">20</text>
+</g><g id="intro-text-108" data-edit-group="intro-text-108"><text x="1165" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-109" data-edit-group="intro-rect-109"><rect x="1243.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1261.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1261.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">7</text>
+<circle cx="1293.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1293.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">8</text>
+</g><g id="intro-rect-110" data-edit-group="intro-rect-110"><rect x="1206" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1224" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1224" y="777" text-anchor="middle" font-size="21" fill="#ffffff">21</text>
+<circle cx="1256" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1256" y="777" text-anchor="middle" font-size="21" fill="#ffffff">22</text>
+</g><g id="intro-text-111" data-edit-group="intro-text-111"><text x="1240" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-112" data-edit-group="intro-rect-112"><rect x="1281" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1299" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1299" y="777" text-anchor="middle" font-size="21" fill="#ffffff">23</text>
+<circle cx="1331" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1331" y="777" text-anchor="middle" font-size="21" fill="#ffffff">24</text>
+</g><g id="intro-text-113" data-edit-group="intro-text-113"><text x="1315" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-114" data-edit-group="intro-rect-114"><rect x="1468.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1486.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="1486.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">13</text>
+<circle cx="1518.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="1518.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">14</text>
+</g><g id="intro-rect-115" data-edit-group="intro-rect-115"><rect x="1393.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1411.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1411.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">11</text>
+<circle cx="1443.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1443.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">12</text>
+</g><g id="intro-rect-116" data-edit-group="intro-rect-116"><rect x="1356" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1374" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1374" y="777" text-anchor="middle" font-size="21" fill="#ffffff">25</text>
+<circle cx="1406" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1406" y="777" text-anchor="middle" font-size="21" fill="#ffffff">26</text>
+</g><g id="intro-text-117" data-edit-group="intro-text-117"><text x="1390" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-118" data-edit-group="intro-rect-118"><rect x="1431" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1449" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1449" y="777" text-anchor="middle" font-size="21" fill="#ffffff">27</text>
+<circle cx="1481" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1481" y="777" text-anchor="middle" font-size="21" fill="#ffffff">28</text>
+</g><g id="intro-text-119" data-edit-group="intro-text-119"><text x="1465" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-120" data-edit-group="intro-rect-120"><rect x="1543.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1561.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1561.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">15</text>
+<circle cx="1593.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1593.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">16</text>
+</g><g id="intro-rect-121" data-edit-group="intro-rect-121"><rect x="1506" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1524" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1524" y="777" text-anchor="middle" font-size="21" fill="#ffffff">29</text>
+<circle cx="1556" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1556" y="777" text-anchor="middle" font-size="21" fill="#ffffff">30</text>
+</g><g id="intro-text-122" data-edit-group="intro-text-122"><text x="1540" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-123" data-edit-group="intro-rect-123"><rect x="1581" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1599" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1599" y="777" text-anchor="middle" font-size="21" fill="#ffffff">31</text>
+<circle cx="1631" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1631" y="777" text-anchor="middle" font-size="21" fill="#ffffff">32</text>
+</g><g id="intro-text-124" data-edit-group="intro-text-124"><text x="1615" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-125" data-edit-group="intro-rect-125"><rect x="1318.5" y="451" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1336.5" cy="472" r="15.5" fill="#92989d" />
+<text x="1336.5" y="479" text-anchor="middle" font-size="21" fill="#fff">3</text>
+<circle cx="1368.5" cy="472" r="15.5" fill="#92989d" />
+<text x="1368.5" y="479" text-anchor="middle" font-size="21" fill="#fff">4</text>
+</g><g id="intro-path-126" data-edit-group="intro-path-126"><path d="M 1391.5 536 C 1391.5 586.7, 1241.5 563.3, 1241.5 614 C 1241.5 664.7, 1166.5 641.3, 1166.5 692 C 1166.5 742.7, 1204 719.3, 1204 770 C 1204 810, 1126 810, 1126 770 C 1126 719.3, 1088.5 742.7, 1088.5 692 C 1088.5 641.3, 1163.5 664.7, 1163.5 614 C 1163.5 563.3, 1313.5 586.7, 1313.5 536 C 1313.5 496, 1391.5 496, 1391.5 536 Z" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-text-127" data-edit-group="intro-text-127"><text x="1027" y="861" text-anchor="middle" font-size="27" fill="#24282c">(c) Loser Tree · fan-in k = 8, head h = 2</text>
+</g></g></svg>

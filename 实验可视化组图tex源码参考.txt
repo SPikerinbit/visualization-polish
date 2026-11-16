@@ -1,0 +1,143 @@
+\subsection{Cost Model Validation}
+\label{sec:exp:cost}
+
+\begin{figure*}[t]
+  \centering
+
+  \includegraphics[width=0.75\linewidth]{fig/panels/exp4/exp4_legend.pdf}
+
+  \vspace{-2ex}
+
+  \subfigure[\Movies ($m{=}8$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_movies_m8_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n ={200}, m{=}10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_dl20t200_m10_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}500, m{=}12$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_dl20t500_m12_tokens.pdf}
+  }
+  \subfigure[\Movies ($m{=}8$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_movies_m8_quality.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}200, m{=}10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_dl20t200_m10_quality.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}500,m{=}12$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_lt_dl20t500_m12_quality.pdf}
+  }
+
+  \subfigure[\Movies ($m{=}12$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_movies_m12_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}500,m{=}20$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_dl20t500_m20_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}500, m{=}30$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_dl20t500_m30_tokens.pdf}
+  }
+  \subfigure[\Movies ($m{=}12$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_movies_m12_quality.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero ($n{=}500,m{=}20$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_dl20t500_m20_quality.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero($n{=}500, m{=}30$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp4/exp4_sw_dl20t500_m30_quality.pdf}
+  }
+
+  \caption{Cost model validation: Stars mark the cost model-selected $k_{\mathrm{sel}}$ and diamonds mark the empirical token minimum $k$.}
+  \label{fig:exp4-full}
+\end{figure*}
+
+\begin{figure}[t]
+  \centering
+
+  \includegraphics[width=0.88\linewidth]{fig/panels/exp4/exp4_topk_legend.pdf}
+
+  \vspace{-0.4em}
+
+  \subfigure[\Movies]{
+      \includegraphics[width=0.25\columnwidth]{fig/panels/exp4/exp4_topk_movies_m20_tokens.pdf}
+  }
+  \hspace{-2.6ex}
+  \subfigure[\Movies ]{
+      \includegraphics[width=0.25\columnwidth]{fig/panels/exp4/exp4_topk_movies_m20_quality.pdf}
+  }
+\hspace{-2.6ex}
+  \subfigure[\DLtwozero]{
+      \includegraphics[width=0.25\columnwidth]{fig/panels/exp4/exp4_topk_dl20_m20_tokens.pdf}
+  }
+  \hspace{-2.6ex}
+  \subfigure[\DLtwozero]{
+      \includegraphics[width=0.25\columnwidth]{fig/panels/exp4/exp4_topk_dl20_m20_quality.pdf}
+  }
+
+  \caption{Sensitivity of fan-in $k$ under \LIMIT~10}
+  \label{fig:exp4-topk}
+\end{figure}
+
+\begin{figure*}[t]
+  \centering
+
+  \includegraphics[width=0.8\linewidth]{fig/panels/exp5/exp5_legend.pdf}
+
+  \vspace{-2ex}
+
+  \subfigure[\Movies (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_full_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\Movies (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_full_latency.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\Movies (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_full_quality.pdf}
+  }
+  \subfigure[\Movies (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_top10_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\Movies (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_top10_latency.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\Movies (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_top10_quality.pdf}
+  }
+
+  \subfigure[\DLtwozero (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_full_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_full_latency.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero (full rank)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_full_quality.pdf}
+  }
+  \subfigure[\DLtwozero (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_top10_tokens.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_top10_latency.pdf}
+  }
+  \hspace{-2.5ex}
+  \subfigure[\DLtwozero (\LIMIT~$10$)]{
+      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_dl20_top10_quality.pdf}
+  }
+
+  \caption{Impact of listwise batch size $m$ on cost, latency and quality}
+  \label{fig:exp5-m}
+\end{figure*}

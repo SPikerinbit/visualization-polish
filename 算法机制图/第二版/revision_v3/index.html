@@ -1,0 +1,1215 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Intro 与算法图 · 可编辑工作台</title><style>body{margin:0;background:#f4f5f6;color:#262b30;font:16px/1.6 Arial,'Microsoft YaHei',sans-serif}header{position:sticky;top:0;z-index:2;background:#ffffffed;border-bottom:1px solid #ddd;padding:14px 28px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}main{max-width:1720px;margin:auto;padding:20px}h2{font-size:22px;font-weight:500}section{margin:16px 0 44px}figure{background:white;padding:20px;margin:10px 0}svg{width:100%;height:auto;display:block}button,a{font:inherit;color:#526779;background:white;border:1px solid #c7cfd7;border-radius:3px;padding:6px 13px;text-decoration:none;cursor:pointer}small{color:#7a838b}.editing [data-edit-group]{cursor:move}.editing text{cursor:text}.editing [data-edit-group]:hover{filter:drop-shadow(0 0 2px #b7c9da)}nav{display:flex;gap:12px;margin-bottom:14px}.editing svg{touch-action:none;user-select:none}@media print{header,nav,h2{display:none}body{background:white}figure{padding:0}section{break-after:page}}</style><header><strong>Intro 与算法图</strong><button id="edit">编辑文字与位置</button><button id="undo">撤销</button><small>双击文字修改；拖动元素或分组；下载 SVG 保存。连接线可在矢量编辑器中进一步调整。</small></header><main><section><h2>Intro · Pairwise → Listwise</h2><nav><button data-save="intro_execution">保存 SVG</button><a href="intro_execution.pdf">PDF</a><a href="intro_execution.png">PNG</a></nav><figure><svg xmlns="http://www.w3.org/2000/svg" width="1660" height="880" viewBox="0 0 1660 880" role="img"><title>Pairwise merging and listwise SD / LT</title><desc>One two-way merge baseline with k=2,h=1 compares two run heads and emits the smaller item. SD with k=4,h=2 connects four run-prefix leaves to a common root and ranks the eight selected items. LT with k=8,h=2 ranks four segments along a refresh path, enclosed by a smooth dashed curve. Ellipses below the leaves indicate the remaining items in the sorted runs.</desc><rect width="100%" height="100%" fill="white" /><g font-family="Arial,Helvetica,sans-serif">
+<g id="intro-text-1" data-edit-group="intro-text-1"><text x="205" y="48" text-anchor="middle" font-size="31" fill="#24282c" font-weight="600">Pairwise</text>
+</g><g id="intro-text-2" data-edit-group="intro-text-2"><text x="1027" y="48" text-anchor="middle" font-size="31" fill="#24282c" font-weight="600">Listwise</text>
+</g><g id="intro-line-3" data-edit-group="intro-line-3"><line x1="398" y1="77" x2="398" y2="846" stroke="#e0e3e6" stroke-width="1" />
+</g><g id="intro-line-4" data-edit-group="intro-line-4"><line x1="424" y1="400" x2="1636" y2="400" stroke="#e0e3e6" stroke-width="1" />
+</g><g id="intro-line-5" data-edit-group="intro-line-5"><line x1="121" y1="490" x2="205" y2="354" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-6" data-edit-group="intro-line-6"><line x1="289" y1="490" x2="205" y2="354" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-circle-7" data-edit-group="intro-circle-7"><circle cx="205" cy="354" r="20" fill="#92989d" />
+<text x="205" y="362" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-circle-8" data-edit-group="intro-circle-8"><circle cx="121" cy="490" r="20" fill="#92989d" />
+<text x="121" y="498" text-anchor="middle" font-size="24" fill="#fff">3</text>
+</g><g id="intro-circle-9" data-edit-group="intro-circle-9"><circle cx="289" cy="490" r="20" fill="#92989d" />
+<text x="289" y="498" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-rect-10" data-edit-group="intro-rect-10"><rect x="88" y="458" width="234" height="64" rx="12" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-line-11" data-edit-group="intro-line-11"><line x1="121" y1="514" x2="121" y2="536" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-circle-12" data-edit-group="intro-circle-12"><circle cx="121" cy="558" r="18" fill="#d4d8dc" />
+<text x="121" y="566" text-anchor="middle" font-size="24" fill="#ffffff">7</text>
+</g><g id="intro-text-13" data-edit-group="intro-text-13"><text x="121" y="607" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-line-14" data-edit-group="intro-line-14"><line x1="289" y1="514" x2="289" y2="536" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-circle-15" data-edit-group="intro-circle-15"><circle cx="289" cy="558" r="18" fill="#d4d8dc" />
+<text x="289" y="566" text-anchor="middle" font-size="24" fill="#ffffff">5</text>
+</g><g id="intro-text-16" data-edit-group="intro-text-16"><text x="289" y="607" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-text-17" data-edit-group="intro-text-17"><text x="205" y="671" text-anchor="middle" font-size="27" fill="#24282c">(a) fan-in k = 2, head h = 1</text>
+</g><g id="intro-line-18" data-edit-group="intro-line-18"><line x1="697" y1="101" x2="502" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-19" data-edit-group="intro-line-19"><line x1="697" y1="101" x2="632" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-20" data-edit-group="intro-line-20"><line x1="697" y1="101" x2="762" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-21" data-edit-group="intro-line-21"><line x1="697" y1="101" x2="892" y2="161" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-circle-22" data-edit-group="intro-circle-22"><circle cx="697" cy="101" r="7" fill="#777e85" />
+</g><g id="intro-rect-23" data-edit-group="intro-rect-23"><rect x="453" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="478" cy="188" r="20" fill="#92989d" />
+<text x="478" y="196" text-anchor="middle" font-size="24" fill="#fff">3</text>
+<circle cx="526" cy="188" r="20" fill="#92989d" />
+<text x="526" y="196" text-anchor="middle" font-size="24" fill="#fff">7</text>
+</g><g id="intro-line-24" data-edit-group="intro-line-24"><line x1="502" y1="229" x2="502" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-25" data-edit-group="intro-text-25"><text x="502" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-26" data-edit-group="intro-rect-26"><rect x="583" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="608" cy="188" r="20" fill="#92989d" />
+<text x="608" y="196" text-anchor="middle" font-size="24" fill="#fff">1</text>
+<circle cx="656" cy="188" r="20" fill="#92989d" />
+<text x="656" y="196" text-anchor="middle" font-size="24" fill="#fff">5</text>
+</g><g id="intro-line-27" data-edit-group="intro-line-27"><line x1="632" y1="229" x2="632" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-28" data-edit-group="intro-text-28"><text x="632" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-29" data-edit-group="intro-rect-29"><rect x="713" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="738" cy="188" r="20" fill="#92989d" />
+<text x="738" y="196" text-anchor="middle" font-size="24" fill="#fff">2</text>
+<circle cx="786" cy="188" r="20" fill="#92989d" />
+<text x="786" y="196" text-anchor="middle" font-size="24" fill="#fff">8</text>
+</g><g id="intro-line-30" data-edit-group="intro-line-30"><line x1="762" y1="229" x2="762" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-31" data-edit-group="intro-text-31"><text x="762" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-32" data-edit-group="intro-rect-32"><rect x="843" y="161" width="98" height="54" rx="27" fill="none" stroke="#b0b6bb" stroke-width="1.4" />
+<circle cx="868" cy="188" r="20" fill="#92989d" />
+<text x="868" y="196" text-anchor="middle" font-size="24" fill="#fff">4</text>
+<circle cx="916" cy="188" r="20" fill="#92989d" />
+<text x="916" y="196" text-anchor="middle" font-size="24" fill="#fff">6</text>
+</g><g id="intro-line-33" data-edit-group="intro-line-33"><line x1="892" y1="229" x2="892" y2="245" stroke="#d4d8dc" stroke-width="1.7" />
+</g><g id="intro-text-34" data-edit-group="intro-text-34"><text x="892" y="277" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-35" data-edit-group="intro-rect-35"><rect x="443" y="150" width="508" height="76" rx="12" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-path-36" data-edit-group="intro-path-36"><path d="M983,178 h50 v-10 l20,20 -20,20 v-10 h-50 Z" fill="white" stroke="#24282c" stroke-width="1.7" stroke-linejoin="round" />
+</g><g id="intro-circle-37" data-edit-group="intro-circle-37"><circle cx="1101" cy="188" r="20" fill="#92989d" />
+<text x="1101" y="196" text-anchor="middle" font-size="24" fill="#fff">1</text>
+</g><g id="intro-circle-38" data-edit-group="intro-circle-38"><circle cx="1170" cy="188" r="20" fill="#92989d" />
+<text x="1170" y="196" text-anchor="middle" font-size="24" fill="#fff">2</text>
+</g><g id="intro-circle-39" data-edit-group="intro-circle-39"><circle cx="1239" cy="188" r="20" fill="#92989d" />
+<text x="1239" y="196" text-anchor="middle" font-size="24" fill="#fff">3</text>
+</g><g id="intro-circle-40" data-edit-group="intro-circle-40"><circle cx="1308" cy="188" r="20" fill="#92989d" />
+<text x="1308" y="196" text-anchor="middle" font-size="24" fill="#fff">4</text>
+</g><g id="intro-circle-41" data-edit-group="intro-circle-41"><circle cx="1377" cy="188" r="20" fill="#92989d" />
+<text x="1377" y="196" text-anchor="middle" font-size="24" fill="#fff">5</text>
+</g><g id="intro-circle-42" data-edit-group="intro-circle-42"><circle cx="1446" cy="188" r="20" fill="#92989d" />
+<text x="1446" y="196" text-anchor="middle" font-size="24" fill="#fff">6</text>
+</g><g id="intro-circle-43" data-edit-group="intro-circle-43"><circle cx="1515" cy="188" r="20" fill="#92989d" />
+<text x="1515" y="196" text-anchor="middle" font-size="24" fill="#fff">7</text>
+</g><g id="intro-circle-44" data-edit-group="intro-circle-44"><circle cx="1584" cy="188" r="20" fill="#92989d" />
+<text x="1584" y="196" text-anchor="middle" font-size="24" fill="#fff">8</text>
+</g><g id="intro-text-45" data-edit-group="intro-text-45"><text x="1027" y="366" text-anchor="middle" font-size="27" fill="#24282c">(b) Sliding Window · fan-in k = 4, head h = 2</text>
+</g><g id="intro-line-46" data-edit-group="intro-line-46"><line x1="712.5" y1="536" x2="562.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-47" data-edit-group="intro-line-47"><line x1="712.5" y1="536" x2="862.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-48" data-edit-group="intro-line-48"><line x1="562.5" y1="614" x2="487.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-49" data-edit-group="intro-line-49"><line x1="562.5" y1="614" x2="637.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-50" data-edit-group="intro-line-50"><line x1="487.5" y1="692" x2="450" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-51" data-edit-group="intro-line-51"><line x1="487.5" y1="692" x2="525" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-52" data-edit-group="intro-line-52"><line x1="637.5" y1="692" x2="600" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-53" data-edit-group="intro-line-53"><line x1="637.5" y1="692" x2="675" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-54" data-edit-group="intro-line-54"><line x1="862.5" y1="614" x2="787.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-55" data-edit-group="intro-line-55"><line x1="862.5" y1="614" x2="937.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-56" data-edit-group="intro-line-56"><line x1="787.5" y1="692" x2="750" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-57" data-edit-group="intro-line-57"><line x1="787.5" y1="692" x2="825" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-58" data-edit-group="intro-line-58"><line x1="937.5" y1="692" x2="900" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-59" data-edit-group="intro-line-59"><line x1="937.5" y1="692" x2="975" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-60" data-edit-group="intro-line-60"><line x1="712.5" y1="512" x2="712.5" y2="495" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-rect-61" data-edit-group="intro-rect-61"><rect x="678.5" y="515" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="696.5" cy="536" r="15.5" fill="#92989d" />
+<text x="696.5" y="543" text-anchor="middle" font-size="21" fill="#fff">9</text>
+<circle cx="728.5" cy="536" r="15.5" fill="#92989d" />
+<text x="728.5" y="543" text-anchor="middle" font-size="21" fill="#fff">10</text>
+</g><g id="intro-rect-62" data-edit-group="intro-rect-62"><rect x="528.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="546.5" cy="614" r="15.5" fill="#92989d" />
+<text x="546.5" y="621" text-anchor="middle" font-size="21" fill="#fff">5</text>
+<circle cx="578.5" cy="614" r="15.5" fill="#92989d" />
+<text x="578.5" y="621" text-anchor="middle" font-size="21" fill="#fff">6</text>
+</g><g id="intro-rect-63" data-edit-group="intro-rect-63"><rect x="453.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="471.5" cy="692" r="15.5" fill="#92989d" />
+<text x="471.5" y="699" text-anchor="middle" font-size="21" fill="#fff">3</text>
+<circle cx="503.5" cy="692" r="15.5" fill="#92989d" />
+<text x="503.5" y="699" text-anchor="middle" font-size="21" fill="#fff">4</text>
+</g><g id="intro-rect-64" data-edit-group="intro-rect-64"><rect x="416" y="749" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="434" cy="770" r="15.5" fill="#92989d" />
+<text x="434" y="777" text-anchor="middle" font-size="21" fill="#fff">17</text>
+<circle cx="466" cy="770" r="15.5" fill="#92989d" />
+<text x="466" y="777" text-anchor="middle" font-size="21" fill="#fff">18</text>
+</g><g id="intro-text-65" data-edit-group="intro-text-65"><text x="450" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-66" data-edit-group="intro-rect-66"><rect x="491" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="509" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="509" y="777" text-anchor="middle" font-size="21" fill="#ffffff">19</text>
+<circle cx="541" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="541" y="777" text-anchor="middle" font-size="21" fill="#ffffff">20</text>
+</g><g id="intro-text-67" data-edit-group="intro-text-67"><text x="525" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-68" data-edit-group="intro-rect-68"><rect x="603.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="621.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="621.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">7</text>
+<circle cx="653.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="653.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">8</text>
+</g><g id="intro-rect-69" data-edit-group="intro-rect-69"><rect x="566" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="584" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="584" y="777" text-anchor="middle" font-size="21" fill="#ffffff">21</text>
+<circle cx="616" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="616" y="777" text-anchor="middle" font-size="21" fill="#ffffff">22</text>
+</g><g id="intro-text-70" data-edit-group="intro-text-70"><text x="600" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-71" data-edit-group="intro-rect-71"><rect x="641" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="659" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="659" y="777" text-anchor="middle" font-size="21" fill="#ffffff">23</text>
+<circle cx="691" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="691" y="777" text-anchor="middle" font-size="21" fill="#ffffff">24</text>
+</g><g id="intro-text-72" data-edit-group="intro-text-72"><text x="675" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-73" data-edit-group="intro-rect-73"><rect x="828.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="846.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="846.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">13</text>
+<circle cx="878.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="878.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">14</text>
+</g><g id="intro-rect-74" data-edit-group="intro-rect-74"><rect x="753.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="771.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="771.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">11</text>
+<circle cx="803.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="803.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">12</text>
+</g><g id="intro-rect-75" data-edit-group="intro-rect-75"><rect x="716" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="734" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="734" y="777" text-anchor="middle" font-size="21" fill="#ffffff">25</text>
+<circle cx="766" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="766" y="777" text-anchor="middle" font-size="21" fill="#ffffff">26</text>
+</g><g id="intro-text-76" data-edit-group="intro-text-76"><text x="750" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-77" data-edit-group="intro-rect-77"><rect x="791" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="809" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="809" y="777" text-anchor="middle" font-size="21" fill="#ffffff">27</text>
+<circle cx="841" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="841" y="777" text-anchor="middle" font-size="21" fill="#ffffff">28</text>
+</g><g id="intro-text-78" data-edit-group="intro-text-78"><text x="825" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-79" data-edit-group="intro-rect-79"><rect x="903.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="921.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="921.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">15</text>
+<circle cx="953.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="953.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">16</text>
+</g><g id="intro-rect-80" data-edit-group="intro-rect-80"><rect x="866" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="884" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="884" y="777" text-anchor="middle" font-size="21" fill="#ffffff">29</text>
+<circle cx="916" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="916" y="777" text-anchor="middle" font-size="21" fill="#ffffff">30</text>
+</g><g id="intro-text-81" data-edit-group="intro-text-81"><text x="900" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-82" data-edit-group="intro-rect-82"><rect x="941" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="959" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="959" y="777" text-anchor="middle" font-size="21" fill="#ffffff">31</text>
+<circle cx="991" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="991" y="777" text-anchor="middle" font-size="21" fill="#ffffff">32</text>
+</g><g id="intro-text-83" data-edit-group="intro-text-83"><text x="975" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-84" data-edit-group="intro-rect-84"><rect x="678.5" y="451" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="696.5" cy="472" r="15.5" fill="#92989d" />
+<text x="696.5" y="479" text-anchor="middle" font-size="21" fill="#fff">1</text>
+<circle cx="728.5" cy="472" r="15.5" fill="#92989d" />
+<text x="728.5" y="479" text-anchor="middle" font-size="21" fill="#fff">2</text>
+</g><g id="intro-path-85" data-edit-group="intro-path-85"><path d="M 751.5 536 C 751.5 586.7, 601.5 563.3, 601.5 614 C 601.5 664.7, 526.5 641.3, 526.5 692 C 526.5 742.7, 489 719.3, 489 770 C 489 810, 411 810, 411 770 C 411 719.3, 448.5 742.7, 448.5 692 C 448.5 641.3, 523.5 664.7, 523.5 614 C 523.5 563.3, 673.5 586.7, 673.5 536 C 673.5 496, 751.5 496, 751.5 536 Z" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-path-86" data-edit-group="intro-path-86"><path d="M999,611 h44 v-10 l20,20 -20,20 v-10 h-44 Z" fill="white" stroke="#24282c" stroke-width="1.7" stroke-linejoin="round" />
+</g><g id="intro-line-87" data-edit-group="intro-line-87"><line x1="1352.5" y1="536" x2="1202.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-88" data-edit-group="intro-line-88"><line x1="1352.5" y1="536" x2="1502.5" y2="614" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-89" data-edit-group="intro-line-89"><line x1="1202.5" y1="614" x2="1127.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-90" data-edit-group="intro-line-90"><line x1="1202.5" y1="614" x2="1277.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-91" data-edit-group="intro-line-91"><line x1="1127.5" y1="692" x2="1090" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-92" data-edit-group="intro-line-92"><line x1="1127.5" y1="692" x2="1165" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-93" data-edit-group="intro-line-93"><line x1="1277.5" y1="692" x2="1240" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-94" data-edit-group="intro-line-94"><line x1="1277.5" y1="692" x2="1315" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-95" data-edit-group="intro-line-95"><line x1="1502.5" y1="614" x2="1427.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-96" data-edit-group="intro-line-96"><line x1="1502.5" y1="614" x2="1577.5" y2="692" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-97" data-edit-group="intro-line-97"><line x1="1427.5" y1="692" x2="1390" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-98" data-edit-group="intro-line-98"><line x1="1427.5" y1="692" x2="1465" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-99" data-edit-group="intro-line-99"><line x1="1577.5" y1="692" x2="1540" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-100" data-edit-group="intro-line-100"><line x1="1577.5" y1="692" x2="1615" y2="770" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-line-101" data-edit-group="intro-line-101"><line x1="1352.5" y1="512" x2="1352.5" y2="495" stroke="#777e85" stroke-width="1.7" />
+</g><g id="intro-rect-102" data-edit-group="intro-rect-102"><rect x="1318.5" y="515" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1336.5" cy="536" r="15.5" fill="#92989d" />
+<text x="1336.5" y="543" text-anchor="middle" font-size="21" fill="#fff">9</text>
+<circle cx="1368.5" cy="536" r="15.5" fill="#92989d" />
+<text x="1368.5" y="543" text-anchor="middle" font-size="21" fill="#fff">10</text>
+</g><g id="intro-rect-103" data-edit-group="intro-rect-103"><rect x="1168.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1186.5" cy="614" r="15.5" fill="#92989d" />
+<text x="1186.5" y="621" text-anchor="middle" font-size="21" fill="#fff">5</text>
+<circle cx="1218.5" cy="614" r="15.5" fill="#92989d" />
+<text x="1218.5" y="621" text-anchor="middle" font-size="21" fill="#fff">6</text>
+</g><g id="intro-rect-104" data-edit-group="intro-rect-104"><rect x="1093.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1111.5" cy="692" r="15.5" fill="#92989d" />
+<text x="1111.5" y="699" text-anchor="middle" font-size="21" fill="#fff">17</text>
+<circle cx="1143.5" cy="692" r="15.5" fill="#92989d" />
+<text x="1143.5" y="699" text-anchor="middle" font-size="21" fill="#fff">18</text>
+</g><g id="intro-rect-105" data-edit-group="intro-rect-105"><rect x="1056" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1074" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1074" y="777" text-anchor="middle" font-size="21" fill="#ffffff">33</text>
+<circle cx="1106" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1106" y="777" text-anchor="middle" font-size="21" fill="#ffffff">34</text>
+</g><g id="intro-text-106" data-edit-group="intro-text-106"><text x="1090" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-107" data-edit-group="intro-rect-107"><rect x="1131" y="749" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1149" cy="770" r="15.5" fill="#92989d" />
+<text x="1149" y="777" text-anchor="middle" font-size="21" fill="#fff">19</text>
+<circle cx="1181" cy="770" r="15.5" fill="#92989d" />
+<text x="1181" y="777" text-anchor="middle" font-size="21" fill="#fff">20</text>
+</g><g id="intro-text-108" data-edit-group="intro-text-108"><text x="1165" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-109" data-edit-group="intro-rect-109"><rect x="1243.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1261.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1261.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">7</text>
+<circle cx="1293.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1293.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">8</text>
+</g><g id="intro-rect-110" data-edit-group="intro-rect-110"><rect x="1206" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1224" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1224" y="777" text-anchor="middle" font-size="21" fill="#ffffff">21</text>
+<circle cx="1256" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1256" y="777" text-anchor="middle" font-size="21" fill="#ffffff">22</text>
+</g><g id="intro-text-111" data-edit-group="intro-text-111"><text x="1240" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-112" data-edit-group="intro-rect-112"><rect x="1281" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1299" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1299" y="777" text-anchor="middle" font-size="21" fill="#ffffff">23</text>
+<circle cx="1331" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1331" y="777" text-anchor="middle" font-size="21" fill="#ffffff">24</text>
+</g><g id="intro-text-113" data-edit-group="intro-text-113"><text x="1315" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-114" data-edit-group="intro-rect-114"><rect x="1468.5" y="593" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1486.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="1486.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">13</text>
+<circle cx="1518.5" cy="614" r="15.5" fill="#d4d8dc" />
+<text x="1518.5" y="621" text-anchor="middle" font-size="21" fill="#ffffff">14</text>
+</g><g id="intro-rect-115" data-edit-group="intro-rect-115"><rect x="1393.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1411.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1411.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">11</text>
+<circle cx="1443.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1443.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">12</text>
+</g><g id="intro-rect-116" data-edit-group="intro-rect-116"><rect x="1356" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1374" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1374" y="777" text-anchor="middle" font-size="21" fill="#ffffff">25</text>
+<circle cx="1406" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1406" y="777" text-anchor="middle" font-size="21" fill="#ffffff">26</text>
+</g><g id="intro-text-117" data-edit-group="intro-text-117"><text x="1390" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-118" data-edit-group="intro-rect-118"><rect x="1431" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1449" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1449" y="777" text-anchor="middle" font-size="21" fill="#ffffff">27</text>
+<circle cx="1481" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1481" y="777" text-anchor="middle" font-size="21" fill="#ffffff">28</text>
+</g><g id="intro-text-119" data-edit-group="intro-text-119"><text x="1465" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-120" data-edit-group="intro-rect-120"><rect x="1543.5" y="671" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1561.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1561.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">15</text>
+<circle cx="1593.5" cy="692" r="15.5" fill="#d4d8dc" />
+<text x="1593.5" y="699" text-anchor="middle" font-size="21" fill="#ffffff">16</text>
+</g><g id="intro-rect-121" data-edit-group="intro-rect-121"><rect x="1506" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1524" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1524" y="777" text-anchor="middle" font-size="21" fill="#ffffff">29</text>
+<circle cx="1556" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1556" y="777" text-anchor="middle" font-size="21" fill="#ffffff">30</text>
+</g><g id="intro-text-122" data-edit-group="intro-text-122"><text x="1540" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-123" data-edit-group="intro-rect-123"><rect x="1581" y="749" width="68" height="42" rx="22" fill="white" stroke="#e3e5e7" stroke-width="1.35" />
+<circle cx="1599" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1599" y="777" text-anchor="middle" font-size="21" fill="#ffffff">31</text>
+<circle cx="1631" cy="770" r="15.5" fill="#d4d8dc" />
+<text x="1631" y="777" text-anchor="middle" font-size="21" fill="#ffffff">32</text>
+</g><g id="intro-text-124" data-edit-group="intro-text-124"><text x="1615" y="818" text-anchor="middle" font-size="26" fill="#d4d8dc">⋮</text>
+</g><g id="intro-rect-125" data-edit-group="intro-rect-125"><rect x="1318.5" y="451" width="68" height="42" rx="22" fill="white" stroke="#777e85" stroke-width="1.35" />
+<circle cx="1336.5" cy="472" r="15.5" fill="#92989d" />
+<text x="1336.5" y="479" text-anchor="middle" font-size="21" fill="#fff">3</text>
+<circle cx="1368.5" cy="472" r="15.5" fill="#92989d" />
+<text x="1368.5" y="479" text-anchor="middle" font-size="21" fill="#fff">4</text>
+</g><g id="intro-path-126" data-edit-group="intro-path-126"><path d="M 1391.5 536 C 1391.5 586.7, 1241.5 563.3, 1241.5 614 C 1241.5 664.7, 1166.5 641.3, 1166.5 692 C 1166.5 742.7, 1204 719.3, 1204 770 C 1204 810, 1126 810, 1126 770 C 1126 719.3, 1088.5 742.7, 1088.5 692 C 1088.5 641.3, 1163.5 664.7, 1163.5 614 C 1163.5 563.3, 1313.5 586.7, 1313.5 536 C 1313.5 496, 1391.5 496, 1391.5 536 Z" fill="none" stroke="#c44c3c" stroke-width="2.3" stroke-dasharray="7 5" />
+</g><g id="intro-text-127" data-edit-group="intro-text-127"><text x="1027" y="861" text-anchor="middle" font-size="27" fill="#24282c">(c) Loser Tree · fan-in k = 8, head h = 2</text>
+</g></g></svg></figure></section><section><h2>Algorithm 1</h2><nav><button data-save="algo1_exp">保存 SVG</button><a href="algo1_exp.pdf">PDF</a><a href="algo1_exp.png">PNG</a></nav><figure><svg xmlns="http://www.w3.org/2000/svg" width="1600" height="665" viewBox="0 0 1600 665" role="img"><title>Run generation and iterative merging</title><desc>Four disjoint chunks are individually ranked, then their sorted runs are merged in two passes. Red dashed boxes denote single listwise calls; merge junctions can require multiple calls.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#262b30"/></marker><marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#899198"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, Helvetica, sans-serif">
+<g transform="translate(0 -45)">
+<text id="t1" x="255" y="83" text-anchor="middle" font-size="25" fill="#7b838b" >C₁</text>
+<g id="chunk-1" data-edit-group="chunk-1">
+<circle cx="175.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t2" x="175.5" y="135" text-anchor="middle" font-size="25" fill="white" >12</text>
+<circle cx="228.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t3" x="228.5" y="135" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="281.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t4" x="281.5" y="135" text-anchor="middle" font-size="25" fill="white" >16</text>
+<circle cx="334.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t5" x="334.5" y="135" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="rank-call-1" data-edit-group="rank-call-1">
+<rect x="136" y="96" width="238" height="62" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<line x1="255" y1="168" x2="255" y2="206" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="run-1" data-edit-group="run-1">
+<circle cx="175.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t6" x="175.5" y="250" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="228.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t7" x="228.5" y="250" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="281.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t8" x="281.5" y="250" text-anchor="middle" font-size="25" fill="white" >12</text>
+<circle cx="334.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t9" x="334.5" y="250" text-anchor="middle" font-size="25" fill="white" >16</text>
+</g>
+<text id="t10" x="125" y="250" text-anchor="end" font-size="26" fill="#7b838b" >R₁</text>
+<text id="t11" x="630" y="83" text-anchor="middle" font-size="25" fill="#7b838b" >C₂</text>
+<g id="chunk-2" data-edit-group="chunk-2">
+<circle cx="550.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t12" x="550.5" y="135" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="603.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t13" x="603.5" y="135" text-anchor="middle" font-size="25" fill="white" >14</text>
+<circle cx="656.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t14" x="656.5" y="135" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="709.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t15" x="709.5" y="135" text-anchor="middle" font-size="25" fill="white" >6</text>
+</g>
+<g id="rank-call-2" data-edit-group="rank-call-2">
+<rect x="511" y="96" width="238" height="62" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<line x1="630" y1="168" x2="630" y2="206" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="run-2" data-edit-group="run-2">
+<circle cx="550.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t16" x="550.5" y="250" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="603.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t17" x="603.5" y="250" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="656.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t18" x="656.5" y="250" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="709.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t19" x="709.5" y="250" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t20" x="500" y="250" text-anchor="end" font-size="26" fill="#7b838b" >R₂</text>
+<text id="t21" x="1005" y="83" text-anchor="middle" font-size="25" fill="#7b838b" >C₃</text>
+<g id="chunk-3" data-edit-group="chunk-3">
+<circle cx="925.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t22" x="925.5" y="135" text-anchor="middle" font-size="25" fill="white" >11</text>
+<circle cx="978.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t23" x="978.5" y="135" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="1031.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t24" x="1031.5" y="135" text-anchor="middle" font-size="25" fill="white" >15</text>
+<circle cx="1084.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t25" x="1084.5" y="135" text-anchor="middle" font-size="25" fill="white" >8</text>
+</g>
+<g id="rank-call-3" data-edit-group="rank-call-3">
+<rect x="886" y="96" width="238" height="62" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<line x1="1005" y1="168" x2="1005" y2="206" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="run-3" data-edit-group="run-3">
+<circle cx="925.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t26" x="925.5" y="250" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="978.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t27" x="978.5" y="250" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="1031.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t28" x="1031.5" y="250" text-anchor="middle" font-size="25" fill="white" >11</text>
+<circle cx="1084.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t29" x="1084.5" y="250" text-anchor="middle" font-size="25" fill="white" >15</text>
+</g>
+<text id="t30" x="875" y="250" text-anchor="end" font-size="26" fill="#7b838b" >R₃</text>
+<text id="t31" x="1380" y="83" text-anchor="middle" font-size="25" fill="#7b838b" >C₄</text>
+<g id="chunk-4" data-edit-group="chunk-4">
+<circle cx="1300.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t32" x="1300.5" y="135" text-anchor="middle" font-size="25" fill="white" >9</text>
+<circle cx="1353.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t33" x="1353.5" y="135" text-anchor="middle" font-size="25" fill="white" >13</text>
+<circle cx="1406.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t34" x="1406.5" y="135" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="1459.5" cy="127" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t35" x="1459.5" y="135" text-anchor="middle" font-size="25" fill="white" >10</text>
+</g>
+<g id="rank-call-4" data-edit-group="rank-call-4">
+<rect x="1261" y="96" width="238" height="62" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<line x1="1380" y1="168" x2="1380" y2="206" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="run-4" data-edit-group="run-4">
+<circle cx="1300.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t36" x="1300.5" y="250" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="1353.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t37" x="1353.5" y="250" text-anchor="middle" font-size="25" fill="white" >9</text>
+<circle cx="1406.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t38" x="1406.5" y="250" text-anchor="middle" font-size="25" fill="white" >10</text>
+<circle cx="1459.5" cy="242" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t39" x="1459.5" y="250" text-anchor="middle" font-size="25" fill="white" >13</text>
+</g>
+<text id="t40" x="1250" y="250" text-anchor="end" font-size="26" fill="#7b838b" >R₄</text>
+<text id="t41" x="30" y="337" text-anchor="start" font-size="26" fill="#262b30" >Merge pass 1</text>
+<line x1="255" y1="269" x2="417.5" y2="317" stroke="#899198" stroke-width="1.8" />
+<line x1="630" y1="269" x2="467.5" y2="317" stroke="#899198" stroke-width="1.8" />
+<g id="merge-pass1-1" data-edit-group="merge-pass1-1">
+<rect x="352.5" y="317" width="180" height="40" rx="12" fill="white" stroke="#899198" stroke-width="1.8"/>
+<text id="t42" x="442.5" y="346" text-anchor="middle" font-size="26" fill="#262b30" >MergeGroup</text>
+</g>
+<line x1="442.5" y1="357" x2="442.5" y2="385" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="intermediate-run-1" data-edit-group="intermediate-run-1">
+<circle cx="292" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t43" x="292" y="431" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="335" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t44" x="335" y="431" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="378" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t45" x="378" y="431" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="421" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t46" x="421" y="431" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="464" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t47" x="464" y="431" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="507" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t48" x="507" y="431" text-anchor="middle" font-size="25" fill="white" >12</text>
+<circle cx="550" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t49" x="550" y="431" text-anchor="middle" font-size="25" fill="white" >14</text>
+<circle cx="593" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t50" x="593" y="431" text-anchor="middle" font-size="25" fill="white" >16</text>
+</g>
+<text id="t51" x="259.5" y="431" text-anchor="end" font-size="26" fill="#7b838b" >Q₁</text>
+<line x1="1005" y1="269" x2="1167.5" y2="317" stroke="#899198" stroke-width="1.8" />
+<line x1="1380" y1="269" x2="1217.5" y2="317" stroke="#899198" stroke-width="1.8" />
+<g id="merge-pass1-2" data-edit-group="merge-pass1-2">
+<rect x="1102.5" y="317" width="180" height="40" rx="12" fill="white" stroke="#899198" stroke-width="1.8"/>
+<text id="t52" x="1192.5" y="346" text-anchor="middle" font-size="26" fill="#262b30" >MergeGroup</text>
+</g>
+<line x1="1192.5" y1="357" x2="1192.5" y2="385" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="intermediate-run-2" data-edit-group="intermediate-run-2">
+<circle cx="1042" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t53" x="1042" y="431" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="1085" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t54" x="1085" y="431" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="1128" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t55" x="1128" y="431" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="1171" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t56" x="1171" y="431" text-anchor="middle" font-size="25" fill="white" >9</text>
+<circle cx="1214" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t57" x="1214" y="431" text-anchor="middle" font-size="25" fill="white" >10</text>
+<circle cx="1257" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t58" x="1257" y="431" text-anchor="middle" font-size="25" fill="white" >11</text>
+<circle cx="1300" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t59" x="1300" y="431" text-anchor="middle" font-size="25" fill="white" >13</text>
+<circle cx="1343" cy="423" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t60" x="1343" y="431" text-anchor="middle" font-size="25" fill="white" >15</text>
+</g>
+<text id="t61" x="1009.5" y="431" text-anchor="end" font-size="26" fill="#7b838b" >Q₂</text>
+<text id="t62" x="30" y="520" text-anchor="start" font-size="26" fill="#262b30" >Merge pass 2</text>
+<line x1="442.5" y1="451" x2="792.5" y2="500" stroke="#899198" stroke-width="1.8" />
+<line x1="1192.5" y1="451" x2="842.5" y2="500" stroke="#899198" stroke-width="1.8" />
+<g id="merge-pass2" data-edit-group="merge-pass2">
+<rect x="727.5" y="500" width="180" height="40" rx="12" fill="white" stroke="#899198" stroke-width="1.8"/>
+<text id="t63" x="817.5" y="529" text-anchor="middle" font-size="26" fill="#262b30" >MergeGroup</text>
+</g>
+<line x1="817.5" y1="540" x2="817.5" y2="576" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="final-order" data-edit-group="final-order">
+<circle cx="465" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t64" x="465" y="622" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="512" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t65" x="512" y="622" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="559" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t66" x="559" y="622" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="606" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t67" x="606" y="622" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="653" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t68" x="653" y="622" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="700" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t69" x="700" y="622" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="747" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t70" x="747" y="622" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="794" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t71" x="794" y="622" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="841" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t72" x="841" y="622" text-anchor="middle" font-size="25" fill="white" >9</text>
+<circle cx="888" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t73" x="888" y="622" text-anchor="middle" font-size="25" fill="white" >10</text>
+<circle cx="935" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t74" x="935" y="622" text-anchor="middle" font-size="25" fill="white" >11</text>
+<circle cx="982" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t75" x="982" y="622" text-anchor="middle" font-size="25" fill="white" >12</text>
+<circle cx="1029" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t76" x="1029" y="622" text-anchor="middle" font-size="25" fill="white" >13</text>
+<circle cx="1076" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t77" x="1076" y="622" text-anchor="middle" font-size="25" fill="white" >14</text>
+<circle cx="1123" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t78" x="1123" y="622" text-anchor="middle" font-size="25" fill="white" >15</text>
+<circle cx="1170" cy="614" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t79" x="1170" y="622" text-anchor="middle" font-size="25" fill="white" >16</text>
+</g>
+<text id="t80" x="421.5" y="623" text-anchor="middle" font-size="31" fill="#262b30" >Π</text>
+<g id="overview-legend" data-edit-group="overview-legend">
+<g id="legend-call" data-edit-group="legend-call">
+<rect x="680" y="666" width="51" height="23" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<text id="t81" x="744" y="686" text-anchor="start" font-size="23" fill="#7b838b" >one listwise call</text>
+</g>
+</g>
+</g></svg></figure></section><section><h2>SD merge</h2><nav><button data-save="sd_merge">保存 SVG</button><a href="sd_merge.pdf">PDF</a><a href="sd_merge.png">PNG</a></nav><figure><svg xmlns="http://www.w3.org/2000/svg" width="1700" height="515" viewBox="0 0 1700 515" role="img"><title>SD multi-way merge</title><desc>Three rounds of merging four sorted runs. Each merge root connects all run-prefix leaves. Filled blue items are safely emitted, hollow items are retained and re-enter the next call.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#262b30"/></marker><marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#899198"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, Helvetica, sans-serif">
+<text id="t1" x="285" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">Round 1</text>
+<g id="round-1-ranked" data-edit-group="round-1-ranked">
+<circle cx="103" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t2" x="103" y="112" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="155" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t3" x="155" y="112" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="207" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t4" x="207" y="112" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="259" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t5" x="259" y="112" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="311" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t6" x="311" y="112" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="363" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t7" x="363" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >7</text>
+<circle cx="415" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t8" x="415" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >8</text>
+<circle cx="467" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t9" x="467" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >9</text>
+</g>
+<line x1="337" y1="75" x2="337" y2="133" stroke="#262b30" stroke-width="1.5" stroke-dasharray="4 4"/>
+<line x1="285" y1="174" x2="285" y2="137" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<circle cx="285" cy="181" r="6" fill="#899198"/>
+<line x1="285" y1="181" x2="90" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="285" y1="181" x2="220" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="285" y1="181" x2="350" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="285" y1="181" x2="480" y2="280" stroke="#899198" stroke-width="1.8" />
+<g id="round-1-run-1" data-edit-group="round-1-run-1">
+<rect x="43.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="68.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t10" x="68.5" y="313" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="111.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t11" x="111.5" y="313" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<text id="t12" x="90" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<line x1="90" y1="341" x2="90" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-1-unread-1" data-edit-group="round-1-unread-1">
+<circle cx="70.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t13" x="70.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >12</text>
+<circle cx="109.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t14" x="109.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >16</text>
+</g>
+<g id="round-1-run-2" data-edit-group="round-1-run-2">
+<rect x="173.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="198.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t15" x="198.5" y="313" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="241.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t16" x="241.5" y="313" text-anchor="middle" font-size="25" fill="white" >5</text>
+</g>
+<text id="t17" x="220" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<line x1="220" y1="341" x2="220" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-1-unread-2" data-edit-group="round-1-unread-2">
+<circle cx="200.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t18" x="200.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >6</text>
+<circle cx="239.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t19" x="239.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >14</text>
+</g>
+<g id="round-1-run-3" data-edit-group="round-1-run-3">
+<rect x="303.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="328.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t20" x="328.5" y="313" text-anchor="middle" font-size="25" fill="white" >2</text>
+<circle cx="371.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t21" x="371.5" y="313" text-anchor="middle" font-size="25" fill="white" >8</text>
+</g>
+<text id="t22" x="350" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<line x1="350" y1="341" x2="350" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-1-unread-3" data-edit-group="round-1-unread-3">
+<circle cx="330.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t23" x="330.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >11</text>
+<circle cx="369.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t24" x="369.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >15</text>
+</g>
+<g id="round-1-run-4" data-edit-group="round-1-run-4">
+<rect x="433.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="458.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t25" x="458.5" y="313" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="501.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t26" x="501.5" y="313" text-anchor="middle" font-size="25" fill="white" >9</text>
+</g>
+<text id="t27" x="480" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<line x1="480" y1="341" x2="480" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-1-unread-4" data-edit-group="round-1-unread-4">
+<circle cx="460.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t28" x="460.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >10</text>
+<circle cx="499.5" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t29" x="499.5" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >13</text>
+</g>
+<g id="round-1-call" data-edit-group="round-1-call">
+<rect x="34" y="273" width="502" height="65" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<g id="round-1-retained-transfer" data-edit-group="round-1-retained-transfer">
+<path d="M343,139 H487 C559,139 570,251 603,276" fill="none" stroke="#899198" stroke-width="1.8" stroke-linecap="round" marker-end="url(#gray-arrow)"/>
+</g>
+<text id="t30" x="850" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">Round 2</text>
+<g id="round-2-ranked" data-edit-group="round-2-ranked">
+<circle cx="668" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t31" x="668" y="112" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="720" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t32" x="720" y="112" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="772" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t33" x="772" y="112" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="824" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t34" x="824" y="112" text-anchor="middle" font-size="25" fill="white" >9</text>
+<circle cx="876" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t35" x="876" y="112" text-anchor="middle" font-size="25" fill="white" >10</text>
+<circle cx="928" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t36" x="928" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >11</text>
+<circle cx="980" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t37" x="980" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >12</text>
+<circle cx="1032" cy="104" r="20" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t38" x="1032" y="112" text-anchor="middle" font-size="25" fill="#7b838b" >14</text>
+</g>
+<line x1="902" y1="75" x2="902" y2="133" stroke="#262b30" stroke-width="1.5" stroke-dasharray="4 4"/>
+<line x1="850" y1="174" x2="850" y2="137" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<circle cx="850" cy="181" r="6" fill="#899198"/>
+<line x1="850" y1="181" x2="655" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="850" y1="181" x2="785" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="850" y1="181" x2="915" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="850" y1="181" x2="1045" y2="280" stroke="#899198" stroke-width="1.8" />
+<g id="round-2-run-1" data-edit-group="round-2-run-1">
+<rect x="608.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="633.5" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t39" x="633.5" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >7</text>
+<circle cx="676.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t40" x="676.5" y="313" text-anchor="middle" font-size="25" fill="white" >12</text>
+</g>
+<text id="t41" x="655" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<line x1="655" y1="341" x2="655" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-2-unread-1" data-edit-group="round-2-unread-1">
+<circle cx="655" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t42" x="655" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >16</text>
+</g>
+<g id="round-2-run-2" data-edit-group="round-2-run-2">
+<rect x="738.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="763.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t43" x="763.5" y="313" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="806.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t44" x="806.5" y="313" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t45" x="785" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<text id="t46" x="785" y="401" text-anchor="middle" font-size="26" fill="#9ba3aa" >∅</text>
+<g id="round-2-run-3" data-edit-group="round-2-run-3">
+<rect x="868.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="893.5" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t47" x="893.5" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >8</text>
+<circle cx="936.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t48" x="936.5" y="313" text-anchor="middle" font-size="25" fill="white" >11</text>
+</g>
+<text id="t49" x="915" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<line x1="915" y1="341" x2="915" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-2-unread-3" data-edit-group="round-2-unread-3">
+<circle cx="915" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t50" x="915" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >15</text>
+</g>
+<g id="round-2-run-4" data-edit-group="round-2-run-4">
+<rect x="998.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1023.5" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t51" x="1023.5" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >9</text>
+<circle cx="1066.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t52" x="1066.5" y="313" text-anchor="middle" font-size="25" fill="white" >10</text>
+</g>
+<text id="t53" x="1045" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<line x1="1045" y1="341" x2="1045" y2="361" stroke="#c5cbd1" stroke-width="1.2" />
+<g id="round-2-unread-4" data-edit-group="round-2-unread-4">
+<circle cx="1045" cy="392" r="17" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t54" x="1045" y="400" text-anchor="middle" font-size="22" fill="#9ba3aa" >13</text>
+</g>
+<g id="round-2-call" data-edit-group="round-2-call">
+<rect x="599" y="273" width="502" height="65" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<g id="round-2-retained-transfer" data-edit-group="round-2-retained-transfer">
+<path d="M908,139 H1052 C1124,139 1135,251 1168,276" fill="none" stroke="#899198" stroke-width="1.8" stroke-linecap="round" marker-end="url(#gray-arrow)"/>
+</g>
+<text id="t55" x="1415" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">Round 3</text>
+<g id="round-3-ranked" data-edit-group="round-3-ranked">
+<circle cx="1285" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t56" x="1285" y="112" text-anchor="middle" font-size="25" fill="white" >11</text>
+<circle cx="1337" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t57" x="1337" y="112" text-anchor="middle" font-size="25" fill="white" >12</text>
+<circle cx="1389" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t58" x="1389" y="112" text-anchor="middle" font-size="25" fill="white" >13</text>
+<circle cx="1441" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t59" x="1441" y="112" text-anchor="middle" font-size="25" fill="white" >14</text>
+<circle cx="1493" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t60" x="1493" y="112" text-anchor="middle" font-size="25" fill="white" >15</text>
+<circle cx="1545" cy="104" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t61" x="1545" y="112" text-anchor="middle" font-size="25" fill="white" >16</text>
+</g>
+<line x1="1415" y1="174" x2="1415" y2="137" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<circle cx="1415" cy="181" r="6" fill="#899198"/>
+<line x1="1415" y1="181" x2="1220" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="1415" y1="181" x2="1350" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="1415" y1="181" x2="1480" y2="280" stroke="#899198" stroke-width="1.8" />
+<line x1="1415" y1="181" x2="1610" y2="280" stroke="#899198" stroke-width="1.8" />
+<g id="round-3-run-1" data-edit-group="round-3-run-1">
+<rect x="1173.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1198.5" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t62" x="1198.5" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >12</text>
+<circle cx="1241.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t63" x="1241.5" y="313" text-anchor="middle" font-size="25" fill="white" >16</text>
+</g>
+<text id="t64" x="1220" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<text id="t65" x="1220" y="401" text-anchor="middle" font-size="26" fill="#9ba3aa" >∅</text>
+<g id="round-3-run-2" data-edit-group="round-3-run-2">
+<rect x="1325" y="280" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1350" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t66" x="1350" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >14</text>
+</g>
+<text id="t67" x="1350" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<text id="t68" x="1350" y="401" text-anchor="middle" font-size="26" fill="#9ba3aa" >∅</text>
+<g id="round-3-run-3" data-edit-group="round-3-run-3">
+<rect x="1433.5" y="280" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1458.5" cy="305" r="19" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t69" x="1458.5" y="313" text-anchor="middle" font-size="25" fill="#7b838b" >11</text>
+<circle cx="1501.5" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t70" x="1501.5" y="313" text-anchor="middle" font-size="25" fill="white" >15</text>
+</g>
+<text id="t71" x="1480" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<text id="t72" x="1480" y="401" text-anchor="middle" font-size="26" fill="#9ba3aa" >∅</text>
+<g id="round-3-run-4" data-edit-group="round-3-run-4">
+<rect x="1585" y="280" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1610" cy="305" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t73" x="1610" y="313" text-anchor="middle" font-size="25" fill="white" >13</text>
+</g>
+<text id="t74" x="1610" y="263" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<text id="t75" x="1610" y="401" text-anchor="middle" font-size="26" fill="#9ba3aa" >∅</text>
+<g id="round-3-call" data-edit-group="round-3-call">
+<rect x="1164" y="273" width="502" height="65" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<g transform="translate(0 -175)">
+<g id="sd-legend" data-edit-group="sd-legend">
+<g id="sd-legend-call" data-edit-group="sd-legend-call">
+<rect x="405" y="640" width="48" height="23" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<text id="t76" x="466" y="661" text-anchor="start" font-size="23" fill="#7b838b" >one call</text>
+<circle cx="747" cy="652" r="17" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t77" x="747" y="660" text-anchor="middle" font-size="22" fill="white" >5</text>
+<text id="t78" x="776" y="661" text-anchor="start" font-size="23" fill="#7b838b" >emitted</text>
+<circle cx="1052" cy="652" r="17" fill="white" stroke="#7b838b" stroke-width="1.8"/>
+<text id="t79" x="1052" y="660" text-anchor="middle" font-size="22" fill="#7b838b" >7</text>
+<text id="t80" x="1081" y="661" text-anchor="start" font-size="23" fill="#7b838b" >retained</text>
+</g>
+</g>
+</g></svg></figure></section><section><h2>Unified LT</h2><nav><button data-save="lt_unified">保存 SVG</button><a href="lt_unified.pdf">PDF</a><a href="lt_unified.png">PNG</a></nav><figure><svg xmlns="http://www.w3.org/2000/svg" width="1700" height="635" viewBox="0 0 1700 635" role="img"><title>Unified pointer-guided LT</title><desc>An h=2 loser-tree example shows state after initialization, a pointer-guided path refresh, and the new loser and pointer state. The independent node-replay figure explains the pointer rule.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#262b30"/></marker><marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#899198"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, Helvetica, sans-serif">
+<text id="t1" x="285" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">(a) Initialized state</text>
+<text id="t2" x="850" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">(b) One path refresh</text>
+<text id="t3" x="1415" y="39" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">(c) Updated state</text>
+<line x1="285" y1="217" x2="155" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="285" y1="217" x2="415" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="155" y1="340" x2="90" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="155" y1="340" x2="220" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="415" y1="340" x2="350" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="415" y1="340" x2="480" y2="477" stroke="#899198" stroke-width="1.8" />
+<g id="before-pointer-0-4" data-edit-group="before-pointer-0-4">
+<path transform="translate(252.5 247.75) rotate(136.58485439305053)" d="M2.358458177278402,-2.358458177278402 H70.66705332347824 C72.34795219988274,-2.358458177278402 71.5075027616805,-4.5384269662921355 73.60862635718611,-4.5384269662921355 C75.54166006505129,-4.5384269662921355 81.59289602010746,-1.3447191011235957 83.52592972797262,-0.37820224719101125 Q84.19828927853443,0 83.52592972797262,0.37820224719101125 C81.59289602010746,1.3447191011235957 75.54166006505129,4.5384269662921355 73.60862635718611,4.5384269662921355 C71.5075027616805,4.5384269662921355 72.34795219988274,2.358458177278402 70.66705332347824,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="before-pointer-0-2" data-edit-group="before-pointer-0-2">
+<path transform="translate(171.25 374.25) rotate(64.61787940811827)" d="M2.358458177278402,-2.358458177278402 H57.82254029175128 C59.50343916815577,-2.358458177278402 58.66298972995353,-4.5384269662921355 60.76411332545915,-4.5384269662921355 C62.69714703332431,-4.5384269662921355 68.7483829883805,-1.3447191011235957 70.68141669624566,-0.37820224719101125 Q71.35377624680747,0 70.68141669624566,0.37820224719101125 C68.7483829883805,1.3447191011235957 62.69714703332431,4.5384269662921355 60.76411332545915,4.5384269662921355 C58.66298972995353,4.5384269662921355 59.50343916815577,2.358458177278402 57.82254029175128,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="before-pointer-2-4" data-edit-group="before-pointer-2-4">
+<path transform="translate(398.75 374.25) rotate(115.38212059188173)" d="M2.358458177278402,-2.358458177278402 H57.82254029175128 C59.50343916815577,-2.358458177278402 58.66298972995353,-4.5384269662921355 60.76411332545915,-4.5384269662921355 C62.69714703332431,-4.5384269662921355 68.7483829883805,-1.3447191011235957 70.68141669624566,-0.37820224719101125 Q71.35377624680747,0 70.68141669624566,0.37820224719101125 C68.7483829883805,1.3447191011235957 62.69714703332431,4.5384269662921355 60.76411332545915,4.5384269662921355 C58.66298972995353,4.5384269662921355 59.50343916815577,2.358458177278402 57.82254029175128,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="before-loser-0-4" data-edit-group="before-loser-0-4">
+<rect x="238.5" y="192" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="263.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t4" x="263.5" y="225" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="306.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t5" x="306.5" y="225" text-anchor="middle" font-size="25" fill="white" >4</text>
+</g>
+<g id="before-loser-0-2" data-edit-group="before-loser-0-2">
+<rect x="108.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="133.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t6" x="133.5" y="348" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="176.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t7" x="176.5" y="348" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="before-run-1" data-edit-group="before-run-1">
+<rect x="43.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="68.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t8" x="68.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="111.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t9" x="111.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<text id="t10" x="90" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<g id="before-run-2" data-edit-group="before-run-2">
+<rect x="173.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="198.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t11" x="198.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >6</text>
+<circle cx="241.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t12" x="241.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >14</text>
+</g>
+<text id="t13" x="220" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<g id="before-loser-2-4" data-edit-group="before-loser-2-4">
+<rect x="368.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="393.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t14" x="393.5" y="348" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="436.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t15" x="436.5" y="348" text-anchor="middle" font-size="25" fill="white" >9</text>
+</g>
+<g id="before-run-3" data-edit-group="before-run-3">
+<rect x="303.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="328.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t16" x="328.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >11</text>
+<circle cx="371.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t17" x="371.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >15</text>
+</g>
+<text id="t18" x="350" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<g id="before-run-4" data-edit-group="before-run-4">
+<rect x="433.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="458.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t19" x="458.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >10</text>
+<circle cx="501.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t20" x="501.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >13</text>
+</g>
+<text id="t21" x="480" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<line x1="285" y1="189" x2="285" y2="129" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="before-winner" data-edit-group="before-winner">
+<rect x="238.5" y="75" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="263.5" cy="100" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t22" x="263.5" y="108" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="306.5" cy="100" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t23" x="306.5" y="108" text-anchor="middle" font-size="25" fill="white" >2</text>
+</g>
+<line x1="850" y1="217" x2="720" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="850" y1="217" x2="980" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="720" y1="340" x2="655" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="720" y1="340" x2="785" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="980" y1="340" x2="915" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="980" y1="340" x2="1045" y2="477" stroke="#899198" stroke-width="1.8" />
+<g id="refresh-pointer-0-4" data-edit-group="refresh-pointer-0-4">
+<path transform="translate(817.5 247.75) rotate(136.58485439305053)" d="M2.358458177278402,-2.358458177278402 H70.66705332347826 C72.34795219988276,-2.358458177278402 71.5075027616805,-4.5384269662921355 73.60862635718611,-4.5384269662921355 C75.54166006505129,-4.5384269662921355 81.59289602010747,-1.3447191011235957 83.52592972797264,-0.37820224719101125 Q84.19828927853445,0 83.52592972797264,0.37820224719101125 C81.59289602010747,1.3447191011235957 75.54166006505129,4.5384269662921355 73.60862635718611,4.5384269662921355 C71.5075027616805,4.5384269662921355 72.34795219988276,2.358458177278402 70.66705332347826,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="refresh-pointer-0-2" data-edit-group="refresh-pointer-0-2">
+<path transform="translate(736.25 374.25) rotate(64.61787940811833)" d="M2.358458177278402,-2.358458177278402 H57.82254029175125 C59.503439168155744,-2.358458177278402 58.6629897299535,-4.5384269662921355 60.76411332545912,-4.5384269662921355 C62.697147033324285,-4.5384269662921355 68.74838298838047,-1.3447191011235957 70.68141669624563,-0.37820224719101125 Q71.35377624680744,0 70.68141669624563,0.37820224719101125 C68.74838298838047,1.3447191011235957 62.697147033324285,4.5384269662921355 60.76411332545912,4.5384269662921355 C58.6629897299535,4.5384269662921355 59.503439168155744,2.358458177278402 57.82254029175125,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="refresh-pointer-2-4" data-edit-group="refresh-pointer-2-4">
+<path transform="translate(963.75 374.25) rotate(115.38212059188169)" d="M2.358458177278402,-2.358458177278402 H57.82254029175125 C59.503439168155744,-2.358458177278402 58.6629897299535,-4.5384269662921355 60.76411332545912,-4.5384269662921355 C62.697147033324285,-4.5384269662921355 68.74838298838047,-1.3447191011235957 70.68141669624563,-0.37820224719101125 Q71.35377624680744,0 70.68141669624563,0.37820224719101125 C68.74838298838047,1.3447191011235957 62.697147033324285,4.5384269662921355 60.76411332545912,4.5384269662921355 C58.6629897299535,4.5384269662921355 59.503439168155744,2.358458177278402 57.82254029175125,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="refresh-loser-0-4" data-edit-group="refresh-loser-0-4">
+<rect x="803.5" y="192" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="828.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t24" x="828.5" y="225" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="871.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t25" x="871.5" y="225" text-anchor="middle" font-size="25" fill="white" >4</text>
+</g>
+<g id="refresh-loser-0-2" data-edit-group="refresh-loser-0-2">
+<rect x="673.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="698.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t26" x="698.5" y="348" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="741.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t27" x="741.5" y="348" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="refresh-run-1" data-edit-group="refresh-run-1">
+<rect x="608.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="633.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t28" x="633.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="676.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t29" x="676.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<text id="t30" x="655" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<g id="refresh-run-2" data-edit-group="refresh-run-2">
+<rect x="738.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="763.5" cy="477" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t31" x="763.5" y="485" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="806.5" cy="477" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t32" x="806.5" y="485" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t33" x="785" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<g id="refresh-loser-2-4" data-edit-group="refresh-loser-2-4">
+<rect x="933.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="958.5" cy="340" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t34" x="958.5" y="348" text-anchor="middle" font-size="25" fill="#9ba3aa" >8</text>
+<circle cx="1001.5" cy="340" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t35" x="1001.5" y="348" text-anchor="middle" font-size="25" fill="#9ba3aa" >9</text>
+</g>
+<g id="refresh-run-3" data-edit-group="refresh-run-3">
+<rect x="868.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="893.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t36" x="893.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >11</text>
+<circle cx="936.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t37" x="936.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >15</text>
+</g>
+<text id="t38" x="915" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<g id="refresh-run-4" data-edit-group="refresh-run-4">
+<rect x="998.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1023.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t39" x="1023.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >10</text>
+<circle cx="1066.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t40" x="1066.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >13</text>
+</g>
+<text id="t41" x="1045" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<g id="lt-rank-map" data-edit-group="lt-rank-map">
+<circle cx="730" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t42" x="730" y="108" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="778" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t43" x="778" y="108" text-anchor="middle" font-size="25" fill="white" >4</text>
+<circle cx="826" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t44" x="826" y="108" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="874" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t45" x="874" y="108" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="922" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t46" x="922" y="108" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="970" cy="100" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t47" x="970" y="108" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t48" x="672" y="108" text-anchor="middle" font-size="28" fill="#7b838b" >ρ:</text>
+<g id="lt-refresh-call" data-edit-group="lt-refresh-call">
+<path d="M904,217 C904,294.49 774,262.51 774,340 C774,426.31 839,390.69 839,477 C839,523 731,523 731,477 C731,390.69 666,426.31 666,340 C666,262.51 796,294.49 796,217 C796,171 904,171 904,217 Z" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<line x1="1415" y1="217" x2="1285" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="1415" y1="217" x2="1545" y2="340" stroke="#899198" stroke-width="1.8" />
+<line x1="1285" y1="340" x2="1220" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="1285" y1="340" x2="1350" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="1545" y1="340" x2="1480" y2="477" stroke="#899198" stroke-width="1.8" />
+<line x1="1545" y1="340" x2="1610" y2="477" stroke="#899198" stroke-width="1.8" />
+<g id="after-pointer-0-4" data-edit-group="after-pointer-0-4">
+<path transform="translate(1447.5 247.75) rotate(43.41514560694952)" d="M2.358458177278402,-2.358458177278402 H70.66705332347819 C72.34795219988268,-2.358458177278402 71.50750276168044,-4.5384269662921355 73.60862635718605,-4.5384269662921355 C75.54166006505123,-4.5384269662921355 81.5928960201074,-1.3447191011235957 83.52592972797257,-0.37820224719101125 Q84.19828927853438,0 83.52592972797257,0.37820224719101125 C81.5928960201074,1.3447191011235957 75.54166006505123,4.5384269662921355 73.60862635718605,4.5384269662921355 C71.50750276168044,4.5384269662921355 72.34795219988268,2.358458177278402 70.66705332347819,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="after-pointer-0-2" data-edit-group="after-pointer-0-2">
+<path transform="translate(1268.75 374.25) rotate(115.38212059188169)" d="M2.358458177278402,-2.358458177278402 H57.82254029175125 C59.503439168155744,-2.358458177278402 58.6629897299535,-4.5384269662921355 60.76411332545912,-4.5384269662921355 C62.697147033324285,-4.5384269662921355 68.74838298838047,-1.3447191011235957 70.68141669624563,-0.37820224719101125 Q71.35377624680744,0 70.68141669624563,0.37820224719101125 C68.74838298838047,1.3447191011235957 62.697147033324285,4.5384269662921355 60.76411332545912,4.5384269662921355 C58.6629897299535,4.5384269662921355 59.503439168155744,2.358458177278402 57.82254029175125,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="after-pointer-2-4" data-edit-group="after-pointer-2-4">
+<path transform="translate(1528.75 374.25) rotate(115.38212059188169)" d="M2.358458177278402,-2.358458177278402 H57.82254029175125 C59.503439168155744,-2.358458177278402 58.6629897299535,-4.5384269662921355 60.76411332545912,-4.5384269662921355 C62.697147033324285,-4.5384269662921355 68.74838298838047,-1.3447191011235957 70.68141669624563,-0.37820224719101125 Q71.35377624680744,0 70.68141669624563,0.37820224719101125 C68.74838298838047,1.3447191011235957 62.697147033324285,4.5384269662921355 60.76411332545912,4.5384269662921355 C58.6629897299535,4.5384269662921355 59.503439168155744,2.358458177278402 57.82254029175125,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<g id="after-loser-0-4" data-edit-group="after-loser-0-4">
+<rect x="1368.5" y="192" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1393.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t49" x="1393.5" y="225" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="1436.5" cy="217" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t50" x="1436.5" y="225" text-anchor="middle" font-size="25" fill="white" >6</text>
+</g>
+<g id="after-loser-0-2" data-edit-group="after-loser-0-2">
+<rect x="1238.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1263.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t51" x="1263.5" y="348" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="1306.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t52" x="1306.5" y="348" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<g id="after-run-1" data-edit-group="after-run-1">
+<rect x="1173.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1198.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t53" x="1198.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="1241.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t54" x="1241.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<text id="t55" x="1220" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₁</text>
+<g id="after-run-2" data-edit-group="after-run-2">
+<rect x="1325" y="452" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<text id="t56" x="1350" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >∅</text>
+</g>
+<text id="t57" x="1350" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₂</text>
+<g id="after-loser-2-4" data-edit-group="after-loser-2-4">
+<rect x="1498.5" y="315" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1523.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t58" x="1523.5" y="348" text-anchor="middle" font-size="25" fill="white" >8</text>
+<circle cx="1566.5" cy="340" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t59" x="1566.5" y="348" text-anchor="middle" font-size="25" fill="white" >9</text>
+</g>
+<g id="after-run-3" data-edit-group="after-run-3">
+<rect x="1433.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1458.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t60" x="1458.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >11</text>
+<circle cx="1501.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t61" x="1501.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >15</text>
+</g>
+<text id="t62" x="1480" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₃</text>
+<g id="after-run-4" data-edit-group="after-run-4">
+<rect x="1563.5" y="452" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1588.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t63" x="1588.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >10</text>
+<circle cx="1631.5" cy="477" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t64" x="1631.5" y="485" text-anchor="middle" font-size="25" fill="#9ba3aa" >13</text>
+</g>
+<text id="t65" x="1610" y="532" text-anchor="middle" font-size="23" fill="#7b838b" >R₄</text>
+<line x1="1415" y1="189" x2="1415" y2="129" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="after-winner" data-edit-group="after-winner">
+<rect x="1368.5" y="75" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="1393.5" cy="100" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t66" x="1393.5" y="108" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="1436.5" cy="100" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t67" x="1436.5" y="108" text-anchor="middle" font-size="25" fill="white" >4</text>
+</g>
+<g id="lt-step-1" data-edit-group="lt-step-1">
+<path d="M535,275 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<g id="lt-step-2" data-edit-group="lt-step-2">
+<path d="M1100,275 h19 v-10 l20,20 -20,20 v-10 h-19 Z" fill="white" stroke="#262b30" stroke-width="1.7" stroke-linejoin="round"/>
+</g>
+<g id="lt-legend" data-edit-group="lt-legend">
+<g id="lt-legend-call" data-edit-group="lt-legend-call">
+<rect x="390" y="587" width="48" height="23" rx="14" fill="none" stroke="#c44c3c" stroke-width="2.2" stroke-dasharray="7 5"/>
+</g>
+<text id="t68" x="451" y="608" text-anchor="start" font-size="23" fill="#7b838b" >one call</text>
+<g id="lt-legend-pointer" data-edit-group="lt-legend-pointer">
+<path transform="translate(700 599) rotate(0)" d="M2.358458177278402,-2.358458177278402 H34.55280898876404 C36.23370786516853,-2.358458177278402 35.39325842696629,-4.5384269662921355 37.49438202247191,-4.5384269662921355 C39.427415730337074,-4.5384269662921355 45.47865168539326,-1.3447191011235957 47.41168539325842,-0.37820224719101125 Q48.084044943820224,0 47.41168539325842,0.37820224719101125 C45.47865168539326,1.3447191011235957 39.427415730337074,4.5384269662921355 37.49438202247191,4.5384269662921355 C35.39325842696629,4.5384269662921355 36.23370786516853,2.358458177278402 34.55280898876404,2.358458177278402 H2.358458177278402 Q0,2.358458177278402 0,0 Q0,-2.358458177278402 2.358458177278402,-2.358458177278402 Z" fill="#303840"/>
+</g>
+<text id="t69" x="763" y="608" text-anchor="start" font-size="23" fill="#7b838b" >pointer</text>
+<circle cx="1052" cy="599" r="17" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t70" x="1052" y="607" text-anchor="middle" font-size="22" fill="white" >3</text>
+<text id="t71" x="1081" y="608" text-anchor="start" font-size="23" fill="#7b838b" >emitted</text>
+</g>
+</g></svg></figure></section><section><h2>Node replay · pointer rule</h2><nav><button data-save="pointer_rule">保存 SVG</button><a href="pointer_rule.pdf">PDF</a><a href="pointer_rule.png">PNG</a></nav><figure><svg xmlns="http://www.w3.org/2000/svg" width="1000" height="710" viewBox="0 0 1000 710" role="img"><title>Node replay and pointer update</title><desc>Build and refresh of the same node. The old right pointer places the incoming right segment in slot R and the retained parent segment in slot L. The first exhausted replay slot determines the updated pointer. Blue is the winner passed upward; pale items are next unread.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#262b30"/></marker><marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#899198"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Arial, Helvetica, sans-serif">
+<text id="t1" x="145" y="32" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">State</text>
+<text id="t2" x="500" y="32" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">Node replay</text>
+<text id="t3" x="855" y="32" text-anchor="middle" font-size="29" fill="#262b30" font-weight="600">Updated state</text>
+<text id="t4" x="24" y="70" text-anchor="start" font-size="23" fill="#7b838b" >(a) Build</text>
+<line x1="130.0995215443545" y1="200.07425569718907" x2="91.55670103097509" y2="251.99999999993634" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<line x1="159.9004784556455" y1="200.07425569718907" x2="198.4432989690249" y2="251.99999999993634" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<g id="build-before-parent" data-edit-group="build-before-parent">
+<rect x="120" y="155" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<text id="t5" x="145" y="188" text-anchor="middle" font-size="25" fill="#9ba3aa" >∅</text>
+</g>
+<text id="t6" x="145" y="143" text-anchor="middle" font-size="24" fill="#262b30" >P</text>
+<g id="build-before-left" data-edit-group="build-before-left">
+<rect x="26.5" y="252" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="51.5" cy="277" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t7" x="51.5" y="285" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="94.5" cy="277" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t8" x="94.5" y="285" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-before-right" data-edit-group="build-before-right">
+<rect x="170.5" y="252" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="195.5" cy="277" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t9" x="195.5" y="285" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="238.5" cy="277" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t10" x="238.5" y="285" text-anchor="middle" font-size="25" fill="white" >5</text>
+</g>
+<text id="t11" x="44" y="238" text-anchor="middle" font-size="23" fill="#262b30" >L</text>
+<text id="t12" x="246" y="238" text-anchor="middle" font-size="23" fill="#262b30" >R</text>
+<line x1="836.4432989690249" y1="205.00000000006366" x2="801.5567010309751" y2="251.99999999993634" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<line x1="873.5567010309751" y1="205.00000000006366" x2="908.4432989690249" y2="251.99999999993634" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<g id="build-after-pointer" data-edit-group="build-after-pointer">
+<path transform="translate(876.0767010309751 208.39500000006367) rotate(53.414681700306524)" d="M2.8061868686868685,-2.8061868686868685 H35.28459134570448 C37.28459134570448,-2.8061868686868685 36.28459134570448,-5.4 38.78459134570448,-5.4 C41.084591345704474,-5.4 48.28459134570448,-1.6 50.584591345704474,-.45 Q51.38459134570448,0 50.584591345704474,.45 C48.28459134570448,1.6 41.084591345704474,5.4 38.78459134570448,5.4 C36.28459134570448,5.4 37.28459134570448,2.8061868686868685 35.28459134570448,2.8061868686868685 H2.8061868686868685 Q0,2.8061868686868685 0,0 Q0,-2.8061868686868685 2.8061868686868685,-2.8061868686868685 Z" fill="#303840"/>
+</g>
+<g id="build-after-parent" data-edit-group="build-after-parent">
+<rect x="808.5" y="155" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="833.5" cy="180" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t13" x="833.5" y="188" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="876.5" cy="180" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t14" x="876.5" y="188" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-after-left" data-edit-group="build-after-left">
+<rect x="736.5" y="252" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="761.5" cy="277" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t15" x="761.5" y="285" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="804.5" cy="277" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t16" x="804.5" y="285" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="build-after-right" data-edit-group="build-after-right">
+<rect x="880.5" y="252" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="905.5" cy="277" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t17" x="905.5" y="285" text-anchor="middle" font-size="25" fill="#9ba3aa" >6</text>
+<circle cx="948.5" cy="277" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t18" x="948.5" y="285" text-anchor="middle" font-size="25" fill="#9ba3aa" >14</text>
+</g>
+<text id="t19" x="754" y="238" text-anchor="middle" font-size="23" fill="#262b30" >L</text>
+<text id="t20" x="956" y="238" text-anchor="middle" font-size="23" fill="#262b30" >R</text>
+<line x1="855" y1="152" x2="855" y2="135" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="build-after-winner" data-edit-group="build-after-winner">
+<rect x="808.5" y="79" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="833.5" cy="104" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t21" x="833.5" y="112" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="876.5" cy="104" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t22" x="876.5" y="112" text-anchor="middle" font-size="25" fill="white" >3</text>
+</g>
+<text id="t23" x="425" y="105" text-anchor="middle" font-size="24" fill="#262b30" >L</text>
+<text id="t24" x="575" y="105" text-anchor="middle" font-size="24" fill="#262b30" >R</text>
+<g id="build-replay-slot-L" data-edit-group="build-replay-slot-L">
+<rect x="378.5" y="117" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="403.5" cy="142" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t25" x="403.5" y="150" text-anchor="middle" font-size="25" fill="white" >3</text>
+<circle cx="446.5" cy="142" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t26" x="446.5" y="150" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="build-replay-slot-R" data-edit-group="build-replay-slot-R">
+<rect x="528.5" y="117" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="553.5" cy="142" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t27" x="553.5" y="150" text-anchor="middle" font-size="25" fill="white" >1</text>
+<circle cx="596.5" cy="142" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t28" x="596.5" y="150" text-anchor="middle" font-size="25" fill="white" >5</text>
+</g>
+<line x1="500" y1="176" x2="500" y2="195" stroke="#899198" stroke-width="1.6" marker-end="url(#gray-arrow)"/>
+<text id="t29" x="398" y="219" text-anchor="middle" font-size="22" fill="#7b838b" >R</text>
+<circle cx="398" cy="248" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t30" x="398" y="256" text-anchor="middle" font-size="25" fill="white" >1</text>
+<text id="t31" x="466" y="219" text-anchor="middle" font-size="22" fill="#7b838b" >L</text>
+<circle cx="466" cy="248" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t32" x="466" y="256" text-anchor="middle" font-size="25" fill="white" >3</text>
+<text id="t33" x="534" y="219" text-anchor="middle" font-size="22" fill="#7b838b" >R</text>
+<circle cx="534" cy="248" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t34" x="534" y="256" text-anchor="middle" font-size="25" fill="white" >5</text>
+<text id="t35" x="602" y="219" text-anchor="middle" font-size="22" fill="#7b838b" >L</text>
+<circle cx="602" cy="248" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t36" x="602" y="256" text-anchor="middle" font-size="25" fill="white" >7</text>
+<text id="t37" x="432" y="301" text-anchor="middle" font-size="22" fill="#7b838b" >winner</text>
+<text id="t38" x="578" y="301" text-anchor="middle" font-size="22" fill="#7b838b" >loser</text>
+<g id="build-replay-exhaustion" data-edit-group="build-replay-exhaustion">
+<line x1="517" y1="275" x2="551" y2="275" stroke="#c44c3c" stroke-width="1.8" />
+<path d="M534,278 V310 H500" fill="none" stroke="#c44c3c" stroke-width="1.1" />
+<text id="t39" x="500" y="332" text-anchor="middle" font-size="21" fill="#c44c3c" >R Exhaustion point</text>
+</g>
+<g id="build-transition" data-edit-group="build-transition">
+<line x1="280" y1="204" x2="326" y2="204" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<line x1="674" y1="204" x2="720" y2="204" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+</g>
+<text id="t40" x="24" y="385" text-anchor="start" font-size="23" fill="#7b838b" >(b) Refresh</text>
+<line x1="126.44329896902491" y1="520.0000000000637" x2="91.55670103097509" y2="566.9999999999363" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<line x1="163.5567010309751" y1="520.0000000000637" x2="198.4432989690249" y2="566.9999999999363" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<g id="refresh-before-pointer" data-edit-group="refresh-before-pointer">
+<path transform="translate(166.0767010309751 523.3950000000636) rotate(53.41468170030666)" d="M2.8061868686868685,-2.8061868686868685 H35.28459134570449 C37.28459134570449,-2.8061868686868685 36.28459134570449,-5.4 38.78459134570449,-5.4 C41.08459134570449,-5.4 48.28459134570449,-1.6 50.58459134570449,-.45 Q51.38459134570449,0 50.58459134570449,.45 C48.28459134570449,1.6 41.08459134570449,5.4 38.78459134570449,5.4 C36.28459134570449,5.4 37.28459134570449,2.8061868686868685 35.28459134570449,2.8061868686868685 H2.8061868686868685 Q0,2.8061868686868685 0,0 Q0,-2.8061868686868685 2.8061868686868685,-2.8061868686868685 Z" fill="#303840"/>
+</g>
+<g id="refresh-before-parent" data-edit-group="refresh-before-parent">
+<rect x="98.5" y="470" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="123.5" cy="495" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t41" x="123.5" y="503" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="166.5" cy="495" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t42" x="166.5" y="503" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<text id="t43" x="145" y="458" text-anchor="middle" font-size="24" fill="#262b30" >P</text>
+<g id="refresh-before-left" data-edit-group="refresh-before-left">
+<rect x="26.5" y="567" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="51.5" cy="592" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t44" x="51.5" y="600" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="94.5" cy="592" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t45" x="94.5" y="600" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="refresh-before-right" data-edit-group="refresh-before-right">
+<rect x="170.5" y="567" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="195.5" cy="592" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t46" x="195.5" y="600" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="238.5" cy="592" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t47" x="238.5" y="600" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<text id="t48" x="44" y="553" text-anchor="middle" font-size="23" fill="#262b30" >L</text>
+<text id="t49" x="246" y="553" text-anchor="middle" font-size="23" fill="#262b30" >R</text>
+<line x1="836.4432989690249" y1="520.0000000000637" x2="801.5567010309751" y2="566.9999999999363" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<g id="refresh-after-pointer" data-edit-group="refresh-after-pointer">
+<path transform="translate(833.9232989690249 523.3950000000636) rotate(126.58531829969341)" d="M2.8061868686868685,-2.8061868686868685 H35.28459134570455 C37.28459134570455,-2.8061868686868685 36.28459134570455,-5.4 38.78459134570455,-5.4 C41.084591345704546,-5.4 48.28459134570455,-1.6 50.584591345704546,-.45 Q51.38459134570455,0 50.584591345704546,.45 C48.28459134570455,1.6 41.084591345704546,5.4 38.78459134570455,5.4 C36.28459134570455,5.4 37.28459134570455,2.8061868686868685 35.28459134570455,2.8061868686868685 H2.8061868686868685 Q0,2.8061868686868685 0,0 Q0,-2.8061868686868685 2.8061868686868685,-2.8061868686868685 Z" fill="#303840"/>
+</g>
+<line x1="873.5567010309751" y1="520.0000000000637" x2="912.0995215443545" y2="571.9257443028109" stroke="#AAB1B7" stroke-width="3.2070707070707076" />
+<g id="refresh-after-parent" data-edit-group="refresh-after-parent">
+<rect x="808.5" y="470" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="833.5" cy="495" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t50" x="833.5" y="503" text-anchor="middle" font-size="25" fill="white" >7</text>
+<circle cx="876.5" cy="495" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t51" x="876.5" y="503" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<g id="refresh-after-left" data-edit-group="refresh-after-left">
+<rect x="736.5" y="567" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="761.5" cy="592" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t52" x="761.5" y="600" text-anchor="middle" font-size="25" fill="#9ba3aa" >12</text>
+<circle cx="804.5" cy="592" r="19" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t53" x="804.5" y="600" text-anchor="middle" font-size="25" fill="#9ba3aa" >16</text>
+</g>
+<g id="refresh-after-right" data-edit-group="refresh-after-right">
+<rect x="902" y="567" width="50" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<text id="t54" x="927" y="600" text-anchor="middle" font-size="25" fill="#9ba3aa" >∅</text>
+</g>
+<text id="t55" x="754" y="553" text-anchor="middle" font-size="23" fill="#262b30" >L</text>
+<text id="t56" x="956" y="553" text-anchor="middle" font-size="23" fill="#262b30" >R</text>
+<line x1="855" y1="467" x2="855" y2="450" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<g id="refresh-after-winner" data-edit-group="refresh-after-winner">
+<rect x="808.5" y="394" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="833.5" cy="419" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t57" x="833.5" y="427" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="876.5" cy="419" r="19" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t58" x="876.5" y="427" text-anchor="middle" font-size="25" fill="white" >6</text>
+</g>
+<text id="t59" x="425" y="420" text-anchor="middle" font-size="24" fill="#262b30" >P → L</text>
+<text id="t60" x="575" y="420" text-anchor="middle" font-size="24" fill="#262b30" >R → R</text>
+<g id="refresh-replay-slot-L" data-edit-group="refresh-replay-slot-L">
+<rect x="378.5" y="432" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="403.5" cy="457" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t61" x="403.5" y="465" text-anchor="middle" font-size="25" fill="white" >5</text>
+<circle cx="446.5" cy="457" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t62" x="446.5" y="465" text-anchor="middle" font-size="25" fill="white" >7</text>
+</g>
+<g id="refresh-replay-slot-R" data-edit-group="refresh-replay-slot-R">
+<rect x="528.5" y="432" width="93" height="50" rx="25" fill="white" stroke="#c1c7cd" stroke-width="1.3"/>
+<circle cx="553.5" cy="457" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t63" x="553.5" y="465" text-anchor="middle" font-size="25" fill="white" >6</text>
+<circle cx="596.5" cy="457" r="19" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t64" x="596.5" y="465" text-anchor="middle" font-size="25" fill="white" >14</text>
+</g>
+<line x1="500" y1="491" x2="500" y2="510" stroke="#899198" stroke-width="1.6" marker-end="url(#gray-arrow)"/>
+<text id="t65" x="398" y="534" text-anchor="middle" font-size="22" fill="#7b838b" >L</text>
+<circle cx="398" cy="563" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t66" x="398" y="571" text-anchor="middle" font-size="25" fill="white" >5</text>
+<text id="t67" x="466" y="534" text-anchor="middle" font-size="22" fill="#7b838b" >R</text>
+<circle cx="466" cy="563" r="20" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t68" x="466" y="571" text-anchor="middle" font-size="25" fill="white" >6</text>
+<text id="t69" x="534" y="534" text-anchor="middle" font-size="22" fill="#7b838b" >L</text>
+<circle cx="534" cy="563" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t70" x="534" y="571" text-anchor="middle" font-size="25" fill="white" >7</text>
+<text id="t71" x="602" y="534" text-anchor="middle" font-size="22" fill="#7b838b" >R</text>
+<circle cx="602" cy="563" r="20" fill="#92989d" stroke="none" stroke-width="1.8"/>
+<text id="t72" x="602" y="571" text-anchor="middle" font-size="25" fill="white" >14</text>
+<text id="t73" x="432" y="616" text-anchor="middle" font-size="22" fill="#7b838b" >winner</text>
+<text id="t74" x="578" y="616" text-anchor="middle" font-size="22" fill="#7b838b" >loser</text>
+<g id="refresh-replay-exhaustion" data-edit-group="refresh-replay-exhaustion">
+<line x1="517" y1="590" x2="551" y2="590" stroke="#c44c3c" stroke-width="1.8" />
+<path d="M534,593 V625 H500" fill="none" stroke="#c44c3c" stroke-width="1.1" />
+<text id="t75" x="500" y="647" text-anchor="middle" font-size="21" fill="#c44c3c" >L Exhaustion point</text>
+</g>
+<g id="refresh-transition" data-edit-group="refresh-transition">
+<line x1="280" y1="519" x2="326" y2="519" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+<line x1="674" y1="519" x2="720" y2="519" stroke="#899198" stroke-width="1.8" marker-end="url(#gray-arrow)"/>
+</g>
+<g id="pointer-rule-legend" data-edit-group="pointer-rule-legend">
+<g id="legend-pointer" data-edit-group="legend-pointer">
+<path transform="translate(95 686) rotate(0)" d="M2.8061868686868685,-2.8061868686868685 H31 C33,-2.8061868686868685 32,-5.4 34.5,-5.4 C36.8,-5.4 44,-1.6 46.3,-.45 Q47.1,0 46.3,.45 C44,1.6 36.8,5.4 34.5,5.4 C32,5.4 33,2.8061868686868685 31,2.8061868686868685 H2.8061868686868685 Q0,2.8061868686868685 0,0 Q0,-2.8061868686868685 2.8061868686868685,-2.8061868686868685 Z" fill="#303840"/>
+</g>
+<text id="t76" x="155" y="694" text-anchor="start" font-size="23" fill="#7b838b" >pointer</text>
+<circle cx="397" cy="686" r="16" fill="#356d96" stroke="#356d96" stroke-width="1.8"/>
+<text id="t77" x="397" y="694" text-anchor="middle" font-size="22" fill="white" >1</text>
+<text id="t78" x="424" y="694" text-anchor="start" font-size="23" fill="#7b838b" >winner</text>
+<circle cx="667" cy="686" r="16" fill="#e5e8eb" stroke="none" stroke-width="1.8"/>
+<text id="t79" x="667" y="694" text-anchor="middle" font-size="22" fill="#9ba3aa" >12</text>
+<text id="t80" x="694" y="694" text-anchor="start" font-size="23" fill="#7b838b" >next unread</text>
+</g>
+</g></svg></figure></section></main><script>let editing=false,drag=null,undo=[];const btn=document.querySelector('#edit');btn.onclick=()=>{editing=!editing;btn.textContent=editing?'结束编辑':'编辑文字与位置';document.body.classList.toggle('editing',editing)};document.addEventListener('dblclick',e=>{if(!editing||e.target.tagName.toLowerCase()!=='text')return;const v=prompt('修改文字',e.target.textContent);if(v!==null){undo.push([e.target,'text',e.target.textContent]);e.target.textContent=v}});document.addEventListener('pointerdown',e=>{if(!editing||e.button!==0)return;const g=e.target.closest('[data-edit-group]');if(!g)return;const svg=g.ownerSVGElement,p=new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse());const old=g.getAttribute('transform')||'';drag={g,svg,p,old};});document.addEventListener('pointermove',e=>{if(!drag)return;const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(drag.svg.getScreenCTM().inverse());drag.g.setAttribute('transform','translate('+(p.x-drag.p.x)+' '+(p.y-drag.p.y)+') '+drag.old)});document.addEventListener('pointerup',()=>{if(drag){if((drag.g.getAttribute('transform')||'')!==drag.old)undo.push([drag.g,'transform',drag.old]);drag=null}});document.querySelector('#undo').onclick=()=>{const u=undo.pop();if(!u)return;if(u[1]==='text')u[0].textContent=u[2];else u[0].setAttribute('transform',u[2])};function save(svg,name){const out=svg.cloneNode(true);out.setAttribute('xmlns','http://www.w3.org/2000/svg');const b=new Blob([new XMLSerializer().serializeToString(out)],{type:'image/svg+xml'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>save(b.closest('section').querySelector('svg'),b.dataset.save));</script></html>

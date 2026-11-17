@@ -1,0 +1,29 @@
+% E2 drop-in fragment. Not a standalone paper and not a layout supplement.
+% Parent inserts one of these into the new Experiment 2 section after review.
+% Do not replace \label{fig:exp2-k}: that float is the old LIMIT-K sensitivity.
+% Do not change acmart/pvldb margins or type size.
+% Suggested labels are not already in the paper source.
+% Place the PDFs on the graphic path. Width is \textwidth (sigconf 7.0 in).
+% Heights in the PDFs are synthetic. They are not measurements.
+
+% --- candidate A: 2x2, one slot, family x demand. Unconfirmed. ---
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e2-layout-2x2.pdf}
+  \caption{Synthetic layout preview of measured (blue) and predicted (orange) merge-input surfaces on one shared $(k,h)$ frame.
+  The predicted minimum is drawn at that configuration's measured height.
+  A star on a diamond means both roles share one height.
+  A missing corner is left empty.
+  These heights are not experimental results, and the panel assignment is not chosen.}
+  \label{fig:exp2-surface-2x2}
+\end{figure*}
+
+% --- candidate B: 2x3, LT only, three query slots x Full/LIMIT10. Unconfirmed. ---
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e2-layout-2x3.pdf}
+  \caption{Alternate synthetic layout of the same surfaces: three query slots by Full and LIMIT10, LT only.
+  Camera, colors, and $z$ ticks match the $2\times 2$ candidate.
+  Heights are not experimental results.}
+  \label{fig:exp2-surface-2x3}
+\end{figure*}

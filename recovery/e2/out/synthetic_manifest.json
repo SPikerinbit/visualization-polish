@@ -1,0 +1,250 @@
+{
+  "warning": "NOT EXPERIMENTAL RESULTS. Schematic heights only.",
+  "zlim": [
+    108.0,
+    292.0
+  ],
+  "zticks": [
+    120,
+    170,
+    220,
+    270
+  ],
+  "camera": {
+    "elev": 26,
+    "azim": -54
+  },
+  "box_aspect": [
+    2.05,
+    1.02,
+    1.38
+  ],
+  "figures": {
+    "hero": [
+      {
+        "title": "(a) 9B, DL20, slot 1, Full, LT",
+        "family": "LT",
+        "kind": "shift",
+        "gap": true,
+        "n_points": 96,
+        "n_triangles": 123,
+        "measured_min": {
+          "k": 13,
+          "h": 1,
+          "z": 146.268
+        },
+        "predicted_min_at_measured_height": {
+          "k": 22,
+          "h": 1,
+          "measured_z": 157.996,
+          "predicted_z_not_drawn": 161.46
+        },
+        "coincide": false
+      }
+    ],
+    "2x2": [
+      {
+        "title": "(a) 9B, DL20, slot 1, Full, SW",
+        "family": "SW",
+        "kind": "shift",
+        "gap": true,
+        "n_points": 38,
+        "n_triangles": 30,
+        "measured_min": {
+          "k": 6,
+          "h": 1,
+          "z": 147.562
+        },
+        "predicted_min_at_measured_height": {
+          "k": 11,
+          "h": 1,
+          "measured_z": 150.945,
+          "predicted_z_not_drawn": 159.623
+        },
+        "coincide": false
+      },
+      {
+        "title": "(b) 9B, DL20, slot 1, Full, LT",
+        "family": "LT",
+        "kind": "shift",
+        "gap": true,
+        "n_points": 96,
+        "n_triangles": 123,
+        "measured_min": {
+          "k": 13,
+          "h": 1,
+          "z": 146.268
+        },
+        "predicted_min_at_measured_height": {
+          "k": 22,
+          "h": 1,
+          "measured_z": 157.996,
+          "predicted_z_not_drawn": 161.46
+        },
+        "coincide": false
+      },
+      {
+        "title": "(c) 9B, DL20, slot 1, LIMIT10, SW",
+        "family": "SW",
+        "kind": "warp",
+        "gap": false,
+        "n_points": 46,
+        "n_triangles": 42,
+        "measured_min": {
+          "k": 11,
+          "h": 1,
+          "z": 147.139
+        },
+        "predicted_min_at_measured_height": {
+          "k": 6,
+          "h": 2,
+          "measured_z": 153.575,
+          "predicted_z_not_drawn": 144.186
+        },
+        "coincide": false
+      },
+      {
+        "title": "(d) 9B, DL20, slot 1, LIMIT10, LT",
+        "family": "LT",
+        "kind": "bias",
+        "gap": false,
+        "n_points": 101,
+        "n_triangles": 140,
+        "measured_min": {
+          "k": 10,
+          "h": 1,
+          "z": 147.372
+        },
+        "predicted_min_at_measured_height": {
+          "k": 10,
+          "h": 1,
+          "measured_z": 147.372,
+          "predicted_z_not_drawn": 171.372
+        },
+        "coincide": true
+      }
+    ],
+    "2x3": [
+      {
+        "title": "(a) 9B, DL20, slot 1, Full, LT",
+        "family": "LT",
+        "kind": "shift",
+        "gap": true,
+        "n_points": 96,
+        "n_triangles": 123,
+        "measured_min": {
+          "k": 13,
+          "h": 1,
+          "z": 146.268
+        },
+        "predicted_min_at_measured_height": {
+          "k": 22,
+          "h": 1,
+          "measured_z": 157.996,
+          "predicted_z_not_drawn": 161.46
+        },
+        "coincide": false
+      },
+      {
+        "title": "(b) 9B, DL20, slot 2, Full, LT",
+        "family": "LT",
+        "kind": "warp",
+        "gap": false,
+        "n_points": 101,
+        "n_triangles": 140,
+        "measured_min": {
+          "k": 15,
+          "h": 1,
+          "z": 147.203
+        },
+        "predicted_min_at_measured_height": {
+          "k": 6,
+          "h": 1,
+          "measured_z": 161.191,
+          "predicted_z_not_drawn": 143.239
+        },
+        "coincide": false
+      },
+      {
+        "title": "(c) 9B, DL20, slot 3, Full, LT",
+        "family": "LT",
+        "kind": "bias",
+        "gap": false,
+        "n_points": 101,
+        "n_triangles": 140,
+        "measured_min": {
+          "k": 8,
+          "h": 1,
+          "z": 150.637
+        },
+        "predicted_min_at_measured_height": {
+          "k": 8,
+          "h": 1,
+          "measured_z": 150.637,
+          "predicted_z_not_drawn": 174.637
+        },
+        "coincide": true
+      },
+      {
+        "title": "(d) 9B, DL20, slot 1, LIMIT10, LT",
+        "family": "LT",
+        "kind": "cross",
+        "gap": false,
+        "n_points": 101,
+        "n_triangles": 140,
+        "measured_min": {
+          "k": 12,
+          "h": 1,
+          "z": 147.068
+        },
+        "predicted_min_at_measured_height": {
+          "k": 2,
+          "h": 10,
+          "measured_z": 220.458,
+          "predicted_z_not_drawn": 116.941
+        },
+        "coincide": false
+      },
+      {
+        "title": "(e) 9B, DL20, slot 2, LIMIT10, LT",
+        "family": "LT",
+        "kind": "shift",
+        "gap": false,
+        "n_points": 101,
+        "n_triangles": 140,
+        "measured_min": {
+          "k": 7,
+          "h": 1,
+          "z": 145.608
+        },
+        "predicted_min_at_measured_height": {
+          "k": 13,
+          "h": 1,
+          "measured_z": 154.152,
+          "predicted_z_not_drawn": 161.467
+        },
+        "coincide": false
+      },
+      {
+        "title": "(f) 9B, DL20, slot 3, LIMIT10, LT",
+        "family": "LT",
+        "kind": "warp",
+        "gap": true,
+        "n_points": 96,
+        "n_triangles": 123,
+        "measured_min": {
+          "k": 19,
+          "h": 1,
+          "z": 150.144
+        },
+        "predicted_min_at_measured_height": {
+          "k": 14,
+          "h": 2,
+          "measured_z": 154.056,
+          "predicted_z_not_drawn": 148.335
+        },
+        "coincide": false
+      }
+    ]
+  }
+}

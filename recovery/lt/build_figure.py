@@ -85,8 +85,8 @@ def pointer_curve(
     parent: tuple[float, float],
     child: tuple[float, float],
     child_is_left: bool,
-    offset: float = 8.0,
-    bow: float = 26.0,
+    offset: float = 24.0,
+    bow: float = 4.0,
 ) -> tuple[tuple[float, float], tuple[float, float], tuple[float, float], tuple[float, float]]:
     """Arrow from parent border to child border, bowed off the straight tree edge.
 
@@ -300,43 +300,29 @@ def point_in_poly(x: float, y: float, poly: list[tuple[float, float]]) -> bool:
 
 def main() -> None:
     fig = Fig()
-    # Geometry self-check of the call outline against the three member capsules
-    # and against R1 / the right internal node.
-    poly = call_polygon()
-    members = [ROOT, LEFT, LEAF["R2"]]
-    outsiders = [LEAF["R1"], LEAF["R3"], LEAF["R4"], RIGHT, (ROOT[0], EMIT_Y)]
-    for center in members:
-        if not point_in_poly(*center, poly):
-            fig.problems.append(f"call outline misses member {center}")
-    for center in (LEAF["R1"], RIGHT, LEAF["R3"], LEAF["R4"]):
-        if point_in_poly(*center, poly):
-            fig.problems.append(f"call outline contains outsider {center}")
-    # The dashed boundary must stay off the refresh-path arrows.
-    for name, a, b, is_left in (
+    # The pointer lane must stay off the straight tree edge along its middle.
+    pairs = [
         ("root-left", ROOT, LEFT, True),
+        ("root-right", ROOT, RIGHT, False),
         ("left-R2", LEFT, LEAF["R2"], False),
-    ):
+        ("left-R1", LEFT, LEAF["R1"], True),
+        ("right-R3", RIGHT, LEAF["R3"], True),
+        ("right-R4", RIGHT, LEAF["R4"], False),
+    ]
+    for name, a, b, is_left in pairs:
+        edge_a = ray_border(*a, b[0] - a[0], b[1] - a[1], gap=0.0)
+        edge_b = ray_border(*b, a[0] - b[0], a[1] - b[1], gap=0.0)
         start, c1, c2, end = pointer_curve(a, b, is_left)
-        for s in bezier(start, c1, c2, end, 40):
-            if not point_in_poly(*s, poly):
-                fig.problems.append(f"pointer {name} leaves the call at {s}")
-                break
-            for i, p0 in enumerate(poly):
-                p1 = poly[(i + 1) % len(poly)]
-                if _seg_dist(s, p0, p1) < 7.0:
-                    fig.problems.append(
-                        f"pointer {name} comes within 7px of the call edge at {s}"
-                    )
+        curve = bezier(start, c1, c2, end, 40)
+        mid = curve[8:-8]
+        gap = min(_seg_dist(s, edge_a, edge_b) for s in mid)
+        if gap < 12.0:
+            fig.problems.append(f"pointer {name} lane gap {gap:.1f}px")
+        for s in curve[2:-2]:
+            for n in (ROOT, LEFT, RIGHT, *LEAF.values(), (ROOT[0], EMIT_Y)):
+                if inside_capsule(*s, *n, pad=-0.2):
+                    fig.problems.append(f"pointer {name} enters {n}")
                     break
-    for i, a in enumerate(poly):
-        b = poly[(i + 1) % len(poly)]
-        for s in samples(a, b, 80):
-            for n in members:
-                if inside_capsule(*s, *n, pad=1.2):
-                    fig.problems.append(f"call outline hits member {n} at {s}")
-            for n in outsiders:
-                if inside_capsule(*s, *n, pad=2.0):
-                    fig.problems.append(f"call outline hits outsider {n} at {s}")
 
     preamble = r"""
 \documentclass[border=0pt]{standalone}
@@ -371,8 +357,8 @@ def main() -> None:
               -{Stealth[length=1.45mm,width=1.15mm,inset=0.2pt]}},
   seq/.style={draw=edgequiet, line width=0.8pt, line cap=round,
               -{Stealth[length=1.25mm,width=1.05mm]}},
-  callbox/.style={draw=callred, line width=1.15pt, dash pattern=on 3.1pt off 2.05pt,
-                  rounded corners=2.4pt, line join=round},
+  lead/.style={draw=callred, line width=0.65pt, line cap=round,
+               -{Stealth[length=1.05mm,width=0.8mm,inset=0.15pt]}},
   legsw/.style={line width=0.7pt, rounded corners=1.15pt},
 }
 \begin{document}
@@ -381,17 +367,13 @@ def main() -> None:
 """
     fig.add(preamble.strip("\n"))
 
-    # Titles use the v2 wording. A short dark subtitle says what the panel answers.
-    titles = [
-        (285.0, "(a) Initialized state", "winner $[1,2]$ already in $\\Pi$"),
-        (850.0, "(b) One path refresh", "pointers select $R_2$; one \\textsf{ListwiseRank}"),
-        (1415.0, "(c) Updated state", "winner $[3,4]$ enters $\\Pi$"),
-    ]
-    for cx, title, sub in titles:
-        fig.add(f"  \\node[title] at {pt(cx, 28)} {{{title}}};")
-        fig.add(
-            f"  \\node[font=\\sffamily\\fontsize{{7.2}}{{8.4}}\\selectfont, text=ink, inner sep=0pt, anchor=base] at {pt(cx, 48)} {{{sub}}};"
-        )
+    # One title line. The reading of each panel is in the caption, not a second line.
+    for cx, title in (
+        (285.0, "(a) Initialized state"),
+        (850.0, "(b) One path refresh"),
+        (1415.0, "(c) Updated state"),
+    ):
+        fig.add(f"  \\node[title] at {pt(cx, 36)} {{{title}}};")
 
     panels = [
         dict(
@@ -499,15 +481,13 @@ def main() -> None:
             emit_c = (nodes["root"][0], EMIT_Y)
             fig.capsule(*emit_c, "emitted")
             fig.pair(*emit_c, panel["emit"], "digitw")
-            # Winner leaves the root. Endpoints are the two container borders.
-            top = (nodes["root"][0], ROOT[1] - CAP_H / 2.0)
-            bot = (nodes["root"][0], EMIT_Y + CAP_H / 2.0)
-            # 1.2px outside each border. Arrowhead at the emitted capsule.
-            start = (top[0], top[1] - 1.4)
-            end = (bot[0], bot[1] + 1.2)
+            # The arrow does not leave the loser box. It is the separate winner exit.
+            # A gap remains between the tail and the stored-loser capsule.
+            start = (nodes["root"][0], ROOT[1] - CAP_H / 2.0 - 16.0)
+            end = (nodes["root"][0], EMIT_Y + CAP_H / 2.0 + 1.2)
             fig.add(f"  \\draw[win] {pt(*start)} -- {pt(*end)};")
             fig.add(
-                f"  \\node[pi] at {pt(nodes['root'][0] + 40, 158)} {{winner to $\\Pi$}};"
+                f"  \\node[pi] at {pt(nodes['root'][0] + 12, 156)} {{winner exit}};"
             )
 
         # Pointers: root, then the left internal, then the right internal.
@@ -520,22 +500,19 @@ def main() -> None:
             fig.pointer(nodes[src], nodes[dst], is_left, occupied)
 
         if panel["call"]:
-            pts = " -- ".join(pt(x + ox, y) for x, y in call_polygon())
-            fig.add(f"  \\draw[callbox] {pts} -- cycle;")
-            # Badge sits left of the flat input row. Chips use the v2 centers.
-            badge = (ox + 78.0, 100.0)
-            fig.add(f"  \\fill[callred] {pt(*badge)} circle (4.15bp);")
-            fig.add(f"  \\node[digitw] at {pt(*badge)} {{1}};")
+            # No second enclosure. Red borders mark the three segments.
+            # One leader ties the input row to the root segment.
             fig.add(
-                f"  \\node[font=\\sffamily\\fontsize{{7.3}}{{8.6}}\\selectfont, text=ink, inner sep=0pt, anchor=west] at {pt(ox + 98, 100)} {{$\\rho$}};"
+                f"  \\node[annot, anchor=west] (callin) at {pt(ox + 8, 100)} {{call 1 input}};"
             )
             chips = [3, 4, 5, 6, 7, 14]
-            # v2 centers shifted into this panel: 730..970 step 48, minus the
-            # v2 panel-B origin 565, plus ox.
             for i, n in enumerate(chips):
-                cx = ox + (730.0 - 565.0) + i * 48.0
-                fig.add(f"  \\draw[incall] {pt(cx, 100)} circle (5.90bp);")
+                cx = ox + 168.0 + i * 46.0
+                fig.add(f"  \\draw[incall] {pt(cx, 100)} circle (5.70bp);")
                 fig.add(f"  \\node[digit] at {pt(cx, 100)} {{{n}}};")
+            fig.add(
+                f"  \\draw[lead] {pt(ox + 78, 116)} -- {pt(nodes['root'][0], ROOT[1] - CAP_H / 2.0 - 2.0)};"
+            )
 
     # Gutter sequence arrows. Endpoints sit in the empty gap between trees.
     for x0 in (534.0, 1099.0):
@@ -545,48 +522,54 @@ def main() -> None:
     # Legend, one baseline, dark, same size as the digits' neighbors.
     # Placed from the left with positioning so items cannot overlap.
     leg_y = Y(618)
-    fig.add(f"  \\node[legend] (L0) at (8bp,{fmt(leg_y)}) {{$k{{=}}4$, $h{{=}}2$}};")
+    fig.add(f"  \\node[legend] (L0) at (6bp,{fmt(leg_y)}) {{$k{{=}}4$, $h{{=}}2$}};")
     fig.add(
-        r"  \draw[callred, line width=1.05pt, dash pattern=on 2.05pt off 1.45pt] ([xshift=8pt,yshift=0.4pt]L0.east) -- ++(11pt,0);"
+        r"  \draw[legsw, draw=callred, fill=white] ([xshift=6pt,yshift=-2.6pt]L0.east) rectangle ++(9pt,5.2pt);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L1) at ([xshift=22pt]L0.east) {1 = one ListwiseRank};"
+        r"  \node[legend, anchor=west] (L1) at ([xshift=17pt]L0.east) {call 1};"
     )
     fig.add(
-        r"  \draw[ptr] ([xshift=8pt,yshift=0.4pt]L1.east) -- ++(12pt,0);"
+        r"  \draw[tree] ([xshift=7pt,yshift=0.4pt]L1.east) -- ++(11pt,0);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L2) at ([xshift=23pt]L1.east) {pointer};"
+        r"  \node[legend, anchor=west] (L2) at ([xshift=20pt]L1.east) {tree edge};"
     )
     fig.add(
-        r"  \draw[win] ([xshift=8pt,yshift=0.4pt]L2.east) -- ++(12pt,0);"
+        r"  \draw[pathedge] ([xshift=7pt,yshift=0.4pt]L2.east) -- ++(11pt,0);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L3) at ([xshift=23pt]L2.east) {winner to $\Pi$};"
+        r"  \node[legend, anchor=west] (L3) at ([xshift=20pt]L2.east) {refresh path};"
     )
     fig.add(
-        r"  \draw[legsw, draw=emitblue, fill=emitblue] ([xshift=8pt,yshift=-2.7pt]L3.east) rectangle ++(11pt,5.4pt);"
+        r"  \draw[ptr] ([xshift=7pt,yshift=0.4pt]L3.east) -- ++(11pt,0);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L4) at ([xshift=22pt]L3.east) {emitted};"
+        r"  \node[legend, anchor=west] (L4) at ([xshift=20pt]L3.east) {pointer};"
     )
     fig.add(
-        r"  \draw[legsw, draw=ink, fill=white] ([xshift=8pt,yshift=-2.7pt]L4.east) rectangle ++(11pt,5.4pt);"
+        r"  \draw[win] ([xshift=7pt,yshift=0.4pt]L4.east) -- ++(11pt,0);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L5) at ([xshift=22pt]L4.east) {stored loser};"
+        r"  \node[legend, anchor=west] (L5) at ([xshift=20pt]L4.east) {winner exit};"
     )
     fig.add(
-        r"  \draw[legsw, draw=holdstroke, fill=white] ([xshift=8pt,yshift=-2.7pt]L5.east) rectangle ++(11pt,5.4pt);"
+        r"  \draw[legsw, draw=emitblue, fill=emitblue] ([xshift=6pt,yshift=-2.6pt]L5.east) rectangle ++(9pt,5.2pt);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L6) at ([xshift=19pt]L5.east) {unread};"
+        r"  \node[legend, anchor=west] (L6) at ([xshift=17pt]L5.east) {emitted};"
     )
     fig.add(
-        r"  \draw[pathedge] ([xshift=8pt,yshift=0.4pt]L6.east) -- ++(12pt,0);"
+        r"  \draw[legsw, draw=ink, fill=white] ([xshift=6pt,yshift=-2.6pt]L6.east) rectangle ++(9pt,5.2pt);"
     )
     fig.add(
-        r"  \node[legend, anchor=west] (L7) at ([xshift=23pt]L6.east) {refresh path};"
+        r"  \node[legend, anchor=west] (L7) at ([xshift=17pt]L6.east) {stored loser};"
+    )
+    fig.add(
+        r"  \draw[legsw, draw=holdstroke, fill=white] ([xshift=6pt,yshift=-2.6pt]L7.east) rectangle ++(9pt,5.2pt);"
+    )
+    fig.add(
+        r"  \node[legend, anchor=west] (L8) at ([xshift=17pt]L7.east) {unread};"
     )
 
     fig.add(r"\end{tikzpicture}")

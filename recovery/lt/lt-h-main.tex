@@ -30,19 +30,16 @@
               -{Stealth[length=1.45mm,width=1.15mm,inset=0.2pt]}},
   seq/.style={draw=edgequiet, line width=0.8pt, line cap=round,
               -{Stealth[length=1.25mm,width=1.05mm]}},
-  callbox/.style={draw=callred, line width=1.15pt, dash pattern=on 3.1pt off 2.05pt,
-                  rounded corners=2.4pt, line join=round},
+  lead/.style={draw=callred, line width=0.65pt, line cap=round,
+               -{Stealth[length=1.05mm,width=0.8mm,inset=0.15pt]}},
   legsw/.style={line width=0.7pt, rounded corners=1.15pt},
 }
 \begin{document}
 \begin{tikzpicture}[x=1bp,y=1bp]
 \useasboundingbox (0,0) rectangle (504.960,187.920);
-  \node[title] at (84.655,179.634) {(a) Initialized state};
-  \node[font=\sffamily\fontsize{7.2}{8.4}\selectfont, text=ink, inner sep=0pt, anchor=base] at (84.655,173.715) {winner $[1,2]$ already in $\Pi$};
-  \node[title] at (252.480,179.634) {(b) One path refresh};
-  \node[font=\sffamily\fontsize{7.2}{8.4}\selectfont, text=ink, inner sep=0pt, anchor=base] at (252.480,173.715) {pointers select $R_2$; one \textsf{ListwiseRank}};
-  \node[title] at (420.305,179.634) {(c) Updated state};
-  \node[font=\sffamily\fontsize{7.2}{8.4}\selectfont, text=ink, inner sep=0pt, anchor=base] at (420.305,173.715) {winner $[3,4]$ enters $\Pi$};
+  \node[title] at (84.655,177.266) {(a) Initialized state};
+  \node[title] at (252.480,177.266) {(b) One path refresh};
+  \node[title] at (420.305,177.266) {(c) Updated state};
   \draw[tree] (76.686,116.190) -- (54.009,94.813);
   \draw[tree] (92.624,116.190) -- (115.301,94.813);
   \draw[tree] (42.371,79.596) -- (30.403,54.464);
@@ -77,11 +74,11 @@
   \draw[emitted] (70.843,150.928) rectangle (98.467,165.725);
   \node[digitw] at (78.269,158.326) {1};
   \node[digitw] at (91.041,158.326) {2};
-  \draw[win] (84.655,131.514) -- (84.655,150.573);
-  \node[pi] at (96.536,141.162) {winner to $\Pi$};
-  \draw[ptr] (74.180,117.086) .. controls (60.227,114.526) and (54.049,108.702) .. (50.712,94.964);
-  \draw[ptr] (52.359,79.555) .. controls (63.757,73.571) and (66.846,67.084) .. (64.289,54.504);
-  \draw[ptr] (116.951,79.555) .. controls (105.553,73.571) and (102.464,67.084) .. (105.021,54.504);
+  \draw[win] (84.655,135.835) -- (84.655,150.573);
+  \node[pi] at (88.219,141.754) {winner exit};
+  \draw[ptr] (71.092,120.694) .. controls (59.717,111.601) and (53.539,105.777) .. (43.797,94.964);
+  \draw[ptr] (56.949,80.963) .. controls (62.778,71.484) and (65.868,64.997) .. (69.550,54.504);
+  \draw[ptr] (112.361,80.963) .. controls (106.532,71.484) and (103.443,64.997) .. (99.761,54.504);
   \draw[tree] (260.449,116.190) -- (283.126,94.813);
   \draw[tree] (210.196,79.596) -- (198.228,54.464);
   \draw[tree] (287.425,79.596) -- (275.457,54.464);
@@ -113,25 +110,23 @@
   \node[digit] at (304.016,46.758) {10};
   \node[digit] at (316.788,46.758) {13};
   \node[runlab] at (310.402,25.747) {$R_4$};
-  \draw[ptr] (242.004,117.086) .. controls (228.052,114.526) and (221.874,108.702) .. (218.537,94.964);
-  \draw[ptr] (220.184,79.555) .. controls (231.582,73.571) and (234.671,67.084) .. (232.114,54.504);
-  \draw[ptr] (284.776,79.555) .. controls (273.378,73.571) and (270.289,67.084) .. (272.846,54.504);
-  \draw[callbox] (211.786,139.386) -- (273.570,139.386) -- (273.570,115.119) -- (254.559,103.282) -- (254.559,37.584) -- (211.192,37.584) -- (211.192,68.361) -- (189.211,68.361) -- (189.211,115.119) -- (211.786,124.589) -- cycle;
-  \fill[callred] (190.994,158.326) circle (4.15bp);
-  \node[digitw] at (190.994,158.326) {1};
-  \node[font=\sffamily\fontsize{7.3}{8.6}\selectfont, text=ink, inner sep=0pt, anchor=west] at (196.934,158.326) {$\rho$};
-  \draw[incall] (216.836,158.326) circle (5.90bp);
-  \node[digit] at (216.836,158.326) {3};
-  \draw[incall] (231.093,158.326) circle (5.90bp);
-  \node[digit] at (231.093,158.326) {4};
-  \draw[incall] (245.351,158.326) circle (5.90bp);
-  \node[digit] at (245.351,158.326) {5};
-  \draw[incall] (259.609,158.326) circle (5.90bp);
-  \node[digit] at (259.609,158.326) {6};
-  \draw[incall] (273.867,158.326) circle (5.90bp);
-  \node[digit] at (273.867,158.326) {7};
-  \draw[incall] (288.124,158.326) circle (5.90bp);
-  \node[digit] at (288.124,158.326) {14};
+  \draw[ptr] (238.917,120.694) .. controls (227.542,111.601) and (221.364,105.777) .. (211.622,94.964);
+  \draw[ptr] (224.774,80.963) .. controls (230.603,71.484) and (233.692,64.997) .. (237.374,54.504);
+  \draw[ptr] (280.186,80.963) .. controls (274.357,71.484) and (271.268,64.997) .. (267.586,54.504);
+  \node[annot, anchor=west] (callin) at (170.201,158.326) {call 1 input};
+  \draw[incall] (217.727,158.326) circle (5.70bp);
+  \node[digit] at (217.727,158.326) {3};
+  \draw[incall] (231.390,158.326) circle (5.70bp);
+  \node[digit] at (231.390,158.326) {4};
+  \draw[incall] (245.054,158.326) circle (5.70bp);
+  \node[digit] at (245.054,158.326) {5};
+  \draw[incall] (258.718,158.326) circle (5.70bp);
+  \node[digit] at (258.718,158.326) {6};
+  \draw[incall] (272.381,158.326) circle (5.70bp);
+  \node[digit] at (272.381,158.326) {7};
+  \draw[incall] (286.045,158.326) circle (5.70bp);
+  \node[digit] at (286.045,158.326) {14};
+  \draw[lead] (190.994,153.591) -- (252.480,131.692);
   \draw[tree] (412.336,116.190) -- (389.659,94.813);
   \draw[tree] (428.274,116.190) -- (450.951,94.813);
   \draw[tree] (378.021,79.596) -- (366.053,54.464);
@@ -165,27 +160,29 @@
   \draw[emitted] (406.493,150.928) rectangle (434.117,165.725);
   \node[digitw] at (413.919,158.326) {3};
   \node[digitw] at (426.691,158.326) {4};
-  \draw[win] (420.305,131.514) -- (420.305,150.573);
-  \node[pi] at (432.186,141.162) {winner to $\Pi$};
-  \draw[ptr] (430.780,117.086) .. controls (444.733,114.526) and (450.911,108.702) .. (454.248,94.964);
-  \draw[ptr] (375.371,79.555) .. controls (363.974,73.571) and (360.885,67.084) .. (363.442,54.504);
-  \draw[ptr] (452.601,79.555) .. controls (441.203,73.571) and (438.114,67.084) .. (440.671,54.504);
+  \draw[win] (420.305,135.835) -- (420.305,150.573);
+  \node[pi] at (423.869,141.754) {winner exit};
+  \draw[ptr] (433.868,120.694) .. controls (445.243,111.601) and (451.421,105.777) .. (461.163,94.964);
+  \draw[ptr] (370.781,80.963) .. controls (364.952,71.484) and (361.863,64.997) .. (358.181,54.504);
+  \draw[ptr] (448.011,80.963) .. controls (442.182,71.484) and (439.092,64.997) .. (435.410,54.504);
   \draw[seq] (158.617,99.139) -- (168.122,99.139);
   \draw[seq] (326.442,99.139) -- (335.947,99.139);
-  \node[legend] (L0) at (8bp,5.031) {$k{=}4$, $h{=}2$};
-  \draw[callred, line width=1.05pt, dash pattern=on 2.05pt off 1.45pt] ([xshift=8pt,yshift=0.4pt]L0.east) -- ++(11pt,0);
-  \node[legend, anchor=west] (L1) at ([xshift=22pt]L0.east) {1 = one ListwiseRank};
-  \draw[ptr] ([xshift=8pt,yshift=0.4pt]L1.east) -- ++(12pt,0);
-  \node[legend, anchor=west] (L2) at ([xshift=23pt]L1.east) {pointer};
-  \draw[win] ([xshift=8pt,yshift=0.4pt]L2.east) -- ++(12pt,0);
-  \node[legend, anchor=west] (L3) at ([xshift=23pt]L2.east) {winner to $\Pi$};
-  \draw[legsw, draw=emitblue, fill=emitblue] ([xshift=8pt,yshift=-2.7pt]L3.east) rectangle ++(11pt,5.4pt);
-  \node[legend, anchor=west] (L4) at ([xshift=22pt]L3.east) {emitted};
-  \draw[legsw, draw=ink, fill=white] ([xshift=8pt,yshift=-2.7pt]L4.east) rectangle ++(11pt,5.4pt);
-  \node[legend, anchor=west] (L5) at ([xshift=22pt]L4.east) {stored loser};
-  \draw[legsw, draw=holdstroke, fill=white] ([xshift=8pt,yshift=-2.7pt]L5.east) rectangle ++(11pt,5.4pt);
-  \node[legend, anchor=west] (L6) at ([xshift=19pt]L5.east) {unread};
-  \draw[pathedge] ([xshift=8pt,yshift=0.4pt]L6.east) -- ++(12pt,0);
-  \node[legend, anchor=west] (L7) at ([xshift=23pt]L6.east) {refresh path};
+  \node[legend] (L0) at (6bp,5.031) {$k{=}4$, $h{=}2$};
+  \draw[legsw, draw=callred, fill=white] ([xshift=6pt,yshift=-2.6pt]L0.east) rectangle ++(9pt,5.2pt);
+  \node[legend, anchor=west] (L1) at ([xshift=17pt]L0.east) {call 1};
+  \draw[tree] ([xshift=7pt,yshift=0.4pt]L1.east) -- ++(11pt,0);
+  \node[legend, anchor=west] (L2) at ([xshift=20pt]L1.east) {tree edge};
+  \draw[pathedge] ([xshift=7pt,yshift=0.4pt]L2.east) -- ++(11pt,0);
+  \node[legend, anchor=west] (L3) at ([xshift=20pt]L2.east) {refresh path};
+  \draw[ptr] ([xshift=7pt,yshift=0.4pt]L3.east) -- ++(11pt,0);
+  \node[legend, anchor=west] (L4) at ([xshift=20pt]L3.east) {pointer};
+  \draw[win] ([xshift=7pt,yshift=0.4pt]L4.east) -- ++(11pt,0);
+  \node[legend, anchor=west] (L5) at ([xshift=20pt]L4.east) {winner exit};
+  \draw[legsw, draw=emitblue, fill=emitblue] ([xshift=6pt,yshift=-2.6pt]L5.east) rectangle ++(9pt,5.2pt);
+  \node[legend, anchor=west] (L6) at ([xshift=17pt]L5.east) {emitted};
+  \draw[legsw, draw=ink, fill=white] ([xshift=6pt,yshift=-2.6pt]L6.east) rectangle ++(9pt,5.2pt);
+  \node[legend, anchor=west] (L7) at ([xshift=17pt]L6.east) {stored loser};
+  \draw[legsw, draw=holdstroke, fill=white] ([xshift=6pt,yshift=-2.6pt]L7.east) rectangle ++(9pt,5.2pt);
+  \node[legend, anchor=west] (L8) at ([xshift=17pt]L7.east) {unread};
 \end{tikzpicture}
 \end{document}

@@ -1,0 +1,9 @@
+request panel 0: (9.60,64.05) -> (9.60,51.65) on driver to root
+request panel 1: (69.07,64.05) -> (69.07,51.65) on driver to root
+yield panel 1: (95.27,51.65) -> (95.27,64.05) on root to driver
+yield panel 2: (154.73,51.65) -> (154.73,64.05) on root to driver
+aclose panel 2: (171.93,64.05) -> (171.93,51.65) on driver to root
+page 178.00mm x 87.75mm
+panel width 56.27mm, panel local height 65.05mm
+edges: {0: ['request'], 1: ['request', 'yield'], 2: ['aclose', 'yield']}
+PASS

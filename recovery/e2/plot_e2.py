@@ -57,14 +57,15 @@ XTICKS = (2, 8, 14, 20, 25)
 YTICKS = (1, 4, 7, 10)
 # z is taller than the poster script's box so the sheet has a visible slope
 # inside a 178 mm figure. The long k axis would otherwise flatten it.
-BOX = (2.05, 1.02, 1.38)
+BOX = (1.45, 1.00, 1.12)
 CAMERA = dict(elev=26, azim=-54)
 
 # Removed only on the gap panels, so a high triangle cannot be joined to the
 # main sheet. These points are legal; dropping them is a synthetic hole, not
 # a measured missing cell. See NOTES.md.
 LT_GAP = {(3, 5), (3, 6), (4, 4), (5, 4), (6, 5)}
-SW_GAP = {(2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (3, 4), (4, 4)}
+# Keep the k=2 tower. Only the bridges that would weld the high triangle back on.
+SW_GAP = {(2, 5), (3, 4), (4, 4)}
 
 
 def max_segment(g: int, m: int) -> int:
@@ -201,28 +202,54 @@ def build_series(spec: dict) -> Series:
     return Series(spec, rows, np.asarray(triangles, dtype=int), loose, best, selected)
 
 
-# Locked after the schematic field was bounded. Four labels stay separable on a
-# 2×3 spine; every drawn height has to fall inside this window.
-ZLIM = (108.0, 292.0)
-ZTICKS = (120, 170, 220, 270)
+def _tick_step(span: float) -> int:
+    raw = span / 3.3
+    for step in (10, 20, 25, 30, 40, 50):
+        if step >= raw * 0.85:
+            return step
+    return 50
 
 
 def shared_z(series_list: list[Series]) -> tuple[tuple[float, float], tuple[int, ...]]:
+    """Axis window for one algorithm's panels. Full and LIMIT of that algorithm share it."""
     values = [value for series in series_list for row in series.rows for value in (row.u, row.p)]
-    if min(values) <= ZLIM[0] or max(values) >= ZLIM[1]:
-        raise RuntimeError(f"schematic height {min(values):.1f}..{max(values):.1f} escapes {ZLIM}")
-    return ZLIM, ZTICKS
+    low, high = min(values), max(values)
+    span = max(high - low, 1.0)
+    z0, z1 = low - 0.08 * span, high + 0.10 * span
+    step = _tick_step(z1 - z0)
+    start = math.ceil((z0 + 0.06 * span) / step) * step
+    ticks = []
+    value = start
+    while value <= z1 - 0.05 * span + 1e-6:
+        ticks.append(int(round(value)))
+        value += step
+    if len(ticks) < 3:
+        ticks = [int(round(z0 + span * frac)) for frac in (0.22, 0.50, 0.78)]
+    return (z0, z1), tuple(ticks[:4])
+
+
+def xy_window(family: str) -> tuple[tuple[float, float], tuple[float, float], tuple[int, ...], tuple[int, ...]]:
+    """Legal (k, h) extent of one algorithm. SW is not stretched out to LT's k=25."""
+    points = legal_domain(family)
+    k_max = max(k for k, _h in points)
+    h_max = max(h for _k, h in points)
+    if family == "SW":
+        xticks = (2, 8, 14, 20)
+    else:
+        xticks = (2, 8, 14, 20, 25)
+    yticks = tuple(tick for tick in (1, 4, 7, 10) if tick <= h_max)
+    return (1.25, k_max + 1.15), (0.35, h_max + 0.75), xticks, yticks
 
 
 def _sizes(layout: str) -> dict:
-    # Poster dots (s≈12 on a 13.6 in figure) cover the faces at column width.
-    # Keep a vertex mark, but smaller than the triangle it sits on.
+    # Group panels are a few centimetres wide. A marker on every vertex becomes
+    # a bead chain and hides the face. Edges stay thinner than the fill.
     if layout == "hero":
-        return dict(mu=5, mp=6, star=230, diamond=80, edge_b=0.70, edge_o=1.05, loose=0.90, dot_lw=0.25, mark_lw=0.65)
+        return dict(star=240, diamond=86, edge_b=0.32, edge_o=0.38, loose=0.30, mark_lw=0.6)
     if layout == "2x2":
-        return dict(mu=3.2, mp=3.6, star=96, diamond=34, edge_b=0.48, edge_o=0.72, loose=0.55, dot_lw=0.18, mark_lw=0.5)
+        return dict(star=160, diamond=56, edge_b=0.16, edge_o=0.20, loose=0.18, mark_lw=0.45)
     if layout == "2x3":
-        return dict(mu=2.2, mp=2.6, star=70, diamond=24, edge_b=0.40, edge_o=0.58, loose=0.42, dot_lw=0.15, mark_lw=0.4)
+        return dict(star=110, diamond=38, edge_b=0.14, edge_o=0.18, loose=0.16, mark_lw=0.4)
     raise ValueError(layout)
 
 
@@ -235,7 +262,7 @@ def _paint_panes(ax) -> None:
         axis.line.set_color("#A8B4BC")
 
 
-def draw_series(ax, series: Series, layout: str, zlim, zticks, labels: dict) -> None:
+def draw_series(ax, series: Series, layout: str, frame: dict, labels: dict) -> None:
     """Draw both surfaces on one axes. ``labels`` selects which titles to print."""
     size = _sizes(layout)
     rows = series.rows
@@ -244,11 +271,10 @@ def draw_series(ax, series: Series, layout: str, zlim, zticks, labels: dict) -> 
     measured = np.array([row.u for row in rows], dtype=float)
     predicted = np.array([row.p for row in rows], dtype=float)
     faces, colors, edges, widths = [], [], [], []
-    # plot_surface.py uses 0.55 / 0.22, which read on a 13.6 in poster and wash
-    # out at 178 mm. These alphas keep that blue sheet / orange tint, only heavier.
+    # Faces carry the layer. Edges are a fine mesh, not the subject.
     for z, color, alpha, width, edge_alpha in (
-        (measured, BLUE, 0.68, size["edge_b"], 0.78),
-        (predicted, ORANGE, 0.34, size["edge_o"], 0.92),
+        (measured, BLUE, 0.74, size["edge_b"], 0.45),
+        (predicted, ORANGE, 0.36, size["edge_o"], 0.55),
     ):
         xyz = np.column_stack((x, y, z))
         for triangle in series.tri:
@@ -278,16 +304,6 @@ def draw_series(ax, series: Series, layout: str, zlim, zticks, labels: dict) -> 
                 solid_capstyle="round",
                 zorder=2,
             )
-    ax.scatter(
-        x, y, measured,
-        s=size["mu"], c=BLUE, edgecolors="white", linewidths=size["dot_lw"],
-        alpha=0.92, depthshade=False, zorder=3,
-    )
-    ax.scatter(
-        x, y, predicted,
-        s=size["mp"], facecolors="none", edgecolors=ORANGE, linewidths=0.65,
-        alpha=0.95, depthshade=False, zorder=4,
-    )
     best, selected = series.best, series.selected
     if series.coincide:
         ax.scatter(
@@ -311,17 +327,17 @@ def draw_series(ax, series: Series, layout: str, zlim, zticks, labels: dict) -> 
             s=size["diamond"], marker="D", c=ORANGE, edgecolors="white",
             linewidths=size["mark_lw"], depthshade=False, zorder=9,
         )
-    tick = {"hero": 8.0, "2x2": 7.0, "2x3": 6.5}[layout]
-    label = {"hero": 9.0, "2x2": 7.5, "2x3": 7.0}[layout]
-    ax.set_xlim(*XLIM)
-    ax.set_ylim(*YLIM)
-    ax.set_zlim(*zlim)
-    ax.set_xticks(list(XTICKS))
-    ax.set_yticks(list(YTICKS))
-    ax.set_zticks(list(zticks))
+    tick = {"hero": 8.0, "2x2": 7.5, "2x3": 6.5}[layout]
+    label = {"hero": 9.0, "2x2": 8.0, "2x3": 7.0}[layout]
+    ax.set_xlim(*frame["xlim"])
+    ax.set_ylim(*frame["ylim"])
+    ax.set_zlim(*frame["zlim"])
+    ax.set_xticks(list(frame["xticks"]))
+    ax.set_yticks(list(frame["yticks"]))
+    ax.set_zticks(list(frame["zticks"]))
     ax.view_init(**CAMERA)
     ax.set_proj_type("ortho")
-    zoom = {"hero": 0.88, "2x2": 0.80, "2x3": 0.76}[layout]
+    zoom = {"hero": 0.92, "2x2": 0.96, "2x3": 0.92}[layout]
     ax.set_box_aspect(BOX, zoom=zoom)
     ax.view_init(**CAMERA)
     _paint_panes(ax)
@@ -353,11 +369,8 @@ def panel_title(spec: dict) -> str:
 
 
 def legend_handles():
-    measured = Line2D([0], [0], color=BLUE, linewidth=5, alpha=0.7, marker="o", markersize=4.5, label="Measured")
-    predicted = Line2D(
-        [0], [0], color=ORANGE, linewidth=2.2, alpha=0.95, marker="o",
-        markerfacecolor="white", markeredgecolor=ORANGE, markersize=4.5, label="Predicted",
-    )
+    measured = Line2D([0], [0], color=BLUE, linewidth=6, alpha=0.75, label="Measured")
+    predicted = Line2D([0], [0], color=ORANGE, linewidth=2.6, alpha=0.95, label="Predicted")
     star = Line2D(
         [0], [0], marker="*", color="none", markerfacecolor=BLUE, markeredgecolor="white",
         markeredgewidth=0.6, markersize=11, label="Measured minimum",
@@ -377,44 +390,27 @@ def legend_handles():
     return [measured, predicted, star, diamond, (under, over)]
 
 
-def _chrome(fig, footer: str, legend_size: float) -> None:
-    fig.text(
-        0.012, 0.988, "Synthetic layout preview. Not experimental results.",
-        fontsize=8.5, color=WARN, va="top", ha="left",
-    )
-    fig.text(
-        0.012, 0.955,
-        "Shared camera and z ticks. A missing corner is not filled. Markers sit on a measured height.",
-        fontsize=7.0, color=GRAY, va="top", ha="left",
-    )
+def _legend(fig, legend_size: float) -> None:
     fig.legend(
         legend_handles(),
         [
             "Measured",
             "Predicted",
-            "Measured minimum",
-            "Predicted minimum, measured height",
+            "Measured min",
+            "Predicted min, measured height",
             "Both minima, one height",
         ],
-        handler_map={tuple: HandlerTuple(ndivide=None, pad=0.15)},
-        loc="upper left",
-        bbox_to_anchor=(0.008, 0.932),
+        handler_map={tuple: HandlerTuple(ndivide=None, pad=0.1)},
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.0),
         frameon=False,
-        ncol=3,
+        ncol=5,
         fontsize=legend_size,
         borderaxespad=0,
-        handlelength=1.8,
-        columnspacing=1.05,
+        handlelength=1.6,
+        columnspacing=0.9,
         labelcolor=INK,
     )
-    fig.text(0.012, 0.012, footer, fontsize=6.5, color=GRAY, va="bottom", ha="left")
-
-
-FOOTER = (
-    "z is a schematic merge-input field, in thousands, not measured tokens. "
-    "Domain outline is the m = 20 structural cap (LT 101, SW 46). "
-    "Dataset, query, and 2×2 vs 2×3 are not chosen."
-)
 
 
 def _apply_font() -> None:
@@ -428,38 +424,44 @@ def _apply_font() -> None:
     })
 
 
-def render_figure(
-    name: str,
-    specs: list[dict],
-    shape: tuple[int, int],
-    height: float,
-    layout: str,
-    zlim,
-    zticks,
-) -> list[Series]:
+def _frames(series_list: list[Series]) -> list[dict]:
+    grouped: dict[str, list[Series]] = {}
+    for series in series_list:
+        grouped.setdefault(series.spec["family"], []).append(series)
+    cache = {}
+    for family, group in grouped.items():
+        zlim, zticks = shared_z(group)
+        xlim, ylim, xticks, yticks = xy_window(family)
+        cache[family] = dict(xlim=xlim, ylim=ylim, zlim=zlim, xticks=xticks, yticks=yticks, zticks=zticks)
+    return [cache[series.spec["family"]] for series in series_list]
+
+
+def render_figure(name: str, specs: list[dict], shape: tuple[int, int], height: float, layout: str) -> list[Series]:
     _apply_font()
     series_list = [build_series(spec) for spec in specs]
+    frames = _frames(series_list)
     rows, cols = shape
     fig = plt.figure(figsize=(PAGE_WIDTH_IN, height), facecolor="white")
-    legend_size = {"hero": 7.5, "2x2": 7.0, "2x3": 6.5}[layout]
-    # Leave a band under the two-row legend so panel titles do not run into it.
-    top = 0.74 if layout == "hero" else 0.73
-    left = 0.06 if layout == "hero" else 0.045
+    legend_size = {"hero": 8.0, "2x2": 7.5, "2x3": 6.5}[layout]
+    # One legend row, then the axes. No banner and no footer inside the PDF.
+    if cols == 1:
+        left, right, bottom, top, wspace, hspace = 0.02, 0.99, 0.08, 0.90, 0.05, 0.08
+    elif cols == 2:
+        left, right, bottom, top, wspace, hspace = 0.012, 0.995, 0.045, 0.915, 0.10, 0.12
+    else:
+        left, right, bottom, top, wspace, hspace = 0.008, 0.995, 0.05, 0.905, 0.14, 0.14
     grid = fig.add_gridspec(
-        rows, cols,
-        left=left, right=0.978, bottom=(0.15 if layout == "hero" else 0.11), top=top,
-        wspace=0.18 if cols == 1 else (0.26 if cols == 2 else 0.34),
-        hspace=0.18 if rows == 1 else 0.32,
+        rows, cols, left=left, right=right, bottom=bottom, top=top, wspace=wspace, hspace=hspace,
     )
     for index, series in enumerate(series_list):
         ax = fig.add_subplot(grid[index // cols, index % cols], projection="3d", computed_zorder=False)
         on_left = index % cols == 0
         on_bottom = index // cols == rows - 1
         draw_series(
-            ax, series, layout, zlim, zticks,
-            {"x": on_bottom, "y": on_left, "z": on_left},
+            ax, series, layout, frames[index],
+            {"x": on_bottom, "y": on_bottom and on_left, "z": True},
         )
-    _chrome(fig, FOOTER, legend_size)
+    _legend(fig, legend_size)
     OUT.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT / f"{name}.pdf")
     fig.savefig(OUT / f"{name}.png", dpi=180)
@@ -467,14 +469,14 @@ def render_figure(
     return series_list
 
 
-def render_comparison(series: Series, zlim, zticks) -> None:
+def render_comparison(series: Series) -> None:
     """Same-frame original PNG against the hero surface, for parent review."""
     _apply_font()
     original = Image.open(REFERENCE).convert("RGB")
     frame_w, frame_h = 1047, 849
     fig = plt.figure(figsize=(frame_w / 160, frame_h / 160), facecolor="white")
-    ax = fig.add_axes([0.08, 0.06, 0.86, 0.82], projection="3d", computed_zorder=False)
-    draw_series(ax, series, "hero", zlim, zticks, {"x": True, "y": True, "z": True})
+    ax = fig.add_axes([0.06, 0.04, 0.90, 0.88], projection="3d", computed_zorder=False)
+    draw_series(ax, series, "hero", _frames([series])[0], {"x": True, "y": True, "z": True})
     ax.set_title("")
     fig.text(0.08, 0.955, "New hero, synthetic field, same camera family as plot_surface.py", fontsize=8, color=INK, va="top")
     png_path = OUT / "_hero_for_compare.png"
@@ -502,13 +504,12 @@ def render_comparison(series: Series, zlim, zticks) -> None:
     png_path.unlink()
 
 
-def manifest(named: dict[str, list[Series]], zlim, zticks) -> None:
+def manifest(named: dict[str, list[Series]]) -> None:
     payload = {
         "warning": "NOT EXPERIMENTAL RESULTS. Schematic heights only.",
-        "zlim": list(zlim),
-        "zticks": list(zticks),
         "camera": CAMERA,
         "box_aspect": list(BOX),
+        "note": "Each algorithm uses its own legal (k, h) window. Full and LIMIT of that algorithm share z.",
         "figures": {},
     }
     for name, series_list in named.items():
@@ -557,14 +558,16 @@ SPECS_2X3 = [
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    everyone = [build_series(spec) for spec in ([HERO] + SPECS_2X2 + SPECS_2X3)]
-    zlim, zticks = shared_z(everyone)
-    hero = render_figure("e2-hero-panel", [HERO], (1, 1), 4.20, "hero", zlim, zticks)
-    two = render_figure("e2-layout-2x2", SPECS_2X2, (2, 2), 6.45, "2x2", zlim, zticks)
-    three = render_figure("e2-layout-2x3", SPECS_2X3, (2, 3), 5.55, "2x3", zlim, zticks)
-    render_comparison(hero[0], zlim, zticks)
-    manifest({"hero": hero, "2x2": two, "2x3": three}, zlim, zticks)
-    print(json.dumps({"zlim": zlim, "zticks": zticks, "hero_coincide": hero[0].coincide}, indent=2))
+    hero = render_figure("e2-hero-panel", [HERO], (1, 1), 3.55, "hero")
+    two = render_figure("e2-layout-2x2", SPECS_2X2, (2, 2), 5.15, "2x2")
+    three = render_figure("e2-layout-2x3", SPECS_2X3, (2, 3), 4.55, "2x3")
+    render_comparison(hero[0])
+    manifest({"hero": hero, "2x2": two, "2x3": three})
+    frames = _frames(two)
+    print(json.dumps({
+        "sw": {key: list(frames[0][key]) for key in ("xlim", "ylim", "zlim", "zticks")},
+        "lt": {key: list(frames[1][key]) for key in ("xlim", "ylim", "zlim", "zticks")},
+    }, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,24 +1,15 @@
 {
   "warning": "NOT EXPERIMENTAL RESULTS. Schematic heights only.",
-  "zlim": [
-    108.0,
-    292.0
-  ],
-  "zticks": [
-    120,
-    170,
-    220,
-    270
-  ],
   "camera": {
     "elev": 26,
     "azim": -54
   },
   "box_aspect": [
-    2.05,
-    1.02,
-    1.38
+    1.45,
+    1.0,
+    1.12
   ],
+  "note": "Each algorithm uses its own legal (k, h) window. Full and LIMIT of that algorithm share z.",
   "figures": {
     "hero": [
       {
@@ -48,8 +39,8 @@
         "family": "SW",
         "kind": "shift",
         "gap": true,
-        "n_points": 38,
-        "n_triangles": 30,
+        "n_points": 43,
+        "n_triangles": 32,
         "measured_min": {
           "k": 6,
           "h": 1,

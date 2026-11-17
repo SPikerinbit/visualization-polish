@@ -10,11 +10,15 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{e2-layout-2x2.pdf}
-  \caption{Synthetic layout preview of measured (blue) and predicted (orange) merge-input surfaces on one shared $(k,h)$ frame.
-  The predicted minimum is drawn at that configuration's measured height.
-  A star on a diamond means both roles share one height.
-  A missing corner is left empty.
-  These heights are not experimental results, and the panel assignment is not chosen.}
+  \caption{Synthetic layout preview, not experimental results.
+  Blue is measured and orange is predicted.
+  Every panel uses the same camera.
+  The predicted minimum is drawn at that configuration's measured height; a star on a diamond is both roles at one height.
+  Missing corners are left empty.
+  The SW column uses the SW legal window ($k\le 20$, $h\le m/k$); the LT column uses the LT window ($k\le 25$, $h$ bounded by max-segment).
+  Full and LIMIT10 of one algorithm share that window, including the $z$ ticks.
+  The two algorithms are not forced onto one numeric range.
+  Panel assignment is not chosen.}
   \label{fig:exp2-surface-2x2}
 \end{figure*}
 
@@ -22,8 +26,9 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{e2-layout-2x3.pdf}
-  \caption{Alternate synthetic layout of the same surfaces: three query slots by Full and LIMIT10, LT only.
-  Camera, colors, and $z$ ticks match the $2\times 2$ candidate.
-  Heights are not experimental results.}
+  \caption{Synthetic comparison layout, not experimental results.
+  Three query slots by Full and LIMIT10, LT only, same camera and marker rules as the $2\times 2$.
+  All six panels share the LT legal window and one $z$ scale.
+  Query slots are labels.}
   \label{fig:exp2-surface-2x3}
 \end{figure*}

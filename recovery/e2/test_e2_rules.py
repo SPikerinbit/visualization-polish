@@ -82,7 +82,10 @@ class SurfaceRules(unittest.TestCase):
         sw = build_series(SPECS_2X2[0])
         sw_groups = components(sw.rows)
         self.assertEqual(len(sw_groups), 2)
-        self.assertEqual(min(sw_groups, key=len), {(3, 5), (3, 6), (4, 5)})
+        self.assertEqual(
+            min(sw_groups, key=len),
+            {(2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (3, 5), (3, 6), (4, 5)},
+        )
         self.assertTrue(SW_GAP.isdisjoint({(row.k, row.h) for row in sw.rows}))
 
     def test_markers_use_measured_height_and_coincidence_is_one_point(self):

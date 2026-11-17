@@ -263,7 +263,8 @@ def render_virtual():
     ax.plot([2.2, 2.8], [1.15, 1.15], color=GRAY, lw=0.8, linestyle=(0, (1, 1)))
     ax.text(4.0, 1.9, "slot 1 real", fontsize=6, color=MUTED)
     _pill(ax, 5.0, 1.4, "1", "white", INK)
-    _call(ax, 0.7, 0.9, 4.8, 0.9, 1)
+    ax.add_patch(FancyBboxPatch((0.9, 1.05), 4.6, 0.75, boxstyle="round,pad=0.02,rounding_size=0.06",
+                                facecolor="none", edgecolor=RED, lw=0.9, linestyle=(0, (2, 1.2))))
     ax.text(7.0, 1.5, "pointer → child 0\nwinner 1, 3\nloser empty", fontsize=7, color=INK, va="center")
     _save(fig, "mech-virtual.pdf")
 

@@ -16,16 +16,12 @@
 \SetAlgoNlRelativeSize{-1}
 \SetAlgoCaptionLayout{raggedright}
 \begin{document}
-\title{Layout Supplement}
-\author{Layout preview}
+\title{Figures, tables, and pseudocode}
 \renewcommand{\shortauthors}{Layout preview}
-\begin{abstract}
-Charts, tables, and pseudocode only.
-Heights are synthetic.
-Configuration labels follow the 2026-11-16 decision.
-\end{abstract}
-\maketitle
-\vldbtopmatter
+\onecolumn
+\noindent{\large\bfseries Figures, tables, and pseudocode}\par
+\vspace{0.4em}
+\input{inventory.tex}
 
 \begin{table}[t]
 \caption{Symbols. $I$ is a set of run indexes. Slot 0 and slot 1 are replay arguments.}
@@ -46,10 +42,6 @@ safe prefix & Emitted rows before a supplied run is exhausted. \\
 
 \input{generated/tables.tex}
 \FloatBarrier
-\input{inventory.tex}
-\FloatBarrier
-\clearpage
-\onecolumn
 \newcommand{\shown}[2]{%
   \begin{center}
   \includegraphics[width=\textwidth]{#1}\par
@@ -58,20 +50,20 @@ safe prefix & Emitted rows before a supplied run is exhausted. \\
   \vspace{0.6em}
 }
 \shown{exp2-2x2.pdf}{Predicted and measured placeholder surfaces, same camera. A missing corner is not triangulated. An orange star with a blue edge is both roles on one point. Tokens are synthetic.}
-\shown{exp2-2x3.pdf}{Six panels, same encoding and the same tick sets. One panel leaves a hole.}
+\shown{exp2-2x3.pdf}{Small-format alternative to the $2\times 2$. Same $z$ ticks, 80, 110, and 140. Denser than the primary surface. One panel leaves a hole.}
 \shown{exp3-2x2.pdf}{Fixed $(k,h)$ series at 1k, 5k, and 10k. Dashed lines are a synthetic prediction. Stars are the confirmed supplement points and are not joined to the five lines.}
 \shown{exp4a.pdf}{Category axis grouped by $k{=}2$, $k{=}4$, then $k{=}8$. The gap is a missing category. Off minimum and Off pick are separate. On panels use one combined mark where the two roles coincide.}
 \shown{exp4b.pdf}{Five $\beta$ curves from $U-(1-\beta)Q$ on synthetic $(U,Q)$. The right panel repeats $(4,1)$ and $(4,3)$ with the same category labels.}
-\shown{exp4c-full.pdf}{Full, one mean per method. Off and On-cold share limits. Equivalent tokens, not dollars. No per-query marks and no Pareto line.}
-\shown{exp4c-limit.pdf}{LIMIT10, same method numbers and the same token limits. Vertical axis is NDCG@10.}
+\shown{exp4c-full.pdf}{Full, one mean per method. Every Off and On-cold panel uses the same token and quality limits. Equivalent tokens, not dollars. No per-query marks and no Pareto line.}
+\shown{exp4c-limit.pdf}{LIMIT10. Same method numbers. Off and On-cold again share one token range and one NDCG range.}
 \shown{exp5-off.pdf}{Off. The tick 500 is LIMIT 500, connected to the earlier LIMIT ticks. Full is one isolated square per method.}
 \shown{exp5-on.pdf}{On-cold. Same gap before Full.}
 \shown{mech-intro.pdf}{Parameter selection, then numbered ListwiseRank calls, then merge.}
 \shown{mech-sw.pdf}{Three rounds of the same four runs. The call number is above the box. Emitted, kept, and unread are separate lanes.}
-\shown{mech-lt.pdf}{One LT drawing. $h{=}1$ uses the same node chrome.}
+\shown{mech-lt.pdf}{One LT, parameter $h$. Call 1 ranks two real windows and returns a winner segment. Call 2 is one refresh. Virtual $+\infty$ is drawn beside the call and is not inside it. $h{=}1$ is the same generator.}
 \shown{mech-pointer-a.pdf}{Build. (c) marks the item where slot 1 reaches $h$. (d) writes pointer $=$ child 1. Chips stay separate.}
 \shown{mech-pointer-b.pdf}{Refresh. (g) marks the new exhaustion while the old pointer is still child 1. (h) writes child 0. Run 0 stays unread.}
 \shown{mech-virtual.pdf}{Virtual $+\infty$ is outside the red call. In this example it makes slot 0 reach $h$.}
-\shown{mech-limit.pdf}{Buffer mode yields until $K$. Materialize closes the root in a finally block, including this stop.}
+\shown{mech-limit.pdf}{Same small run, $K{=}2$. A dashed arrow is a request downward. A solid arrow is a yield upward. After the second yield the next request is not sent, and 6 and 14 stay unread. \textsc{AClose} is cleanup, not a ranking call.}
 \input{algorithms.tex}
 \end{document}

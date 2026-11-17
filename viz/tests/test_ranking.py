@@ -1,4 +1,5 @@
 from pipeline.exp3 import SUPPLEMENT, fixed_keys, supplement_is_outside_fixed
+from pipeline.render_exp import scatter_points, shared_scatter_limits
 from pipeline.ranking import average_rank, emphasis, rank_cost, rank_quality
 from pipeline.replay import legal_surface_triangles, replay_segment
 from pipeline.tables import rank_sheet, sheet
@@ -105,6 +106,24 @@ def test_replay_matches_the_full_slot_example_and_virtual_pad():
     assert padded["pointer"] == "child0"
     assert padded["winner"] == [1, 3]
     assert padded["loser"] == []
+
+
+def test_off_and_on_share_scatter_limits():
+    for mode in ("Full", "LIMIT10"):
+        rows = scatter_points(mode)
+        xlim, ylim = shared_scatter_limits(rows)
+        for state in ("Off", "On-cold"):
+            state_rows = [row for row in rows if row["state"] == state]
+            assert state_rows
+            xs = [row["x"] for row in state_rows]
+            ys = [row["y"] for row in state_rows]
+            assert min(xs) >= xlim[0] and max(xs) <= xlim[1]
+            assert min(ys) >= ylim[0] and max(ys) <= ylim[1]
+        off = [row["x"] for row in rows if row["state"] == "Off"]
+        on = [row["x"] for row in rows if row["state"] == "On-cold"]
+        assert min(off) != min(on)
+        assert xlim[0] < min(off) and xlim[0] < min(on)
+        assert xlim[1] > max(off) and xlim[1] > max(on)
 
 
 def test_exp3_supplements_are_not_fixed_series():

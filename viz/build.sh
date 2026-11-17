@@ -14,7 +14,11 @@ export TEXINPUTS=./vendor:${TEXINPUTS:-}
 export BSTINPUTS=./vendor:${BSTINPUTS:-}
 export BIBINPUTS=./vendor:${BIBINPUTS:-}
 pdflatex -interaction=nonstopmode main.tex
-bibtex main
+if grep -q '\\citation{' main.aux; then
+  bibtex main
+else
+  printf 'No \\citation in main.aux; skipping bibtex.\n'
+fi
 pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
 python3 - << 'PY'

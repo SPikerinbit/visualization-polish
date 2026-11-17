@@ -1,14 +1,56 @@
 \begin{table}[t]
-\caption{Current dataset contract. Input statistics, not a quality result. The rejected Movies / Touch\'e / FiQA counts are not reprinted.}
+\caption{Parameters and the main-experiment settings. This is the old parameter table's role. Ranges below are the 2026-11-16 contract, not a symbol glossary.}
+\centering\footnotesize
+\begin{tabular}{@{}llp{4.6cm}@{}}
+\toprule
+Parameter & Setting & Meaning \\
+\midrule
+$m$ & 20 & Reference listwise capacity. Not claimed optimal. \\
+$k$ & chosen, $\ge 2$ & Fan-in. Cost model minimizes estimated input tokens. \\
+$h$ & $1$ through the legal cap & Segment or fixed SW quota. $h{=}1$ is the same LT. \\
+$K$ & LIMIT 10 in the main pair & Prefix length. Full is a separate mode, not a larger $K$. \\
+temperature & 0 & One generation per fixed condition. \\
+permutations & 10 in experiment 1 & Input-order conditions, not repeats. \\
+models & 9B and 27B labels & Config names Qwen3.5-9B and Qwen3.8-27B. Experiments 3--5 use the 9B label. \\
+$\beta$ & 0, .25, .5, .75, 1 on the main curves & Cache-hit price. $\beta{=}1$ is still On. \\
+prefetch & off in the paper contract & The code default is on; the contract turns it off. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Methods. One ListK row changes Sort/Select with the mode. Segmented LT is not a second method. Call-count expressions are copied from the rejected manuscript and were not re-derived.}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lllp{3.3cm}@{}}
+\toprule
+Method & Type & Full calls & Difference \\
+\midrule
+Pointwise & pointwise & $O(n)$ & One item per call. \\
+Ext.\ pointwise & pointwise & $O(n/m)$ & Batches the pointwise scores. \\
+Ext.\ bubble & listwise & $O(n^2/m^2)$ & Adjacent block swaps. \\
+Ext.\ merge & listwise & $O((n/m)\log(n/m))$ & Fixed two-way merge. \\
+ListK Sort/Select & listwise & see the old $\chi_p$ note & One row. Select is the LIMIT name. \\
+Tournament & listwise & see the old $b_m$ note & No stored global order. \\
+Lotus Quick & pairwise & $O(n\log n)$ & Pairwise quicksort. \\
+Setwise Heap & listwise & heap, 2 children & One permutation per call. \\
+SW & listwise & safe-prefix merge & Fixed $h$ when it is passed. \\
+LT$(h)$ & listwise & one generator & Pointer and a loser segment. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Dataset contract, in place of the old Movies / Touch\'e / FiQA statistics. Those old counts are not reprinted.}
 \centering\footnotesize
 \begin{tabular}{@{}llrl@{}}
 \toprule
 Dataset & Role & Queries & Note \\
 \midrule
 Q9 & main table & 1 & 128 labeled comments \\
-DL20 & main table & 30 & mechanism queries 1121353, 1109707, 330975 \\
-DL22 & main table & 30 & official duplicate map was a recorded gap \\
-COVID & main table & 30 & mechanism queries 6, 38, 12 \\
+DL20 & main table & 30 & mechanism 1121353, 1109707, 330975 \\
+DL22 & main table & 30 & duplicate map was a recorded gap \\
+COVID & main table & 30 & mechanism 6, 38, 12 \\
 DBpedia & main table & 30 & replaces FiQA \\
 Robust04 & main table & 30 & replaces Touch\'e; corpus was a recorded gap \\
 \bottomrule
@@ -16,32 +58,11 @@ Robust04 & main table & 30 & replaces Touch\'e; corpus was a recorded gap \\
 \end{table}
 
 \begin{table}[t]
-\caption{Symbolic call counts carried from the rejected manuscript, with the segmented row merged into LT. Not re-derived from the current estimator.}
-\centering\footnotesize
-\begin{tabular}{@{}lll@{}}
-\toprule
-Method & Full & LIMIT $K$ \\
-\midrule
-Pointwise & $O(n)$ & $O(n)$ \\
-Ext.\ pointwise & $O(n/m)$ & $O(n/m)$ \\
-Ext.\ bubble & $O(n^2/m^2)$ & $O(Kn/m^2)$ \\
-Ext.\ merge & $O((n/m)\log(n/m))$ & $O((n/m)\log(K/m))$ \\
-ListK Sort/Select & one row & switches with the mode \\
-Tournament & listwise bound & listwise bound \\
-Lotus Quick & pairwise bound & pairwise bound \\
-Setwise Heap & heapsort, 2 children & same contract \\
-SW & safe-prefix merge & same merger, stop at $K$ \\
-LT$(h)$ & one generator & $h{=}1$ is not a third method \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[t]
-\caption{Validation-table shape. Every number below is a synthetic placeholder. The rejected manuscript's zero-regret rows are not reused.}
+\caption{Cost-model check in the role of the old validation table. Every number is a synthetic layout value. The rejected zero-regret rows are not reused. A missing cell stays missing.}
 \centering\footnotesize
 \begin{tabular}{@{}llrrl@{}}
 \toprule
-Family & Mode & Predicted & Measured min & Extra tokens \\
+Family & Mode & Selected $(k,h)$ & Measured min & Extra tokens \\
 \midrule
 SW & Full & $(4,2)$ & $(5,2)$ & 1200 \\
 LT & Full & $(8,1)$ & $(8,1)$ & 0 \\
@@ -52,9 +73,9 @@ LT & LIMIT10 & $(6,2)$ & $(4,2)$ & 800 \\
 \end{table}
 
 \begin{table}[t]
-\caption{Per-scale best $(k,h)$ is not assigned. Supplement coordinates are the confirmed extra points and are not a best-of-scale curve. Cells marked ``open'' are not filled with a guess.}
+\caption{Per-scale best $(k,h)$ is not known. Supplement coordinates are confirmed extra points, not a best-of-scale curve. ``Open'' is not a guessed winner.}
 \centering\footnotesize
-\begin{tabular}{@{}lllp{3.4cm}@{}}
+\begin{tabular}{@{}lllp{3.2cm}@{}}
 \toprule
 $n$ & Mode & Supplement & Best role \\
 \midrule

@@ -229,25 +229,54 @@ def render_pointer():
 
 
 def render_lt():
-    fig, ax = plt.subplots(figsize=(7.16, 2.6))
-    ax.set_xlim(0, 14)
-    ax.set_ylim(0, 4.6)
-    ax.axis("off")
-    ax.text(0.2, 4.2, "One LT procedure for every h ≥ 1.  h = 1 is the same generator, one real item per segment.", fontsize=8, color=INK)
-    ax.plot([1.6, 0.7], [2.5, 1.3], color=GRAY, lw=0.8)
-    ax.plot([1.6, 2.5], [2.5, 1.3], color=INK, lw=1.6)
-    _pill(ax, 1.6, 3.15, "3  4", "white", BLUE, BLUE, w=0.8)
-    _pill(ax, 1.6, 2.45, "5  6", "#D5D8DC", GRAY, w=0.8)
-    ax.text(0.2, 0.55, "ListwiseRank of the real path items", fontsize=7, color=RED)
-    ax.add_patch(FancyBboxPatch((0.15, 0.35), 3.6, 0.55, boxstyle="round,pad=0.02", facecolor="none", edgecolor=RED, lw=0.8, linestyle=(0, (2, 1.2))))
-    ax.annotate("", xy=(2.4, 1.35), xytext=(1.75, 2.2), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.3))
-    ax.text(5.2, 3.3, "h = 2 segment", fontsize=7, color=INK)
-    _row(ax, 5.2, 2.7, [3, 4], "white", BLUE, BLUE)
-    ax.text(8.6, 3.3, "h = 1, same chrome", fontsize=7, color=INK)
-    _pill(ax, 9.2, 2.7, "3", "white", BLUE, BLUE)
-    ax.text(5.2, 1.8, "Thick edge: path being refreshed.", fontsize=7, color=MUTED)
-    ax.text(5.2, 1.3, "Blue stroke: transient winner. Blue fill would mean yielded to Π.", fontsize=7, color=MUTED)
-    ax.text(5.2, 0.8, "Pointer arrow is not a tree edge.", fontsize=7, color=MUTED)
+    fig, axes = plt.subplots(1, 4, figsize=(7.16, 3.8))
+    titles = [
+        "(a) runs, h = 2 windows",
+        "(b) call 1, winner path",
+        "(c) yield that segment",
+        "(d) one refresh snapshot",
+    ]
+    for ax, title in zip(axes, titles):
+        ax.set_xlim(0, 10)
+        ax.set_ylim(0, 8)
+        ax.axis("off")
+        ax.set_title(title, loc="left", fontsize=8, color=INK)
+    a, b, c, d = axes
+    a.text(0.2, 7.2, "same runs as the pointer figure", fontsize=7, color=MUTED)
+    for i, (name, window) in enumerate((("R1", [3, 7]), ("R2", [1, 5]), ("R3", [2, 8]), ("R4", [4, 9]))):
+        y = 6.2 - i * 1.15
+        a.text(0.2, y, name, fontsize=7, color=MUTED, va="center")
+        _row(a, 1.6, y, window, "white", INK, w=0.7)
+    a.text(0.2, 1.2, "h = 1 is the same generator\nwith one item in the window", fontsize=7, color=INK)
+    b.add_patch(Circle((0.45, 7.2), 0.28, facecolor="white", edgecolor=INK, lw=0.8))
+    b.text(0.45, 7.2, "1", ha="center", va="center", fontsize=8)
+    b.text(1.35, 7.2, "ListwiseRank", va="center", fontsize=8, color=RED)
+    b.text(0.3, 6.2, "slot 0", fontsize=7, color=MUTED)
+    _row(b, 2.2, 6.2, [3, 7], "white", INK, w=0.7)
+    b.text(0.3, 5.2, "slot 1", fontsize=7, color=MUTED)
+    _row(b, 2.2, 5.2, [1, 5], "white", INK, w=0.7)
+    b.annotate("", xy=(5.2, 3.2), xytext=(3.4, 4.5), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.6))
+    b.plot([3.4, 1.6], [4.5, 3.2], color=GRAY, lw=0.9)
+    b.text(1.5, 2.7, "child 0", fontsize=7, color=MUTED, ha="center")
+    b.text(5.2, 2.7, "child 1", fontsize=7, color=MUTED, ha="center")
+    b.text(0.3, 1.6, "winner, not yet yielded", fontsize=7, color=BLUE)
+    _row(b, 0.6, 0.9, [1, 3], "white", BLUE, BLUE, w=0.7)
+    c.text(0.3, 6.4, "yielded to the output", fontsize=8, color=BLUE)
+    _row(c, 0.6, 5.5, [1, 3], BLUE, BLUE, "white", w=0.7)
+    c.text(0.3, 4.2, "stored loser", fontsize=7, color=MUTED)
+    _row(c, 0.6, 3.4, [5, 7], "#D5D8DC", GRAY, w=0.7)
+    c.text(0.3, 2.2, "unread tails stay in the runs", fontsize=7, color=MUTED)
+    _row(c, 0.6, 1.3, [12, 16], "white", GRAY, w=0.7)
+    d.add_patch(Circle((0.45, 7.2), 0.28, facecolor="white", edgecolor=INK, lw=0.8))
+    d.text(0.45, 7.2, "2", ha="center", va="center", fontsize=8)
+    d.text(1.35, 7.2, "ListwiseRank", va="center", fontsize=8, color=RED)
+    d.text(0.3, 6.2, "new real window", fontsize=7, color=INK)
+    _row(d, 0.6, 5.3, [6, 14], "white", INK, w=0.7)
+    d.text(0.3, 4.3, "+∞ is not in this call", fontsize=7, color=MUTED)
+    d.plot([1.2, 2.2], [3.7, 3.7], color=GRAY, lw=1.0, linestyle=(0, (1, 1)))
+    d.text(2.5, 3.7, "+∞", fontsize=8, color=GRAY, va="center")
+    d.annotate("", xy=(4.8, 1.6), xytext=(3.2, 2.8), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.5))
+    d.text(0.3, 1.3, "pointer still names\nthe child being refilled", fontsize=7, color=INK)
     _save(fig, "mech-lt.pdf")
 
 
@@ -270,19 +299,32 @@ def render_virtual():
 
 
 def render_limit():
-    fig, ax = plt.subplots(figsize=(7.16, 1.9))
-    ax.set_xlim(0, 14)
-    ax.set_ylim(0, 3.2)
-    ax.axis("off")
-    ax.add_patch(FancyBboxPatch((0.3, 1.5), 3.3, 1.2, boxstyle="round,pad=0.03", facecolor="#F7F4EE", edgecolor=INK, lw=0.7))
-    ax.text(1.95, 2.1, "mode buffer\nlimit = K", ha="center", va="center", fontsize=7, color=INK)
-    ax.annotate("", xy=(5.2, 2.1), xytext=(3.7, 2.1), arrowprops=dict(arrowstyle="->", color=INK, lw=0.8))
-    ax.add_patch(FancyBboxPatch((5.2, 1.5), 3.6, 1.2, boxstyle="round,pad=0.03", facecolor="white", edgecolor=BLUE, lw=0.9))
-    ax.text(7.0, 2.1, "yield until K\nthen stop pulling", ha="center", va="center", fontsize=7, color=BLUE)
-    ax.annotate("", xy=(10.4, 2.1), xytext=(8.9, 2.1), arrowprops=dict(arrowstyle="->", color=INK, lw=0.8))
-    ax.text(10.5, 2.1, "Π_K\nnot Full", fontsize=7, color=INK, va="center")
-    ax.text(0.3, 0.7, "SW stops appending at K. LT returns before the next refresh.", fontsize=7, color=MUTED)
-    ax.text(0.3, 0.25, "materialize_producer always aclose() in finally, including this early stop.", fontsize=7, color=MUTED)
+    fig, axes = plt.subplots(1, 2, figsize=(7.16, 3.6))
+    for ax, title in zip(axes, ("(a) request for item 1 of K = 2", "(b) after the K-th yield")):
+        ax.set_xlim(0, 10)
+        ax.set_ylim(0, 8)
+        ax.axis("off")
+        ax.set_title(title, loc="left", fontsize=8, color=INK)
+    a, b = axes
+    for ax, yielded, live in ((a, [], True), (b, [1, 3], False)):
+        ax.add_patch(FancyBboxPatch((3.4, 6.2), 3.2, 1.1, boxstyle="round,pad=0.02", facecolor="#F7F4EE", edgecolor=INK, lw=0.8))
+        ax.text(5.0, 6.75, "parent", ha="center", va="center", fontsize=8)
+        ax.add_patch(FancyBboxPatch((3.2, 2.3), 3.6, 2.2, boxstyle="round,pad=0.02", facecolor="white", edgecolor=INK, lw=0.8))
+        ax.text(5.0, 4.05, "child window", ha="center", fontsize=7, color=MUTED)
+        _row(ax, 3.55, 3.2, [1, 5] if not yielded else [5], "white", INK, w=0.7)
+        ax.text(0.4, 1.5, "still unread", fontsize=7, color=MUTED)
+        _row(ax, 0.4, 0.8, [6, 14], "white", GRAY, w=0.7)
+    a.annotate("", xy=(5.0, 4.6), xytext=(5.0, 6.1), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.2, linestyle=(0, (3, 1.4))))
+    a.text(5.3, 5.3, "request down", fontsize=7, color=INK)
+    a.annotate("", xy=(2.4, 6.6), xytext=(3.3, 4.2), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1.4))
+    a.text(0.3, 5.6, "yield 1\nup", fontsize=7, color=BLUE)
+    b.annotate("", xy=(5.0, 4.6), xytext=(5.0, 6.1), arrowprops=dict(arrowstyle="-|>", color=GRAY, lw=1.2, linestyle=(0, (2, 1.5))))
+    b.plot([4.7, 5.3], [5.15, 5.55], color="#A33", lw=1.4)
+    b.plot([4.7, 5.3], [5.55, 5.15], color="#A33", lw=1.4)
+    b.text(5.4, 5.2, "not sent", fontsize=7, color=GRAY)
+    b.annotate("", xy=(2.2, 6.7), xytext=(3.3, 4.0), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1.4))
+    b.text(0.3, 6.3, "yield 2\nK-th, up", fontsize=7, color=BLUE)
+    b.text(6.9, 6.5, "aclose\ncleanup\nnot a call", fontsize=7, color=MUTED)
     _save(fig, "mech-limit.pdf")
 
 

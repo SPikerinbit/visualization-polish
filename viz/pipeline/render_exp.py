@@ -16,7 +16,7 @@ FIG.mkdir(parents=True, exist_ok=True)
 
 
 def _save(fig, name):
-    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.12)
+    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.2)
     plt.close(fig)
 
 
@@ -74,7 +74,8 @@ def _draw_surface(ax, measured, predicted, coincide):
     ax.set_xticks([2, 4, 6, 8])
     ax.set_yticks([1, 2, 3, 4, 5])
     ax.set_zticks([80, 110, 140])
-    ax.set_zticklabels([])
+    for label in ax.get_zticklabels():
+        label.set_clip_on(False)
     ax.set_xlim(1.5, 8.5)
     ax.set_ylim(0.5, 5.5)
     ax.set_zlim(70, 150)
@@ -100,7 +101,7 @@ def render_surfaces():
             missing = {(6, 2)} if index == 1 else set()
             measured, predicted = _surface(family, seed, missing)
             _draw_surface(ax, measured, predicted, coincide)
-            ax.set_title(f"{family}, {mode}\n80 / 110 / 140 tokens", color=INK, fontsize=8, pad=2)
+            ax.set_title(f"{family}, {mode}", color=INK, fontsize=8, pad=2)
         fig.legend(handles=[
             Line2D([0], [0], color=BLUE, lw=4, alpha=0.5, label="Measured placeholder"),
             Line2D([0], [0], color="#E09A3E", lw=4, alpha=0.6, label="Predicted placeholder"),
@@ -108,7 +109,7 @@ def render_surfaces():
             Line2D([0], [0], marker="D", markerfacecolor="none", markeredgecolor="#E09A3E", lw=0, label="Predicted pick, measured height"),
             Line2D([0], [0], marker="*", color="#E09A3E", markeredgecolor=BLUE, lw=0, label="Both roles, one point"),
         ], loc="upper center", ncol=4, frameon=False, bbox_to_anchor=(0.5, 1.02), fontsize=7)
-        fig.tight_layout(rect=(0, 0, 1, 0.94))
+        fig.subplots_adjust(left=0.02, right=0.98, bottom=0.04, top=0.86, wspace=0.22, hspace=0.28)
         _save(fig, name)
 
 
@@ -208,31 +209,48 @@ def render_exp4b():
     _save(fig, "exp4b.pdf")
 
 
-def render_exp4c():
-    methods = list(METHOD_STYLE)
-    # Spread across the quality axis on purpose so label crowding can be judged.
-    # No method is best on both axes in both states.
+def scatter_points(mode):
     quality = [0.46, 0.58, 0.73, 0.41, 0.82, 0.64, 0.52, 0.77, 0.69, 0.88]
     tokens = [28, 44, 86, 35, 62, 51, 73, 40, 57, 48]
+    rows = []
+    for dataset in ("DL20 slot", "COVID slot"):
+        for state in ("Off", "On-cold"):
+            for i in range(len(quality)):
+                shift = (8 if state == "On-cold" else 0) + (6 if dataset.startswith("COVID") else 0)
+                y = quality[i] - (0.06 if state == "On-cold" and i % 2 == 0 else 0)
+                y = y - (0.04 if dataset.startswith("COVID") else 0)
+                if mode == "LIMIT10":
+                    y = min(0.9, y - 0.03 + (0.02 if i % 3 == 0 else 0))
+                rows.append({"dataset": dataset, "state": state, "i": i, "x": tokens[i] + shift, "y": y})
+    return rows
+
+
+def shared_scatter_limits(rows, xpad=4, ypad=0.04):
+    xs = [row["x"] for row in rows]
+    ys = [row["y"] for row in rows]
+    return (min(xs) - xpad, max(xs) + xpad), (min(ys) - ypad, max(ys) + ypad)
+
+
+def render_exp4c():
+    methods = list(METHOD_STYLE)
     for mode, ylabel, name in (("Full", "synthetic Spearman", "exp4c-full.pdf"), ("LIMIT10", "synthetic NDCG@10", "exp4c-limit.pdf")):
+        rows = scatter_points(mode)
+        (xmin, xmax), (ymin, ymax) = shared_scatter_limits(rows)
         fig, axes = plt.subplots(2, 2, figsize=(7.16, 5.8), sharex=True, sharey=True)
-        for row, dataset in enumerate(("DL20 slot", "COVID slot")):
+        for row_i, dataset in enumerate(("DL20 slot", "COVID slot")):
             for col, state in enumerate(("Off", "On-cold")):
-                ax = axes[row, col]
-                for i, method in enumerate(methods):
-                    shift = (8 if state == "On-cold" else 0) + (6 if dataset.startswith("COVID") else 0)
-                    y = quality[i] - (0.06 if state == "On-cold" and i % 2 == 0 else 0)
-                    y = y - (0.04 if dataset.startswith("COVID") else 0)
-                    x = tokens[i] + shift
-                    if mode == "LIMIT10":
-                        y = min(0.9, y - 0.03 + (0.02 if i % 3 == 0 else 0))
-                    color, marker = METHOD_STYLE[method]
-                    ax.scatter([x], [y], c=color, marker=marker, s=36, zorder=3)
-                    ax.annotate(str(i + 1), (x, y), textcoords="offset points", xytext=(5, 4), fontsize=7, color=INK)
+                ax = axes[row_i, col]
+                for row in rows:
+                    if row["dataset"] != dataset or row["state"] != state:
+                        continue
+                    color, marker = METHOD_STYLE[methods[row["i"]]]
+                    ax.scatter([row["x"]], [row["y"]], c=color, marker=marker, s=36, zorder=3)
+                    ax.annotate(str(row["i"] + 1), (row["x"], row["y"]), textcoords="offset points", xytext=(5, 4), fontsize=7, color=INK)
                 ax.set_title(f"{dataset}, {state}", fontsize=8, color=INK)
                 ax.grid(color=GRID, lw=0.4)
-                ax.set_xlim(20, 110)
-                ax.set_ylim(0.35, 0.95)
+                ax.set_xlim(xmin, xmax)
+                ax.set_ylim(ymin, ymax)
+                ax.set_xticks([30, 50, 70, 90, 110])
         handles = [Line2D([0], [0], marker=METHOD_STYLE[m][1], color=METHOD_STYLE[m][0], lw=0, label=f"{i+1} {METHOD_NAME[m]}") for i, m in enumerate(methods)]
         fig.legend(handles=handles, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, -0.02))
         axes[1, 0].set_xlabel("equivalent tokens, β=0, output weight 1")
@@ -240,6 +258,10 @@ def render_exp4c():
         axes[0, 0].set_ylabel(ylabel)
         axes[1, 0].set_ylabel(ylabel)
         fig.tight_layout(rect=(0, 0.08, 1, 1))
+        for ax in axes.ravel():
+            ax.set_xlim(xmin, xmax)
+            ax.set_ylim(ymin, ymax)
+            ax.set_xticks([30, 50, 70, 90, 110])
         _save(fig, name)
 
 

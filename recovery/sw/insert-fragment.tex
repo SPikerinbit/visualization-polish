@@ -1,0 +1,28 @@
+% SW only. Not applied to framework.tex.
+% Size is 未定. Measured from viz/tex/vendor/acmart.cls
+% with \documentclass[sigconf,review] after \maketitle:
+%   textwidth   = 506.295pt = 177.96mm   (figure*)
+%   columnwidth = 241.147pt = 84.78mm
+%   0.95\linewidth inside figure = 80.54mm
+% sw-wide.pdf is drawn at 177.96mm. Putting it in the current
+% single-column figure scales it to about 45% and the type collapses.
+% sw-stack.pdf is drawn at 80.54mm but is 213mm tall; textheight is
+% 626pt = 220mm, so a caption may not fit. Do not change the environment
+% in this task.
+
+% Current environment, unchanged. File would replace fig/sliding_window_exp.pdf
+% only after parent review. This fragment is not inserted.
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{fig/sliding_window_exp.pdf}
+    \caption{Example of Algorithm~\ref{alg:sliding_window_kway_group_merge} for sliding window merge $(m = 8, h = \lfloor m / |A|\rfloor)$: three call emits $5+5+6=16$ items.}
+    \label{fig:eg:sliding_window}
+\end{figure}
+
+% Alternative, 未定, requires changing figure to figure*. Not applied.
+% \begin{figure*}[t]
+%     \centering
+%     \includegraphics[width=\textwidth]{fig/sliding_window_exp.pdf}
+%     \caption{Example of Algorithm~\ref{alg:sliding_window_kway_group_merge} for sliding window merge $(m = 8, h = \lfloor m / |A|\rfloor)$: three call emits $5+5+6=16$ items.}
+%     \label{fig:eg:sliding_window}
+% \end{figure*}

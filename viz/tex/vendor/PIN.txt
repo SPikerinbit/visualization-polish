@@ -1,0 +1,6 @@
+2f949e6e3f2a79f2cdc218b9dcdbaa7dd451adb4ee0be1af6dc7ebe00b318ea7  /workspace/viz/tex/vendor/acmart.cls
+52ad3948f3231b31d2ac90f470c1759e7f96add7b577ec4e267dfbdc87fc4eb2  /workspace/viz/tex/vendor/pvldb.sty
+source: https://github.com/vldbproceedings/VLDB-Template commit 39c95f5c6fcbe652a83be24e4eff8f2134cd3fbc
+acmart.cls v2.19 (2026/06/27)
+pvldb.sty 2026/07/06 v1.0 PVLDB Vol. 20
+files copied unmodified

@@ -1,0 +1,34 @@
+{
+  "branch": "OperatorSemanticOrderBy",
+  "commit_sha": "0d96d0bf116e52f1664ae2539446f05921f5e947",
+  "commit_url": "https://github.com/BITQiKangK/SemaPrototype/commit/0d96d0bf116e52f1664ae2539446f05921f5e947",
+  "rejected_transcription": "0d96d0bf116e52f1664ea2539446f05921f9e947",
+  "note": "The rejected transcription was a copy error, not a different push. These five files match the browser-download manifest byte-for-byte. No wrapper text was present.",
+  "files": [
+    {
+      "path": "sema_prototype/physical_operator/orderby/merge/sliding_window/sliding_window.py",
+      "bytes": 34868,
+      "sha256": "760dd15aca095d880b272e8e0b98c7d00bcade677ad0e9c9c251298f5fa5b4e5"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/merge/loser_tree/loser_tree.py",
+      "bytes": 24088,
+      "sha256": "4a1114ef092240e9aba9ead86c5fba1a24812d017128581ffeabcb83d1417524"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/_common.py",
+      "bytes": 10703,
+      "sha256": "54e2701fe3544edd6af6c0c7ecc5fadf8a5004b78d0ca10eb11102899adfc2ff"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/operator.py",
+      "bytes": 17363,
+      "sha256": "d0f1ff91a834dfe264357e2ab74947587bef4721c6fbdc01c93ea7ad04dac339"
+    },
+    {
+      "path": "sema_prototype/logical_operator/orderby.py",
+      "bytes": 5286,
+      "sha256": "9c2e365fdac04fba7b16c0bab9fbdf705d8cfd64205aa6031df445f0cc338163"
+    }
+  ]
+}

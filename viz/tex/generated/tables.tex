@@ -1,0 +1,298 @@
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & \textbf{$0.501\pm0.020$} & 72.9 & \underline{7.7} & $0.345\pm0.039$ & 50.6 & 35.4 \\
+Ext. Pointwise & \underline{$0.501\pm0.010$} & \underline{47.2} & 29.8 & $0.500\pm0.011$ & 113.6 & 32.5 \\
+External Bubble & $0.420\pm0.026$ & 128.4 & 39.9 & \underline{$0.610\pm0.020$} & 203.3 & 23.6 \\
+External Merge & $0.420\pm0.039$ & 153.2 & 18.4 & $0.422\pm0.032$ & 196.4 & 20.5 \\
+ListK Sort & $0.420\pm0.047$ & 82.1 & 27.4 & $0.421\pm0.013$ & 209.1 & \underline{9.6} \\
+Tournament & $0.420\pm0.024$ & 157.2 & 36.7 & $0.434\pm0.010$ & 49.4 & 27.6 \\
+Lotus Quick & $0.414\pm0.014$ & 88.2 & 11.6 & $0.500\pm0.044$ & \textbf{20.3} & \textbf{4.0} \\
+Setwise Heap & $0.420\pm0.044$ & 182.9 & 22.0 & $0.371\pm0.014$ & \underline{43.8} & 32.0 \\
+SW & $0.420\pm0.047$ & \textbf{45.1} & 11.1 & \textbf{$0.620\pm0.030$} & 174.1 & 16.7 \\
+LT & $0.420\pm0.039$ & 113.3 & \textbf{7.5} & \textbf{$0.620\pm0.030$} & 74.9 & 13.0 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{COVID} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.332\pm0.031$ & 146.8 & \textbf{4.6} & $0.661\pm0.014$ & 82.7 & 19.8 \\
+Ext. Pointwise & $0.492\pm0.016$ & 150.1 & 24.5 & $0.629\pm0.020$ & \underline{53.4} & 14.0 \\
+External Bubble & $0.358\pm0.019$ & 210.2 & 37.7 & $0.507\pm0.025$ & 169.0 & 38.3 \\
+External Merge & \underline{$0.684\pm0.008$} & 124.9 & 17.3 & \textbf{$0.747\pm0.030$} & 120.6 & 28.2 \\
+ListK Sort & $0.564\pm0.019$ & 186.2 & \underline{9.2} & $0.346\pm0.017$ & 194.6 & \underline{7.3} \\
+Tournament & $0.429\pm0.012$ & 185.9 & 21.6 & $0.322\pm0.047$ & 85.7 & 21.5 \\
+Lotus Quick & $0.560\pm0.045$ & \textbf{35.6} & 23.5 & \underline{$0.676\pm0.009$} & 194.5 & 37.0 \\
+Setwise Heap & \textbf{$0.730\pm0.021$} & 160.2 & 36.0 & $0.515\pm0.039$ & \textbf{39.8} & \textbf{5.5} \\
+SW & $0.364\pm0.042$ & \underline{48.0} & 39.2 & $0.344\pm0.026$ & 88.0 & 10.8 \\
+LT & $0.583\pm0.041$ & 128.8 & 14.4 & $0.394\pm0.047$ & 88.0 & 25.1 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ rank} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. & Q & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.437\pm0.028$ & 158.8 & 11.5 & $0.456\pm0.047$ & \underline{116.3} & 28.5 & 6.8 & 4.2 & 5.2 \\
+Ext. Pointwise & $0.564\pm0.028$ & 94.3 & 12.8 & \underline{$0.742\pm0.021$} & \textbf{110.6} & \underline{2.7} & \textbf{3.7} & \textbf{3.5} & 6 \\
+External Bubble & $0.493\pm0.024$ & \underline{34.9} & 26.4 & $0.642\pm0.038$ & 133.2 & 8.9 & 5.5 & 7 & 7.8 \\
+External Merge & $0.495\pm0.035$ & 122.9 & \textbf{0.9} & \textbf{$0.750\pm0.036$} & 116.7 & 23.6 & \textbf{3.7} & 5.8 & \underline{5} \\
+ListK Sort & $0.635\pm0.029$ & 187.2 & \underline{3.6} & $0.535\pm0.013$ & 205.7 & 34.9 & 6.5 & 8.8 & \textbf{4.2} \\
+Tournament & $0.347\pm0.025$ & 48.2 & 4.0 & $0.643\pm0.046$ & 136.0 & 15.4 & 6.5 & 5.7 & 5.7 \\
+Lotus Quick & \textbf{$0.689\pm0.031$} & 114.7 & 9.6 & $0.566\pm0.022$ & 119.2 & \textbf{0.9} & \underline{4.7} & 4.2 & \textbf{4.2} \\
+Setwise Heap & $0.442\pm0.027$ & 135.9 & 35.3 & -- & 146.1 & 17.0 & 6 & 5.8 & 6.5 \\
+SW & \underline{$0.659\pm0.024$} & \textbf{24.6} & 25.2 & $0.306\pm0.039$ & 129.8 & 16.3 & 6.2 & \underline{3.7} & 5.5 \\
+LT & $0.507\pm0.033$ & 159.0 & 13.6 & $0.553\pm0.009$ & 190.3 & 30.3 & 4.8 & 6.3 & \underline{5} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & \underline{$0.585\pm0.042$} & 156.6 & 30.0 & $0.494\pm0.045$ & 123.7 & 14.9 \\
+Ext. Pointwise & $0.443\pm0.031$ & 170.6 & 28.9 & \textbf{$0.656\pm0.014$} & 99.8 & 35.8 \\
+External Bubble & $0.532\pm0.028$ & 115.3 & 31.0 & $0.510\pm0.035$ & 149.7 & 15.4 \\
+External Merge & \textbf{$0.648\pm0.042$} & \textbf{43.6} & 37.6 & $0.622\pm0.020$ & \textbf{28.4} & \underline{11.0} \\
+ListK Sort & $0.348\pm0.022$ & 186.1 & 16.1 & $0.626\pm0.009$ & \underline{44.2} & 23.1 \\
+Tournament & $0.330\pm0.011$ & 152.5 & 24.3 & \underline{$0.648\pm0.009$} & 184.6 & 25.8 \\
+Lotus Quick & $0.498\pm0.024$ & \underline{104.6} & \underline{2.2} & $0.586\pm0.026$ & 84.7 & \textbf{10.0} \\
+Setwise Heap & $0.444\pm0.027$ & 125.3 & 19.6 & $0.390\pm0.010$ & 152.8 & 34.6 \\
+SW & $0.453\pm0.024$ & 200.8 & 11.6 & $0.381\pm0.038$ & 156.5 & 15.3 \\
+LT & $0.326\pm0.024$ & 212.5 & \textbf{1.4} & $0.381\pm0.039$ & 56.5 & 19.4 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{COVID} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.356\pm0.014$ & 67.3 & 18.4 & $0.428\pm0.030$ & 106.6 & 17.3 \\
+Ext. Pointwise & $0.504\pm0.010$ & 75.7 & 35.2 & $0.492\pm0.012$ & 125.7 & 27.2 \\
+External Bubble & $0.537\pm0.011$ & \underline{66.1} & \underline{13.1} & $0.566\pm0.033$ & 147.6 & 11.2 \\
+External Merge & \textbf{$0.647\pm0.026$} & \textbf{61.8} & \textbf{10.2} & $0.465\pm0.037$ & \underline{35.4} & 16.1 \\
+ListK Sort & $0.514\pm0.020$ & 178.3 & 32.6 & $0.470\pm0.027$ & \textbf{18.7} & 39.0 \\
+Tournament & $0.559\pm0.030$ & 143.2 & 13.8 & \textbf{$0.716\pm0.032$} & 47.0 & 38.7 \\
+Lotus Quick & $0.532\pm0.030$ & 157.6 & 15.6 & \underline{$0.700\pm0.037$} & 208.6 & 33.2 \\
+Setwise Heap & $0.400\pm0.034$ & 113.3 & 18.0 & $0.548\pm0.045$ & 99.8 & 18.9 \\
+SW & \underline{$0.645\pm0.028$} & 212.0 & 39.2 & $0.632\pm0.017$ & 177.6 & \underline{7.3} \\
+LT & $0.603\pm0.021$ & 134.9 & 34.3 & $0.567\pm0.020$ & 56.7 & \textbf{3.5} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, Full, inline permutation std. Synthetic layout, not a result.}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ rank} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. & Q & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.521\pm0.034$ & \textbf{15.6} & \underline{11.8} & $0.355\pm0.031$ & \textbf{47.7} & \textbf{7.3} & 6.8 & \textbf{3.8} & \underline{4.2} \\
+Ext. Pointwise & $0.377\pm0.028$ & 212.3 & 19.6 & $0.381\pm0.016$ & 119.4 & 19.4 & 6.2 & 6.5 & 7.2 \\
+External Bubble & $0.362\pm0.032$ & 76.5 & \textbf{9.5} & $0.656\pm0.025$ & 89.4 & \underline{12.6} & 5.2 & 5 & \textbf{3.7} \\
+External Merge & $0.481\pm0.027$ & 205.7 & 32.2 & \textbf{$0.740\pm0.043$} & 206.3 & 21.1 & \textbf{3.3} & \underline{4} & 5 \\
+ListK Sort & $0.363\pm0.019$ & 56.8 & 13.6 & $0.411\pm0.021$ & 125.0 & 27.4 & 6.7 & 5.2 & 6.5 \\
+Tournament & $0.461\pm0.047$ & 176.9 & 37.1 & $0.474\pm0.024$ & 84.4 & 24.6 & 4.3 & 6 & 7.2 \\
+Lotus Quick & $0.415\pm0.038$ & 187.4 & 34.8 & $0.308\pm0.031$ & 205.6 & 29.1 & 5.5 & 6.8 & 5.5 \\
+Setwise Heap & $0.357\pm0.020$ & 28.7 & 20.5 & $0.373\pm0.047$ & 132.6 & 30.0 & 7.8 & 5.5 & 7 \\
+SW & \underline{$0.644\pm0.025$} & \underline{26.7} & 14.8 & \underline{$0.708\pm0.024$} & \underline{74.0} & 13.6 & \underline{4} & 6.8 & 4.5 \\
+LT & \textbf{$0.670\pm0.015$} & 87.8 & 13.7 & $0.619\pm0.019$ & 83.5 & 22.1 & 5.2 & 5.3 & 4.3 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.45}
+\caption{Subscript comparison for the same 9B Full cells. The std stays in the cell, with extra row height so it does not cross the rule.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & $\rho$ & Tok. & Lat. & $\rho$ & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & \textbf{$0.501_{\pm0.020}$} & 72.9 & \underline{7.7} & $0.345_{\pm0.039}$ & 50.6 & 35.4 \\
+Ext. Pointwise & \underline{$0.501_{\pm0.010}$} & \underline{47.2} & 29.8 & $0.500_{\pm0.011}$ & 113.6 & 32.5 \\
+External Bubble & $0.420_{\pm0.026}$ & 128.4 & 39.9 & \underline{$0.610_{\pm0.020}$} & 203.3 & 23.6 \\
+External Merge & $0.420_{\pm0.039}$ & 153.2 & 18.4 & $0.422_{\pm0.032}$ & 196.4 & 20.5 \\
+ListK Sort & $0.420_{\pm0.047}$ & 82.1 & 27.4 & $0.421_{\pm0.013}$ & 209.1 & \underline{9.6} \\
+Tournament & $0.420_{\pm0.024}$ & 157.2 & 36.7 & $0.434_{\pm0.010}$ & 49.4 & 27.6 \\
+Lotus Quick & $0.414_{\pm0.014}$ & 88.2 & 11.6 & $0.500_{\pm0.044}$ & \textbf{20.3} & \textbf{4.0} \\
+Setwise Heap & $0.420_{\pm0.044}$ & 182.9 & 22.0 & $0.371_{\pm0.014}$ & \underline{43.8} & 32.0 \\
+SW & $0.420_{\pm0.047}$ & \textbf{45.1} & 11.1 & \textbf{$0.620_{\pm0.030}$} & 174.1 & 16.7 \\
+LT & $0.420_{\pm0.039}$ & 113.3 & \textbf{7.5} & \textbf{$0.620_{\pm0.030}$} & 74.9 & 13.0 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & \textbf{$0.736\pm0.028$} & 172.7 & \textbf{1.3} & $0.654\pm0.038$ & \underline{78.7} & \textbf{0.8} \\
+Ext. Pointwise & $0.305\pm0.045$ & 122.6 & 37.2 & \textbf{$0.681\pm0.033$} & \textbf{45.6} & \underline{1.2} \\
+External Bubble & $0.386\pm0.014$ & 45.7 & 37.2 & $0.643\pm0.010$ & 189.4 & 37.2 \\
+External Merge & $0.471\pm0.036$ & \underline{34.2} & 21.7 & $0.424\pm0.028$ & 130.1 & 14.7 \\
+ListK Select & $0.444\pm0.025$ & 181.0 & \underline{2.3} & $0.461\pm0.016$ & 89.8 & 30.9 \\
+Tournament & $0.371\pm0.024$ & 89.1 & 17.7 & \underline{$0.670\pm0.029$} & 186.6 & 39.9 \\
+Lotus Quick & $0.384\pm0.016$ & 178.1 & 18.0 & $0.383\pm0.047$ & 213.3 & 10.3 \\
+Setwise Heap & $0.325\pm0.033$ & 174.6 & 38.6 & $0.422\pm0.009$ & 94.5 & 31.9 \\
+SW & \underline{$0.590\pm0.018$} & \textbf{17.3} & 20.5 & $0.350\pm0.046$ & 98.3 & 4.7 \\
+LT & $0.425\pm0.011$ & 95.1 & 27.2 & $0.507\pm0.045$ & 101.7 & 21.9 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{COVID} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.420\pm0.047$ & 201.7 & 5.7 & $0.668\pm0.039$ & \underline{56.3} & 21.8 \\
+Ext. Pointwise & $0.558\pm0.033$ & \underline{32.2} & 33.0 & $0.499\pm0.023$ & 58.7 & \textbf{5.6} \\
+External Bubble & $0.607\pm0.012$ & 169.9 & 36.6 & $0.457\pm0.038$ & 179.7 & 22.9 \\
+External Merge & $0.549\pm0.028$ & 131.5 & 18.2 & $0.616\pm0.045$ & 208.9 & 36.0 \\
+ListK Select & $0.432\pm0.024$ & 108.0 & \underline{4.8} & \textbf{$0.730\pm0.015$} & 61.1 & 35.8 \\
+Tournament & $0.573\pm0.014$ & 63.7 & 37.1 & $0.486\pm0.009$ & 170.3 & \underline{10.6} \\
+Lotus Quick & $0.351\pm0.036$ & \textbf{16.5} & 32.4 & $0.374\pm0.046$ & 128.0 & 14.4 \\
+Setwise Heap & \underline{$0.650\pm0.042$} & 169.1 & 16.4 & $0.364\pm0.044$ & \textbf{26.8} & 33.0 \\
+SW & $0.624\pm0.030$ & 77.8 & 38.5 & \underline{$0.668\pm0.037$} & 205.6 & 29.1 \\
+LT & \textbf{$0.682\pm0.008$} & 129.6 & \textbf{3.5} & $0.510\pm0.042$ & 111.8 & 23.7 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.5-9B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ rank} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. & Q & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.677\pm0.040$ & 195.0 & 40.5 & $0.622\pm0.038$ & \underline{40.5} & \textbf{3.7} & \underline{4} & 5.3 & \textbf{3.3} \\
+Ext. Pointwise & $0.311\pm0.041$ & 103.2 & \textbf{1.4} & $0.354\pm0.031$ & \textbf{27.2} & 22.1 & 7 & \textbf{2.8} & \underline{4.3} \\
+External Bubble & $0.601\pm0.021$ & 141.3 & 6.7 & $0.476\pm0.041$ & 76.5 & 9.1 & 5.8 & 6.7 & 6 \\
+External Merge & $0.341\pm0.034$ & 100.5 & 34.9 & $0.637\pm0.032$ & 208.8 & 25.2 & 5.7 & 6.5 & 6.7 \\
+ListK Select & $0.547\pm0.020$ & 121.3 & 36.2 & $0.537\pm0.028$ & 41.9 & 31.1 & 5.3 & \underline{5} & 6.3 \\
+Tournament & $0.559\pm0.025$ & 122.4 & 29.1 & $0.639\pm0.026$ & 100.1 & \underline{7.8} & 5.2 & 5.5 & 5 \\
+Lotus Quick & $0.633\pm0.039$ & \underline{69.9} & 31.0 & $0.514\pm0.019$ & 184.0 & 13.9 & 7.7 & 6 & \underline{4.3} \\
+Setwise Heap & \underline{$0.699\pm0.026$} & \textbf{21.4} & \underline{2.5} & $0.341\pm0.043$ & 191.2 & 26.1 & 6.8 & 5.2 & 6.7 \\
+SW & $0.489\pm0.044$ & 200.2 & 34.1 & \textbf{$0.693\pm0.019$} & 113.0 & 14.4 & 4.3 & 5.8 & 6 \\
+LT & \textbf{$0.739\pm0.031$} & 180.2 & 36.8 & \underline{$0.665\pm0.028$} & 183.6 & 27.2 & \textbf{3.2} & 6.2 & 6.3 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.505\pm0.020$ & \textbf{15.2} & \textbf{4.1} & \textbf{$0.727\pm0.039$} & 84.1 & 23.4 \\
+Ext. Pointwise & $0.486\pm0.014$ & 112.5 & 20.4 & $0.664\pm0.031$ & 103.6 & 5.5 \\
+External Bubble & $0.578\pm0.017$ & \underline{53.5} & 34.6 & $0.621\pm0.019$ & 199.5 & \textbf{3.7} \\
+External Merge & $0.366\pm0.040$ & 208.9 & 7.4 & $0.652\pm0.033$ & \underline{16.1} & 8.7 \\
+ListK Select & $0.337\pm0.033$ & 180.0 & 18.2 & \underline{$0.709\pm0.041$} & 91.9 & 20.2 \\
+Tournament & \underline{$0.743\pm0.026$} & 64.3 & 20.0 & $0.692\pm0.018$ & \textbf{15.4} & 32.0 \\
+Lotus Quick & \textbf{$0.746\pm0.015$} & 56.3 & 30.4 & $0.624\pm0.046$ & 163.8 & 28.2 \\
+Setwise Heap & $0.436\pm0.015$ & 214.2 & 25.3 & $0.421\pm0.009$ & 46.6 & 32.7 \\
+SW & $0.731\pm0.012$ & 100.7 & 34.3 & $0.665\pm0.045$ & 121.2 & \underline{5.0} \\
+LT & $0.494\pm0.047$ & 106.5 & \underline{5.4} & $0.432\pm0.010$ & 44.5 & 5.4 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{COVID} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.490\pm0.028$ & \underline{59.6} & \underline{2.4} & $0.300\pm0.008$ & 56.1 & \underline{17.1} \\
+Ext. Pointwise & \underline{$0.631\pm0.040$} & 126.4 & 31.1 & \underline{$0.668\pm0.017$} & \underline{41.3} & 22.0 \\
+External Bubble & $0.548\pm0.014$ & 152.8 & 34.3 & $0.539\pm0.020$ & 158.9 & 40.6 \\
+External Merge & $0.433\pm0.041$ & 175.8 & 28.1 & $0.494\pm0.013$ & 192.9 & 32.5 \\
+ListK Select & $0.454\pm0.040$ & 151.7 & 23.5 & $0.396\pm0.014$ & 180.8 & 33.4 \\
+Tournament & $0.583\pm0.013$ & 167.8 & 29.9 & $0.414\pm0.030$ & \textbf{21.5} & 39.6 \\
+Lotus Quick & $0.628\pm0.036$ & 163.0 & 17.6 & $0.657\pm0.014$ & 135.3 & 23.4 \\
+Setwise Heap & $0.319\pm0.015$ & \textbf{18.1} & \textbf{1.0} & $0.581\pm0.024$ & 70.1 & 20.0 \\
+SW & $0.515\pm0.009$ & 158.4 & 11.4 & $0.444\pm0.024$ & 175.9 & \textbf{13.5} \\
+LT & \textbf{$0.687\pm0.029$} & 167.6 & 40.5 & \textbf{$0.699\pm0.041$} & 113.3 & 21.5 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3.2pt}\renewcommand{\arraystretch}{1.12}
+\caption{Qwen3.8-27B, LIMIT10. ListK Select is the same row, not an eleventh method. Synthetic.}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+Method & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ rank} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+ & NDCG@10 & Tok. & Lat. & NDCG@10 & Tok. & Lat. & Q & Tok. & Lat. \\
+\midrule
+OrderByLLM Pointwise & $0.369\pm0.012$ & 175.3 & 36.5 & $0.513\pm0.018$ & 203.2 & 10.6 & 6 & 5.2 & \underline{4.2} \\
+Ext. Pointwise & $0.427\pm0.047$ & 133.3 & 31.7 & \underline{$0.638\pm0.023$} & \underline{43.6} & 20.6 & \underline{4.2} & 4.8 & 6.2 \\
+External Bubble & $0.346\pm0.034$ & 67.9 & 14.2 & \textbf{$0.652\pm0.027$} & 153.9 & 13.8 & 5.3 & 6.2 & 6.3 \\
+External Merge & $0.339\pm0.020$ & \textbf{16.9} & \textbf{5.0} & $0.381\pm0.036$ & \textbf{18.5} & \textbf{5.2} & 7.8 & 5.5 & \textbf{3.8} \\
+ListK Select & \underline{$0.606\pm0.019$} & 96.7 & 28.1 & $0.364\pm0.030$ & 116.8 & \underline{5.2} & 6.7 & 6.3 & 5.2 \\
+Tournament & $0.498\pm0.025$ & 27.0 & 18.3 & $0.426\pm0.024$ & 85.8 & 16.8 & 4.7 & \textbf{3.5} & 6.8 \\
+Lotus Quick & $0.599\pm0.012$ & 100.5 & 32.1 & $0.367\pm0.028$ & 122.1 & 40.0 & \underline{4.2} & 6.5 & 7.3 \\
+Setwise Heap & $0.504\pm0.022$ & 98.2 & 18.2 & $0.572\pm0.034$ & 129.3 & 9.8 & 6.7 & 5.5 & 4.7 \\
+SW & \textbf{$0.629\pm0.011$} & 134.3 & 38.5 & $0.584\pm0.016$ & 113.9 & 25.7 & \textbf{4} & 6.8 & 5.7 \\
+LT & $0.472\pm0.037$ & \underline{25.4} & \underline{12.7} & $0.353\pm0.035$ & 100.0 & 24.4 & 5.5 & \underline{4.7} & 4.8 \\
+\bottomrule
+\end{tabular}
+\end{table*}

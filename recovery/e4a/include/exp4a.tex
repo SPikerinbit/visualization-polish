@@ -1,0 +1,46 @@
+% Experiment 4a fragment. Suggested insertion into the new experiment-4 section.
+% Do not replace fig:exp4-full or fig:exp4-topk: those answer a different question.
+% Labels below are suggestions, not confirmed. Both layouts are proposals.
+% The drawings are 178 mm wide. \includegraphics[width=\textwidth] scales them
+% to the VLDB sigconf text width. This file is not a layout supplement.
+%
+% From the paper root, either copy the PDFs beside the paper figures or add:
+%   \graphicspath{{recovery/e4a/figures/}}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e4a-layout-a-dl20.pdf}
+  \caption{Layout proposal A, DL20 representative-query slot (synthetic sample, not an experimental result).
+  9B, one draw per condition, $\beta=0$.
+  Off is measured input $U$. On-cold is measured input minus the measured cache hit, $U-Q$.
+  Blue is Off and orange is On-cold. An open diamond is that state's predicted configuration; a star is that state's measured minimum.
+  Both marks are drawn on the measured curve. Where the two roles share one $(k,h)$, they use one combined mark.
+  Ticks are $h$, grouped by $k$. The line joins this display subset only and does not fill in omitted legal pairs.
+  Every $n{=}100$ panel in both proposals shares one $y$ scale; every $n{=}500$ panel shares a second scale.
+  The axis is equivalent input tokens, not dollars.
+  No cache or selection advantage is claimed.}
+  \label{fig:exp4a-layout-a-dl20}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e4a-layout-a-trec-covid.pdf}
+  \caption{Layout proposal A, TREC-COVID representative-query slot. Same encoding, scale, and synthetic-data status as the DL20 proposal. Dataset names are an assumption: the 4a paragraph says two datasets and does not name them.}
+  \label{fig:exp4a-layout-a-trec-covid}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e4a-layout-b-sw.pdf}
+  \caption{Layout proposal B, SW only, both representative-query slots side by side.
+  Same measured curves, role marks, category order, and shared per-$n$ scale as proposal A.
+  Panel count and this arrangement are not a settled choice.}
+  \label{fig:exp4a-layout-b-sw}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e4a-layout-b-lt.pdf}
+  \caption{Layout proposal B, LT only. Same encoding as the SW sheet. $h{=}1$ is not a third algorithm.}
+  \label{fig:exp4a-layout-b-lt}
+\end{figure*}

@@ -3,7 +3,7 @@
   "commit_sha": "0d96d0bf116e52f1664ae2539446f05921f5e947",
   "commit_url": "https://github.com/BITQiKangK/SemaPrototype/commit/0d96d0bf116e52f1664ae2539446f05921f5e947",
   "rejected_transcription": "0d96d0bf116e52f1664ea2539446f05921f9e947",
-  "note": "The rejected transcription was a copy error, not a different push. These five files match the browser-download manifest byte-for-byte. No wrapper text was present.",
+  "note": "Eight files. No wrapper text was present on the three added sources. Checksums match the browser manifest.",
   "files": [
     {
       "path": "sema_prototype/physical_operator/orderby/merge/sliding_window/sliding_window.py",
@@ -29,6 +29,21 @@
       "path": "sema_prototype/logical_operator/orderby.py",
       "bytes": 5286,
       "sha256": "9c2e365fdac04fba7b16c0bab9fbdf705d8cfd64205aa6031df445f0cc338163"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/merge/_shared/plan.py",
+      "bytes": 27399,
+      "sha256": "e39bb4ecfef395b920dd198eb1205a1e0908d7f64292596ff1823c03a42ec0ee"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/merge/_shared/runtime.py",
+      "bytes": 10160,
+      "sha256": "999d6803ed570f99d251a7daf26efc58c6775a5860e3adee5dffc3f1d6658445"
+    },
+    {
+      "path": "sema_prototype/physical_operator/orderby/merge/_shared/producer.py",
+      "bytes": 10088,
+      "sha256": "3b1057043ef9c2167dde42a6f38deabe24b7035d84726bedd23c6f43ec607554"
     }
   ]
 }

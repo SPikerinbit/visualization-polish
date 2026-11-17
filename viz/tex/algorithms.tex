@@ -1,68 +1,75 @@
-\begin{algorithm}[t]
-\caption{Semantic ORDER BY. Mode and the stop at $K$ follow \texttt{operator.py}. The body of \texttt{prepare\_merge\_plan} is not in the five files.}
+\begin{algorithm}[H]
+\caption{Semantic ORDER BY.}
 \label{alg:orderby}
-\KwIn{rows $D$, instruction $\phi$, capacity $m$, requested family, optional $(k,h)$, optional limit $K$}
-\KwOut{order $\Pi$, or its prefix $\Pi_K$}
-\lIf{$K=0$ \textbf{or} $|D|\le 1$}{\Return{the trivial frame}}
-\eIf{mode is omitted}{use buffer when $K$ is set, otherwise full}{use the explicit mode}
-\lIf{an ascending limit is requested}{force full}
-Partition $D$ into chunks of at most $m$ and \textsc{ListwiseRank} each chunk (\texttt{\_listwise\_sort})\;
-Ask \texttt{prepare\_merge\_plan} for the $(k,h)$ used by the merge\;
-Execute that family. In buffer mode the producers stop once $K$ items have been yielded\;
-\lIf{$K$ is set}{truncate the returned frame to $K$}
+\KwIn{rows $D$, instruction $\phi$, capacity $m$, optional limit $K$}
+\KwOut{order $\Pi$, or prefix $\Pi_K$}
+\lIf{$K=0$ or $|D|\le 1$}{\Return{the trivial frame}}
+\eIf{mode is omitted}{buffer when $K$ is set, else full}{use the explicit mode}
+\lIf{ascending and $K$ are both set}{force full}
+\textsc{ListwiseRank} each chunk of at most $m$\;
+Choose $(k,h)$ by minimum estimated input tokens.
+Ties keep LT, then smaller $k$, then smaller $h$.
+The expectation itself is computed in \textsc{Finite}, which is not among these files\;
+\eIf{mode is buffer}{build the producer tree and drain the root}{materialize each pass}
+\textsc{Materialize} always closes the root in a \textbf{finally} block, including when $K$ is reached. That close cancels the pump and closes upstreams\;
+\lIf{$K$ is set}{truncate the frame to $K$}
 \end{algorithm}
 
-\begin{algorithm}[t]
-\caption{One sliding-window round (\texttt{StructuralMergeBuffer.\_run\_one\_round}). $I$ is a set of run indexes, not a set of runs.}
+\begin{algorithm}[H]
+\caption{One sliding-window round. $I$ is a set of run indexes.}
 \label{alg:sw}
-\KwIn{buffer, fixed quota $h$ or none, capacity $m$, upstreams}
-\If{only one run still has items and every other upstream is drained}{emit that buffer in pull order and \Return{}}
-Let $I$ be the runs that still occupy the buffer or still have upstream supply\;
-\eIf{$h$ is fixed}{each $i\in I$ has quota $h$, and $h|I|\le m$}{each active run has quota $\max(1,\lfloor m/|I|\rfloor)$, then shortfall may be borrowed}
-$B\leftarrow$ the real rows in the buffer, ordered by the shuffle policy (identity when the policy is none)\;
-$\mathcal{O}\leftarrow\textsc{ListwiseRank}(B,\phi)$\;
-Scan $\mathcal{O}$ until a run has emitted every row it currently holds and that run still has upstream supply. Call this prefix the safe prefix\;
-Emit the safe prefix, but refuse an item once $K$ yielded-or-pending items are reached\;
-Rows of $\mathcal{O}$ after the safe prefix stay in the buffer for the next round\;
+\KwIn{buffer, quota $h$ or none, capacity $m$}
+\If{one run remains and the others are drained}{emit that buffer in pull order and \Return}
+$I\leftarrow$ runs that still occupy the buffer or still have supply\;
+\eIf{$h$ is fixed}{quota $h$ with $h|I|\le m$; no borrowing}{quota $\max(1,\lfloor m/|I|\rfloor)$, then borrow the shortfall}
+$\mathcal{O}\leftarrow\textsc{ListwiseRank}$ of the real buffer\;
+Stop the scan when a run has emitted every row it holds and still has supply\;
+Emit that safe prefix, refusing an item once $K$ are pending or yielded\;
+The rest of $\mathcal{O}$ stays in the buffer\;
 \end{algorithm}
 
-\begin{algorithm}[t]
-\caption{Pointer-guided LT for every $h\ge 1$ (\texttt{\_loser\_tree\_stream\_generator}). There is no second tree.}
+\begin{algorithm}[H]
+\caption{Pointer-guided LT. One generator for every $h\ge 1$.}
 \label{alg:lt}
-\KwIn{leaf producers, $\phi$, $m$, $h$, optional $K$}
-\KwOut{stream of yielded rows}
-Build an exact binary tree. Do not pad to a power of two. A leaf stores only its run index. An internal node stores $\mathrm{loser}(v)$ and $\mathrm{pointer}(v)$\;
-\lIf{$h$ was omitted}{$h\leftarrow \lfloor m/(1+\lceil\log_2 k\rceil)\rfloor$}
-Require $(1+\lceil\log_2 k\rceil)h\le m$\;
+\KwIn{leaves, $\phi$, $m$, $h$, optional $K$}
+Build an exact binary tree. Do not pad to a power of two.
+A leaf stores a run index. An internal node stores a loser segment and a pointer\;
+\lIf{$h$ is omitted}{$h\leftarrow\lfloor m/(1+\lceil\log_2 k\rceil)\rfloor$}
+Require $(1+\lceil\log_2 k\rceil)\,h\le m$\;
 Fill every leaf with at most $h$ real rows\;
-\ForEach{block from \texttt{init\_plan} (body not in these files)}{
-  \textsc{ListwiseRank} the real rows on the block frontier, then repair run order\;
-  Replay each internal node in the block and keep the transient winner\;
+\ForEach{block returned by \textsc{InitPlan}}{
+  \textsc{ListwiseRank} the real frontier rows and repair run order\;
+  Replay each internal node in the block\;
 }
-$tmp\leftarrow$ the root's transient winner\;
-\While{$tmp\neq\emptyset$}{
-  Yield rows of $tmp$ until $K$, and \Return{before the next refresh once $K$ is reached}\;
-  $tmp\leftarrow\textsc{RefreshPath}$\;
+Let $S$ be the root segment\;
+\While{$S$ is nonempty}{
+  Yield rows of $S$ until $K$\;
+  \lIf{$K$ is reached}{\Return before the next refresh}
+  $S\leftarrow\textsc{RefreshPath}$\;
 }
 \end{algorithm}
 
-\begin{algorithm}[t]
-\caption{Replay one node (\texttt{\_replay\_validated\_segment}). Slot 0/1 are arguments, not run ids.}
+\begin{algorithm}[H]
+\caption{Replay one node. Slot 0 and slot 1 are arguments, not run ids.}
 \label{alg:replay}
-\KwIn{slot 0, slot 1, rank map $\rho$, $h$, the two child ids}
-Order the real rows by $\rho$. Append virtual $+\infty$ until each slot has $h$ positions. Virtual tags are not ranked by the model\;
+\KwIn{slot 0, slot 1, rank map $\rho$, $h$, two child ids}
+Order the real rows by $\rho$.
+Pad each slot to $h$ with virtual $+\infty$.
+Those tags are not sent to the model\;
 Let $c$ be the child whose slot first reaches count $h$\;
-$\mathrm{pointer}(v)\leftarrow c$;\ the winner is the real rows in the first $h$ logical positions;\ $\mathrm{loser}(v)$ is the remaining real rows\;
-\Return{winner, loser, and pointer together}\;
+Set the pointer to $c$.
+The winner is the real rows among the first $h$ positions.
+The loser is the other real rows\;
+\Return{winner, loser, and pointer together}
 \end{algorithm}
 
-\begin{algorithm}[t]
-\caption{Refresh (\texttt{refresh\_path}). Collect, rank, and write-back stay separate.}
+\begin{algorithm}[H]
+\caption{Refresh. Collect, rank, and write-back stay separate.}
 \label{alg:refresh}
-Descend from the root by $\mathrm{pointer}(v)$ to a leaf and fill that leaf only\;
-Collect the new segment plus $\mathrm{loser}(v)$ of each node on the path. Rank that real set once, then repair run order\;
-\ForEach{node $v$ from the leaf parent up to the root}{
-  Put the incoming segment in the slot of the current pointer and the stored loser in the other slot\;
-  Replace the incoming segment by \textsc{Replay}'s winner\;
+Follow the pointer from the root to a leaf and fill that leaf only\;
+Rank the new segment plus the stored losers, then repair run order\;
+\ForEach{node from that leaf's parent up to the root}{
+  Put the incoming segment in the current pointer's slot and the loser in the other\;
+  Replace the incoming segment by the replay winner\;
 }
 \end{algorithm}

@@ -1,0 +1,68 @@
+\begin{table}[t]
+\caption{Current dataset contract. Input statistics, not a quality result. The rejected Movies / Touch\'e / FiQA counts are not reprinted.}
+\centering\footnotesize
+\begin{tabular}{@{}llrl@{}}
+\toprule
+Dataset & Role & Queries & Note \\
+\midrule
+Q9 & main table & 1 & 128 labeled comments \\
+DL20 & main table & 30 & mechanism queries 1121353, 1109707, 330975 \\
+DL22 & main table & 30 & official duplicate map was a recorded gap \\
+COVID & main table & 30 & mechanism queries 6, 38, 12 \\
+DBpedia & main table & 30 & replaces FiQA \\
+Robust04 & main table & 30 & replaces Touch\'e; corpus was a recorded gap \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Symbolic call counts carried from the rejected manuscript, with the segmented row merged into LT. Not re-derived from the current estimator.}
+\centering\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+Method & Full & LIMIT $K$ \\
+\midrule
+Pointwise & $O(n)$ & $O(n)$ \\
+Ext.\ pointwise & $O(n/m)$ & $O(n/m)$ \\
+Ext.\ bubble & $O(n^2/m^2)$ & $O(Kn/m^2)$ \\
+Ext.\ merge & $O((n/m)\log(n/m))$ & $O((n/m)\log(K/m))$ \\
+ListK Sort/Select & one row & switches with the mode \\
+Tournament & listwise bound & listwise bound \\
+Lotus Quick & pairwise bound & pairwise bound \\
+Setwise Heap & heapsort, 2 children & same contract \\
+SW & safe-prefix merge & same merger, stop at $K$ \\
+LT$(h)$ & one generator & $h{=}1$ is not a third method \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Validation-table shape. Every number below is a synthetic placeholder. The rejected manuscript's zero-regret rows are not reused.}
+\centering\footnotesize
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+Family & Mode & Predicted & Measured min & Extra tokens \\
+\midrule
+SW & Full & $(4,2)$ & $(5,2)$ & 1200 \\
+LT & Full & $(8,1)$ & $(8,1)$ & 0 \\
+SW & LIMIT10 & --- & --- & missing \\
+LT & LIMIT10 & $(6,2)$ & $(4,2)$ & 800 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Per-scale best $(k,h)$ is not assigned. Supplement coordinates are the confirmed extra points and are not a best-of-scale curve. Cells marked ``open'' are not filled with a guess.}
+\centering\footnotesize
+\begin{tabular}{@{}lllp{3.4cm}@{}}
+\toprule
+$n$ & Mode & Supplement & Best role \\
+\midrule
+1000 & Full / LIMIT10 & none & open \\
+5000 & Full & LT $(250,2)$ & open \\
+5000 & LIMIT10 & LT $(250,1)$ & open \\
+10000 & Full & LT $(500,2)$ & open \\
+10000 & LIMIT10 & LT $(500,1)$ & open \\
+\bottomrule
+\end{tabular}
+\end{table}

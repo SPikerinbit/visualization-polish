@@ -1,5 +1,13 @@
 # 实现证据
 
+Eight files now. The three added on this round are `plan.py`, `runtime.py`, and `producer.py`. Their SHA-256 values match the second manifest. None of those files ended in wrapper text.
+
+`init_plan` is `plan.py` lines 227–265. It cuts a balanced tree into blocks whose real segments fit in one call, then replays the internal nodes of that block.
+
+`select_parameters` is `plan.py` lines 604–698. It keeps the feasible `(k,h)` with the smallest estimated input-token cost, then prefers LT, then a smaller `k`, then a smaller `h`. The expectation function is imported from `finite.py`, which was not in this download. The v3 formula in the same file is the uncorrected ablation, not the production estimate.
+
+`materialize_producer` is `producer.py` lines 221–244. The `finally` block calls `aclose` even when the drain stops at `K`. Buffer execution reaches it from `execute_family` in `runtime.py` lines 217–226.
+
 Commit `0d96d0bf116e52f1664ae2539446f05921f5e947`。五份文件 SHA-256 与字节数见 `evidence/manifest.json`，与浏览器 manifest 一致。没有包装文本。
 
 | 算法 | 文件 | 函数与行 |

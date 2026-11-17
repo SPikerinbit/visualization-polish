@@ -27,9 +27,10 @@ def _pill(ax, x, y, text, face, edge, text_color=INK, w=0.42, h=0.28):
     ax.text(x, y, text, ha="center", va="center", fontsize=7, color=text_color)
 
 
-def _row(ax, x, y, items, face, edge, text_color=INK):
+def _row(ax, x, y, items, face, edge, text_color=INK, w=0.62):
+    step = w + 0.22
     for i, item in enumerate(items):
-        _pill(ax, x + i * 0.48, y, str(item), face, edge, text_color)
+        _pill(ax, x + i * step, y, str(item), face, edge, text_color, w=w, h=0.36)
 
 
 def _call(ax, x, y, w, h, number):
@@ -70,29 +71,44 @@ def render_intro():
     _save(fig, "mech-intro.pdf")
 
 
+def _lanes(ax, items, y, face, edge, text_color=INK, x0=1.7, per=4):
+    rows = [items[i : i + per] for i in range(0, max(len(items), 1), per)]
+    if not items:
+        rows = [["—"]]
+        face, edge, text_color = "white", GRAY, MUTED
+    for r, row in enumerate(rows):
+        _row(ax, x0, y - r * 0.48, row, face, edge, text_color, w=0.7)
+    return 0.48 * (len(rows) - 1)
+
+
 def render_sw():
     rounds = [
-        (1, [[3, 7], [1, 5], [2, 8], [4, 9]], [1, 2, 3, 4, 5], [7, 8, 9], [[12, 16], [6, 14], [11, 15], [10, 13]]),
-        (2, [[7, 12], [6, 14], [8, 11], [9, 10]], [6, 7, 8, 9, 10], [11, 12, 14], [[16], [], [15], [13]]),
-        (3, [[12, 16], [14], [11, 15], [13]], [11, 12, 13, 14, 15, 16], [], [[], [], [], []]),
+        (1, [[3, 7], [1, 5], [2, 8], [4, 9]], [1, 2, 3, 4, 5], [7, 8, 9], [12, 16, 6, 14, 11, 15, 10, 13]),
+        (2, [[7, 12], [6, 14], [8, 11], [9, 10]], [6, 7, 8, 9, 10], [11, 12, 14], [16, 15, 13]),
+        (3, [[12, 16], [14], [11, 15], [13]], [11, 12, 13, 14, 15, 16], [], []),
     ]
-    fig, axes = plt.subplots(1, 3, figsize=(7.16, 3.3))
+    fig, axes = plt.subplots(1, 3, figsize=(7.16, 4.6))
     for ax, (number, windows, emit, retained, unread) in zip(axes, rounds):
-        _panel(ax, f"({chr(96+number)}) call {number}")
-        ax.text(0.2, 5.5, "ListwiseRank", color=RED, fontsize=7)
-        _call(ax, 0.85, 2.55, 5.4, 2.85, number)
-        y = 4.9
+        ax.set_xlim(0, 10)
+        ax.set_ylim(0, 8.2)
+        ax.axis("off")
+        ax.set_title(f"({chr(96 + number)}) same four runs", loc="left", fontsize=8, color=INK, pad=1)
+        ax.add_patch(Circle((0.42, 7.55), 0.24, facecolor="white", edgecolor=INK, lw=0.8, zorder=3))
+        ax.text(0.42, 7.55, str(number), ha="center", va="center", fontsize=8, color=INK, zorder=4)
+        ax.text(1.15, 7.55, "ListwiseRank", va="center", fontsize=8, color=RED)
+        ax.add_patch(FancyBboxPatch((0.25, 4.55), 9.4, 2.55, boxstyle="round,pad=0.02,rounding_size=0.08",
+                                    facecolor="none", edgecolor=RED, linewidth=1.0, linestyle=(0, (2, 1.2))))
+        y = 6.55
         for run, window in enumerate(windows, start=1):
-            ax.text(1.05, y, f"R{run}", fontsize=6, color=MUTED, va="center")
-            _row(ax, 1.85, y, window, "white", GRAY)
+            ax.text(0.55, y, f"R{run}", fontsize=7, color=MUTED, va="center")
+            _row(ax, 1.7, y, window, "white", GRAY, w=0.78)
             y -= 0.55
-        ax.text(0.15, 1.9, "out", fontsize=6, color=BLUE)
-        _row(ax, 1.15, 1.9, emit, BLUE, BLUE, "white")
-        ax.text(0.15, 1.15, "keep", fontsize=6, color=MUTED)
-        _row(ax, 1.15, 1.15, retained or ["—"], "#D5D8DC", GRAY)
-        ax.text(0.15, 0.45, "unread", fontsize=6, color=MUTED)
-        flat = [item for group in unread for item in group]
-        _row(ax, 1.55, 0.45, flat or ["—"], "white", GRAY)
+        ax.text(0.15, 3.85, "out", fontsize=7, color=BLUE, va="center")
+        _lanes(ax, emit, 3.85, BLUE, BLUE, "white", x0=2.3, per=4)
+        ax.text(0.15, 2.55, "keep", fontsize=7, color=MUTED, va="center")
+        _lanes(ax, retained, 2.55, "#D5D8DC", GRAY, x0=2.3, per=4)
+        ax.text(0.15, 1.25, "unread", fontsize=7, color=MUTED, va="center")
+        _lanes(ax, unread, 1.25, "white", GRAY, x0=2.8, per=4)
     _save(fig, "mech-sw.pdf")
 
 
@@ -117,35 +133,99 @@ def _tree(ax, pointer, winner, loser, gutter_left, gutter_right, filled_right=No
         ax.text(5, 1.55, "fill " + " ".join(map(str, filled_right)), fontsize=6, color=INK, ha="center")
 
 
+def _band(ax, title):
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 6.4)
+    ax.axis("off")
+    ax.set_title(title, loc="left", fontsize=7.5, color=INK, pad=2)
+    ax.plot([3.2, 2.0], [3.3, 2.15], color="#C5CED4", lw=0.9, zorder=0)
+    ax.plot([3.2, 4.4], [3.3, 2.15], color="#C5CED4", lw=0.9, zorder=0)
+    ax.text(2.0, 1.75, "child 0", ha="center", fontsize=6.5, color=MUTED)
+    ax.text(4.4, 1.75, "child 1", ha="center", fontsize=6.5, color=MUTED)
+
+
+def _arrow(ax, side, color=INK, lw=1.6):
+    if side == 1:
+        ax.annotate("", xy=(4.25, 2.2), xytext=(3.35, 3.15), arrowprops=dict(arrowstyle="-|>", color=color, lw=lw))
+    elif side == 0:
+        ax.annotate("", xy=(2.15, 2.2), xytext=(3.05, 3.15), arrowprops=dict(arrowstyle="-|>", color=color, lw=lw))
+
+
+def _gutter(ax, left, right):
+    ax.text(7.1, 2.35, "unread 0", fontsize=6, color=MUTED)
+    _row(ax, 7.1, 1.85, left, "white", GRAY, w=0.62)
+    ax.text(7.1, 1.15, "unread 1", fontsize=6, color=MUTED)
+    _row(ax, 7.1, 0.65, right, "white", GRAY, w=0.62)
+
+
 def render_pointer():
-    fig, axes = plt.subplots(2, 3, figsize=(7.16, 5.6))
-    titles = [
-        "(a) slots seated, tails stay in the runs",
-        "(b) ListwiseRank of real items",
-        "(c) one replay return: pointer, winner, loser",
-        "(d) fill only the pointed child",
-        "(e) collect, then ListwiseRank",
-        "(f) write-back; pointer may change",
+    fig_a, ax_a = plt.subplots(2, 2, figsize=(7.16, 5.6))
+    fig_b, ax_b = plt.subplots(2, 2, figsize=(7.16, 5.6))
+    axes = list(ax_a.ravel()) + list(ax_b.ravel())
+    specs = [
+        "(a) slots seated",
+        "(b) call 1 order",
+        "(c) slot 1 reaches h",
+        "(d) write pointer = 1",
+        "(e) fill child 1 only",
+        "(f) call 2 order",
+        "(g) slot 0 reaches h",
+        "(h) write pointer = 0",
     ]
-    for ax, title in zip(axes.ravel(), titles):
-        _panel(ax, title)
-    a, b, c, d, e, f = axes.ravel()
-    _tree(a, None, [], [], [12, 16], [6, 14])
-    a.text(1.3, 5.15, "slot 0", fontsize=6, color=MUTED, ha="center")
-    _row(a, 0.9, 4.65, [3, 7], "white", INK)
-    a.text(8.5, 5.15, "slot 1", fontsize=6, color=MUTED, ha="center")
-    _row(a, 8.05, 4.65, [1, 5], "white", INK)
-    _tree(b, None, [], [], [12, 16], [6, 14])
-    b.text(5, 5.2, "ListwiseRank  1 3 5 7", fontsize=7, color=RED, ha="center")
-    _tree(c, "child1", [1, 3], [5, 7], [12, 16], [6, 14])
-    c.text(5, 5.35, "winner not yet yielded", fontsize=6, color=BLUE, ha="center")
-    _tree(d, "child1", [], [5, 7], [12, 16], [], filled_right=[6, 14])
-    d.text(5, 5.25, "run 0 is not filled", fontsize=6, color=MUTED, ha="center")
-    _tree(e, "child1", [], [5, 7], [12, 16], [])
-    e.text(5, 5.25, "call 2: loser in slot 0, incoming in slot 1", fontsize=6, color=RED, ha="center")
-    _tree(f, "child0", [5, 6], [7, 14], [12, 16], [])
-    f.text(5, 5.25, "this example sets child 0", fontsize=6, color=INK, ha="center")
-    _save(fig, "mech-pointer.pdf")
+    for ax, title in zip(axes, specs):
+        _band(ax, title)
+    a, b, c, d, e, f, g, h = axes
+    a.text(0.3, 5.5, "slot 0", fontsize=6.5, color=MUTED)
+    _row(a, 0.3, 4.9, [3, 7], "white", INK)
+    a.text(0.3, 4.2, "slot 1", fontsize=6.5, color=MUTED)
+    _row(a, 0.3, 3.6, [1, 5], "white", INK)
+    _gutter(a, [12, 16], [6, 14])
+    b.text(0.25, 5.3, "ListwiseRank", fontsize=7, color=RED)
+    _row(b, 0.3, 4.6, [1, 3, 5, 7], "white", RED)
+    b.text(0.3, 3.9, "real items only", fontsize=6, color=MUTED)
+    _gutter(b, [12, 16], [6, 14])
+    c.text(0.25, 5.35, "count on slot 1 hits h at 5", fontsize=6.5, color=RED)
+    _row(c, 0.3, 4.6, [1, 3], "white", GRAY)
+    _pill(c, 2.15, 4.6, "5", "#F8E8E6", RED, RED, w=0.62, h=0.36)
+    ax_tick = c
+    ax_tick.plot([2.15, 2.15], [4.28, 4.05], color=RED, lw=1.2)
+    ax_tick.text(2.15, 3.8, "exhaust", ha="center", fontsize=6, color=RED)
+    _row(c, 2.95, 4.6, [7], "white", GRAY)
+    c.text(0.3, 3.2, "pointer still unset", fontsize=6.5, color=MUTED)
+    _gutter(c, [12, 16], [6, 14])
+    _arrow(d, 1)
+    d.text(0.25, 5.45, "was unset", fontsize=6.5, color=MUTED)
+    d.text(0.25, 5.05, "now child 1", fontsize=6.5, color=INK)
+    _row(d, 0.3, 4.35, [1, 3], "white", BLUE, BLUE)
+    _row(d, 0.3, 3.7, [5, 7], "#D5D8DC", GRAY)
+    _gutter(d, [12, 16], [6, 14])
+    _arrow(e, 1, color=GRAY, lw=1.0)
+    e.text(0.25, 5.4, "only run 1 is filled", fontsize=6.5, color=INK)
+    _row(e, 0.3, 4.6, [6, 14], "white", INK)
+    e.text(0.3, 4.0, "run 0 stays unread", fontsize=6.5, color=MUTED)
+    _gutter(e, [12, 16], ["—"])
+    f.text(0.25, 5.35, "ListwiseRank", fontsize=7, color=RED)
+    f.text(0.25, 4.9, "slot0 5 7   slot1 6 14", fontsize=6.5, color=MUTED)
+    _row(f, 0.3, 4.2, [5, 6, 7, 14], "white", RED)
+    _arrow(f, 1, color=GRAY, lw=1.0)
+    _gutter(f, [12, 16], ["—"])
+    g.text(0.25, 5.4, "count on slot 0 hits h at 7", fontsize=6.5, color=RED)
+    _row(g, 0.3, 4.6, [5, 6], "white", GRAY)
+    _pill(g, 2.15, 4.6, "7", "#F8E8E6", RED, RED, w=0.62, h=0.36)
+    g.plot([2.15, 2.15], [4.28, 4.05], color=RED, lw=1.2)
+    g.text(2.15, 3.8, "exhaust", ha="center", fontsize=6, color=RED)
+    _row(g, 2.95, 4.6, [14], "white", GRAY)
+    _arrow(g, 1, color=GRAY, lw=1.0)
+    g.text(5.3, 5.2, "old pointer\nstill child 1", fontsize=6, color=MUTED)
+    _gutter(g, [12, 16], ["—"])
+    _arrow(h, 0)
+    h.text(0.25, 5.45, "was child 1", fontsize=6.5, color=MUTED)
+    h.text(0.25, 5.05, "now child 0", fontsize=6.5, color=INK)
+    _row(h, 0.3, 4.35, [5, 6], "white", BLUE, BLUE)
+    _row(h, 0.3, 3.7, [7, 14], "#D5D8DC", GRAY)
+    _gutter(h, [12, 16], ["—"])
+    _save(fig_a, "mech-pointer-a.pdf")
+    _save(fig_b, "mech-pointer-b.pdf")
 
 
 def render_lt():
@@ -200,8 +280,8 @@ def render_limit():
     ax.text(7.0, 2.1, "yield until K\nthen stop pulling", ha="center", va="center", fontsize=7, color=BLUE)
     ax.annotate("", xy=(10.4, 2.1), xytext=(8.9, 2.1), arrowprops=dict(arrowstyle="->", color=INK, lw=0.8))
     ax.text(10.5, 2.1, "Π_K\nnot Full", fontsize=7, color=INK, va="center")
-    ax.text(0.3, 0.7, "SW refuses another output item once the pending queue reaches K. LT returns before the next refresh.", fontsize=7, color=MUTED)
-    ax.text(0.3, 0.25, "Who calls aclose on the upstream pumps is not in these five files.", fontsize=7, color=MUTED)
+    ax.text(0.3, 0.7, "SW stops appending at K. LT returns before the next refresh.", fontsize=7, color=MUTED)
+    ax.text(0.3, 0.25, "materialize_producer always aclose() in finally, including this early stop.", fontsize=7, color=MUTED)
     _save(fig, "mech-limit.pdf")
 
 

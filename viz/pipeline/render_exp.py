@@ -16,7 +16,7 @@ FIG.mkdir(parents=True, exist_ok=True)
 
 
 def _save(fig, name):
-    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.03)
+    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.12)
     plt.close(fig)
 
 
@@ -63,22 +63,35 @@ def _draw_surface(ax, measured, predicted, coincide):
         pred_choice = best if coincide else max(measured, key=measured.get)
     if coincide:
         pred_choice = best
-    ax.scatter([best[0]], [best[1]], [measured[best]], marker="*", s=70, c=BLUE, depthshade=False, zorder=6)
-    ax.scatter([pred_choice[0]], [pred_choice[1]], [measured[pred_choice]], marker="D", s=28, facecolors="none", edgecolors="#E09A3E", linewidths=1.1, depthshade=False, zorder=7)
+    if coincide or pred_choice == best:
+        ax.scatter([best[0]], [best[1]], [measured[best]], marker="*", s=90, c="#E09A3E", edgecolors=BLUE, linewidths=1.3, depthshade=False, zorder=7)
+    else:
+        ax.scatter([best[0]], [best[1]], [measured[best]], marker="*", s=80, c=BLUE, depthshade=False, zorder=6)
+        ax.scatter([pred_choice[0]], [pred_choice[1]], [measured[pred_choice]], marker="D", s=36, facecolors="none", edgecolors="#E09A3E", linewidths=1.2, depthshade=False, zorder=7)
     ax.set_xlabel("k")
     ax.set_ylabel("h")
-    ax.set_zlabel("input tokens, synthetic")
-    ax.view_init(elev=26, azim=-54)
+    ax.set_zlabel("tokens")
+    ax.set_xticks([2, 4, 6, 8])
+    ax.set_yticks([1, 2, 3, 4, 5])
+    ax.set_zticks([80, 110, 140])
+    ax.set_zticklabels([])
+    ax.set_xlim(1.5, 8.5)
+    ax.set_ylim(0.5, 5.5)
+    ax.set_zlim(70, 150)
+    ax.view_init(elev=24, azim=-58)
     ax.set_proj_type("ortho")
+    ax.tick_params(labelsize=7, pad=1)
     for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
         axis.pane.fill = False
-        axis.pane.set_edgecolor(GRID)
+        axis.pane.set_edgecolor("#EEF2F4")
+        axis._axinfo["grid"]["color"] = "#E6ECF0"
+        axis._axinfo["grid"]["linewidth"] = 0.4
 
 
 def render_surfaces():
     specs = [
-        ("exp2-2x2.pdf", [("SW", "Full", 1, False), ("LT", "Full", 2, True), ("SW", "LIMIT10", 3, False), ("LT", "LIMIT10", 4, False)], (2, 2), (7.16, 6.3)),
-        ("exp2-2x3.pdf", [("SW", "short slot", 5, False), ("SW", "mid slot", 6, True), ("SW", "long slot", 7, False), ("LT", "short slot", 8, False), ("LT", "mid slot", 9, False), ("LT", "long slot", 10, False)], (2, 3), (7.16, 5.4)),
+        ("exp2-2x2.pdf", [("SW", "Full", 1, False), ("LT", "Full", 2, True), ("SW", "LIMIT10", 3, False), ("LT", "LIMIT10", 4, False)], (2, 2), (7.16, 7.2)),
+        ("exp2-2x3.pdf", [("SW", "short slot", 5, False), ("SW", "mid slot", 6, True), ("SW", "long slot", 7, False), ("LT", "short slot", 8, False), ("LT", "mid slot", 9, False), ("LT", "long slot", 10, False)], (2, 3), (7.16, 6.6)),
     ]
     for name, panels, shape, size in specs:
         fig = plt.figure(figsize=size)
@@ -87,12 +100,13 @@ def render_surfaces():
             missing = {(6, 2)} if index == 1 else set()
             measured, predicted = _surface(family, seed, missing)
             _draw_surface(ax, measured, predicted, coincide)
-            ax.set_title(f"{family}, {mode}", color=INK, fontsize=8, pad=0)
+            ax.set_title(f"{family}, {mode}\n80 / 110 / 140 tokens", color=INK, fontsize=8, pad=2)
         fig.legend(handles=[
             Line2D([0], [0], color=BLUE, lw=4, alpha=0.5, label="Measured placeholder"),
             Line2D([0], [0], color="#E09A3E", lw=4, alpha=0.6, label="Predicted placeholder"),
             Line2D([0], [0], marker="*", color=BLUE, lw=0, label="Measured minimum"),
-            Line2D([0], [0], marker="D", markerfacecolor="none", markeredgecolor="#E09A3E", lw=0, label="Predicted pick at its measured height"),
+            Line2D([0], [0], marker="D", markerfacecolor="none", markeredgecolor="#E09A3E", lw=0, label="Predicted pick, measured height"),
+            Line2D([0], [0], marker="*", color="#E09A3E", markeredgecolor=BLUE, lw=0, label="Both roles, one point"),
         ], loc="upper center", ncol=4, frameon=False, bbox_to_anchor=(0.5, 1.02), fontsize=7)
         fig.tight_layout(rect=(0, 0, 1, 0.94))
         _save(fig, name)
@@ -123,8 +137,8 @@ def render_exp3():
                     if row["mode"] != mode:
                         continue
                     y = _series(row["kh"], "LT", mode)[SIZES.index(row["n"])] * 0.75
-                    ax.scatter([row["n"]], [y], marker="*", s=40, c=INK, zorder=5)
-                    ax.annotate(f"sup {row['kh'][0]},{row['kh'][1]}", (row["n"], y), textcoords="offset points", xytext=(3, 3), fontsize=6, color=INK)
+                    ax.scatter([row["n"]], [y], marker="*", s=46, c=INK, zorder=5)
+                    ax.annotate(f"sup ({row['kh'][0]},{row['kh'][1]})", (row["n"], y), textcoords="offset points", xytext=(4, 8), fontsize=6, color=INK)
             ax.set_title(f"{family} {mode}", color=INK, fontsize=8)
             ax.set_xticks(SIZES)
             ax.set_xticklabels(["1k", "5k", "10k"])
@@ -137,91 +151,100 @@ def render_exp3():
 
 def render_exp4a():
     labels = ["(2,1)", "(2,2)", "(4,1)", "(4,3)", "(8,1)", "(8,2)"]
-    groups = [(0, 2, "k=2"), (2, 4, "k=4"), (4, 6, "k=8")]
     x = np.arange(len(labels))
     off = np.array([120, 110, np.nan, 90, 130, 100], dtype=float)
     on = np.array([100, 95, 80, 88, 110, 92], dtype=float)
-    fig, axes = plt.subplots(2, 2, figsize=(7.16, 4.6), sharex=True)
-    roles = {"Off pred": (1, off[1]), "Off measured": (5, off[5]), "On pred": (3, on[3]), "On measured": (2, on[2])}
-    for ax, title in zip(axes.ravel(), ["SW Full n=100", "SW LIMIT10 n=100", "LT Full n=500", "LT LIMIT10 n=500"]):
+    fig, axes = plt.subplots(2, 2, figsize=(7.16, 5.2), sharex=True)
+    for ax, title in zip(axes.ravel(), ["SW Full, n=100", "SW LIMIT10, n=100", "LT Full, n=500", "LT LIMIT10, n=500"]):
         ax.plot(x, off, color=SW, marker="o", lw=1.1, label="Off = U")
         ax.plot(x, on, color=LT, marker="s", lw=1.1, label="On-cold = U−Q")
-        ax.scatter([roles["Off pred"][0]], [roles["Off pred"][1]], marker="D", c=SW, s=28, zorder=4)
-        ax.scatter([roles["Off measured"][0]], [roles["Off measured"][1]], marker="*", c=SW, s=50, zorder=4)
-        ax.scatter([roles["On pred"][0], roles["On measured"][0]], [roles["On pred"][1], roles["On measured"][1]], marker="D", facecolors="none", edgecolors=LT, s=36, zorder=4)
-        ax.scatter([roles["On measured"][0]], [roles["On measured"][1]], marker="*", c=LT, s=36, zorder=5)
-        for start, end, text in groups:
-            ax.axvspan(start - 0.5, end - 0.5, color=GRID, alpha=0.35, lw=0)
-            ax.text((start + end - 1) / 2, ax.get_ylim()[0] if False else 70, text, ha="center", fontsize=6, color=MUTED)
+        ax.scatter([1], [off[1]], marker="D", c=SW, s=28, zorder=4, label="Predicted pick")
+        ax.scatter([5], [off[5]], marker="*", c=SW, s=70, zorder=4, label="Measured minimum")
+        ax.scatter([2], [on[2]], marker="*", s=80, c="#E09A3E", edgecolors=LT, linewidths=1.1, zorder=5, label="On: both roles")
+        ax.axvspan(-0.5, 1.5, color="#F4F7F8", zorder=0)
+        ax.axvspan(1.5, 3.5, color="#EEF3F1", zorder=0)
+        ax.axvspan(3.5, 5.5, color="#F7F4EE", zorder=0)
         ax.set_title(title, fontsize=8, color=INK)
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=45, ha="right")
+        ax.set_xticklabels(labels, fontsize=7)
+        ax.set_xlim(-0.5, 5.5)
+        ax.set_ylim(70, 145)
         ax.grid(axis="y", color=GRID, lw=0.4)
-    axes[0, 0].legend(frameon=False, fontsize=6)
+    handles, labels_leg = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels_leg, loc="upper center", ncol=5, frameon=False, fontsize=7, bbox_to_anchor=(0.5, 1.02))
     axes[0, 0].set_ylabel("synthetic equivalent input")
     axes[1, 0].set_ylabel("synthetic equivalent input")
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
     _save(fig, "exp4a.pdf")
 
 
 def render_exp4b():
     configs = [("2,1", 100, 40), ("2,2", 90, 20), ("4,1", 80, 55), ("4,3", 110, 10), ("8,1", 70, 30)]
     betas = [0, 0.25, 0.5, 0.75, 1]
-    fig, ax = plt.subplots(figsize=(7.16, 3.3))
-    xs = np.arange(len(configs))
     colors = ["#1F6F8B", "#3E8C6E", "#C47B2B", "#8C4A4A", "#3D5A80"]
+    fig, (ax, zoom) = plt.subplots(1, 2, figsize=(7.16, 3.4), gridspec_kw={"width_ratios": [1.6, 1]})
+    xs = np.arange(len(configs))
     for beta, color in zip(betas, colors):
         ys = [u - (1 - beta) * q for _name, u, q in configs]
-        ax.plot(xs, ys, marker="o", ms=3, lw=1.1, color=color, label=f"β={beta}")
+        ax.plot(xs, ys, marker="o", ms=3.5, lw=1.15, color=color, label=f"β={beta}")
+        zoom.plot(xs[2:4], ys[2:4], marker="o", ms=4, lw=1.15, color=color)
         best = int(np.argmin(ys))
-        pred = (best + 1) % len(ys)
-        ax.scatter([best], [ys[best]], marker="*", s=40, c=color, zorder=4)
-        ax.scatter([pred], [ys[pred]], marker="D", s=18, facecolors="none", edgecolors=color, zorder=4)
-    ax.set_xticks(xs)
-    ax.set_xticklabels([f"({name})" for name, _u, _q in configs])
+        pred = (best + 2) % len(ys)
+        ax.scatter([best], [ys[best]], marker="*", s=55, c=color, zorder=4)
+        ax.scatter([pred], [ys[pred]], marker="D", s=22, facecolors="none", edgecolors=color, zorder=4)
+        if best in (2, 3):
+            zoom.scatter([best], [ys[best]], marker="*", s=60, c=color, zorder=4)
+        if pred in (2, 3):
+            zoom.scatter([pred], [ys[pred]], marker="D", s=28, facecolors="none", edgecolors=color, zorder=4)
+    for panel, ticks, names in ((ax, xs, configs), (zoom, xs[2:4], configs[2:4])):
+        panel.set_xticks(ticks)
+        panel.set_xticklabels([f"({name})" for name, _u, _q in names])
+        panel.grid(color=GRID, lw=0.4)
+        panel.set_xlim(ticks[0] - 0.4, ticks[-1] + 0.4)
     ax.set_ylabel("U−(1−β)Q, synthetic")
-    ax.grid(color=GRID, lw=0.4)
-    ax.legend(frameon=False, ncol=5, fontsize=7, loc="upper right")
-    inset = fig.add_axes([0.62, 0.52, 0.28, 0.32])
-    for beta, color in zip(betas, colors):
-        ys = [u - (1 - beta) * q for _name, u, q in configs]
-        inset.plot(xs[2:4], ys[2:4], color=color, marker="o", ms=3, lw=1)
-    inset.set_title("local", fontsize=6, color=MUTED)
-    inset.tick_params(labelsize=6)
+    zoom.set_title("same labels, (4,1) and (4,3)", fontsize=7, color=MUTED)
+    ax.legend(frameon=False, ncol=3, fontsize=7, loc="upper right")
     fig.tight_layout()
     _save(fig, "exp4b.pdf")
 
 
 def render_exp4c():
-    rng = np.random.default_rng(4)
     methods = list(METHOD_STYLE)
+    # Spread across the quality axis on purpose so label crowding can be judged.
+    # No method is best on both axes in both states.
+    quality = [0.46, 0.58, 0.73, 0.41, 0.82, 0.64, 0.52, 0.77, 0.69, 0.88]
+    tokens = [28, 44, 86, 35, 62, 51, 73, 40, 57, 48]
     for mode, ylabel, name in (("Full", "synthetic Spearman", "exp4c-full.pdf"), ("LIMIT10", "synthetic NDCG@10", "exp4c-limit.pdf")):
-        fig, axes = plt.subplots(2, 2, figsize=(7.16, 5.4), sharex=True, sharey=True)
+        fig, axes = plt.subplots(2, 2, figsize=(7.16, 5.8), sharex=True, sharey=True)
         for row, dataset in enumerate(("DL20 slot", "COVID slot")):
-            base = {method: (20 + 8 * i + float(rng.normal(0, 1)), 0.35 + 0.04 * ((i * 3) % 7) / 6) for i, method in enumerate(methods)}
-            for col, (state, shift) in enumerate((("Off", 0), ("On-cold", -6))):
+            for col, state in enumerate(("Off", "On-cold")):
                 ax = axes[row, col]
-                for method in methods:
-                    x, y = base[method]
-                    x = x + shift + (2 if state == "On-cold" and method == "lt" else 0)
-                    y = y + (0.02 if state == "On-cold" and method == "sw" else -0.01)
+                for i, method in enumerate(methods):
+                    shift = (8 if state == "On-cold" else 0) + (6 if dataset.startswith("COVID") else 0)
+                    y = quality[i] - (0.06 if state == "On-cold" and i % 2 == 0 else 0)
+                    y = y - (0.04 if dataset.startswith("COVID") else 0)
+                    x = tokens[i] + shift
+                    if mode == "LIMIT10":
+                        y = min(0.9, y - 0.03 + (0.02 if i % 3 == 0 else 0))
                     color, marker = METHOD_STYLE[method]
-                    ax.scatter([x], [y], c=color, marker=marker, s=28, zorder=3)
-                    ax.annotate(METHOD_NAME[method], (x, y), textcoords="offset points", xytext=(4, 3), fontsize=5.5, color=INK)
-                ax.set_title(f"{dataset}, {state}, {mode}", fontsize=8, color=INK)
+                    ax.scatter([x], [y], c=color, marker=marker, s=36, zorder=3)
+                    ax.annotate(str(i + 1), (x, y), textcoords="offset points", xytext=(5, 4), fontsize=7, color=INK)
+                ax.set_title(f"{dataset}, {state}", fontsize=8, color=INK)
                 ax.grid(color=GRID, lw=0.4)
-                ax.set_xlim(10, 110)
-                ax.set_ylim(0.25, 0.85)
+                ax.set_xlim(20, 110)
+                ax.set_ylim(0.35, 0.95)
+        handles = [Line2D([0], [0], marker=METHOD_STYLE[m][1], color=METHOD_STYLE[m][0], lw=0, label=f"{i+1} {METHOD_NAME[m]}") for i, m in enumerate(methods)]
+        fig.legend(handles=handles, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, -0.02))
         axes[1, 0].set_xlabel("equivalent tokens, β=0, output weight 1")
         axes[1, 1].set_xlabel("equivalent tokens, β=0, output weight 1")
         axes[0, 0].set_ylabel(ylabel)
         axes[1, 0].set_ylabel(ylabel)
-        fig.tight_layout()
+        fig.tight_layout(rect=(0, 0.08, 1, 1))
         _save(fig, name)
 
 
 def render_exp5():
-    labels = ["10", "20", "50", "100", "200", "300", "400", "490", "L500", "Full"]
+    labels = ["10", "20", "50", "100", "200", "300", "400", "490", "500", "Full"]
     x = np.arange(len(labels))
     limit_x = x[:-1]
     for state, name in (("Off", "exp5-off.pdf"), ("On-cold", "exp5-on.pdf")):
@@ -234,13 +257,14 @@ def render_exp5():
                 ndcg = 0.45 + sign * 0.04 + np.linspace(0, 0.08, len(limit_x))
                 axc, axq = axes[0, col], axes[1, col]
                 axc.plot(limit_x, cost, color=color, marker="o", ms=3, lw=1.1, label=family)
-                axc.scatter([x[-1]], [cost[-1] + 6 * sign], color=color, marker="s", s=22, zorder=4)
-                axq.plot(limit_x, ndcg, color=color, marker="o", ms=3, lw=1.1)
-                axq.scatter([x[-1]], [min(0.9, ndcg[-1] + 0.03)], color=color, marker="s", s=22)
+                axc.scatter([x[-1]], [cost[-1] + 6 * sign], color=color, marker="s", s=28, zorder=4)
+                axq.plot(limit_x, ndcg, color=color, lw=1.1)
+                axq.scatter(limit_x, ndcg, color=color, marker="o", s=12, zorder=3)
+                axq.scatter([x[-1]], [min(0.9, float(ndcg[-1]) + 0.03)], color=color, marker="s", s=28, zorder=4)
             for ax in (axes[0, col], axes[1, col]):
                 ax.axvline(8.5, color=GRAY, lw=0.6, ls="--")
                 ax.set_xticks(x)
-                ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=6)
+                ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=6.5)
                 ax.grid(color=GRID, lw=0.4)
             axes[0, col].set_title(f"{state}, {dataset}", fontsize=8, color=INK)
         axes[0, 0].set_ylabel("synthetic equivalent input")

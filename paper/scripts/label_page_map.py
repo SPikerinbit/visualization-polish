@@ -15,6 +15,10 @@ for m in re.finditer(r"\\newlabel\{([^}]+)\}\{\{(\d+)", aux):
 sources = {
     "fig:exp2-surface-2x2": "integration/fig-e2-main.tex",
     "fig:exp3-scale": "integration/fig-e3-scale.tex",
+    "fig:exp4a-dl20-n100": "integration/fig-e4a-main.tex",
+    "fig:exp4a-covid-n500": "integration/fig-e4a-main.tex",
+    "fig:exp4a-dl20-n500": "integration/fig-e4a-appendix.tex",
+    "fig:exp4a-covid-n100": "integration/fig-e4a-appendix.tex",
     "fig:exp4b-beta": "integration/fig-e4b.tex",
     "fig:exp4c-full": "integration/fig-e4c.tex",
     "fig:exp4c-topk": "integration/fig-e4c.tex",

@@ -7,7 +7,8 @@
 - PR10 pseudocode @ `2973a86` → `integration/pseudocode-*.tex` (Alg1–5); legacy Init/Alg6 in `tex/legacy/appendix-algorithms-old.tex`
 - PR11 E4c labeled Full + LIMIT10 → `fig-approved/exp4c-*-labeled.pdf`
 - PR12 E4b beta curves → `fig-approved/e4b-beta.pdf`
-- Prior seven figures unchanged paths under `fig-approved/`
+- PR8 E4a compact四张 @ `607f3ee` → 正文 DL20 $n{=}100$ + COVID $n{=}500$；附录另两 Panel 仅版式代表
+- Prior specialist figures under `fig-approved/`
 
 ## Unified LT($h$) (not a third family)
 
@@ -17,7 +18,7 @@
 
 ## Pending visible placeholders
 
-- Exp1 tables, Exp4a, framework intro diagram (`\pendingviz{...}`)
+- Exp1 tables (**PR14** 父审中)
 - Legacy figures: `fig:exp2-k`, `fig:exp4-full`, `fig:exp5-m` (sources in `tex/legacy/` or zip-era `fig/panels/`)
 
 ## Build

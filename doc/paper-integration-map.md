@@ -17,6 +17,7 @@ Specialist trees live under `paper/recovery/` and `paper/viz/recovery/` (git-arc
 | SW wide | `cursor/sw-sliding-window-figure-ad37` | `recovery/sw/sw-wide.pdf` | `framework.tex` §SW, `figure*` | `fig:eg:sliding_window` |
 | LIMIT trial | `cursor/recovery-limit-ondemand-trial-a880` | `viz/recovery/limit/` | appendix optional | `fig:limit-demand-trial` |
 | Framework algo1 | `cursor/framework-algo1-cost-6f22` @ `5b3a024` | `recovery/framework/` | `framework.tex` `figure*` replaces Fig.1 | `fig:exp:semantic_external_merge` |
+| E4a compact | `cursor/e4a-off-on-cold-curves-29a9` @ `607f3ee` | `recovery/e4a/` | main: DL20 $n{=}100$ + COVID $n{=}500$; appendix: other two layout reps | `fig:exp4a-*` |
 | E4b / E4c / pseudocode | PR12 / PR11 / PR10 | `recovery/e4b`, `e4c`, `pseudocode` | `exp-body.tex` / `framework` / appendix | see `label-page-map.md` |
 
 PDF copies for `\includegraphics` are in `paper/tex/fig-approved/`. Captions are in `paper/tex/integration/*.tex` (integrator-authored wrappers only; no graphic edits).

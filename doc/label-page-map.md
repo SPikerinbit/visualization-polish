@@ -1,5 +1,5 @@
 # Label → page → source (auto-generated)
-PDF pages: 27
+PDF pages: 30
 
 | Label | Page | TeX source |
 |-------|------|------------|
@@ -13,10 +13,14 @@ PDF pages: 27
 | `fig:eg:sliding_window` | 2 | `integration/fig-sw.tex` |
 | `fig:exp2-surface-2x2` | 6 | `integration/fig-e2-main.tex` |
 | `fig:exp3-scale` | 5 | `integration/fig-e3-scale.tex` |
-| `fig:exp4b-beta` | 7 | `integration/fig-e4b.tex` |
-| `fig:exp4c-full` | 8 | `integration/fig-e4c.tex` |
-| `fig:exp4c-topk` | 9 | `integration/fig-e4c.tex` |
-| `fig:exp5-k-sweep-off` | 10 | `integration/fig-e5-sweep.tex` |
-| `fig:exp5-k-sweep-on` | 11 | `integration/fig-e5-sweep.tex` |
+| `fig:exp4a-covid-n100` | 17 | `integration/fig-e4a-appendix.tex` |
+| `fig:exp4a-covid-n500` | 8 | `integration/fig-e4a-main.tex` |
+| `fig:exp4a-dl20-n100` | 7 | `integration/fig-e4a-main.tex` |
+| `fig:exp4a-dl20-n500` | 16 | `integration/fig-e4a-appendix.tex` |
+| `fig:exp4b-beta` | 9 | `integration/fig-e4b.tex` |
+| `fig:exp4c-full` | 10 | `integration/fig-e4c.tex` |
+| `fig:exp4c-topk` | 11 | `integration/fig-e4c.tex` |
+| `fig:exp5-k-sweep-off` | 12 | `integration/fig-e5-sweep.tex` |
+| `fig:exp5-k-sweep-on` | 13 | `integration/fig-e5-sweep.tex` |
 | `fig:exp:semantic_external_merge` | 1 | `integration/fig-framework-algo1.tex` |
-| `fig:limit-demand-trial` | 12 | `integration/fig-limit-appendix.tex` |
+| `fig:limit-demand-trial` | 14 | `integration/fig-limit-appendix.tex` |

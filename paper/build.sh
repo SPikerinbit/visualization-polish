@@ -32,7 +32,8 @@ pdf = root / 'main.pdf'
 aux = (root / 'main.aux').read_text(errors='replace')
 labels = set(re.findall(r'\\newlabel\{([^}]+)\}', aux))
 required_labels = {
-    'fig:exp2-surface-2x2', 'fig:exp3-scale', 'fig:exp4b-beta',
+    'fig:exp2-surface-2x2', 'fig:exp3-scale',
+    'fig:exp4a-dl20-n100', 'fig:exp4a-covid-n500', 'fig:exp4b-beta',
     'fig:exp4c-full', 'fig:exp4c-topk', 'fig:exp5-k-sweep-off',
     'fig:exp:semantic_external_merge', 'fig:eg:sliding_window', 'fig:eg:loser_tree_kway_group_merge',
     'alg:semantic_external_merge', 'alg:sliding_window_kway_group_merge',
@@ -42,6 +43,8 @@ required_labels = {
 missing_labels = sorted(required_labels - labels)
 for rel in (
     'fig-approved/sw-wide.pdf', 'fig-approved/algo1-framework.pdf',
+    'fig-approved/e4a-compact-dl20-n100.pdf',
+    'fig-approved/e4a-compact-trec-covid-n500.pdf',
     'fig-approved/e4b-beta.pdf',
     'fig-approved/exp4c-full-labeled.pdf', 'integration/pseudocode-alg1-only.tex',
 ):

@@ -37,15 +37,17 @@
     "sec:exp:e2": 8,
     "sec:exp:cost": 8,
     "fig:exp2-surface-2x2": 6,
-    "fig:exp4b-beta": 7,
-    "fig:exp4c-full": 8,
-    "fig:exp4c-topk": 9,
+    "fig:exp4a-dl20-n100": 7,
+    "fig:exp4a-covid-n500": 8,
+    "fig:exp4b-beta": 9,
+    "fig:exp4c-full": 10,
+    "fig:exp4c-topk": 11,
     "sec:exp:limit-sweep": 8,
-    "fig:exp5-k-sweep-off": 10,
-    "fig:exp5-k-sweep-on": 11,
+    "fig:exp5-k-sweep-off": 12,
+    "fig:exp5-k-sweep-on": 13,
     "sec:relatedwork": 9,
     "sec:conclusion": 10,
-    "fig:limit-demand-trial": 12,
+    "fig:limit-demand-trial": 14,
     "alg:replay_segment_node": 4,
     "alg:refresh_loser_tree_path": 5,
     "alg:pipelined_topk_driver": 6,
@@ -53,8 +55,10 @@
     "alg:pipelined_lt_next": 8,
     "eq:appendix-repair-capacity": 15,
     "tab:params-full": 3,
-    "fig:exp2-surface-2x3": 13,
-    "TotPages": 26
+    "fig:exp2-surface-2x3": 15,
+    "fig:exp4a-dl20-n500": 16,
+    "fig:exp4a-covid-n100": 17,
+    "TotPages": 29
   },
-  "pages": 27
+  "pages": 30
 }

@@ -29,4 +29,4 @@ No formula, because `finite.py` is absent. This note does not say the parent acc
 
 ## SHA
 
-HEAD: `7d85267da07c9fea29f3479f2b99caaa474fa1dd`
+The three fixes and the rebuilt PDFs are commit `859a6fea272855eaf6976e23b199aea9557c04b9`. This paragraph is the following commit on the same branch, so the branch HEAD is one commit later and the PDF bytes are the same. `7fe71c8` and `bed819cdfc20c2df5ed067dbd120119daf74bcc6` are earlier and are not these files.

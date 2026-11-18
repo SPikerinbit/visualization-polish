@@ -492,14 +492,15 @@ def panel_title(panel: dict, mode: str) -> str:
 
 def add_compact_legend(fig):
     """One tight legend row; synthetic / axis contract live in the TeX caption."""
+    both_proxy = Line2D([0], [0], linestyle="None", label="both")
     handles = [
         Line2D([0], [0], linestyle="None", marker="D", markersize=5.5, markerfacecolor="white", markeredgecolor=OFF, markeredgewidth=0.95, label="Off pred."),
         Line2D([0], [0], linestyle="None", marker="*", markersize=8, color=OFF, markeredgecolor="white", markeredgewidth=0.35, label="Off min."),
         Line2D([0], [0], linestyle="None", marker="D", markersize=5.5, markerfacecolor="white", markeredgecolor=ON, markeredgewidth=0.95, label="On pred."),
         Line2D([0], [0], linestyle="None", marker="*", markersize=8, color=ON, markeredgecolor="white", markeredgewidth=0.35, label="On min."),
-        Line2D([0], [0], color=OFF, lw=1.35, label=r"Off $U$"),
-        Line2D([0], [0], color=ON, lw=1.35, label=r"On $U{-}Q$"),
-        Line2D([0], [0], linestyle="None", label="both"),
+        Line2D([0], [0], color=OFF, lw=1.35, label="Off U"),
+        Line2D([0], [0], color=ON, lw=1.35, label="On U-Q"),
+        both_proxy,
     ]
     return fig.legend(
         handles=handles,
@@ -512,7 +513,7 @@ def add_compact_legend(fig):
         columnspacing=0.85,
         borderaxespad=0.2,
         handlelength=1.6,
-        handler_map={handles[-1]: CoincideHandler()},
+        handler_map={both_proxy: CoincideHandler()},
     )
 
 
@@ -551,6 +552,66 @@ def _upper_row_foot_bboxes(fig, axes, renderer) -> tuple[float, float]:
             if bb.y1 <= pos.y0 + 0.02:
                 y_values.extend((bb.y0, bb.y1))
     return min(y_values), max(y_values)
+
+
+def paint_compact_panel(ax, panel: dict, ylim: tuple[float, float], show_ylabel: bool, records: list[dict]) -> None:
+    """Identical decoration on every subplot of every figure (no dataset branching)."""
+    xs = np.arange(len(DISPLAY))
+    off = series(panel, "measured_off_U") / 1000.0
+    on = series(panel, "measured_on_U_minus_Q") / 1000.0
+    style_axis(ax, ylim, show_y=show_ylabel)
+    draw_groups(ax)
+    ax.plot(xs, off, color=OFF, lw=1.2, solid_capstyle="round", zorder=2)
+    ax.plot(xs, on, color=ON, lw=1.2, solid_capstyle="round", zorder=2)
+    draw_markers(ax, panel, records)
+    ax.set_title(panel_title(panel, "compact"), pad=COMPACT_TITLE_PAD, color=INK, fontsize=8)
+    if show_ylabel:
+        ax.set_ylabel("tokens ×10³", labelpad=2)
+
+
+def _assert_figure_label_artists(fig, axes, legend, figure_name: str) -> None:
+    if not fig.legends:
+        raise RuntimeError(f"{figure_name}: figure legend missing")
+    if len(legend.get_texts()) != 7:
+        raise RuntimeError(f"{figure_name}: legend text count {len(legend.get_texts())}")
+    for index, ax in enumerate(axes.flat):
+        title = ax.get_title()
+        if not title or "Full" not in title and "LIMIT10" not in title:
+            raise RuntimeError(f"{figure_name}: panel {index} title missing ({title!r})")
+        if len(ax.get_xticklabels()) != len(DISPLAY):
+            raise RuntimeError(f"{figure_name}: panel {index} x tick labels missing")
+        if not any(text.get_text().startswith("k=") for text in ax.texts):
+            raise RuntimeError(f"{figure_name}: panel {index} k-group labels missing")
+    if not axes[1, 0].get_ylabel():
+        raise RuntimeError(f"{figure_name}: y-axis label missing")
+
+
+def _assert_png_text_bands(png_path: Path, figure_name: str) -> None:
+    """Raster guard: each sheet must carry legend, titles, y-label, and k foot ink."""
+    from PIL import Image
+
+    gray = np.asarray(Image.open(png_path).convert("L"))
+    height, width = gray.shape
+    bands = {
+        "legend": gray[: int(height * 0.13), :],
+        "upper_titles": gray[int(height * 0.15) : int(height * 0.27), :],
+        "lower_titles": gray[int(height * 0.54) : int(height * 0.70), :],
+        "left_ylabel": gray[int(height * 0.25) : int(height * 0.80), : int(width * 0.10)],
+        "h_ticks": gray[int(height * 0.39) : int(height * 0.46), int(width * 0.15) : int(width * 0.85)],
+        "k_foot": gray[int(height * 0.46) : int(height * 0.54), int(width * 0.15) : int(width * 0.85)],
+    }
+    ink = {name: float((band < 200).mean()) for name, band in bands.items()}
+    limits = {
+        "legend": 0.015,
+        "upper_titles": 0.025,
+        "lower_titles": 0.008,
+        "left_ylabel": 0.012,
+        "h_ticks": 0.004,
+        "k_foot": 0.004,
+    }
+    for name, floor in limits.items():
+        if ink[name] < floor:
+            raise RuntimeError(f"{figure_name}: PNG band {name} ink {ink[name]:.4f} < {floor}")
 
 
 def _assert_compact_layout(fig, axes, legend) -> None:
@@ -592,31 +653,26 @@ def _assert_compact_layout(fig, axes, legend) -> None:
 
 
 def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, float]) -> list[dict]:
+    plt.close("all")
     fig = plt.figure(figsize=(WIDTH_IN, HEIGHT_IN))
+    fig.patch.set_facecolor("white")
     rects = compact_axis_rects()
     axes = np.empty((2, 2), dtype=object)
-    records = []
+    records: list[dict] = []
     slot = 0
     for r, row in enumerate(grid):
         for c, panel in enumerate(row):
             ax = fig.add_axes(rects[slot])
             slot += 1
             axes[r, c] = ax
-            xs = np.arange(len(DISPLAY))
-            off = series(panel, "measured_off_U") / 1000.0
-            on = series(panel, "measured_on_U_minus_Q") / 1000.0
-            style_axis(ax, ylim, show_y=(c == 0))
-            draw_groups(ax)
-            ax.plot(xs, off, color=OFF, lw=1.2, solid_capstyle="round", zorder=2)
-            ax.plot(xs, on, color=ON, lw=1.2, solid_capstyle="round", zorder=2)
-            draw_markers(ax, panel, records)
-            ax.set_title(panel_title(panel, "compact"), pad=COMPACT_TITLE_PAD, color=INK, fontsize=8)
-            if c == 0:
-                ax.set_ylabel("tokens ×10³", labelpad=2)
+            paint_compact_panel(ax, panel, ylim, show_ylabel=(c == 0), records=records)
     legend = add_compact_legend(fig)
+    _assert_figure_label_artists(fig, axes, legend, path.stem)
     _assert_compact_layout(fig, axes, legend)
+    fig.canvas.draw()
     fig.savefig(path.with_suffix(".pdf"), bbox_inches=None, pad_inches=0)
     fig.savefig(path.with_suffix(".png"), dpi=PNG_DPI, bbox_inches=None, pad_inches=0)
+    _assert_png_text_bands(path.with_suffix(".png"), path.stem)
     plt.close(fig)
     return records
 
@@ -816,10 +872,10 @@ def compact_layout_grids(panels: list[dict]) -> dict[str, tuple[list[list[dict]]
         return by_key[(dataset, n, demand, family)]
 
     specs = (
-        ("e4a-compact-dl20-n100", "DL20", 100),
-        ("e4a-compact-dl20-n500", "DL20", 500),
         ("e4a-compact-trec-covid-n100", "TREC-COVID", 100),
         ("e4a-compact-trec-covid-n500", "TREC-COVID", 500),
+        ("e4a-compact-dl20-n100", "DL20", 100),
+        ("e4a-compact-dl20-n500", "DL20", 500),
     )
     out = {}
     for name, dataset, n in specs:

@@ -1,0 +1,177 @@
+{
+  "warning": "NOT EXPERIMENTAL RESULTS \u2014 schematic heights for layout only.",
+  "camera": {
+    "elev": 26,
+    "azim": -54
+  },
+  "reference_script": "refs/recovery-spec/references/scripts-3d/plot_surface.py",
+  "figures": {
+    "hero": [
+      {
+        "panel": "hero",
+        "title": "(H) LT, Full, slot 1, 9B, DL20",
+        "n_points": 96,
+        "n_triangles": 123,
+        "coincide": false
+      }
+    ],
+    "2x5": [
+      {
+        "panel": "p01",
+        "title": "(a) LT, Full, slot 1, 9B, DL20",
+        "n_points": 96,
+        "n_triangles": 123,
+        "coincide": false
+      },
+      {
+        "panel": "p02",
+        "title": "(b) LT, Full, slot 2, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p03",
+        "title": "(c) LT, Full, slot 3, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": true
+      },
+      {
+        "panel": "p04",
+        "title": "(d) LT, LIMIT10, slot 1, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p05",
+        "title": "(e) LT, LIMIT10, slot 2, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p07",
+        "title": "(g) SW, Full, slot 1, 9B, DL20",
+        "n_points": 43,
+        "n_triangles": 32,
+        "coincide": false
+      },
+      {
+        "panel": "p08",
+        "title": "(h) SW, Full, slot 2, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      },
+      {
+        "panel": "p09",
+        "title": "(i) SW, Full, slot 3, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": true
+      },
+      {
+        "panel": "p10",
+        "title": "(j) SW, LIMIT10, slot 1, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      },
+      {
+        "panel": "p11",
+        "title": "(k) SW, LIMIT10, slot 2, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      }
+    ],
+    "2x6": [
+      {
+        "panel": "p01",
+        "title": "(a) LT, Full, slot 1, 9B, DL20",
+        "n_points": 96,
+        "n_triangles": 123,
+        "coincide": false
+      },
+      {
+        "panel": "p02",
+        "title": "(b) LT, Full, slot 2, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p03",
+        "title": "(c) LT, Full, slot 3, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": true
+      },
+      {
+        "panel": "p04",
+        "title": "(d) LT, LIMIT10, slot 1, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p05",
+        "title": "(e) LT, LIMIT10, slot 2, 9B, DL20",
+        "n_points": 101,
+        "n_triangles": 140,
+        "coincide": false
+      },
+      {
+        "panel": "p06",
+        "title": "(f) LT, LIMIT10, slot 3, 9B, DL20",
+        "n_points": 96,
+        "n_triangles": 123,
+        "coincide": false
+      },
+      {
+        "panel": "p07",
+        "title": "(g) SW, Full, slot 1, 9B, DL20",
+        "n_points": 43,
+        "n_triangles": 32,
+        "coincide": false
+      },
+      {
+        "panel": "p08",
+        "title": "(h) SW, Full, slot 2, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      },
+      {
+        "panel": "p09",
+        "title": "(i) SW, Full, slot 3, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": true
+      },
+      {
+        "panel": "p10",
+        "title": "(j) SW, LIMIT10, slot 1, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      },
+      {
+        "panel": "p11",
+        "title": "(k) SW, LIMIT10, slot 2, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      },
+      {
+        "panel": "p12",
+        "title": "(l) SW, LIMIT10, slot 3, 9B, DL20",
+        "n_points": 46,
+        "n_triangles": 42,
+        "coincide": false
+      }
+    ]
+  }
+}

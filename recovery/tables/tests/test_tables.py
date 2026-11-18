@@ -225,7 +225,7 @@ class EmitTests(unittest.TestCase):
             self.assertIn("Robust04", tex)
             self.assertIn("Avg.\\ Rank", tex)
         self.assertEqual(one.count(r"\begin{tabular}"), 2)
-        self.assertIn(r"\makebox[\textwidth]", one)
+        self.assertNotIn(r"\makebox[\textwidth]", one)
         self.assertIn(r"0.105\textwidth", one)
         self.assertIn(r"\small", one)
         self.assertNotIn(r"\footnotesize", one)

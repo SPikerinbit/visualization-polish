@@ -10,7 +10,7 @@ echo "---- page geometry ----"
 grep -E "TEXTWIDTH=|COLUMNWIDTH=|TEXTHEIGHT=|COLUMNSEP=" /tmp/e1-tables-pass2.log
 echo "---- overfull / underfull ----"
 grep -E "Overfull|Underfull" /tmp/e1-tables-pass2.log /tmp/e1-probe.log || true
-python3 measure_layout.py || true
+python3 measure_layout.py
 ART=/opt/cursor/artifacts
 mkdir -p "$ART"
 cp render/main.pdf "$ART/e1-tables.pdf"

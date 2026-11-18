@@ -21,7 +21,7 @@ python3 -m unittest discover -s tests
 - Caption：主表 3–4 句，明确 synthetic、± 含义、粗/下划线；完整排序合同见下文。
 - 仍不强行六数据集一横排；probe 页只作宽度对照。
 
-实测几何见 `measure_layout.py` 输出（随 `build.sh` 打印）。返修后主表（9B Full，page 3）上/下段墨水跨度约 **94% / 82%** of `\textwidth`（506.295pt）；版式为 `\small`（acmart 约 9pt 正文），非 `\footnotesize`。
+宽度验收用 `measure_layout.py` 读 PDF **表线**（`\toprule` 等横线 bbox），不测墨字跨度。目标：双栏文字区左右 **54–560.3pt**，表线宽 **≤506.295pt**。主表 `tabcolsep=1pt`（13 列 12 隙共 24pt）+ 列宽合计 0.942`\textwidth`，**无** `makebox`/`resizebox`。版式 `\small`（PDF 约 8pt 级正文）。
 
 ## 排序与标记（布局演示；**非最终统计合同**）
 

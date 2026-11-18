@@ -145,7 +145,7 @@ def exp1_column_spec():
     return "@{}" + method + triplet * 4
 
 
-EXP1_TABCOLSEP = "4pt"
+EXP1_TABCOLSEP = "1pt"
 
 
 def segment_lines(sheet, ranked, datasets, style, *, avg_block):
@@ -309,13 +309,7 @@ def emit_stacked(sheet, style="inline"):
     spec = exp1_column_spec()
     top = tabular_block(spec, segment_lines(sheet, ranked, list(BANDS[0]), style, avg_block="empty"))
     bot = tabular_block(spec, segment_lines(sheet, ranked, list(BANDS[1]), style, avg_block="data"))
-    inner = (
-        "\\makebox[\\textwidth][c]{%\n"
-        + top
-        + "}\n\\vspace{0.4em}\n\\makebox[\\textwidth][c]{%\n"
-        + bot
-        + "}"
-    )
+    inner = top + "\n\\vspace{0.4em}\n" + bot
     label = MAIN_LABEL[(sheet["model"], sheet["demand"])]
     return table_star(caption_exp1(sheet), label, inner)
 
@@ -485,7 +479,7 @@ SW & Listwise & $\mathcal{O}(r+nP(k)/\mu_{\mathrm{sw}})$ & $\mathcal{O}(r+KP(k)/
 LT($h$) & Listwise & $\mathcal{O}(r+nP(k)/h)$ & $\mathcal{O}(r+KP(k)/h)$ \\
 \bottomrule
 \end{tabular}"""
-    return table_column(caption, "tab:ranking-algorithms", body, size=r"\small", tabcolsep="2.5pt")
+    return table_column(caption, "tab:ranking-algorithms", body, size=r"\small", tabcolsep="2pt")
 
 
 def params_tex():

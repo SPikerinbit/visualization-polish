@@ -49,7 +49,24 @@
     "fig:exp2-surface-2x3": 28,
     "fig:exp4a-dl20-n500": 29,
     "fig:exp4a-covid-n100": 30,
-    "TotPages": 30
+    "TotPages": 30,
+    "sec:lt:binary": 4,
+    "sec:lt:segment": 6,
+    "sec:exp:setup": 9,
+    "sec:exp:full": 9,
+    "sec:exp:topk": 9,
+    "sec:exp:e2": 10,
+    "sec:exp:scale": 10,
+    "sec:exp:cost": 10,
+    "sec:exp:limit-sweep": 10,
+    "sec:cost-derivations": 24,
+    "sec:appendix-algorithms": 24,
+    "sec:topk-pseudocode": 24,
+    "sec:appendix-segment-correctness": 25,
+    "sec:parameter-reference": 25,
+    "sec:appendix-listwise-prompt": 25,
+    "sec:appendix-e2-2x3": 27,
+    "sec:appendix-e4a-layout": 27
   },
   "pages": 30
 }

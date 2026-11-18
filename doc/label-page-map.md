@@ -25,7 +25,7 @@ PDF pages: 30
 | `fig:exp5-k-sweep-on` | 21 | `integration/fig-e5-sweep.tex` |
 | `fig:exp:semantic_external_merge` | 4 | `integration/fig-framework-algo1.tex` |
 | `fig:limit-demand-trial` | 25 | `integration/fig-limit-appendix.tex` |
-| `sec:appendix-segment-correctness` | — | `appendix.tex (pending stub)` |
+| `sec:appendix-segment-correctness` | 25 | `appendix.tex (pending stub)` |
 | `tab:datasets` | 9 | `tables/generated/tab-datasets.tex` |
 | `tab:exp1-full` | 10 | `tables/generated/exp1-full.tex` |
 | `tab:exp1-full-27b` | 11 | `tables/generated/exp1-full.tex` |

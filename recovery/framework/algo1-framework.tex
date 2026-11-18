@@ -1,7 +1,4 @@
-% Algo1 framework — 178mm wide, compact height (~118mm). Data spine matches v2;
-% cost model is a right sidebar. Audit text lives in NOTES/caption only.
-%
-% Edge contract: solid = data; teal dash = control. Arrows hit box borders only.
+% 178mm x 118mm. Data spine x<=139mm; cost lane 147--177mm; control bus x=141mm.
 \documentclass[tikz,border=0pt]{standalone}
 \usetikzlibrary{arrows.meta,calc,positioning}
 \usepackage{amsmath}
@@ -19,153 +16,151 @@
 \begin{tikzpicture}[
   x=1mm,y=1mm,
   every node/.style={inner sep=0pt,outer sep=0pt},
-  pending/.style={circle,minimum size=3.5mm,inner sep=0pt,fill=white,draw=ink,line width=0.55pt,
-    font=\fontsize{5.5}{6}\selectfont,text=ink},
-  emitted/.style={circle,minimum size=3.35mm,inner sep=0pt,fill=emitblue,draw=emitblue,line width=0.4pt,
-    font=\fontsize{5.3}{5.8}\selectfont,text=white},
-  qchip/.style={circle,minimum size=3.35mm,inner sep=0pt,fill=white,draw=ink,line width=0.55pt,
-    font=\fontsize{5.3}{5.8}\selectfont,text=ink},
+  pending/.style={circle,minimum size=4mm,inner sep=0pt,fill=white,draw=ink,line width=0.55pt,
+    font=\fontsize{7.5}{8}\selectfont,text=ink},
+  emitted/.style={circle,minimum size=3.8mm,inner sep=0pt,fill=emitblue,draw=emitblue,line width=0.4pt,
+    font=\fontsize{7}{7.5}\selectfont,text=white},
+  qchip/.style={circle,minimum size=3.8mm,inner sep=0pt,fill=white,draw=ink,line width=0.55pt,
+    font=\fontsize{7}{7.5}\selectfont,text=ink},
   cscope/.style={draw=callred,line width=0.65pt,dash pattern=on 0.95mm off 0.6mm,rounded corners=0.55mm},
   callbox/.style={draw=calledge,fill=callfill,line width=0.65pt,rounded corners=0.9mm},
-  badge/.style={circle,minimum size=3.8mm,inner sep=0pt,fill=calledge,draw=calledge,
-    font=\fontsize{6}{6.5}\selectfont\bfseries,text=white},
+  badge/.style={circle,minimum size=4mm,inner sep=0pt,fill=calledge,draw=calledge,
+    font=\fontsize{7.5}{8}\selectfont\bfseries,text=white},
   groupbox/.style={draw=ink,line width=0.4pt,dash pattern=on 0.8mm off 0.6mm,rounded corners=0.5mm},
   plugin/.style={draw=calledge,line width=0.7pt,dash pattern=on 1mm off 0.65mm,rounded corners=0.75mm,
-    fill=white,font=\fontsize{6}{6.8}\selectfont,text=ink},
+    fill=white,font=\fontsize{7.5}{8.2}\selectfont,text=ink},
   costbox/.style={draw=costedge,line width=0.65pt,fill=costfill,rounded corners=0.6mm,align=left,
-    font=\fontsize{5.5}{6.5}\selectfont,text=ink,inner sep=1mm},
+    font=\fontsize{7.5}{8.5}\selectfont,text=ink,inner sep=1.1mm},
   dat/.style={-{Stealth[length=1.25mm,width=1.05mm]},draw=ink,line width=0.55pt},
   ctl/.style={-{Stealth[length=1.2mm,width=1mm]},draw=ctrl,line width=0.65pt,dash pattern=on 1mm off 0.65mm},
-  lab/.style={font=\fontsize{6.5}{7}\selectfont,text=ink},
-  slab/.style={font=\fontsize{5.3}{6}\selectfont,text=ink}
+  lab/.style={font=\fontsize{7.5}{8.5}\selectfont,text=ink},
+  slab/.style={font=\fontsize{7.5}{8.5}\selectfont,text=ink}
 ]
 \useasboundingbox (0,0) rectangle (177.94,118);
 
-% ---- chunks ----
+\pgfmathsetmacro{\colA}{23}
+\pgfmathsetmacro{\colB}{58}
+\pgfmathsetmacro{\colC}{93}
+\pgfmathsetmacro{\colD}{128}
+\pgfmathsetmacro{\gxL}{40.5}
+\pgfmathsetmacro{\gxR}{110.5}
+\pgfmathsetmacro{\busX}{141}
+
+% ---- chunks (column centers 23/58/93/128) ----
 \node[lab,anchor=west] at (1,110) {$D{=}$};
-\node[cscope,minimum width=22mm,minimum height=8mm] (c1) at (32,102) {};
-\node[cscope,minimum width=22mm,minimum height=8mm] (c2) at (62,102) {};
-\node[cscope,minimum width=22mm,minimum height=8mm] (c3) at (110,102) {};
-\node[cscope,minimum width=22mm,minimum height=8mm] (c4) at (146,102) {};
-\node[slab] at (32,106.2) {$C_1$};
-\node[slab] at (62,106.2) {$C_2$};
-\node[slab] at (110,106.2) {$C_3$};
-\node[slab] at (146,106.2) {$C_4$};
-\foreach \x/\n in {24.85/12,28.05/3,31.25/16,34.45/7} \node[pending] at (\x,102) {\n};
-\foreach \x/\n in {54.85/5,58.05/14,61.25/1,64.45/6} \node[pending] at (\x,102) {\n};
-\foreach \x/\n in {102.85/11,106.05/2,109.25/15,112.45/8} \node[pending] at (\x,102) {\n};
-\foreach \x/\n in {138.85/9,142.05/13,145.25/4,148.45/10} \node[pending] at (\x,102) {\n};
+\node[cscope,minimum width=18mm,minimum height=8mm] (c1) at (\colA,102) {};
+\node[cscope,minimum width=18mm,minimum height=8mm] (c2) at (\colB,102) {};
+\node[cscope,minimum width=18mm,minimum height=8mm] (c3) at (\colC,102) {};
+\node[cscope,minimum width=18mm,minimum height=8mm] (c4) at (\colD,102) {};
+\node[slab] at (\colA,106.3) {$C_1$};
+\node[slab] at (\colB,106.3) {$C_2$};
+\node[slab] at (\colC,106.3) {$C_3$};
+\node[slab] at (\colD,106.3) {$C_4$};
+\foreach \d/\n in {-4.8/12,-1.6/3,1.6/16,4.8/7} \node[pending] at ({\colA+\d},102) {\n};
+\foreach \d/\n in {-4.8/5,-1.6/14,1.6/1,4.8/6} \node[pending] at ({\colB+\d},102) {\n};
+\foreach \d/\n in {-4.8/11,-1.6/2,1.6/15,4.8/8} \node[pending] at ({\colC+\d},102) {\n};
+\foreach \d/\n in {-4.8/9,-1.6/13,1.6/4,4.8/10} \node[pending] at ({\colD+\d},102) {\n};
 
-% ---- Phase 1 calls ----
+% ---- Phase 1 ----
 \node[lab,anchor=west] at (1,90) {Phase 1};
-\node[callbox,minimum width=20mm,minimum height=7mm] (call1) at (32,88) {};
-\node[callbox,minimum width=20mm,minimum height=7mm] (call2) at (62,88) {};
-\node[callbox,minimum width=20mm,minimum height=7mm] (call3) at (110,88) {};
-\node[callbox,minimum width=20mm,minimum height=7mm] (call4) at (146,88) {};
-\node[badge,anchor=west] at ($(call1.west)+(-0.2,0)$) {$1$};
-\node[badge,anchor=west] at ($(call2.west)+(-0.2,0)$) {$2$};
-\node[badge,anchor=west] at ($(call3.west)+(-0.2,0)$) {$3$};
-\node[badge,anchor=west] at ($(call4.west)+(-0.2,0)$) {$4$};
-\node[font=\fontsize{5.2}{6}\selectfont,text=ink,align=center] at (33.5,88.1) {ListwiseRank\\[-1pt]$(C_1,\varphi)$};
-\node[font=\fontsize{5.2}{6}\selectfont,text=ink,align=center] at (63.5,88.1) {ListwiseRank\\[-1pt]$(C_2,\varphi)$};
-\node[font=\fontsize{5.2}{6}\selectfont,text=ink,align=center] at (111.5,88.1) {ListwiseRank\\[-1pt]$(C_3,\varphi)$};
-\node[font=\fontsize{5.2}{6}\selectfont,text=ink,align=center] at (147.5,88.1) {ListwiseRank\\[-1pt]$(C_4,\varphi)$};
+\node[callbox,minimum width=17mm,minimum height=7mm] (call1) at (\colA,88) {};
+\node[callbox,minimum width=17mm,minimum height=7mm] (call2) at (\colB,88) {};
+\node[callbox,minimum width=17mm,minimum height=7mm] (call3) at (\colC,88) {};
+\node[callbox,minimum width=17mm,minimum height=7mm] (call4) at (\colD,88) {};
+\node[badge,anchor=east] at ($(call1.west)+(-1mm,0)$) {$1$};
+\node[badge,anchor=east] at ($(call2.west)+(-1mm,0)$) {$2$};
+\node[badge,anchor=east] at ($(call3.west)+(-1mm,0)$) {$3$};
+\node[badge,anchor=east] at ($(call4.west)+(-1mm,0)$) {$4$};
+\node[font=\fontsize{7}{8}\selectfont,text=ink,align=center] at (\colA,88.1) {ListwiseRank\\[-1pt]$(C_1,\varphi)$};
+\node[font=\fontsize{7}{8}\selectfont,text=ink,align=center] at (\colB,88.1) {ListwiseRank\\[-1pt]$(C_2,\varphi)$};
+\node[font=\fontsize{7}{8}\selectfont,text=ink,align=center] at (\colC,88.1) {ListwiseRank\\[-1pt]$(C_3,\varphi)$};
+\node[font=\fontsize{7}{8}\selectfont,text=ink,align=center] at (\colD,88.1) {ListwiseRank\\[-1pt]$(C_4,\varphi)$};
 
-% ---- runs ----
-\node[groupbox,minimum width=48mm,minimum height=9mm] (g1) at (47,74) {};
-\node[groupbox,minimum width=48mm,minimum height=9mm] (g2) at (125,74) {};
-\node[slab] at (32,77.2) {$R_1$};
-\node[slab] at (62,77.2) {$R_2$};
-\node[slab] at (110,77.2) {$R_3$};
-\node[slab] at (146,77.2) {$R_4$};
-\node[slab,anchor=west] at (21.5,75.8) {$\mathcal{G}_1$};
-\node[slab,anchor=west] at (99.5,75.8) {$\mathcal{G}_2$};
-\foreach \x/\n in {29.85/3,33.05/7,36.25/12,39.45/16} \node[pending] at (\x,74) {\n};
-\foreach \x/\n in {59.85/1,63.05/5,66.25/6,69.45/14} \node[pending] at (\x,74) {\n};
-\foreach \x/\n in {107.85/2,111.05/8,114.25/11,117.45/15} \node[pending] at (\x,74) {\n};
-\foreach \x/\n in {143.85/4,147.05/9,150.25/10,153.45/13} \node[pending] at (\x,74) {\n};
+% ---- runs (x<=139) ----
+\node[groupbox,minimum width=40mm,minimum height=9mm] (g1) at (\gxL,74) {};
+\node[groupbox,minimum width=43mm,minimum height=9mm] (g2) at (\gxR,74) {};
+\node[slab] at (\colA,77.3) {$R_1$};
+\node[slab] at (\colB,77.3) {$R_2$};
+\node[slab] at (\colC,77.3) {$R_3$};
+\node[slab] at (\colD,77.3) {$R_4$};
+\node[slab,anchor=west] at (17,75.6) {$\mathcal{G}_1$};
+\node[slab,anchor=west] at (87,75.6) {$\mathcal{G}_2$};
+\foreach \d/\n in {-4.8/3,-1.6/7,1.6/12,4.8/16} \node[pending] at ({\colA+\d},74) {\n};
+\foreach \d/\n in {-4.8/1,-1.6/5,1.6/6,4.8/14} \node[pending] at ({\colB+\d},74) {\n};
+\foreach \d/\n in {-4.8/2,-1.6/8,1.6/11,4.8/15} \node[pending] at ({\colC+\d},74) {\n};
+\foreach \d/\n in {-4.8/4,-1.6/9,1.6/10,4.8/13} \node[pending] at ({\colD+\d},74) {\n};
 
-% ---- cost sidebar (right) ----
-\node[costbox,minimum width=24mm,anchor=north west] (cost) at (148,79) {%
+% ---- cost lane 147--177 (inputs listed only; no external arrows) ----
+\node[costbox,minimum width=29mm,anchor=north west] (cost) at (147,78) {%
   \textbf{Cost model}\\[0.8pt]
-  {\fontsize{5.2}{6.2}\selectfont in: $m$, demand}\\[0.2pt]
-  {\fontsize{5.2}{6.2}\selectfont\quad $|R_i|$, $(H,L)$}\\[0.8pt]
-  {\fontsize{5.2}{6.2}\selectfont out: $f$, $k$, $h$}};
+  in: $m$, demand\\[0.2pt]
+  \quad $|R_i|$, $(H,L)$\\[0.8pt]
+  out: $f$, $k$, $h$};
 
 % ---- Pass 1 ----
 \node[lab,anchor=west] at (1,58) {Pass 1};
-\node[plugin,minimum width=20mm,minimum height=6.5mm] (mgL) at (47,56) {MergeGroup};
-\node[plugin,minimum width=20mm,minimum height=6.5mm] (mgR) at (125,56) {MergeGroup};
+\node[plugin,minimum width=18mm,minimum height=6.5mm] (mgL) at (\gxL,56) {MergeGroup};
+\node[plugin,minimum width=18mm,minimum height=6.5mm] (mgR) at (\gxR,56) {MergeGroup};
 
 % ---- Q ----
-\node[groupbox,minimum width=36mm,minimum height=6mm] (q1) at (47,44) {};
-\node[groupbox,minimum width=36mm,minimum height=6mm] (q2) at (125,44) {};
-\node[slab] at (29.5,46.8) {$Q_1$};
-\node[slab] at (107.5,46.8) {$Q_2$};
+\node[groupbox,minimum width=34mm,minimum height=6mm] (q1) at (\gxL,44) {};
+\node[groupbox,minimum width=34mm,minimum height=6mm] (q2) at (\gxR,44) {};
+\node[slab] at (22,46.8) {$Q_1$};
+\node[slab] at (92,46.8) {$Q_2$};
 \foreach \i/\n in {0/1,1/3,2/5,3/6,4/7,5/12,6/14,7/16}
-  \node[qchip] at ({47-15.35+4.38*\i},44) {\n};
+  \node[qchip] at ({\gxL-13.75+3.93*\i},44) {\n};
 \foreach \i/\n in {0/2,1/4,2/8,3/9,4/10,5/11,6/13,7/15}
-  \node[qchip] at ({125-15.35+4.38*\i},44) {\n};
+  \node[qchip] at ({\gxR-13.75+3.93*\i},44) {\n};
 
 % ---- Pass 2 ----
 \node[lab,anchor=west] at (1,32) {Pass 2};
-\node[plugin,minimum width=30mm,minimum height=6.5mm] (mg2) at (86,30) {MergeGroup};
+\node[plugin,minimum width=28mm,minimum height=6.5mm] (mg2) at (75.5,30) {MergeGroup};
 
-% ---- Pi (auto 1..16) ----
-\node[slab,anchor=east] at (36.5,19) {$\Pi{=}$};
-\pgfmathsetmacro{\pix}{39.5}
-\pgfmathsetmacro{\piStep}{3.72}
+% ---- Pi ----
+\node[slab,anchor=east] at (15,19) {$\Pi{=}$};
+\pgfmathsetmacro{\pix}{17.5}
+\pgfmathsetmacro{\piStep}{3.85}
 \foreach \i in {1,...,16} {
   \pgfmathsetmacro{\px}{\pix+\piStep*(\i-1)}
   \node[emitted] at (\px,19) {\i};
 }
-\node[slab,text=ctrl,anchor=west] at (100.5,19) {Full trace};
+\node[slab,text=ctrl,anchor=west] at (80,19) {Full trace};
 
-% ========== data edges ==========
+% ========== data (vertical in-column only) ==========
 \draw[dat] (c1.south) -- (call1.north);
 \draw[dat] (c2.south) -- (call2.north);
 \draw[dat] (c3.south) -- (call3.north);
 \draw[dat] (c4.south) -- (call4.north);
-\draw[dat] (call1.south) -- (32,77.8);
-\draw[dat] (call2.south) -- (62,77.8);
-\draw[dat] (call3.south) -- (110,77.8);
-\draw[dat] (call4.south) -- (146,77.8);
+\draw[dat] (\colA,88-3.5) -- (\colA,74+4.5);
+\draw[dat] (\colB,88-3.5) -- (\colB,74+4.5);
+\draw[dat] (\colC,88-3.5) -- (\colC,74+4.5);
+\draw[dat] (\colD,88-3.5) -- (\colD,74+4.5);
 \draw[dat] (g1.south) -- (mgL.north);
 \draw[dat] (g2.south) -- (mgR.north);
 \draw[dat] (mgL.south) -- (q1.north);
 \draw[dat] (mgR.south) -- (q2.north);
-\draw[dat] (q1.south east) -- (78,37) -- (78,33.3) -- (mg2.west);
-\draw[dat] (q2.south west) -- (94,37) -- (94,33.3) -- (mg2.east);
-\draw[dat] (mg2.south) -- (86,22.5);
+\draw[dat] (q1.south) -- (\gxL,37.8) -- (\gxL,33.5) -- (mg2.west);
+\draw[dat] (q2.south) -- (\gxR,37.8) -- (\gxR,33.5) -- (mg2.east);
+\draw[dat] (mg2.south) -- (75.5,22.5);
 
-% data into cost sidebar (labels only inside the box)
-\draw[dat] (g1.east) -- (cost.west |- g1);
-\draw[dat] (g2.east) -- (cost.west |- g2);
+% ========== control bus x=141 ==========
+\draw[ctl] (cost.west) -- (\busX,68);
+\draw[ctl] (\busX,68) -- (\busX,56) -- (mgR.east);
+\draw[ctl] (\busX,68) -- (\busX,63.5) -- (51.5,63.5);
+\draw[ctl] (51.5,63.5) -- (51.5,56) -- (mgL.east);
+\draw[ctl] (\busX,68) -- (\busX,30) -- (mg2.east);
 
-% control into cost (stubs from the open margin; names only in the box)
-\draw[ctl] (140,87) -- (cost.north east);
-\draw[ctl] (152,87) -- (cost.north);
-
-% control out along x=145 gutter (right of Q rows), no labels on wires
-\draw[ctl] (cost.west) -- (145,63);
-\draw[ctl] (145,63) |- (mgR.east);
-\draw[ctl] (145,63) |- (mgL.east);
-\draw[ctl] (cost.south west) -- (145,41) |- (mg2.east);
-
-% compact legend
+% legend
 \node[badge] at (6,6) {$1$};
-\node[slab,anchor=west] at (9,6) {ListwiseRank call};
-\node[pending,minimum size=3mm] at (44,6) {};
-\node[slab,anchor=west] at (46.5,6) {pending};
-\node[emitted,minimum size=3mm] at (64,6) {};
-\node[slab,anchor=west] at (66.5,6) {emitted};
-\draw[dat] (82,6) -- (88,6);
-\node[slab,anchor=west] at (89.5,6) {data};
-\draw[ctl] (100,6) -- (106,6);
-\node[slab,anchor=west] at (107.5,6) {control};
-\draw[calledge,line width=0.65pt,dash pattern=on 0.9mm off 0.6mm,rounded corners=0.3mm]
-  (125,7.2) rectangle (131,4.8);
-\node[slab,anchor=west] at (132.5,6) {MergeGroup};
+\node[slab,anchor=west] at (9.5,6) {ListwiseRank call};
+\node[pending,minimum size=3.6mm] at (52,6) {};
+\node[slab,anchor=west] at (55,6) {pending};
+\node[emitted,minimum size=3.6mm] at (72,6) {};
+\node[slab,anchor=west] at (75,6) {emitted};
+\draw[dat] (90,6) -- (96,6);
+\node[slab,anchor=west] at (97.5,6) {data};
+\draw[ctl] (108,6) -- (114,6);
+\node[slab,anchor=west] at (115.5,6) {control};
 
 \end{tikzpicture}
 \end{document}

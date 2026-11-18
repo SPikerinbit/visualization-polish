@@ -22,7 +22,12 @@
 
 See `include-snippet.tex` (figure* preview caption): `finite.py`, tie-breaking, Full vs LIMIT $K$.
 
+## Geometry (parent pass 2)
+
+- Data spine $x{\leq}139$mm; column centres 23 / 58 / 93 / 128; $Q_{1,2}$ and Pass~1 groups at 40.5 / 110.5.
+- Cost lane 147--177mm only; **no** arrows into the cost box (inputs listed inside).
+- Control bus $x{=}141$mm: right `MergeGroup` from the east; left via $y{=}63.5$ then lane $x{=}51.5$; Pass~2 from the east.
+
 ## Remaining limits
 
-- Control bus at $x{=}145$ still crosses the open band between runs and Pass 1; it does not pass through circles.
 - `f`, $k$, $h$ values are not drawn (example trace only).

@@ -213,7 +213,7 @@ There exists an optimal fan-in $k$ in $\{2,\ldots, \lfloor m/2\rfloor\}$ maximiz
 
 \begin{example}\label{ex:alg2}
 Fig.~\ref{fig:eg:sliding_window} illustrates a sliding-window merge with $k = 4$ sorted runs and batch size $m = 8$. In Round 1, all runs are active, so each receives quota $h=\lfloor 8/4\rfloor=2$. The batch contains the first two unread items from each run, $B=\{3,7,1,5,2,8,4,9\}$. The listwise call returns $\mathcal{O} = [1, 2, 3, 4, 5, 7, 8, 9]$. The algorithm emits the safe prefix $[1, 2, 3, 4, 5]$ and stops when $R_2$'s window $[1, 5]$ is exhausted, because the unseen item $6$ from $R_2$ may precede the remaining ranked items. 
-In Round 2, the unemitted items ${7, 8, 9}$ re-enter the batch together with new arrival items, forming a batch $B = \{7,12,6,14,8,11,9,10\}$. The The listwise call returns $\mathcal{O} = [6,7,8,9,10,11,12,14]$. The safe prefix $[6, 7, 8, 9, 10]$ is emitted and the scan stops $R_4$'s window $[9, 10]$ is exhausted. The process continues until full ranking $\Pi$ is generated over $k$ runs. 
+In Round 2, the unemitted items ${7, 8, 9}$ re-enter the batch together with new arrival items, forming a batch $B = \{7,12,6,14,8,11,9,10\}$. The listwise call returns $\mathcal{O} = [6,7,8,9,10,11,12,14]$. The safe prefix $[6, 7, 8, 9, 10]$ is emitted and the scan stops $R_4$'s window $[9, 10]$ is exhausted. The process continues until full ranking $\Pi$ is generated over $k$ runs. 
 
 % Algorithm~2 on the four Phase-1 runs of Figure~1 with
 % $m=8$. In Round~1 all four runs are active, so each receives a quota
@@ -405,7 +405,7 @@ Fig.~\ref{fig:eg:loser_tree_kway_group_merge}(c) refreshes the path from $R_3$. 
 \subsection{Segment length $h$ and throughput}
 \label{sec:lt:segment}
 
-Recall that LT($h$) with $h{=}1$ issues one path refresh per emitted item that spends one listwise call, and each listwise call ranks $O(\log_2 k)$ items on a path from leaf to root. This number of items to rank is commonly smaller than the actual batch size $m$ of a listwise call, which is in about $[10, 30]$, depending on the effective context length and the expectation of the item tokens. This under-utilization motivates larger segments: LT($h$) stores up to $h$ items per tree slot instead of a single representative. The root also stores the $h$ winners, which emit together after path refreshing via one listwise call. With the gist of the $k$-way merge algorithm (Algorithm~\ref{alg:loser_tree_kway_group_merge}), \textsc{InitLoserTree} and \textsc{RefreshPath} unchanged, the differences from the segmented loser tree algorithm lie in three aspects as follows:
+Recall that LT($h$) with $h{=}1$ issues one path refresh per emitted item that spends one listwise call, and each listwise call ranks $O(\log_2 k)$ items on a path from leaf to root. This number of items to rank is commonly smaller than the actual batch size $m$ of a listwise call, which is in about $[10, 30]$, depending on the effective context length and the expectation of the item tokens. This under-utilization motivates larger segments: LT($h$) stores up to $h$ items per tree slot instead of a single representative. The root also stores the $h$ winners, which emit together after path refreshing via one listwise call. With the gist of the $k$-way merge algorithm (Algorithm~\ref{alg:loser_tree_kway_group_merge}), \textsc{InitLoserTree} and the single-item refresh path are unchanged when $h{=}1$. For $h>1$, LT($h$) reuses the same tree topology but differs in three mechanical respects (not a separate merge family):
 
 
 % The binary merger of
@@ -431,7 +431,7 @@ Recall that LT($h$) with $h{=}1$ issues one path refresh per emitted item that s
 A sweep first collects $(1+d)h$ items to rank from a leaf-to-root path, and a second sweep ranks these items by a listwise call, replaying the tournament bottom-up and updating the losers of internal nodes and the winner in the root. The original loser tree can be regarded as a special case of $h = 1$.
 It is worth noting that the main difference is the selection of an affected path, from the root to an active run that can supply $h$ new representatives, as there may be more than one run emitting their heads. Simultaneously, refreshing along this path should ensure the global orderedness of these items. We achieve this path identification and order maintenance by adding a `blocked-child' pointer in each internal node and the root of the tree.
 Intuitively, for a node, this blocked-child pointer identifies either its left or right subtree, which will emit at least $h$ items earlier under two-way merge, following the ordering result from the listwise rank map. 
-Therefore, pointers from the root to leaf identify the current `frontier' of the recursive two-way merge process presented as the segmented loser tree. 
+Therefore, pointers from the root to leaf identify the current `frontier' of the recursive two-way merge process inside LT($h$). 
 
 After emitting $h$ items, the pointers identify the affected path, and the active run in the leaf node supplies $h$ items. The algorithm collects the items from $(1 + d)$ segments and performs one listwise call. Subsequently, tournament replay updates the $h$ losers for each internal node in a bottom-up fashion. During the replay, an ascending pool of $h$ items moves upward. At each level, this pool is merged with the $h$-item segment retained at that node by looking up the listwise rank map $\rho$, until the $h$-item winner reaches the root.  
 More importantly, the algorithm updates the blocked-child pointer by referring to the ranking result in $\rho$. Through the pointers, the algorithm indirectly maintains the global order of all $h$-item segments in the tree.
@@ -449,7 +449,7 @@ More importantly, the algorithm updates the blocked-child pointer by referring t
 
 
 \etitle{Segment initialization.}  The initialization stage ranks all $kh$ items resident in leaves, instead of only the $k$ run heads.  If all $k h$ items fit into one listwise call, i.e., $k h \leq m$, a single call suffices to obtain their global order; Otherwise, if the $k h$ items exceed the batch limit of one listwise call, $\textsc{InitLoserTree}$ applies a 2-way sliding window merge to produce a rank map over these items. 
-The segmented loser tree is then constructed bottom-up with all the block-child pointers initialized using only rank map lookups.
+The tree is then constructed bottom-up with all block-child pointers initialized using only rank map lookups.
 
 
 % \stitle{Windowed initialization.}

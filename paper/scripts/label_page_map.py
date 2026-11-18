@@ -7,6 +7,9 @@ from pathlib import Path
 tex = Path(__file__).resolve().parents[1] / "tex"
 aux = (tex / "main.aux").read_text(errors="replace")
 pdf = tex / "main.pdf"
+page_count = int(
+    subprocess.check_output(["pdfinfo", str(pdf)], text=True).split("Pages:")[1].strip().split()[0]
+)
 text = subprocess.check_output(["pdftotext", "-layout", str(pdf), "-"], text=True)
 pages = text.split("\f")
 label_pages = {}
@@ -34,12 +37,29 @@ sources = {
     "alg:loser_tree_kway_group_merge": "integration/pseudocode-alg3-only.tex",
     "alg:replay_segment_node": "integration/pseudocode-alg4-5.tex",
     "alg:refresh_loser_tree_path": "integration/pseudocode-alg4-5.tex",
+    "tab:datasets": "tables/generated/tab-datasets.tex",
+    "tab:ranking-algorithms": "tables/generated/tab-ranking-algorithms.tex",
+    "tab:exp1-full": "tables/generated/exp1-full.tex",
+    "tab:exp1-full-27b": "tables/generated/exp1-full.tex",
+    "tab:exp1-topk": "tables/generated/exp1-limit10.tex",
+    "tab:exp1-topk-27b": "tables/generated/exp1-limit10.tex",
+    "tab:exp4-validation": "tables/generated/tab-exp4-validation.tex",
+    "tab:params-full": "tables/generated/tab-params-full.tex",
+    "sec:appendix-segment-correctness": "appendix.tex (pending stub)",
 }
 out = Path(__file__).resolve().parents[1] / "doc" / "label-page-map.md"
-lines = ["# Label → page → source (auto-generated)\n", f"PDF pages: {len(pages)}\n\n", "| Label | Page | TeX source |\n", "|-------|------|------------|\n"]
+lines = [
+    "# Label → page → source (auto-generated)\n",
+    f"PDF pages: {page_count}\n",
+    f"(pdftotext form-feed splits: {len(pages)})\n\n",
+    "| Label | Page | TeX source |\n",
+    "|-------|------|------------|\n",
+]
 for lab in sorted(sources):
     pg = label_pages.get(lab, "—")
     lines.append(f"| `{lab}` | {pg} | `{sources[lab]}` |\n")
 out.write_text("".join(lines))
-(json_path := out.with_suffix(".json")).write_text(json.dumps({"label_pages": label_pages, "pages": len(pages)}, indent=2) + "\n")
+(json_path := out.with_suffix(".json")).write_text(
+    json.dumps({"label_pages": label_pages, "pages": page_count}, indent=2) + "\n"
+)
 print(f"wrote {out} and {json_path}")

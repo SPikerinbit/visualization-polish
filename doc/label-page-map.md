@@ -1,5 +1,6 @@
 # Label → page → source (auto-generated)
 PDF pages: 30
+(pdftotext form-feed splits: 31)
 
 | Label | Page | TeX source |
 |-------|------|------------|
@@ -11,8 +12,8 @@ PDF pages: 30
 | `fig:eg:loser_tree_kway_group_merge` | 3 | `integration/fig-lt.tex` |
 | `fig:eg:pointer-rule` | 4 | `integration/fig-pointer.tex` |
 | `fig:eg:sliding_window` | 2 | `integration/fig-sw.tex` |
-| `fig:exp2-surface-2x2` | 6 | `integration/fig-e2-main.tex` |
-| `fig:exp3-scale` | 5 | `integration/fig-e3-scale.tex` |
+| `fig:exp2-surface-2x2` | 5 | `integration/fig-e2-main.tex` |
+| `fig:exp3-scale` | 6 | `integration/fig-e3-scale.tex` |
 | `fig:exp4a-covid-n100` | 17 | `integration/fig-e4a-appendix.tex` |
 | `fig:exp4a-covid-n500` | 8 | `integration/fig-e4a-main.tex` |
 | `fig:exp4a-dl20-n100` | 7 | `integration/fig-e4a-main.tex` |
@@ -24,3 +25,12 @@ PDF pages: 30
 | `fig:exp5-k-sweep-on` | 13 | `integration/fig-e5-sweep.tex` |
 | `fig:exp:semantic_external_merge` | 1 | `integration/fig-framework-algo1.tex` |
 | `fig:limit-demand-trial` | 14 | `integration/fig-limit-appendix.tex` |
+| `sec:appendix-segment-correctness` | — | `appendix.tex (pending stub)` |
+| `tab:datasets` | 1 | `tables/generated/tab-datasets.tex` |
+| `tab:exp1-full` | 3 | `tables/generated/exp1-full.tex` |
+| `tab:exp1-full-27b` | 4 | `tables/generated/exp1-full.tex` |
+| `tab:exp1-topk` | 5 | `tables/generated/exp1-limit10.tex` |
+| `tab:exp1-topk-27b` | 6 | `tables/generated/exp1-limit10.tex` |
+| `tab:exp4-validation` | 7 | `tables/generated/tab-exp4-validation.tex` |
+| `tab:params-full` | 8 | `tables/generated/tab-params-full.tex` |
+| `tab:ranking-algorithms` | 2 | `tables/generated/tab-ranking-algorithms.tex` |

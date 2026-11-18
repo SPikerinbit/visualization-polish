@@ -1,146 +1,35 @@
 \section{Experimental Study}
 \label{sec:exp}
-In this section, we present the experimental setup in \cref{sec:exp:setup} and investigate the following research questions: 
-% \ding{172} Compare the overall performance against baseline algorithms on full ranking (\cref{sec:exp:full}) and \LIMIT~$K$ (\cref{sec:exp:topk}); 
-% \ding{173} Conduct an ablation study on \SLT (\cref{sec:exp:ablation});
-% \ding{174} Validate the three cost models by varying the fan-in $k$ (\cref{sec:exp:cost});
-% \ding{175} Investigate the impact of listwise batch size on performance (\cref{sec:exp:m}).
-\textbf{RQ1.} How does our approach compare with baseline algorithms in ranking quality and efficiency for full ranking  (\cref{sec:exp:full}) and \LIMIT $K$ (\cref{sec:exp:topk})?
-\textbf{RQ2.} How do fixed SW/LT $(k,h)$ pairs scale with input size (\cref{sec:exp:scale})?
-\textbf{RQ3.} Do the proposed cost models accurately characterize the empirical token cost as the fan-in $k$ varies (\cref{sec:exp:cost})?
-\textbf{RQ4.} How does the listwise batch size affect ranking performance and token cost (\cref{sec:exp:m})? 
-
-\begin{table}[t]
-\caption{Statistics of evaluation datasets.}
-\label{tab:datasets}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{c l r l c}
-\toprule
-\textbf{Benchmark} & \textbf{Dataset} & $|D|$ & \textbf{Domain} & \textbf{\#~Queries} \\
-\midrule
-SemBench & \Movies & 86K & Movie information and reviews & 1\\ 
-\midrule
-\multirow{2}{*}{TREC} & \DLtwozero & 8.8M & Web passage retrieval & 54\\
-& \DLtwotwo & 138M & Web passage retrieval (v2) & 25 \\
-\midrule
-\multirow{3}{*}{BEIR} & \COVID & 171K & Biomedical literature retrieval & 25\\
-& \Touche & 382K & Argument retrieval & 25\\
-& \FiQA & 57K & Financial QA retrieval & 25\\
-\bottomrule
-\end{tabular}
-\end{table}
-\footnotetext{$h{=}1$ recovers single-item refresh; larger $h$ amortizes refreshes. Legacy closed-form call counts await production \texttt{Expect} verification.}
+We investigate five experiment blocks under a shared setup (\cref{sec:exp:setup}):
+\textbf{RQ1.} How do baselines compare on ranking quality and efficiency for full ranking and \LIMIT~$K$ (\cref{sec:exp:full,sec:exp:topk})?
+\textbf{RQ2.} Do predicted and measured token-cost surfaces agree as fan-in and $(k,h)$ vary (\cref{sec:exp:e2})?
+\textbf{RQ3.} How do fixed SW/LT $(k,h)$ pairs scale with input size (\cref{sec:exp:scale})?
+\textbf{RQ4.} Do cost models guide cache-off/on-cold fan-in selection, $\beta$ sensitivity, and quality--cost trade-offs (\cref{sec:exp:cost})?
+\textbf{RQ5.} How does output length under \LIMIT~$n$ affect cost and quality (\cref{sec:exp:limit-sweep})?
 
 \subsection{Experimental Setup}
 \label{sec:exp:setup}
 
+\input{tables/generated/tab-datasets}
+
 \stitle{Datasets.}
-Table~\ref{tab:datasets} summarizes the six datasets used in our experiments. 
-% These datasets cover diverse semantic ranking scenarios, including general semantic search, web passage retrieval, and domain-specific information retrieval. 
-\Movies is from SemBench~\cite{lao2026sembench}, a benchmark for evaluating semantic query processing systems. \DLtwotwo~\cite{arxiv21trecdl20} and \DLtwozero~\cite{arxiv25trecdl22} are large-scale passage retrieval benchmarks built on the MS MARCO corpus, widely used for evaluating query-passage ranking in web search and RAG systems. 
-We further include three datasets from the BEIR ~\cite{arxiv21BEIR} benchmark, including \COVID for biomedical literature retrieval, \Touche for argument retrieval, and \FiQA for financial question answering retrieval. These datasets span multiple domains and scales, providing comprehensive evaluation across different semantic ranking scenarios.
-
-
-
+\Cref{tab:datasets} lists the six evaluation collections in the integration contract: Q9 (single query), TREC DL20/DL22, and BEIR TREC-COVID, DBpedia-Entity, and Robust04 (30 queries each unless noted). Corpus cardinalities $|D|$ and any collection-specific preprocessing gaps are left open until measured runs complete.
 
 \noindent\textbf{Baselines.}
-We compare against 7 baseline algorithms. 
-Here, Pointwise, External Pointwise, External Bubble, and External Merge are open-source LLM-based ranking algorithms~\cite{DBLP:journals/corr/abs-2509-00303}. 
-LMPQSort, LMPQSelect, and Tournament are the listwise semantic \textsf{ORDER BY} algorithms in the ListK framework~\cite{DBLP:journals/corr/abs-2603-17223}. 
-Quicksort is the algorithm in Lotus~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}. 
-Table~\ref{tab:ranking-algorithms} summarizes the type and asymptotic complexity\footnote{For Tournament, $b_m=(n-1)/(m-1)$ and $\ell_m=\log(n/m)$.
-For LMPQSort/Select, $p$ is the pivot count,
-$\kappa=K/n$, $\chi_p=(m-p)\log(p+1)$, and
-$\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$. For our algorithms, $r = r_0 = \lceil n/m\rceil$.} regarding LLM calls for these 7 algorithms, together with our sliding window (\SD) and LT($h$) merge ($h{=}1$ is the classical single-item tree). 
-%We compare these algorithms for both full ranking and \LIMIT~$K$. 
-
-
-% Four-column candidate for Table 3.  Superscripts encode implementation
-% provenance; keep formulas aligned with the five-column candidate.
-\begin{table}[t]
-\centering
-\scriptsize
-\caption{Summary of algorithms and their
-complexity}
-\label{tab:ranking-algorithms}
-\setlength{\tabcolsep}{1.5pt}
-%\renewcommand{\arraystretch}{1.12}
-\begin{tabular}{l c c c }
-% \begin{tabularx}{\columnwidth}{
-%   @{}
-%   >{\raggedright\arraybackslash}p{1.72cm}
-%   >{\centering\arraybackslash}p{0.92cm}
-%   >{\centering\arraybackslash}X
-%   >{\centering\arraybackslash}X
-%   @{}
-% }
-\toprule
-\textbf{Algorithm} & \textbf{Type}
-& \makecell[c]{\textbf{Full Rank} \textbf{Calls}}
-& \makecell[c]{\textbf{\LIMIT $K$} \textbf{Calls}} \\
-\midrule
-Pointwise & Pointwise
-& $\mathcal{O}(n)$
-& $\mathcal{O}(n)$ \\
-\makecell[l]{External Pointwise} & Pointwise
-& $\mathcal{O}(n/m)$
-& $\mathcal{O}(n/m)$ \\
-\makecell[l]{External Bubble} & Listwise
-& $\mathcal{O}(n^2/m^2)$
-& $\mathcal{O}(Kn/m^2)$ \\
-\makecell[l]{External Merge} & Listwise
-& $\mathcal{O}((n/m)[1+ \ell_m])$
-& $\mathcal{O}((n/m)[2+\log(K/m)])$ \\
-\midrule
-\makecell[l]{LMPQSort/Select} & Listwise
-& $\mathcal{O}(n\log n/\chi_p+n)$
-& $\mathcal{O}((p+1)n/\psi_p(\kappa))$ \\
-Tournament & Listwise
-& $\mathcal{O}\!\left(b_m+(n-1) \ell_m\right)$
-& $\mathcal{O}\!\left(b_m+(K-1)\ell_m\right)$ \\
-\midrule
-Quicksort & Pairwise
-& $\mathcal{O}(n\log n)$
-& $\mathcal{O}\!\left(n+K\log K\right)$ \\
-\midrule
-\makecell[l]{Sliding Window} & Listwise
-& $\mathcal{O}(r+nP(k)/\mu_{\SD}(k,m))$
-& $\mathcal{O}(r+KP(k)/\mu_{\SD}(k,m))$ \\
-LT($h$)  & Listwise
-& $\mathcal{O}(r+nP(k)/h)$\footnotemark
-& $\mathcal{O}(r+KP(k)/h)$ \\
-\bottomrule
-\end{tabular}
-% \vspace{1.5pt}
-
-% \begin{minipage}{\columnwidth}
-% \tiny\raggedright
-% For Tournament, $b_m=(n-1)/(m-1)$ and $\ell_m=\log(n/m)$.
-% For LMPQSort/Select, $p$ is the pivot count,
-% $\kappa=K/n$, $\chi_p=(m-p)\log(p+1)$, and
-% $\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$.
-% % $r$, $h$, $P(k)$, and $\mu_k$ follow Table~\ref{tab:params-full}, with
-% % $g=k$ for $\mu_k$.
-% \end{minipage}
-\end{table}
-
-
-
-
-
+We compare ten methods spanning pointwise, listwise, setwise (placeholder row), and our SW/LT merge variants.
+\input{tables/generated/tab-ranking-algorithms}
+\footnotetext{For Tournament, $b_m=(n-1)/(m-1)$ and $\ell_m=\log(n/m)$.
+For ListK Sort/Select, pivot count $p$, $\kappa=K/n$, $\chi_p=(m-p)\log(p+1)$, and
+$\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$. For merge variants, $r=\lceil n/m\rceil$.}
 
 \noindent\textbf{Evaluation Metrics.}
-% We evaluate the accuracy of these algorithms for both full ranking and \LIMIT~$K$.
-For full ranking, we use Spearman's rank correlation coefficient $\rho$ between the predicted order and the ground-truth order.
-For \LIMIT~$K$, we adopt the normalized Discounted Cumulative Gain (nDCG@$K$), which is a widely used information retrieval metric for top-$K$ ranking. 
-Each algorithmic configuration is tested by 10 independent runs on all the queries in one benchmark in Table~\ref{tab:datasets}, and the overall average results are reported.
+For full ranking we report Spearman's $\rho$ between predicted and reference orders.
+For \LIMIT~$K$ we report nDCG@$K$ (contract uses $K{=}10$ in the main tables).
+Table cells in this preview are synthetic layout numbers unless a future measured pass replaces them.
 
 \noindent\textbf{Implementation Details.}
-All the algorithms are empowered by vLLM~\cite{kwon2023efficient} that invokes Qwen3-32B~\cite{DBLP:journals/corr/abs-2505-09388} with a tensor parallelism degree of 8 (tensor\_parallel\_size=8). All experiments are conducted on a Linux server equipped with dual AMD EPYC 9554 CPUs (64 cores, 512 GB RAM) and 8 NVIDIA RTX 5090 GPUs.
-Our algorithms are implemented in Python and Pandas. 
-By default, we use the cost models in \cref{sec:cost} to select fan-in $k$ for full ranking, and an empirical $k$ for \LIMIT $K$.
-The prompt for listwise calls in different algorithms is aligned with the prompt of the baseline algorithm~\cite{DBLP:journals/corr/abs-2509-00303}.
+Listwise calls use vLLM with Qwen3.5-9B and Qwen3.8-27B checkpoints (labels per PR14 tables).
+Tensor parallelism, temperature, and per-query repetition protocol are pending the final production configuration; we do not fabricate hardware rows here.
+Fan-in $k$ for full ranking follows the cost model in \cref{sec:cost}; \LIMIT~$K$ runs use the contract's empirical $(k,h)$ choices where specified.
 
 \input{exp-body.tex}

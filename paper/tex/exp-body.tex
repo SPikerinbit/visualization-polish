@@ -1,50 +1,52 @@
-% Experiment body: approved layout figures only; legacy measured panels in tex/legacy/
-\input{integration/placeholders-pending}
+% Experiment body: approved layout figures and PR14 tables only.
 
 \subsection{Overall Performance of Full Ranking}
 \label{sec:exp:full}
-\pendingviz{Experiment~1 full-ranking tables (awaiting measured runs and table specialist)}
+\Cref{tab:exp1-full,tab:exp1-full-27b} give the approved Full-ranking table layouts for 9B and 27B respectively.
+
+\input{tables/generated/exp1-full}
 
 \subsection{Overall Performance under \LIMIT~$K$}
 \label{sec:exp:topk}
-\pendingviz{Experiment~1 \LIMIT~$K$ tables (awaiting measured runs)}
-\pendingviz{Legacy LIMIT-$K$ sensitivity figure \texttt{fig:exp2-k} withdrawn from this preview}
+\Cref{tab:exp1-topk,tab:exp1-topk-27b} mirror the same structure for LIMIT~10.
+
+\input{tables/generated/exp1-limit10}
+
+\subsection{Predicted vs.\ measured cost surfaces}
+\label{sec:exp:e2}
+\Cref{fig:exp2-surface-2x2} contrasts predicted and measured token-cost surfaces over fan-in and $(k,h)$ (synthetic layout).
+
+\input{integration/fig-e2-main}
 
 \subsection{Scale sensitivity with fixed $(k,h)$}
 \label{sec:exp:scale}
-\label{sec:exp:ablation}
 
-\textbf{RQ2.} How do the five confirmed SW/LT configuration pairs behave as input size scales from 1k to 10k under Full and LIMIT~10?
+Fixed SW/LT configuration pairs are evaluated at $n\in\{1\text{k},5\text{k},10\text{k}\}$ under Full ranking and LIMIT~10 (\cref{fig:exp3-scale}).
 
 \input{integration/fig-e3-scale}
-
-\noindent\textit{Preview note.} This subsection uses only the approved scale layout (\cref{fig:exp3-scale}). Legacy ablation panels and measured percentage claims from the SIGMOD draft are not rendered.
-
-\FloatBarrier
-\subsection{Predicted vs.\ measured cost surfaces}
-\label{sec:exp:e2}
-
-\input{integration/fig-e2-main}
 
 \subsection{Cost model validation}
 \label{sec:exp:cost}
 
-\noindent\textbf{Off / On-cold cost shapes (E4a).}
+\subsubsection{Off/On-cold cost shapes (E4a)}
 \Cref{fig:exp4a-dl20-n100,fig:exp4a-covid-n500} show compact 2$\times$2 layouts for DL20 at $n{=}100$ and TREC-COVID at $n{=}500$.
 Two additional query--$n$ combinations appear in Appendix~\ref{sec:appendix-e4a-layout} as layout representatives only.
 
 \input{integration/fig-e4a-main}
 
+\subsubsection{Cache warmup and $\beta$ (E4b)}
 \input{integration/fig-e4b}
+
+\subsubsection{Quality vs.\ token cost (E4c)}
+The Full and LIMIT~10 scatter layouts share marker semantics with experiment~5; both panels are placed to allow co-float on one page when space permits.
+
+\input{tables/generated/tab-exp4-validation}
 
 \input{integration/fig-e4c}
 
-\noindent\textit{Preview note.} Closed-form cost identities tied to production \texttt{Expect} are pending verification; legacy fan-in sweep panels (\texttt{fig:exp4-full}, \texttt{fig:exp4-topk}) are withheld.
-
-\FloatBarrier
 \subsection{\LIMIT $n$ sensitivity}
 \label{sec:exp:limit-sweep}
 
-\input{integration/fig-e5-sweep}
+\Cref{fig:exp5-k-sweep-off,fig:exp5-k-sweep-on} sweep requested output length under cache Off and On-cold (synthetic layout).
 
-\pendingviz{Legacy listwise batch-size $m$ study (\texttt{fig:exp5-m}) not in current experiment spec}
+\input{integration/fig-e5-sweep}

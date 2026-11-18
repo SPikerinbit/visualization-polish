@@ -1,0 +1,227 @@
+% Legacy segmented-LT global-order proof (not rendered in layout preview).
+\section{To be revised:Global Orderedness of Segmented Loser Tree}
+\label{sec:appendix-segment-correctness}
+
+For an ordered sequence $S$, let $\operatorname{Pref}_q(S)$ denote its
+first $\min\{q,|S|\}$ items. We distinguish two properties: every emitted
+segment must be the next prefix of the global order, and every input item
+must be emitted exactly once.
+
+\paragraph{Why path selection matters.}
+A locally ordered replay does not by itself guarantee global order.
+Consider $h=2$, $L=[1,4]$, and $R=[2,6]$. Their replay produces
+\[
+tmp=[1,2],\qquad \mathit{Loser}(v)=[4,6],
+\]
+and the left slot is exhausted first. Suppose its next segment begins
+with $5$, whereas the next right segment is $[7,8]$. If the algorithm
+incorrectly refreshes the right path, replaying $[4,6]$ with $[7,8]$
+would emit $[4,6]$, placing $6$ before the unseen item $5$. The replay
+batch is locally sorted, but it omits a candidate required for global
+order. Hence correctness depends on proving that
+$\mathit{Pointer}(v)$ selects exactly the child whose next segment may
+precede part of $\mathit{Loser}(v)$.
+
+A replay segment is associated with a \emph{logical child slot}.
+This association identifies the child whose continuation is required
+when the segment is exhausted; it does not require every item in the
+segment to originate from that child. After a replay, each internal node
+maintains the following invariant:
+
+\begin{itemize}
+  \item $\mathit{Loser}(v)$ is the ordered segment of exposed items not propagated to the parent;
+  \item if $\mathit{Pointer}(v)=p$, the next segment from $p$ is the only unexposed segment that may precede an item in $\mathit{Loser}(v)$; and
+  \item if $\mathit{Pointer}(v)=\textsc{null}$, the entire loser segment is certified and may be propagated without another ranking call.
+\end{itemize}
+
+\begin{lemma}[First-exhausted replay dependency]
+\label{lem:segment-frontier-barrier}
+Let $L$ and $R$ be valid $h$-item replay segments associated with the two
+logical child slots of $v$, and let
+\[
+  Z=\operatorname{Sort}_{\rho}(L\uplus R)
+\]
+under a rank map consistent with $\prec_\phi$. Let $p$ be the slot whose
+$h$-th item is encountered first when scanning $Z$, and let $o$ be the
+other slot. Then
+\[
+  tmp=Z[1..h],
+  \qquad
+  \mathit{Loser}(v)=Z[h+1..2h],
+  \qquad
+  \mathit{Pointer}(v)=p
+\]
+satisfy the node invariant. In particular, $tmp$ is the next certified
+$h$-item prefix, and refreshing any slot other than $p$ is insufficient
+to certify the next winner in general.
+\end{lemma}
+
+\begin{proof}
+Let $b$ be the position at which $p$ is first exhausted. Since both
+inputs contain $h$ items,
+\[
+  h\le b\le 2h-1.
+\]
+Consequently, every item of $Z[1..h]$ occurs no later than the last
+exposed item of $p$. Any subsequent item from $p$ must follow that last
+item, and therefore cannot precede $Z[1..h]$. The other slot $o$ is not
+exhausted at position $b$; after $b$, all remaining items of $Z$ come
+from $o$. Its unseen continuation therefore follows the final item of
+$Z$. Thus $Z[1..h]$ is certified against both continuations.
+
+In contrast, the next item from $p$ may lie between $Z[b]$ and
+$Z[b+1]$. It may therefore precede part of
+$Z[h+1..2h]$, whereas an unseen item from $o$ cannot. Hence $p$ is the
+unique unresolved dependency and must become $\mathit{Pointer}(v)$.
+
+The loser segment may contain items originating from both subtrees, but
+its suffix following position $b$ consists only of items from $o$ and
+ends with the exposed frontier of $o$. It can therefore occupy the
+logical slot associated with $o$ during the next replay. If the new
+segment from $p$ is exhausted first, $p$ remains the unresolved
+dependency. If the stored loser is exhausted first, the exposed frontier
+of $o$ has been consumed and the dependency switches to $o$. This is
+exactly the pointer update performed by
+Algorithm~\ref{alg:replay_segment_node}.
+\end{proof}
+
+Algorithm~\ref{alg:replay_segment_node} presents the steady-state case
+of two full segments. For a final short segment, its actual length is
+used as the exhaustion threshold. A short segment has no continuation;
+therefore, if it is exhausted first, the pointer moves to the other slot
+when that slot has more output, and becomes \textsc{null} otherwise.
+
+\begin{theorem}[Conditional global orderedness]
+\label{thm:segment-global-order}
+Fix a strict total order $\prec_\phi$ with deterministic tie-breaking.
+Suppose that:
+\begin{itemize}
+  \item[(A1)] every input run is finite and sorted by $\prec_\phi$;
+  \item[(A2)] every rank map produced during initialization or path
+        refresh is the restriction of the same order $\prec_\phi$;
+  \item[(A3)] every unexhausted producer eventually returns its next
+        segment, with only its final segment allowed to contain fewer
+        than $h$ items; and
+  \item[(A4)] the tree depth is at most $d$ and $(d+1)h\le m$.
+\end{itemize}
+Then Algorithm~\ref{alg:segmented_loser_tree_merge} emits exactly the
+sorted merge of its input runs. Any consumer that stops after $K$ items
+receives the first $K$ items of the same global order.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+  \mathcal S=
+  \operatorname{Sort}_{\prec_\phi}
+  (R_1\uplus\cdots\uplus R_k)
+\]
+be the desired global merge.
+
+\paragraph{Initialization.}
+At line~\ref{line:slt-init}, each leaf returns the next prefix of its
+sorted run. By (A1), this segment is a certified prefix of that leaf.
+The shared rank map $\rho_0$ orders all initial leaf segments according
+to $\prec_\phi$ by (A2).
+
+We apply structural induction to \textsc{BuildSubtree}. A leaf returns
+its certified segment directly. At an internal node, the recursive calls
+return the next winner segments of its left and right subtrees. By
+Lemma~\ref{lem:segment-frontier-barrier},
+\textsc{ReplaySegmentNode} returns their next merged prefix and stores a
+loser/pointer pair satisfying the node invariant. Hence the value
+returned by every recursive call is the next certified segment of its
+subtree. In particular, the initial root $tmp$ is the first segment of
+$\mathcal S$. The returned values are transient: only
+$\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$ remain at an internal node.
+
+\paragraph{Pointer-guided refresh.}
+After a root winner is emitted, let
+\[
+  \mathcal P=(u_0,u_1,\ldots,u_t),
+  \qquad u_0=\textsc{Root}(T),
+\]
+be the path followed by Algorithm~\ref{alg:repair_segment_path}.
+At every internal node $u_i$, the node invariant states that the child
+selected by $\mathit{Pointer}(u_i)$ is the only child whose continuation
+may precede part of $\mathit{Loser}(u_i)$. Following any other edge can
+therefore omit a necessary candidate, as illustrated by the preceding
+counterexample. Following the stored pointers reaches exactly the
+unresolved frontier.
+
+If $u_t$ is a leaf, \textsc{FillLeaf} supplies its next certified
+segment. If it is an internal node with a null pointer, its loser is
+already fully certified and can be promoted directly. In either case,
+the terminal node supplies a valid initial $tmp$.
+
+The refresh batch is
+\[
+  B=\{tmp\}\uplus
+    \biguplus_{v\in\mathcal P}\{\mathit{Loser}(v)\}.
+\]
+By (A2), $\rho_B$ gives the order induced by $\prec_\phi$ on every item
+participating in the refresh. Replay then proceeds bottom-up. Assume the
+current $tmp$ is the next certified segment returned by the pointer
+child of a path node $v$. The stored loser occupies the other logical
+slot. Lemma~\ref{lem:segment-frontier-barrier} shows that replay returns
+the next certified segment of $v$ and establishes the new loser/pointer
+invariant at $v$. Induction from $u_t$ to $u_0$ therefore proves that the
+returned root $tmp$ is the next globally certified segment. Nodes
+outside $\mathcal P$ require no update because their continuations cannot
+precede the stored loser at any path node.
+
+\paragraph{Root output.}
+Let $\Pi_s$ be the output after $s$ root segments and let $U_s$ be the
+items not yet emitted. We maintain
+\[
+  \Pi_s=\operatorname{Pref}_{|\Pi_s|}(\mathcal S),
+  \qquad
+  tmp_s=
+  \operatorname{Pref}_{|tmp_s|}
+  \left(\operatorname{Sort}_{\prec_\phi}(U_s)\right).
+  \tag{I}
+\]
+Initialization establishes (I) for $s=0$. If (I) holds, appending
+$tmp_s$ gives
+\[
+  \Pi_{s+1}
+  =\Pi_s\mathbin{\|}tmp_s
+  =\operatorname{Pref}_{|\Pi_s|+|tmp_s|}(\mathcal S).
+\]
+The pointer-guided refresh proved above returns the next prefix of the
+new remainder $U_{s+1}$, reestablishing (I). Thus every emitted segment
+extends the same global sorted prefix.
+
+\paragraph{Conservation, capacity, and termination.}
+A child transfers ownership of every item in its returned $tmp$ to its
+parent. Ranking changes only their order. At a replay node,
+\[
+  tmp\mathbin{\|}\mathit{Loser}(v)
+  =\operatorname{Sort}_{\rho}(L\uplus R),
+\]
+so every replayed occurrence is assigned to exactly one transient winner
+or one persistent loser. Promotion and output transfer ownership without
+copying. Therefore no item is lost or duplicated.
+
+A refresh batch contains at most one $h$-item terminal segment and one
+loser of at most $h$ items from each of at most $d$ path levels. Hence
+\begin{equation}
+  |B|\le (d+1)h\le m.
+  \label{eq:appendix-repair-capacity}
+\end{equation}
+Every nonempty root $tmp$ emits at least one item. By (A3), an
+unexhausted terminal eventually supplies its next segment; when a final
+short segment is consumed, the boundary rule removes its exhausted
+dependency. Because all runs are finite, the process terminates only
+after every source, transient winner, and stored loser is empty.
+Conservation then gives $|\Pi|=|\mathcal S|$, while invariant (I) gives
+$\Pi=\mathcal S$.
+
+A pipelined consumer that stops after $K$ items merely truncates this
+same sequence and therefore receives
+$\operatorname{Pref}_K(\mathcal S)$.
+\end{proof}
+
+The theorem depends on Assumption~(A2): enforcing a valid permutation
+inside each individual ranking call does not by itself guarantee
+consistency between different calls.

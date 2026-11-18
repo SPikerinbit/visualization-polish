@@ -1,0 +1,26 @@
+% tab:params in the rejected draft is a commented notation list.
+% It is not tab:params-full, it is not enabled, and render/main.tex does not input it.
+% Restoration is undecided. Do not cite this as a live table.
+\iffalse
+\begin{table}[t]
+\centering
+\caption{Frequently used notation. Not enabled. Not an experimental result. Not the parameter table.}
+\label{tab:params}
+\footnotesize
+\begin{tabular}{@{}cl@{}}
+\toprule
+\textbf{Notation} & \textbf{Description} \\
+\midrule
+$D$ & Input item collection \\
+$n$ & Input size ($n=|D|$) \\
+$\phi$ & Natural-language ordering instruction \\
+$m$ & Maximum items per listwise call \\
+$K$ & Requested prefix length \\
+$\Pi$, $\Pi_K$ & Full order and top-$K$ prefix \\
+$k$ & Maximum merge fan-in \\
+$r$ & Initial run count ($r=\lceil n/m\rceil$) \\
+$h$ & Segment length of the single LT algorithm; $h=1$ is that algorithm \\
+\bottomrule
+\end{tabular}
+\end{table}
+\fi

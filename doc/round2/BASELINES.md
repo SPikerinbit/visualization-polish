@@ -1,5 +1,16 @@
 # 实现基线（仓库相对路径）
 
+## 最新工件组织要求与状态（2026-11-18）
+
+- 当前Fig.7–10的E4a合为通栏16子图；实验每panel独立输出，TeX subfigure组装，legend独立。Fig.12需进一步压缩。编号仅定位当前审阅稿，最终以内容与TeX标签映射为准。
+- 本次是doc-only同步，不新增或替换机制图、实验图、算法示例、整合TeX或PDF；本轮云端候选尚未随本次提交推送，也不构成稳定验收基线。后续由主整合者补仓库相对路径、文件hash、源提交与完整模板验收证据，不以机器临时路径冒充仓库工件。
+- Framework已核代码依据仍为 `viz/evidence/sources/sema_prototype/physical_operator/orderby/merge/_shared/plan.py`：`select_parameters`接收lengths/m/limit/profile、枚举可行参数并比较input_tokens；`CostEstimate.input_tokens`为H×total_calls+L×total_items（计及适用尾部修正）；`resolve_merge_plan`在逐趟计划前调用一次选参。图内成本不可写成总token。
+- 实现/论文区别须保留：Full SW未显式给h时，`select_parameters`可使用h=None，SW运行时按活跃runs分配窗口；论文图按用户约定统一讲选(k,h)。这不是所有实现路径固定数值h的证明。h不表示树深。
+- 新增Alg.1总体流程示例的最终源文件及完整状态核验尚待实际合入后登记，不杜撰已归档位置。合成数据披露转到整稿开头并明确非实测，数据和研究缺口本身不变。
+
+---
+
+
 ## 本轮来源与状态补充（2026-11-18，已同步决策）
 
 - 以下原仓库基线路径继续有效；`recovery/`仅用于明确指定的历史来源，不是当前终稿入口。

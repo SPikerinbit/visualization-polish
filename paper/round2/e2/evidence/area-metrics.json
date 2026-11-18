@@ -1,13 +1,16 @@
 {
-  "exp5_single_panel_source_pdf_in": 1.8499999999999999,
-  "e2_2x5": [
-    7.0,
-    3.9499999999999997
+  "textwidth_in": 7.0,
+  "panel_source_in": 1.85,
+  "exp5_m_block_pdf_in": [
+    8.5,
+    11.0
   ],
-  "e2_2x6": [
-    7.0,
-    4.050000000000001
+  "e2_preview_page1_in": [
+    8.5,
+    11.0
   ],
-  "target_textwidth_in": 7.0,
-  "exp5_figure_star_reference": "unpacked-paper/exp.tex fig:exp5-m (lines 417--472); no 3D k-sweep float found"
+  "e2_page1_mediabox_in": [
+    8.5,
+    11.0
+  ]
 }

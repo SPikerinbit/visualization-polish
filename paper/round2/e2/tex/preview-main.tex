@@ -1,28 +1,31 @@
-% Standalone VLDB-style preview: E2 cost surfaces only (figures + captions).
+% VLDB-style preview: E2 figures + captions only.
 \documentclass[sigconf,nonacm]{acmart}
 \usepackage{../../../tex/vendor/pvldb}
 \settopmatter{printfolios=false,printccs=false,printacmref=false}
 \acmConference[Preview]{E2 round 2}{2026}{}
 \usepackage{graphicx}
-\usepackage{subcaption}
+\usepackage{subfigure}
 \usepackage{xcolor}
 \graphicspath{{../out/}{../out/panels/}}
 
 \begin{document}
-\title{E2 Layout Preview (figures only)}
+\title{E2 round-2 preview (figures only)}
 \author{Round-2 agent}
 \renewcommand{\shortauthors}{Preview}
 \maketitle
 
-\noindent\textcolor{gray}{\textit{Synthetic layout data only --- not experimental results. Cost prediction vs.\ measurement; Spearman quality panel omitted.}}
+\noindent\textcolor{gray}{\textit{Synthetic schematic heights --- not experimental results. Primary layout uses per-panel PDFs in an \texttt{exp5-m} subfigure container (not a single montage image).}}
 
-\input{fig-e2-layout-2x5}
-\input{fig-e2-layout-2x6}
+\input{fig-e2-exp5-container-12}
 
+\newpage
+\input{fig-e2-exp5-container-10}
+
+\newpage
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{e2-hero-cost-only.pdf}
-  \caption{Single-panel reference style (cost only). Camera \texttt{elev=26}, \texttt{azim=-54}; every $(k,h)$ configuration retains vertex markers like the original \texttt{plot\_surface.py} script.}
+  \caption{Single-panel cost-only reference (Spearman removed). Camera matches \texttt{plot\_surface.py}; vertex markers kept at reduced area.}
   \label{fig:e2-hero}
 \end{figure}
 

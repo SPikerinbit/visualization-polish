@@ -1,24 +1,32 @@
-# E2 TeX container定位（round-2）
+# E2 TeX 容器定位（round-2 修订）
 
-## 结论
+## 3D k-sweep 原容器
 
-| 项目 | 状态 |
-|------|------|
-| 原论文中「3D k-sweep 成本曲面组图」专用 `figure*` 容器 | **未在附件 `unpacked-paper/exp.tex` 中找到** |
-| `fig:exp2-k`（`exp.tex` 218–251） | **六张 2D LIMIT-$K$ 敏感性曲线**，不是 3D 源容器 |
-| 通栏多子图面积参照 | **`fig:exp5-m`**（`exp.tex` 417–472）：`figure*` + 两行各 6 个 `0.33\columnwidth` 子图 + 图例 |
+在附件 `unpacked-paper/exp.tex` 中 **仍未找到** 用户所述「3D k-sweep 成本曲面组图」专用 float。`fig:exp2-k`（218–251 行）为六张 2D LIMIT-$K$ 曲线，**不是** 3D 源。
 
-## 本轮复用策略
+## 本轮「只换图」的含义（纠正上一轮表述）
 
-1. **不覆盖** `fig:exp2-k`。
-2. 新标签 `fig:e2-surface-2x5` / `fig:e2-surface-2x6` 使用 **单张通栏 PDF 换图**（与合同「尽量只换图」一致），避免在正文里重写 `\subfigure` 网格。
-3. 若将来必须在 TeX 内嵌 12 格而非单 PDF，可参考 `fig:exp5-m` 的负 `\hspace` 压缩；见 `evidence/exp5-m-vs-e2-diff.patch`。
+用户要求的是 **复用原组图 TeX 的 subfigure 网格/间距/图例容器，逐格替换各 panel 的矢量 PDF** —— **不是** 用一张拼好的 montage PNG/PDF 做 `\includegraphics[width=\textwidth]{…}`。
 
-## 尺寸证据
+### 12 格（忠实 exp5-m 结构）
 
-- `evidence/area-metrics.json`：`e2-layout-2x5.pdf` 与 `e2-layout-2x6.pdf` 均为 **7.0 in 宽**（sigconf `\textwidth`）。
-- 高度约 **3.95 in / 4.05 in**；原 `exp5` 单 panel 源 PDF 边长约 1.85 in（含边距），组图总行高需与 `fig:exp5-m` 印刷行对齐——见 `area-compare-10-vs-12.png` 同宽对照。
+- 文件：`tex/fig-e2-exp5-container-12.tex`
+- 结构对齐 `exp.tex` `fig:exp5-m`（417–472）：`0.8\linewidth` 图例 + 两行六列、`0.33\columnwidth`、`\hspace{-2.5ex}`。
+- 每格：`panels/p01.pdf` … `panels/p12.pdf`（matplotlib 独立导出，非位图组图）。
+- 子图标题外置：`Syn-A … Syn-L` + LT/SW + Full/LIMIT10（**合成案例名，非 query 实测**）。
 
-## 数据来源
+### 10 格（派生）
 
-无正式实测 `surface_data.json`；高度为 `plot_surfaces.py` 内示意场，caption 已标明 synthetic。
+- 文件：`tex/fig-e2-exp5-container-10.tex`
+- **省略** Syn-F（`p06`）与 Syn-L（`p12`）两格；**不声称**与原论文某一 float 一一对应。
+
+### 面积对照证据
+
+- 原容器同宽渲染：`tex/exp5-m-area-block.tex` → 编译得到 `tex/exp5-m-area-block.pdf`
+- E2 预览：`tex/preview-main.tex` 第 1 页为 12 格容器
+- 对照图：`evidence/area-exp5m-vs-e2-same-width.png`（同 sigconf 版宽下上下叠放）
+- 数值：`evidence/area-metrics.json`
+
+## 与旧 `fig-e2-layout-2x*.tex` 的关系
+
+单张 montage 方案已弃用为主交付；保留目录内旧文件仅供历史对比，**主路径为 exp5-m 容器 + 分 panel PDF**。

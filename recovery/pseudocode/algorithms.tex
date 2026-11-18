@@ -1,5 +1,4 @@
 % Includable fragment. Parent loads algorithm2e.
-% \DontPrintSemicolon matches the short PVLDB listings (LOTUS Alg. 1, Abacus Algs. 1--3).
 \DontPrintSemicolon
 \newcommand{\Rank}{\mbox{\textsc{ListwiseRank}}}
 \newcommand{\MergeGroup}{\mbox{\textsc{MergeGroup}}}
@@ -8,20 +7,18 @@
 
 {\raggedright\hyphenpenalty10000\exhyphenpenalty10000
 \noindent\textit{Notation.}\quad
-$\phi$ instruction;\ $m$ capacity;\ $k$ fan-in;\ $h$ segment length.\par
-\noindent $K$ optional limit;\ $R_i$ run $i$;\ $\Pi$ emitted order.\par
-\noindent $\rho$ rank after run-order repair.\par
-\noindent $\Rank$ takes real rows only.\ $h{=}1$ is this LT.\par
-\noindent Families are SW and LT.\par
-\noindent $\Expect(f,k,h)$ estimates input tokens.\par
-\noindent Formula is not in the eight sources.\par
+$\phi$ instruction;\ $m$ listwise capacity;\ $k$ fan-in;\ $h$ segment length.\par
+\noindent $R_i$ is run $i$.\ $\rho$ is rank after run-order repair.\par
+\noindent $\Rank$ takes real rows only.\ $h{=}1$ is this LT.\ Families: SW, LT.\par
+\noindent $\Expect(f,k,h)$ estimates input tokens.\ Formula not in the eight sources.\par
 \noindent Slots $s_0,s_1$ are not children and not run indexes.\par
+\noindent Only Algorithm~1 takes optional $K$ and builds $\Pi$.\ $\MergeGroup$ yields a stream.\par
 }
 
 \begin{algorithm}[t]
 \caption{Semantic external merge}
 \label{alg:semantic_external_merge}
-\KwIn{rows $D$, $\phi$, $m$; optional $K$}
+\KwIn{rows $D$, optional $K$}
 \KwOut{order $\Pi$}
 \If{$K=0$ or $|D|\le 1$}{\Return the trivial order}
 \eIf{no $K$, or $K\ge|D|$}{mode $\leftarrow$ Full}{mode $\leftarrow$ Buffer}
@@ -33,14 +30,15 @@ $(f,k,h)\leftarrow\arg\min\Expect(f,k,h)$ over calls that fit in $m$\;
 ties keep LT, then smaller $k$, then smaller $h$\;
 \For{each pass}{
   \For{each group of at most $k$ runs}{
-    replace the group by $\MergeGroup(f)$\;
+    replace the group by the stream from $\MergeGroup(f)$\;
   }
 }
 \eIf{mode is Buffer}{
-  drain the root into $\Pi$ until $|\Pi|{=}K$\;
+  drain the root stream into $\Pi$\;
+  stop at $K$ if specified, else exhaust the root\;
   \textbf{finally} close the root\;
 }{
-  materialize each pass\;
+  \For{each pass}{materialize every $\MergeGroup$ stream fully\;}
 }
 \lIf{ascending}{reverse $\Pi$}
 \lIf{$K$ is set}{keep the first $K$ rows of $\Pi$}
@@ -49,15 +47,15 @@ ties keep LT, then smaller $k$, then smaller $h$\;
 \begin{algorithm}[t]
 \caption{Sliding window}
 \label{alg:sliding_window_kway_group_merge}
-\KwIn{runs $R_1,\ldots,R_g$; $h$ or none}
-\KwOut{rows appended to $\Pi$}
+\KwIn{run streams $R_1,\ldots,R_g$;\ $h$ or none}
+\KwOut{a locally ordered row stream}
 $B\leftarrow\emptyset$\;
-\While{$|\Pi|<K$}{
+\While{not exhausted}{
   \If{$B=\emptyset$ and no run has supply}{\textbf{break}}
   $I\leftarrow\{i : B$ holds $R_i$, or $R_i$ has supply$\}$\;
   \If{$|I|=1$ and no other run has supply}{
-    emit $B$ in pull order\;
-    pull that run until $K$\;
+    \textbf{yield} $B$ in pull order\;
+    \textbf{yield} the rest of that run in pull order\;
     \textbf{break}\;
   }
   \eIf{$h$ is fixed}{
@@ -78,8 +76,7 @@ $B\leftarrow\emptyset$\;
     }
   }
   \tcp{$O_1,\ldots,O_t$ is the safe prefix}
-  append $O_1,\ldots,O_t$ to $\Pi$ until $|\Pi|{=}K$\;
-  \lIf{$|\Pi|{=}K$}{\Return}
+  \textbf{yield} $O_1,\ldots,O_t$\;
   $B\leftarrow(O_{t+1},O_{t+2},\ldots)$\;
 }
 \end{algorithm}
@@ -87,9 +84,12 @@ $B\leftarrow\emptyset$\;
 \begin{algorithm}[t]
 \caption{LT($h$)}
 \label{alg:loser_tree_kway_group_merge}
-\KwIn{$k$ runs; $h$ or none}
-\KwOut{rows appended to $\Pi$}
-\If{$k=1$}{yield that run until $K$; \Return}
+\KwIn{$k$ run streams;\ $h$ or none}
+\KwOut{a locally ordered row stream}
+\If{$k=1$}{
+  \textbf{yield} every row of that run until exhausted\;
+  \Return\;
+}
 \lIf{$h$ is absent}{$h\leftarrow\lfloor m/(1+\lceil\log_2 k\rceil)\rfloor$}
 require $(1+\lceil\log_2 k\rceil)\,h\le m$\;
 build an exact binary tree\;
@@ -103,8 +103,7 @@ fill every leaf with at most $h$ real rows\;
 }
 $S\leftarrow$ root segment\;
 \While{$S\neq\emptyset$}{
-  append $S$ to $\Pi$ until $|\Pi|{=}K$\;
-  \lIf{$|\Pi|{=}K$}{\Return}
+  \textbf{yield} the rows of $S$\;
   $S\leftarrow$ Refresh\;
 }
 

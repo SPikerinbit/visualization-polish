@@ -26,6 +26,9 @@ PNG = HERE / "e4b-beta.png"
 WIDTH_MM = 178.0
 HEIGHT_MM = 79.0
 MM_TO_IN = 1.0 / 25.4
+# Lift plot floors so the shared xlabel clears the page bottom (mm in figure coordinates).
+AX_BOTTOM = 0.085 + 4.0 / HEIGHT_MM
+AX_HEIGHT = 0.79 - 4.0 / HEIGHT_MM
 
 INK = "#262B30"
 MUTED = "#5C6B76"
@@ -264,8 +267,8 @@ def build():
     fig = plt.figure(figsize=(WIDTH_MM * MM_TO_IN, HEIGHT_MM * MM_TO_IN), dpi=300)
     fig.patch.set_facecolor("white")
 
-    main = fig.add_axes((0.075, 0.085, 0.585, 0.79))
-    zoom = fig.add_axes((0.748, 0.085, 0.232, 0.79))
+    main = fig.add_axes((0.075, AX_BOTTOM, 0.585, AX_HEIGHT))
+    zoom = fig.add_axes((0.748, AX_BOTTOM, 0.232, AX_HEIGHT))
 
     all_y = [y for series in curves.values() for y in series]
     main_lo, main_hi = min(all_y) - 10, max(all_y) + 12

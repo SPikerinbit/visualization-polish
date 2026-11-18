@@ -1,0 +1,39 @@
+% Proposed figure environment. Not inserted into the paper.
+% The parent reviews scheme A and scheme B, picks one, then places it
+% in the VLDB template. This file is not a standalone paper and is not
+% compiled here.
+%
+% Checked fact: the current paper sources have no figure environment for
+% this local pointer rule. Suggested label fig:eg:pointer-rule is new.
+% Suggested place: a single-column figure near the unified LT figure.
+% Do not reuse fig:eg:loser_tree_kway_group_merge or fig:eg:segment_loser_tree.
+%
+% PDF media width matches the v2 pointer figure (249.12 pt, about 88 mm).
+% Scheme A is 435 pt tall. Scheme B is 617 pt tall. Height grew so the
+% tree was not shrunk. \linewidth will scale the chosen PDF.
+
+% --- scheme A: before | after ---
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{pointer-scheme-a.pdf}
+  \caption{Local pointer rule on one internal node ($h=2$).
+    Child 0 is run $R_1$ and child 1 is run $R_2$.
+    Slot 0 and slot 1 are replay arguments, not child names.
+    Build assigns pointer $=$ child 1.
+    The next refresh follows that child.
+    Refresh returns pointer $=$ child 0; the previous value was child 1.
+    A returned pointer may name the same child.
+    That case is not in the trace and is not drawn.}
+  \label{fig:eg:pointer-rule}
+\end{figure}
+
+% --- scheme B: exhaustion, returned pointer, next refresh ---
+% Use this environment instead of the one above. Do not include both.
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\linewidth]{pointer-scheme-b.pdf}
+%  \caption{Same local pointer rule as scheme A, drawn as three steps:
+%    exhaustion, the returned pointer, then the next refresh.
+%    The gap states that the fill after pointer $=$ child 0 is not in the trace.}
+%  \label{fig:eg:pointer-rule}
+%\end{figure}

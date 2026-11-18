@@ -1,5 +1,15 @@
 # 下一 bot 入口（继续视觉打磨；历史验收另见下文）
 
+## 优先纠正：Round14恢复与新Fig.8试样（2026-11-18）
+
+用户撤回Round15 Framework误改。回到交付Round14中的Framework（内部v19，不是内部v14），保留Input tokens原紫H条/绿Documents/H-L视觉对象；公式放Cost Model框内底部居中，不能用公式替换输入图像。内部v22已撤回，局部编译/审查通过不能覆盖用户纠正。NL Query下移对齐、Cost-effective plan、顶部fixed-h容量≤及A/B/C后省略号等同轮明确要求继续执行。
+
+Fig.8接续试样：同n、同算法及其余可比条件下拼接两个dataset的配置轴，横轴表明(k,h,dataset)，尝试单栏。保留dataset分界、每数据集原值和选择规则，不平均观测、不跨边界连成连续趋势，不为单栏删点或缩到不可读。新布局仍需真实模板A/B与用户验收，不能当作已冻结终版。
+
+云端v23已恢复原H/L图形并做局部模板/强审，后续完整整合与用户终验分别记录；保留并行E4/E5图注及其它机制修正，不整文件回退。文档同步不等于图稿已推送。
+
+---
+
 ## 最新接续：中央公式与容量限定（2026-11-18）
 
 以Round14为基线落实NL Query和图符下移、同Documents纵向对齐；小标题Cost-effective plan；H×calls + L×item appearances置cost model中央并提高权重；删valid under m，顶部Valid plans附fixed-h容量筛选；A/B/C之后右侧省略号表明还有配置。四输入、三树及Full/LIMIT语义保留，非必要不改其它区域。

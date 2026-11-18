@@ -1,5 +1,7 @@
 # Round 2 mechanism figures
 
+User decisions are in `DECISIONS.md`. What was measured and opened locally is in `ACCEPTANCE.md`. That note is not a parent acceptance.
+
 Only this directory. Print files are the single-column SW, LT(h), and pointer, plus the text-width framework. There is no scaled-down copy of the wide v2 page.
 
 `contact.png` uses one scale (6 px per bp). The framework is about twice as wide as the other three because that is the real page size. A 20 mm bar is on the sheet.

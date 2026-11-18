@@ -62,7 +62,11 @@ sheet.paste(bar, (0, y))
 sheet.save("contact.png")
 print("contact", sheet.size)
 PY
+TEXINPUTS="/agent/repos/visualization-polish/viz/tex/vendor:" pdflatex -interaction=nonstopmode -output-directory=build src/preview.tex >/dev/null
+TEXINPUTS="/agent/repos/visualization-polish/viz/tex/vendor:" pdflatex -interaction=nonstopmode -output-directory=build src/preview.tex >/dev/null
+cp build/preview.pdf preview.pdf
 pdfinfo framework.pdf
 pdfinfo sw.pdf
 pdfinfo lt.pdf
 pdfinfo pointer.pdf
+pdfinfo preview.pdf

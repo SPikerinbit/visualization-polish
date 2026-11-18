@@ -1,5 +1,17 @@
 # 下一 bot 入口（继续视觉打磨；历史验收另见下文）
 
+## 最新接续：中央公式与容量限定（2026-11-18）
+
+以Round14为基线落实NL Query和图符下移、同Documents纵向对齐；小标题Cost-effective plan；H×calls + L×item appearances置cost model中央并提高权重；删valid under m，顶部Valid plans附fixed-h容量筛选；A/B/C之后右侧省略号表明还有配置。四输入、三树及Full/LIMIT语义保留，非必要不改其它区域。
+
+容量式须用b(k)h≤m而非<。caption定义SW b(k)=k、LT b(k)=1+ceil(log₂k)，说明仅fixed-h容量筛选且其它可行性约束仍适用；不把LT误归结为所有k个叶段总量kh必须fit m，也不声称此式覆盖adaptive SW h=None。保留实际组g≤k和原成本/有限尾项语义。
+
+Fig.8单栏是试排实验而非终版决定，不能据此覆盖既定布局。保留同尺寸/真实栏宽对照与数据，待可读性证据后再选择。
+
+v22局部TL2026及强审已完成，但整稿整合/用户验收另记；不得将局部通过等同最终通过。v20重复call卡与v21大外框因收益不足已拒绝，不继承其改动。本次doc-only，不推候选资产，合入时保留所有并行Pointer/Fig.5/实验图例修正。
+
+---
+
 ## 先执行的最新精确修改（2026-11-18）
 
 Framework标签用NL Query/Documents；去掉Config工程卡和底部k/h解释行，不恢复变相配置框。保留四输入实体与给定m/output的正确来源，不把约束误画为NL推导。重构Feasible/Valid plans的候选对象与成本选择关系；压缩右区无效空白，分散中间plan；Full Ranking屏障右端收短，三树语义/数据不变。

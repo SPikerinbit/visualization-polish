@@ -25,20 +25,17 @@
 
 {\footnotesize\raggedright\hyphenpenalty10000\exhyphenpenalty10000
 \noindent\textit{Notation.}\quad
-$\phi$ is the instruction, $m$ the listwise capacity, $k$ the fan-in, and $h$ the segment length.
-$R_i$ is run $i$, $\Pi$ the output, and $K$ an optional limit.
-\Rank\ permutes its real rows and does nothing when fewer than two rows are present.
-Run-order repair keeps each run's own order: while a run still has a row in the batch, emit the row \Rank\ placed first among the current heads.
-$+\infty$ pads a short LT slot. It is not ranked and not emitted.
-Replay slots are not run indexes.
-\Expect\ is the implementation's input-token estimate; the formula is not checked here.
-The families are SW and LT($h$) only.\par}
+$\phi$ instruction; $m$ listwise capacity; $k$ fan-in; $h$ segment length; $R_i$ run $i$; $\Pi$ output; $K$ optional limit.
+\Rank\ uses real rows and is the identity below two rows.
+Run-order repair emits the current head \Rank\ placed first, while that run remains in the batch.
+$+\infty$ pads a short LT slot and is not emitted.
+Replay returns $(w,\ell,p)$; the caller stores $\ell$ and $p$. Slots are not run indexes.
+\Expect\ estimates input tokens; the formula is not checked.
+Families: SW and LT($h$) only.\par}
 
 \algcolstart
 \begin{algorithm}[H]
-\caption{Semantic external merge.
-Full materializes every group of a pass before the next pass.
-LIMIT builds the same groups as a pull tree and stops when the root has returned $K$ rows.}
+\caption{Semantic external merge.}
 \label{alg:semantic_external_merge}
 \KwIn{rows $D$, instruction $\phi$, capacity $m$, optional $K$}
 \KwOut{order $\Pi$}
@@ -64,7 +61,7 @@ among SW and LT calls that fit in $m$\;
 }{
   build those same groups as a tree of pullable runs\;
   \lIf{a group has one run}{forward it}
-  pull the root until it yields $K$ rows or ends\;
+  \eIf{$K$ is set}{pull until $K$ rows or the root ends}{pull until the root ends}
   close the root, which stops unfinished child pulls\;
   $\Pi\leftarrow$ the pulled rows\;
 }
@@ -75,9 +72,7 @@ among SW and LT calls that fit in $m$\;
 
 \algcolstart
 \begin{algorithm}[H]
-\caption{SW group merge.
-Emit the safe prefix.
-Fixed $h$ does not borrow; a missing $h$ borrows up to the target.}
+\caption{SW group merge.}
 \label{alg:sliding_window_kway_group_merge}
 \KwIn{runs $R_1,\ldots,R_g$, capacity $m$, quota $h$ or none}
 \KwOut{a locally ordered stream}
@@ -113,9 +108,7 @@ $B\leftarrow\emptyset$\;
 
 \algcolstart
 \begin{algorithm}[H]
-\caption{LT($h$) group merge.
-One family: $h{=}1$ is the one-row tree, not a second algorithm.
-The root segment is transient. A node keeps only its loser and pointer.}
+\caption{LT($h$) group merge.}
 \label{alg:loser_tree_kway_group_merge}
 \KwIn{$k$ runs, capacity $m$, segment length $h$ or none}
 \KwOut{a locally ordered stream}
@@ -131,7 +124,8 @@ $F\leftarrow$ the leaves\;
   $C\leftarrow$ highest nodes whose $F$-rows fit in one \Rank\;
   \For{each $v\in C$ that is not yet in $F$}{
     \Rank\ the real rows under $v$;\ let $\rho$ repair run order\;
-    replay each new internal node under $v$, bottom-up, under $\rho$\;
+    $(w,\ell,p)\leftarrow$ Replay each new internal node under $v$, bottom-up, under $\rho$\;
+    store $\ell$ and $p$;\ pass $w$ upward\;
   }
   $F\leftarrow C$\;
 }
@@ -145,27 +139,23 @@ $S\leftarrow$ the root segment\;
 
 \algcolstart
 \begin{algorithm}[H]
-\caption{Replay one LT($h$) node.
-The pointer is the slot whose count reaches $h$ first, counting $+\infty$.
-The winner is the real rows in the first $h$ positions.}
+\caption{Replay one LT($h$) node.}
 \label{alg:replay_segment_node}
 \KwIn{slots $s_0,s_1$, children $c_0,c_1$, rank $\rho$, length $h$}
-\KwOut{winner $w$; store loser $\ell$ and pointer $p$}
+\KwOut{$(w,\ell,p)$}
 order the real rows of $s_0\cup s_1$ by $\rho$\;
 pad each slot to length $h$ with $+\infty$\;
 scan until one slot's count reaches $h$\;
 $p\leftarrow$ the child of that slot\;
 $w\leftarrow$ the real rows in the first $h$ positions\;
 $\ell\leftarrow$ the other real rows\;
-store $\ell$ and $p$;\ \Return{$w$}\;
+\Return{$(w,\ell,p)$}\;
 \end{algorithm}
 \algcolend
 
 \algcolstart
 \begin{algorithm}[H]
-\caption{Path refresh for LT($h$).
-One call ranks the new leaf and the path losers.
-Replay writes the loser and the pointer.}
+\caption{Path refresh for LT($h$).}
 \label{alg:refresh_loser_tree_path}
 follow the pointer from the root down to a leaf\;
 fill only that leaf, with at most $h$ real rows\;

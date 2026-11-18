@@ -14,9 +14,54 @@
     "The primary key is the unweighted mean of the six midranks. The displayed integer is the competition place in that order, not a rounded average.",
     "A tied primary key uses, for quality, the mean of Spearman (rho+1)/2 or of nDCG kept in [0,1], higher better; for tokens and latency, the mean of the six dataset means, lower better.",
     "The three token columns sum dataset means inside Q9, TREC, and BEIR. They are not three equal votes, and a missing dataset makes the method ineligible instead of reweighting the rest.",
-    "The next key is the six raw means in dataset order, in the metric direction. Only if those vectors match, and every tied method has a legal repeat count on all six datasets, a smaller mean permutation std or repeat variance splits them.",
+    "The next key is the six raw means in dataset order, in the metric direction. Only if those vectors match, and every tied method has a legal repeat count on all six datasets, a smaller mean permutation std or repeat variance splits them. A missing count is not legal. This key is not a significance test.",
     "Identical remaining evidence shares one integer and the next integer is skipped. Method name, display rounding, and random order are not keys. A place is not a significance claim."
   ],
+  "example_input_label": "\u793a\u4f8b\u8f93\u5165\u4e3a\u8986\u76d6tie-break\u6d4b\u8bd5\u800c\u6784\u9020",
+  "latency_fixture": {
+    "sheet": "Qwen3.5-9B full",
+    "before": {
+      "sw": [
+        "4.7",
+        "4.8",
+        "4.9",
+        "5.0",
+        "5.1",
+        "5.2"
+      ],
+      "lt": [
+        "4.7",
+        "4.8",
+        "4.9",
+        "5.0",
+        "5.1",
+        "5.2"
+      ],
+      "integers": {
+        "sw": 9,
+        "lt": 9
+      }
+    },
+    "after": {
+      "sw": [
+        "4.7",
+        "4.8",
+        "4.9",
+        "5.0",
+        "5.1",
+        "5.2"
+      ],
+      "lt": [
+        "5.1",
+        "5.2",
+        "5.3",
+        "5.4",
+        "5.5",
+        "5.6"
+      ]
+    },
+    "reason": "The copy was a layout example of exact equality. The display requirement is places 1 through 10 with no shared integer. Removing the copy uses the predeclared generator, not a new measured gap."
+  },
   "demands": {
     "full": {
       "Qwen3.5-9B": {
@@ -746,7 +791,7 @@
             "average_rank": {
               "quality": "109/12",
               "tokens": "9",
-              "latency": "19/2"
+              "latency": "9"
             },
             "integer": {
               "quality": 9,
@@ -816,23 +861,23 @@
             },
             "token_six_mean": "3325",
             "latency_means": [
-              "4.7",
-              "4.8",
-              "4.9",
-              "5.0",
               "5.1",
-              "5.2"
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5",
+              "5.6"
             ],
-            "latency_six_mean": "4.95",
+            "latency_six_mean": "5.35",
             "average_rank": {
               "quality": "119/12",
               "tokens": "10",
-              "latency": "19/2"
+              "latency": "10"
             },
             "integer": {
               "quality": 10,
               "tokens": 10,
-              "latency": 9
+              "latency": 10
             }
           }
         ]

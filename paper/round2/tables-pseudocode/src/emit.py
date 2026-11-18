@@ -7,7 +7,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from ranking import DATASETS, group_token_sums, latency_average, rank_sheet, six_mean
-from synthetic import MODELS, build_sheets
+from synthetic import EXAMPLE_INPUT_LABEL, LATENCY_COPY, MODELS, build_sheets
 
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / "tex" / "generated"
@@ -110,9 +110,11 @@ def build_audit(sheets) -> dict:
             "The primary key is the unweighted mean of the six midranks. The displayed integer is the competition place in that order, not a rounded average.",
             "A tied primary key uses, for quality, the mean of Spearman (rho+1)/2 or of nDCG kept in [0,1], higher better; for tokens and latency, the mean of the six dataset means, lower better.",
             "The three token columns sum dataset means inside Q9, TREC, and BEIR. They are not three equal votes, and a missing dataset makes the method ineligible instead of reweighting the rest.",
-            "The next key is the six raw means in dataset order, in the metric direction. Only if those vectors match, and every tied method has a legal repeat count on all six datasets, a smaller mean permutation std or repeat variance splits them.",
+            "The next key is the six raw means in dataset order, in the metric direction. Only if those vectors match, and every tied method has a legal repeat count on all six datasets, a smaller mean permutation std or repeat variance splits them. A missing count is not legal. This key is not a significance test.",
             "Identical remaining evidence shares one integer and the next integer is skipped. Method name, display rounding, and random order are not keys. A place is not a significance claim.",
         ],
+        "example_input_label": EXAMPLE_INPUT_LABEL,
+        "latency_fixture": LATENCY_COPY,
         "demands": by_demand,
     }
 
@@ -192,18 +194,10 @@ def full_tex(audit) -> str:
 % Synthetic layout, not experimental results.
 \begin{{table*}}[t]
 \centering
-\caption{{Synthetic layout, not experimental results.
-Both models are columns in this one Full table.
-Each model has 13 columns: Spearman $\rho$ on Q9, DL20, DL22, COVID, DBP, and R04, written as mean over a synthetic permutation std;
-token sums in thousands for Q9, TREC (DL20$+$DL22), and BEIR (COVID$+$DBpedia-Entity$+$Robust04);
-the unweighted mean of the six dataset latencies, in seconds;
-and integer places $Q$, $T$, $L$.
-COVID, DBP, and R04 abbreviate TREC-COVID, DBpedia-Entity, and Robust04.
-The place is the position in the sorted six-dataset average of per-dataset midranks, not that average rounded.
-On Qwen3.5-9B, Pointwise has quality average $3/2$ and place 1.
-ListK and Tournament tie on the token average; Tournament's six-dataset token mean is lower, so it places ahead.
-SW and LT($h$) have the same six latency means and share place 9.
-No entry is a measurement, and no place is a significance claim.}}
+\caption{{\examplelabel.
+Synthetic layout, not a measurement.
+Each cell is a mean; $\pm$ is a synthetic permutation std, not significance.
+$Q$, $T$, $L$ are competition places. The ranking protocol is in \texttt{{STATS.md}}.}}
 \label{{tab:exp1-full}}
 \begingroup
 \footnotesize
@@ -220,18 +214,6 @@ Method {_model_header(r"Quality $\rho$")} {_model_header(r"Quality $\rho$")} \\
 {_body(demand, "full")}
 \bottomrule
 \end{{tabular*}}
-\par\vspace{{0.45em}}
-\begin{{minipage}}{{\textwidth}}
-\footnotesize
-Ranking rule, applied separately to each model and to $Q$, $T$, and $L$.
-(1)~On each dataset, rank the unrounded means: quality higher, tokens and latency lower; an exact tie takes the midrank. The printed std does not break that tie.
-(2)~Average the six midranks with equal weight. The integer is the competition place in that order.
-(3)~If those averages tie, quality uses the mean of $(\rho+1)/2$; tokens and latency use the mean of the six dataset means. The three token columns do not get one vote each.
-(4)~If that mean also ties, compare the six raw means in the order Q9, DL20, DL22, COVID, DBpedia-Entity, Robust04, in the metric's direction.
-(5)~If the vectors match, a smaller mean permutation std, or a smaller mean repeat variance, is used only when every tied method has a legal repeat count on all six datasets. One run does not supply a variance.
-(6)~Evidence that is still identical shares one integer and the next integer is skipped. The method name is not a key.
-A method missing any of the six datasets is ineligible for that metric and is not reweighted over the other five.
-\end{{minipage}}
 \endgroup
 \end{{table*}}
 """
@@ -243,11 +225,11 @@ def limit_tex(audit) -> str:
 % Synthetic layout, not experimental results.
 \begin{{table*}}[t]
 \centering
-\caption{{Synthetic layout, not experimental results.
-LIMIT $K{{=}}10$, same 13 columns per model and the same ranking rule as Table~\ref{{tab:exp1-full}}.
-Quality is nDCG@10, kept in $[0,1]$; it is not rescaled against the other methods.
-The ListK row is ListK Select.
-On these synthetic vectors the 9B latency place is not shared.}}
+\caption{{\examplelabel.
+Synthetic layout, not a measurement. LIMIT $K{{=}}10$.
+Quality is nDCG@10, kept in $[0,1]$.
+$\pm$ is a synthetic permutation std, not significance.
+The ListK row is ListK Select.}}
 \label{{tab:exp1-limit}}
 \begingroup
 \footnotesize

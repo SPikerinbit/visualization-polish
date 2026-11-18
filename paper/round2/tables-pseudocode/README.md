@@ -1,6 +1,6 @@
 # Round 2 tables and pseudocode
 
-Standalone VLDB-geometry preview. No paper body. Table 1 is the approved dataset table and is not restyled. Experiment cells are a synthetic layout: official measurements are not in this tree.
+Standalone VLDB-geometry preview. No paper body. Experiment cells are constructed examples, not measurements. The ranking protocol is `STATS.md`. Decisions for this round are `HANDOFF.md`. Table 2 formulas are unchecked.
 
 ## Build
 

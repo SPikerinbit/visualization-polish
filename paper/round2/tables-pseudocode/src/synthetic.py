@@ -105,6 +105,33 @@ def latency_mean(method_index: int, dataset_index: int, model_index: int, demand
     )
 
 
+# Display sheets no longer copy SW latency onto LT. The copy made Qwen3.5-9B
+# Full print place 9 twice and skip 10. Both vectors were the SW formula,
+# [4.7, 4.8, 4.9, 5.0, 5.1, 5.2]. The display now keeps the generator:
+# SW (method index 8) stays on that vector; LT (index 9) is
+# [5.1, 5.2, 5.3, 5.4, 5.5, 5.6]. The identical vector still exists only as
+# a test input. Sharing an integer there is the ranker's result, not a
+# measured difference and not a check that this figure is correct.
+EXAMPLE_INPUT_LABEL = "示例输入为覆盖tie-break测试而构造"
+LATENCY_COPY = {
+    "sheet": "Qwen3.5-9B full",
+    "before": {
+        "sw": ["4.7", "4.8", "4.9", "5.0", "5.1", "5.2"],
+        "lt": ["4.7", "4.8", "4.9", "5.0", "5.1", "5.2"],
+        "integers": {"sw": 9, "lt": 9},
+    },
+    "after": {
+        "sw": ["4.7", "4.8", "4.9", "5.0", "5.1", "5.2"],
+        "lt": ["5.1", "5.2", "5.3", "5.4", "5.5", "5.6"],
+    },
+    "reason": (
+        "The copy was a layout example of exact equality. "
+        "The display requirement is places 1 through 10 with no shared integer. "
+        "Removing the copy uses the predeclared generator, not a new measured gap."
+    ),
+}
+
+
 def build_sheet(model: str, demand: str) -> dict:
     if model not in MODELS or demand not in DEMANDS:
         raise ValueError((model, demand))
@@ -134,23 +161,21 @@ def build_sheet(model: str, demand: str) -> dict:
                     "repeat_variance": None,
                 },
             }
-    if model == "Qwen3.5-9B" and demand == "full":
-        for dataset in DATASETS:
-            cells["lt"][dataset]["latency"] = {
-                "mean": cells["sw"][dataset]["latency"]["mean"],
-                "n_repeats": 1,
-                "repeat_variance": None,
-            }
     metric = "spearman" if demand == "full" else "ndcg@10"
     sheet = {
         "schema": "sema.exp1.sheet.v2",
         "synthetic": True,
+        "example_input_label": EXAMPLE_INPUT_LABEL,
         "disclosure": (
-            "Every mean, permutation std, token count, and latency is synthetic. "
+            f"{EXAMPLE_INPUT_LABEL} "
+            "Every mean, permutation std, token count, and latency is a constructed example, "
+            "not a measurement. "
             "Permutation std is an independent stored decimal with n_permutations=10. "
-            "It is not the standard deviation across datasets. "
+            "It is not the standard deviation across datasets and not a significance claim. "
             "Token and latency cells are single synthetic dataset means (n_repeats=1); "
-            "a stored variance would be ignored at that repeat count."
+            "a stored variance is ignored at that repeat count. "
+            "Qwen3.5-9B Full no longer copies SW latency onto LT; "
+            "the identical vector is a test input only. See LATENCY_COPY."
         ),
         "model": model,
         "demand": demand,

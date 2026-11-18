@@ -19,7 +19,13 @@ from ranking import (  # noqa: E402
     rank_sheet,
     six_mean,
 )
-from synthetic import METHOD_IDS, build_sheet, build_sheets  # noqa: E402
+from synthetic import (  # noqa: E402
+    EXAMPLE_INPUT_LABEL,
+    LATENCY_COPY,
+    METHOD_IDS,
+    build_sheet,
+    build_sheets,
+)
 
 
 def _put(sheet, method, dataset, metric, mean, **extra):
@@ -68,25 +74,31 @@ class RuleTests(unittest.TestCase):
         forbidden = forbidden_benchmark_rank_average(sheet)
         self.assertLess(forbidden["listk"], forbidden["tournament"])
 
-    def test_identical_latency_shares_the_integer_and_skips(self):
+    def test_identical_latency_vector_shares_the_integer(self):
+        """The old display copy, kept only as an input. Equal evidence stays tied."""
         sheet = build_sheet("Qwen3.5-9B", "full")
+        for dataset, mean in zip(DATASETS, LATENCY_COPY["before"]["sw"]):
+            _put(sheet, "sw", dataset, "latency", mean, n_repeats=1, repeat_variance=None)
+            _put(sheet, "lt", dataset, "latency", mean, n_repeats=1, repeat_variance=None)
         traced = rank_metric(sheet, "latency")
         self.assertEqual(traced["integer"]["sw"], traced["integer"]["lt"])
         self.assertEqual(traced["integer"]["sw"], 9)
-        self.assertNotIn(10, traced["integer"].values())
-        for dataset in DATASETS:
-            self.assertEqual(
-                sheet["cells"]["sw"][dataset]["latency"]["mean"],
-                sheet["cells"]["lt"][dataset]["latency"]["mean"],
-            )
+        self.assertNotIn(10, set(traced["integer"].values()))
+        self.assertEqual(
+            traced["residual_groups"][-1]["by"],
+            "identical-evidence",
+        )
 
-    def test_other_sheets_do_not_copy_the_latency_tie(self):
-        for model, demand in (
-            ("Qwen3.5-9B", "limit10"),
-            ("Qwen3.5-27B", "full"),
-            ("Qwen3.5-27B", "limit10"),
-        ):
-            traced = rank_metric(build_sheet(model, demand), "latency")
+    def test_display_sheets_print_latency_places_1_through_10(self):
+        sheet = build_sheet("Qwen3.5-9B", "full")
+        self.assertEqual(sheet["example_input_label"], EXAMPLE_INPUT_LABEL)
+        sw = [sheet["cells"]["sw"][dataset]["latency"]["mean"] for dataset in DATASETS]
+        lt = [sheet["cells"]["lt"][dataset]["latency"]["mean"] for dataset in DATASETS]
+        self.assertEqual(sw, LATENCY_COPY["after"]["sw"])
+        self.assertEqual(lt, LATENCY_COPY["after"]["lt"])
+        self.assertNotEqual(sw, lt)
+        for (_model, _demand), printed in build_sheets().items():
+            traced = rank_metric(printed, "latency")
             self.assertEqual(sorted(traced["integer"].values()), list(range(1, 11)))
 
     def test_missing_dataset_is_ineligible_not_reweighted(self):
@@ -128,6 +140,28 @@ class RuleTests(unittest.TestCase):
             sheet["cells"]["merge"][dataset]["quality"]["permutation_std"] = "0.010"
         traced = rank_metric(sheet, "quality")
         self.assertLess(traced["integer"]["merge"], traced["integer"]["bubble"])
+
+    def test_all_missing_permutation_counts_do_not_use_std(self):
+        sheet = build_sheet("Qwen3.5-9B", "full")
+        for dataset in DATASETS:
+            _copy_cell(sheet, "bubble", "merge", dataset, "quality")
+            sheet["cells"]["bubble"][dataset]["quality"]["permutation_std"] = "0.040"
+            sheet["cells"]["merge"][dataset]["quality"]["permutation_std"] = "0.010"
+            sheet["cells"]["bubble"][dataset]["quality"]["n_permutations"] = None
+            sheet["cells"]["merge"][dataset]["quality"]["n_permutations"] = None
+        traced = rank_metric(sheet, "quality")
+        self.assertEqual(traced["integer"]["bubble"], traced["integer"]["merge"])
+
+    def test_missing_repeat_count_does_not_use_latency_variance(self):
+        sheet = build_sheet("Qwen3.5-9B", "full")
+        for dataset in DATASETS:
+            _copy_cell(sheet, "bubble", "merge", dataset, "latency")
+            for method, variance in (("bubble", "4"), ("merge", "1")):
+                cell = sheet["cells"][method][dataset]["latency"]
+                cell["n_repeats"] = None
+                cell["repeat_variance"] = variance
+        traced = rank_metric(sheet, "latency")
+        self.assertEqual(traced["integer"]["bubble"], traced["integer"]["merge"])
 
     def test_incomplete_repeat_count_blocks_the_std_key(self):
         sheet = build_sheet("Qwen3.5-9B", "full")

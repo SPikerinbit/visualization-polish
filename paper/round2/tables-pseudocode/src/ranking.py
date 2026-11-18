@@ -81,6 +81,12 @@ def _mean(sheet, method, dataset, metric):
 
 
 def _quality_std_key(sheet, method):
+    """Smaller mean permutation std. Absent or single-run counts are not evidence.
+
+    Every dataset must carry a permutation std and ``n_permutations >= 2``.
+    A sheet that stores stds but leaves every count missing does not get this key.
+    The key breaks an exact residual tie. It is not a significance test.
+    """
     stds = []
     counts = []
     for dataset in DATASETS:
@@ -89,9 +95,8 @@ def _quality_std_key(sheet, method):
         counts.append(cell.get("n_permutations"))
     if any(std is None for std in stds):
         return None
-    if any(count is not None for count in counts):
-        if any(count is None or int(count) < 2 for count in counts):
-            return None
+    if any(count is None or int(count) < 2 for count in counts):
+        return None
     return six_mean(stds)
 
 

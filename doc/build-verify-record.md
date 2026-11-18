@@ -4,7 +4,7 @@
 
 | File | SHA-256 |
 |------|---------|
-| `paper-integration-sources.zip` | `119bd99a516ac91fe73fabbfe7d326c1ec4b8748dd6bb37ecf6d39ce2f5821b5` |
+| `paper-integration-sources.zip` | `95a5ab16910e81df817a6f9483522e9987934c21c86f5577216cc7fe3344174c` |
 | `paper/build.sh` (inside zip) | `56d6d91c0a037449174bf36cbda87291927dfda51dc66cda05895f86006b01c7` |
 
 ## Procedure
@@ -28,3 +28,5 @@ PAPER_BUILD_ALLOW_LOCAL_TEX=1 ./paper/build.sh
 ## Parent TL2026
 
 Run from extracted root **without** `PAPER_BUILD_ALLOW_LOCAL_TEX` (default). Expect `paper/build.sh` exit **0** with same post-check.
+
+**Commit:** `f9f4194` (layout unchanged from `33b2ed8`; PDF 32 pages).

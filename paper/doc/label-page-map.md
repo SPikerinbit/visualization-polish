@@ -19,10 +19,10 @@ PDF pages: 27
 | `fig:exp4a-dl20-n100` | 16 | `integration/fig-e4a-main.tex` |
 | `fig:exp4a-dl20-n500` | 26 | `integration/fig-e4a-appendix.tex` |
 | `fig:exp4b-beta` | 17 | `integration/fig-e4b.tex` |
-| `fig:exp4c-full` | — | `integration/fig-e4c.tex` |
-| `fig:exp4c-topk` | — | `integration/fig-e4c.tex` |
-| `fig:exp5-k-sweep-off` | — | `integration/fig-e5-sweep.tex` |
-| `fig:exp5-k-sweep-on` | — | `integration/fig-e5-sweep.tex` |
+| `fig:exp4c-full` | 18 | `integration/fig-e4c.tex` |
+| `fig:exp4c-topk` | 18 | `integration/fig-e4c.tex` |
+| `fig:exp5-k-sweep-off` | 18 | `integration/fig-e5-sweep.tex` |
+| `fig:exp5-k-sweep-on` | 18 | `integration/fig-e5-sweep.tex` |
 | `fig:exp:semantic_external_merge` | 4 | `integration/fig-framework-algo1.tex` |
 | `fig:limit-demand-trial` | 22 | `integration/fig-limit-appendix.tex` |
 | `sec:appendix-segment-correctness` | 22 | `appendix.tex (pending stub)` |

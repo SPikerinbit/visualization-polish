@@ -1,0 +1,40 @@
+% E4a. One single-column figure per dataset and n.
+% Not inserted into the paper. Graphic path: figures/e4a/
+\newcommand{\eFourAnote}{%
+  Synthetic layout sample, not an experimental result.
+  Qwen3.5-9B, one representative query, $\beta{=}0$.
+  Prefix cache off is measured $U$; prefix cache on is measured $U{-}Q$ at a cold start.
+  Stars mark the predicted configuration and diamonds the measured minimum, both at the measured height of that configuration.
+  The minimum is over the displayed categories only, not over the legal domain.
+  Real display points are still deferred.
+  At $n{=}100$ and $m{=}20$ there are $5$ runs, so $k{=}8$ is illegal; $(8,1)$ and $(8,2)$ were remapped to $(5,1)$ and $(5,2)$ and the $n{=}100$ series were regenerated with the same generator.
+  The $n{=}500$ series are the previous synthetic integers unchanged; $k{=}8$ is legal there ($25$ runs).%
+}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e4a-dl20-n100.pdf}
+  \caption{DL20, $n{=}100$. \eFourAnote}
+  \label{fig:e4a-dl20-n100}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e4a-covid-n100.pdf}
+  \caption{TREC-COVID, $n{=}100$. \eFourAnote}
+  \label{fig:e4a-covid-n100}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e4a-dl20-n500.pdf}
+  \caption{DL20, $n{=}500$. \eFourAnote}
+  \label{fig:e4a-dl20-n500}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e4a-covid-n500.pdf}
+  \caption{TREC-COVID, $n{=}500$. \eFourAnote}
+  \label{fig:e4a-covid-n500}
+\end{figure}

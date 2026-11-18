@@ -1,0 +1,18 @@
+% E4c. Single-column 2 by 2. Not inserted into the paper.
+% Graphic path: figures/e4c/
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e4c-quality-cost.pdf}
+  \caption{Synthetic layout sample, not an experimental result.
+  Each point is one method.
+  The DL20 and COVID dataset-level placeholders are averaged with equal weight $1/2$; cost and quality are averaged separately.
+  Query rows were not stored, so this is not a six-query mean and no per-query cloud is drawn.
+  The two Full panels share Spearman limits, the two LIMIT~10 panels share NDCG@10 limits, and all four share the token axis.
+  ListK Fig.~4 calls its red dotted curve a Pareto frontier and also runs that curve off the plotted points.
+  The red dashed segments here join only non-dominated means, lower equivalent tokens and higher quality, and they stop at those means.
+  They are a descriptive set, not a fit and not a significance claim.
+  Full, Off joins LT, SW, and ListK.
+  LIMIT~10, On joins SW, Tournament, and ListK.
+  Full, On and LIMIT~10, Off each have one non-dominated mean (SW), so no segment is drawn.}
+  \label{fig:e4c-quality-cost}
+\end{figure}

@@ -1,0 +1,43 @@
+% E3 scale scaffold. Single-column container copied from the original
+% fig:exp4-topk (exp.tex, Figure 8): legend above, panels at 0.25\columnwidth.
+% SW / LT / Full / LIMIT / predicted / measured are set here, not inside the PDFs.
+% Not inserted into the paper. Graphic path: figures/e3/
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{e3-legend.pdf}\par
+  \vspace{-0.45em}
+  \subfigure[SW, Full, predicted]{%
+    \includegraphics[width=0.25\columnwidth]{e3-sw-full-predicted.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[SW, LIMIT, predicted]{%
+    \includegraphics[width=0.25\columnwidth]{e3-sw-limit10-predicted.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[LT, Full, predicted]{%
+    \includegraphics[width=0.25\columnwidth]{e3-lt-full-predicted.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[LT, LIMIT, predicted]{%
+    \includegraphics[width=0.25\columnwidth]{e3-lt-limit10-predicted.pdf}}%
+  \\[-0.2em]
+  \subfigure[SW, Full, measured]{%
+    \includegraphics[width=0.25\columnwidth]{e3-sw-full-measured.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[SW, LIMIT, measured]{%
+    \includegraphics[width=0.25\columnwidth]{e3-sw-limit10-measured.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[LT, Full, measured]{%
+    \includegraphics[width=0.25\columnwidth]{e3-lt-full-measured.pdf}}%
+  \hspace{-2.6ex}%
+  \subfigure[LT, LIMIT, measured]{%
+    \includegraphics[width=0.25\columnwidth]{e3-lt-limit10-measured.pdf}}%
+  \caption{Synthetic scale scaffold, not a measured token cost.
+  The top row is the predicted scaffold and the bottom row is the measured scaffold.
+  Left five legend entries are the SW series $(k,h)$; right five are the LT series.
+  The horizontal position is linear in $n\in\{1\mathrm{k},5\mathrm{k},10\mathrm{k}\}$.
+  The vertical axis is layout units on one shared scale.
+  In this scaffold every series has the same slope, and each predicted value is the measured value plus $3.4$.
+  Full and LIMIT were assigned the same numbers, so those columns match; that match is not a Full/LIMIT result.
+  Unjoined LT supplements $(250,2)$ and $(250,1)$ at $5\mathrm{k}$, and $(500,2)$ and $(500,1)$ at $10\mathrm{k}$, stay in the data file.
+  They are not drawn and they are not optima.
+  Panel box is the original Fig.~8 size, $0.25$ column.}
+  \label{fig:e3-scale}
+\end{figure}

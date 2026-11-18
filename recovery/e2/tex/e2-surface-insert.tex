@@ -1,0 +1,34 @@
+% E2 drop-in fragment. Not a standalone paper and not a layout supplement.
+% Parent inserts one of these into the new Experiment 2 section after review.
+% Do not replace \label{fig:exp2-k}: that float is the old LIMIT-K sensitivity.
+% Do not change acmart/pvldb margins or type size.
+% Suggested labels are not already in the paper source.
+% Place the PDFs on the graphic path. Width is \textwidth (sigconf 7.0 in).
+% Heights in the PDFs are synthetic. They are not measurements.
+
+% --- candidate A: 2x2, one slot, family x demand. Unconfirmed. ---
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e2-layout-2x2.pdf}
+  \caption{Synthetic layout preview, not experimental results.
+  Blue is measured and orange is predicted.
+  Every panel uses the same camera.
+  The predicted minimum is drawn at that configuration's measured height; a star on a diamond is both roles at one height.
+  Missing corners are left empty.
+  The SW column uses the SW legal window ($k\le 20$, $h\le m/k$); the LT column uses the LT window ($k\le 25$, $h$ bounded by max-segment).
+  Full and LIMIT10 of one algorithm share that window, including the $z$ ticks.
+  The two algorithms are not forced onto one numeric range.
+  Panel assignment is not chosen.}
+  \label{fig:exp2-surface-2x2}
+\end{figure*}
+
+% --- candidate B: 2x3, LT only, three query slots x Full/LIMIT10. Unconfirmed. ---
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{e2-layout-2x3.pdf}
+  \caption{Synthetic comparison layout, not experimental results.
+  Three query slots by Full and LIMIT10, LT only, same camera and marker rules as the $2\times 2$.
+  All six panels share the LT legal window and one $z$ scale.
+  Query slots are labels.}
+  \label{fig:exp2-surface-2x3}
+\end{figure*}

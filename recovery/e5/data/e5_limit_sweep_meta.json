@@ -1,0 +1,28 @@
+{
+  "status": "synthetic-placeholder",
+  "not_measurements": true,
+  "do_not_read_as_advantage": true,
+  "model": "Qwen3.5-9B",
+  "candidate_n": 500,
+  "datasets": ["DL20", "COVID"],
+  "queries_per_dataset_contract": 3,
+  "aggregation": "The display contract is an equal-weight mean of 3 queries. These cells are single placeholder numbers, not that mean.",
+  "families": ["SW", "LT"],
+  "excluded_family": "SLT is not a third curve.",
+  "states": {
+    "Off": "equivalent input cost U",
+    "On-cold": "equivalent input cost U-Q at beta=0"
+  },
+  "limit_n": [10, 20, 50, 100, 200, 300, 400, 490, 500],
+  "limit_500": "explicit buffer; a LIMIT point, connected to the other LIMIT points",
+  "full": "explicit full mode; not a LIMIT n; not K=510; not joined to LIMIT 500",
+  "quality": "NDCG@10 at every endpoint, including every LIMIT n and Full. Not Spearman, not nDCG@K.",
+  "kh": "No (k,h) is printed on the curve. A shared (k,h) for the 3-query aggregate would be fictional. Per-query choices belong in a table that does not exist yet.",
+  "y_limits_1e3": {
+    "Off": [15, 58],
+    "On-cold": [10, 48]
+  },
+  "y_limits_ndcg10": [0.66, 0.80],
+  "y_limit_note": "Off and On-cold do not share a cost scale. Both quality rows use the same NDCG@10 window. Limits are fixed in this file so a panel cannot autoscale a small placeholder gap into a large visual gap of its own.",
+  "axis": "LIMIT n is an ordered categorical list of the contract points. Slot spacing is equal and is not linear in n. Full sits on a broken-off axis."
+}

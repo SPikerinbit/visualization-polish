@@ -1,0 +1,47 @@
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{pvldb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetAlgoNlRelativeSize{-1}
+
+\newcommand{\qpm}[2]{%
+  {\renewcommand{\arraystretch}{0.82}%
+   \begin{tabular}[c]{@{}c@{}}#1\\[-1pt]{\scriptsize$\pm$#2}\end{tabular}}}
+
+\title{Tables and algorithms}
+\author{Layout preview}
+\renewcommand{\shortauthors}{Layout preview}
+\makeatletter
+\renewenvironment{table}[1][]{%
+  \noindent\begin{minipage}[t]{\linewidth}%
+  \captionsetup{type=table}%
+  \centering
+}{%
+  \end{minipage}%
+}
+\makeatother
+\begin{document}
+% acmart stays single-column until \maketitle. Enter two columns with a
+% full-width banner so Table 1 and Table 2 sit side by side at column width.
+\twocolumn[{%
+  \noindent\begin{minipage}[t]{0.48\textwidth}
+    \input{tab-datasets.tex}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \input{tab-algorithms.tex}
+  \end{minipage}\par
+  \vskip 0.6em
+}]
+\typeout{TEXTWIDTH=\the\textwidth}
+\typeout{COLUMNWIDTH=\the\columnwidth}
+\typeout{TEXTHEIGHT=\the\textheight}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\dblfloatpagefraction}{0.8}
+\input{generated/exp1-full.tex}
+\input{generated/exp1-limit.tex}
+\clearpage
+\input{algorithms.tex}
+\end{document}

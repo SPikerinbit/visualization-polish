@@ -1,0 +1,182 @@
+% Default path: evidence off, no input shuffle.
+% Expect is the implementation's input-token estimate. Its formula is not checked.
+% Full materializes each pass. LIMIT pulls the same groups and stops at K.
+% h=1 is LT(h), not a second family.
+\DontPrintSemicolon
+\newcommand{\Rank}{\mbox{\textsc{ListwiseRank}}}
+\newcommand{\MergeGroup}{\mbox{\textsc{MergeGroup}}}
+\newcommand{\Expect}{\ensuremath{\mathrm{Expect}}}
+\SetKwProg{Fn}{procedure}{:}{}
+\SetAlgoNlRelativeSize{-1}
+\SetAlFnt{\footnotesize}
+\SetAlCapFnt{\footnotesize}
+\SetAlgoSkip{smallskip}
+\SetAlgoInsideSkip{smallskip}
+\makeatletter
+% algorithm2e rejects [H] in two-column mode. A column-width minipage
+% keeps the printed measure and lets the next algorithm move to the next column.
+\newcommand{\algcolstart}{%
+  \par\smallskip\noindent
+  \begin{minipage}{\columnwidth}%
+  \@twocolumnfalse
+}
+\makeatother
+\newcommand{\algcolend}{\end{minipage}\par\smallskip}
+
+{\footnotesize\raggedright\hyphenpenalty10000\exhyphenpenalty10000
+\noindent\textit{Notation.}\quad
+$\phi$ is the instruction, $m$ the listwise capacity, $k$ the fan-in, and $h$ the segment length.
+$R_i$ is run $i$, $\Pi$ the output, and $K$ an optional limit.
+\Rank\ permutes its real rows and does nothing when fewer than two rows are present.
+Run-order repair keeps each run's own order: while a run still has a row in the batch, emit the row \Rank\ placed first among the current heads.
+$+\infty$ pads a short LT slot. It is not ranked and not emitted.
+Replay slots are not run indexes.
+\Expect\ is the implementation's input-token estimate; the formula is not checked here.
+The families are SW and LT($h$) only.\par}
+
+\algcolstart
+\begin{algorithm}[H]
+\caption{Semantic external merge.
+Full materializes every group of a pass before the next pass.
+LIMIT builds the same groups as a pull tree and stops when the root has returned $K$ rows.}
+\label{alg:semantic_external_merge}
+\KwIn{rows $D$, instruction $\phi$, capacity $m$, optional $K$}
+\KwOut{order $\Pi$}
+\lIf{$K=0$ or $|D|\le 1$}{\Return the trivial order}
+\eIf{$K$ is set and $K<|D|$}{mode $\leftarrow$ LIMIT}{mode $\leftarrow$ Full}
+\lIf{the caller set a mode}{use that mode}
+\lIf{ascending and $K$ is set}{mode $\leftarrow$ Full}
+cut $D$ into chunks of at most $m$\;
+make each chunk one run by one \Rank\;
+$(f,k,h)\leftarrow\arg\min\Expect(f,k,h)$\;
+among SW and LT calls that fit in $m$\;
+\lIf{\Expect\ ties}{keep LT, then smaller $k$, then smaller $h$}
+\eIf{mode is Full}{
+  $\mathcal{R}\leftarrow$ the runs\;
+  \While{$|\mathcal{R}|>1$}{
+    \For{each contiguous group $G$ of at most $k$ runs}{
+      \lIf{$|G|=1$}{forward that run}
+      \lElse{materialize $\MergeGroup(G,f,h)$ to completion}
+    }
+    $\mathcal{R}\leftarrow$ the runs of this pass\;
+  }
+  $\Pi\leftarrow$ the one remaining run\;
+}{
+  build those same groups as a tree of pullable runs\;
+  \lIf{a group has one run}{forward it}
+  pull the root until it yields $K$ rows or ends\;
+  close the root, which stops unfinished child pulls\;
+  $\Pi\leftarrow$ the pulled rows\;
+}
+\lIf{ascending}{reverse $\Pi$}
+\lIf{$K$ is set}{keep the first $K$ rows of $\Pi$}
+\end{algorithm}
+\algcolend
+
+\algcolstart
+\begin{algorithm}[H]
+\caption{SW group merge.
+Emit the safe prefix.
+Fixed $h$ does not borrow; a missing $h$ borrows up to the target.}
+\label{alg:sliding_window_kway_group_merge}
+\KwIn{runs $R_1,\ldots,R_g$, capacity $m$, quota $h$ or none}
+\KwOut{a locally ordered stream}
+$B\leftarrow\emptyset$\;
+\While{$B\neq\emptyset$ or some run still has supply}{
+  $I\leftarrow\{i : B$ holds $R_i$, or $R_i$ has supply$\}$\;
+  \eIf{$h$ is fixed}{
+    from each $i\in I$, pull at most $h-|B\cap R_i|$ rows\;
+  }{
+    $q\leftarrow\max(1,\lfloor m/|I|\rfloor)$\;
+    pull each $i\in I$ until $B$ holds $q$ of its rows\;
+    borrow from runs that still have supply until $|B|=|I|q$\;
+  }
+  \lIf{$B=\emptyset$}{\textbf{break}}
+  \If{$B$ holds one run and no other run has supply}{
+    emit $B$ in pull order, then the rest of that run\;
+    \textbf{break}\;
+  }
+  \lIf{$|B|\le 1$}{$O\leftarrow B$}
+  \lElse{$O\leftarrow\Rank(B)$}
+  $t\leftarrow|O|$;\ set each $c_i\leftarrow 0$\;
+  \For{$j\leftarrow 1$ \KwTo $|O|$}{
+    $i\leftarrow$ run of $O_j$;\ $c_i\leftarrow c_i+1$\;
+    \If{$c_i=|B\cap R_i|$ and $R_i$ still has supply}{
+      $t\leftarrow j$;\ \textbf{break}\;
+    }
+  }
+  \tcp{safe prefix}
+  emit $O_1,\ldots,O_t$;\ $B\leftarrow(O_{t+1},\ldots)$\;
+}
+\end{algorithm}
+\algcolend
+
+\algcolstart
+\begin{algorithm}[H]
+\caption{LT($h$) group merge.
+One family: $h{=}1$ is the one-row tree, not a second algorithm.
+The root segment is transient. A node keeps only its loser and pointer.}
+\label{alg:loser_tree_kway_group_merge}
+\KwIn{$k$ runs, capacity $m$, segment length $h$ or none}
+\KwOut{a locally ordered stream}
+\If{$k=1$}{emit that run until it ends;\ \Return}
+$d\leftarrow\lceil\log_2 k\rceil$\;
+\lIf{$h$ is absent}{$h\leftarrow\lfloor m/(1+d)\rfloor$}
+require $(1+d)\,h\le m$\;
+build an exact binary tree, with no power-of-two padding\;
+a leaf is one run;\ an internal node stores a loser and a pointer\;
+fill every leaf with at most $h$ real rows\;
+$F\leftarrow$ the leaves\;
+\While{the root $\notin F$}{
+  $C\leftarrow$ highest nodes whose $F$-rows fit in one \Rank\;
+  \For{each $v\in C$ that is not yet in $F$}{
+    \Rank\ the real rows under $v$;\ let $\rho$ repair run order\;
+    replay each new internal node under $v$, bottom-up, under $\rho$\;
+  }
+  $F\leftarrow C$\;
+}
+$S\leftarrow$ the root segment\;
+\While{$S\neq\emptyset$}{
+  emit the rows of $S$\;
+  $S\leftarrow\textsc{Refresh}$\;
+}
+\end{algorithm}
+\algcolend
+
+\algcolstart
+\begin{algorithm}[H]
+\caption{Replay one LT($h$) node.
+The pointer is the slot whose count reaches $h$ first, counting $+\infty$.
+The winner is the real rows in the first $h$ positions.}
+\label{alg:replay_segment_node}
+\KwIn{slots $s_0,s_1$, children $c_0,c_1$, rank $\rho$, length $h$}
+\KwOut{winner $w$; store loser $\ell$ and pointer $p$}
+order the real rows of $s_0\cup s_1$ by $\rho$\;
+pad each slot to length $h$ with $+\infty$\;
+scan until one slot's count reaches $h$\;
+$p\leftarrow$ the child of that slot\;
+$w\leftarrow$ the real rows in the first $h$ positions\;
+$\ell\leftarrow$ the other real rows\;
+store $\ell$ and $p$;\ \Return{$w$}\;
+\end{algorithm}
+\algcolend
+
+\algcolstart
+\begin{algorithm}[H]
+\caption{Path refresh for LT($h$).
+One call ranks the new leaf and the path losers.
+Replay writes the loser and the pointer.}
+\label{alg:refresh_loser_tree_path}
+follow the pointer from the root down to a leaf\;
+fill only that leaf, with at most $h$ real rows\;
+$C\leftarrow$ the new leaf segment, then each loser on the path\;
+\Rank$(C)$;\ let $\rho$ repair run order\;
+$s\leftarrow$ the new leaf segment\;
+\For{each node from its parent through the root}{
+  put $s$ in the pointer's slot and the stored loser in the other\;
+  $(w,\ell,p)\leftarrow$ Replay under $\rho$\;
+  store $\ell$ and $p$;\ $s\leftarrow w$\;
+}
+\Return{$s$}\;
+\end{algorithm}
+\algcolend

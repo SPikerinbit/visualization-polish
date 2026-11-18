@@ -1,0 +1,3298 @@
+{
+  "schema": "sema.exp1.audit.v2",
+  "synthetic": true,
+  "datasets": [
+    "Q9",
+    "DL20",
+    "DL22",
+    "COVID",
+    "DBpedia",
+    "Robust04"
+  ],
+  "rule": [
+    "Per dataset, rank unrounded means. Quality is higher-better; tokens and latency are lower-better. Exact ties use midrank.",
+    "The primary key is the unweighted mean of the six midranks. The displayed integer is the competition place in that order, not a rounded average.",
+    "A tied primary key uses, for quality, the mean of Spearman (rho+1)/2 or of nDCG kept in [0,1], higher better; for tokens and latency, the mean of the six dataset means, lower better.",
+    "The three token columns sum dataset means inside Q9, TREC, and BEIR. They are not three equal votes, and a missing dataset makes the method ineligible instead of reweighting the rest.",
+    "The next key is the six raw means in dataset order, in the metric direction. Only if those vectors match, and every tied method has a legal repeat count on all six datasets, a smaller mean permutation std or repeat variance splits them.",
+    "Identical remaining evidence shares one integer and the next integer is skipped. Method name, display rounding, and random order are not keys. A place is not a significance claim."
+  ],
+  "demands": {
+    "full": {
+      "Qwen3.5-9B": {
+        "model": "Qwen3.5-9B",
+        "demand": "full",
+        "synthetic": true,
+        "quality_metric": "spearman",
+        "rows": [
+          {
+            "method": "pointwise",
+            "label": "Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              }
+            ],
+            "token_means": [
+              "1000",
+              "1010",
+              "1020",
+              "1030",
+              "1040",
+              "1050"
+            ],
+            "token_group_sums": {
+              "Q9": "1000",
+              "TREC": "2030",
+              "BEIR": "3120"
+            },
+            "token_six_mean": "1025",
+            "latency_means": [
+              "1.5",
+              "1.6",
+              "1.7",
+              "1.8",
+              "1.9",
+              "2.0"
+            ],
+            "latency_six_mean": "1.75",
+            "average_rank": {
+              "quality": "3/2",
+              "tokens": "1",
+              "latency": "1"
+            },
+            "integer": {
+              "quality": 1,
+              "tokens": 1,
+              "latency": 1
+            }
+          },
+          {
+            "method": "ext_pointwise",
+            "label": "Ext.\\ Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.840",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.840",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.840",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "3"
+              }
+            ],
+            "token_means": [
+              "1100",
+              "1110",
+              "1120",
+              "1130",
+              "1140",
+              "1150"
+            ],
+            "token_group_sums": {
+              "Q9": "1100",
+              "TREC": "2230",
+              "BEIR": "3420"
+            },
+            "token_six_mean": "1125",
+            "latency_means": [
+              "1.9",
+              "2.0",
+              "2.1",
+              "2.2",
+              "2.3",
+              "2.4"
+            ],
+            "latency_six_mean": "2.15",
+            "average_rank": {
+              "quality": "5/3",
+              "tokens": "2",
+              "latency": "2"
+            },
+            "integer": {
+              "quality": 2,
+              "tokens": 2,
+              "latency": 2
+            }
+          },
+          {
+            "method": "bubble",
+            "label": "Ext.\\ Bubble",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.820",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "2"
+              }
+            ],
+            "token_means": [
+              "1200",
+              "1210",
+              "1220",
+              "1230",
+              "1240",
+              "1250"
+            ],
+            "token_group_sums": {
+              "Q9": "1200",
+              "TREC": "2430",
+              "BEIR": "3720"
+            },
+            "token_six_mean": "1225",
+            "latency_means": [
+              "2.3",
+              "2.4",
+              "2.5",
+              "2.6",
+              "2.7",
+              "2.8"
+            ],
+            "latency_six_mean": "2.55",
+            "average_rank": {
+              "quality": "3",
+              "tokens": "3",
+              "latency": "3"
+            },
+            "integer": {
+              "quality": 3,
+              "tokens": 3,
+              "latency": 3
+            }
+          },
+          {
+            "method": "merge",
+            "label": "Ext.\\ Merge",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              }
+            ],
+            "token_means": [
+              "1300",
+              "1310",
+              "1320",
+              "1330",
+              "1340",
+              "1350"
+            ],
+            "token_group_sums": {
+              "Q9": "1300",
+              "TREC": "2630",
+              "BEIR": "4020"
+            },
+            "token_six_mean": "1325",
+            "latency_means": [
+              "2.7",
+              "2.8",
+              "2.9",
+              "3.0",
+              "3.1",
+              "3.2"
+            ],
+            "latency_six_mean": "2.95",
+            "average_rank": {
+              "quality": "23/6",
+              "tokens": "4",
+              "latency": "4"
+            },
+            "integer": {
+              "quality": 4,
+              "tokens": 4,
+              "latency": 4
+            }
+          },
+          {
+            "method": "listk",
+            "label": "ListK Sort",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.760",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              }
+            ],
+            "token_means": [
+              "1400",
+              "1500",
+              "1600",
+              "2000",
+              "2000",
+              "2000"
+            ],
+            "token_group_sums": {
+              "Q9": "1400",
+              "TREC": "3100",
+              "BEIR": "6000"
+            },
+            "token_six_mean": "1750",
+            "latency_means": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6"
+            ],
+            "latency_six_mean": "3.35",
+            "average_rank": {
+              "quality": "5",
+              "tokens": "11/2",
+              "latency": "5"
+            },
+            "integer": {
+              "quality": 5,
+              "tokens": 6,
+              "latency": 5
+            }
+          },
+          {
+            "method": "tournament",
+            "label": "Tournament",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.740",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              }
+            ],
+            "token_means": [
+              "1410",
+              "1510",
+              "1610",
+              "1700",
+              "1700",
+              "1700"
+            ],
+            "token_group_sums": {
+              "Q9": "1410",
+              "TREC": "3120",
+              "BEIR": "5100"
+            },
+            "token_six_mean": "1605",
+            "latency_means": [
+              "3.5",
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9",
+              "4.0"
+            ],
+            "latency_six_mean": "3.75",
+            "average_rank": {
+              "quality": "6",
+              "tokens": "11/2",
+              "latency": "6"
+            },
+            "integer": {
+              "quality": 6,
+              "tokens": 5,
+              "latency": 6
+            }
+          },
+          {
+            "method": "lotus",
+            "label": "Lotus Quick",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.720",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              }
+            ],
+            "token_means": [
+              "3000",
+              "3010",
+              "3020",
+              "3030",
+              "3040",
+              "3050"
+            ],
+            "token_group_sums": {
+              "Q9": "3000",
+              "TREC": "6030",
+              "BEIR": "9120"
+            },
+            "token_six_mean": "3025",
+            "latency_means": [
+              "3.9",
+              "4.0",
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "latency_six_mean": "4.15",
+            "average_rank": {
+              "quality": "7",
+              "tokens": "7",
+              "latency": "7"
+            },
+            "integer": {
+              "quality": 7,
+              "tokens": 7,
+              "latency": 7
+            }
+          },
+          {
+            "method": "setwise",
+            "label": "Setwise Heap",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.700",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              }
+            ],
+            "token_means": [
+              "3100",
+              "3110",
+              "3120",
+              "3130",
+              "3140",
+              "3150"
+            ],
+            "token_group_sums": {
+              "Q9": "3100",
+              "TREC": "6230",
+              "BEIR": "9420"
+            },
+            "token_six_mean": "3125",
+            "latency_means": [
+              "4.3",
+              "4.4",
+              "4.5",
+              "4.6",
+              "4.7",
+              "4.8"
+            ],
+            "latency_six_mean": "4.55",
+            "average_rank": {
+              "quality": "8",
+              "tokens": "8",
+              "latency": "8"
+            },
+            "integer": {
+              "quality": 8,
+              "tokens": 8,
+              "latency": 8
+            }
+          },
+          {
+            "method": "sw",
+            "label": "SW",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.680",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.670",
+                "permutation_std": "0.030",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.680",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.680",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.680",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.680",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              }
+            ],
+            "token_means": [
+              "3200",
+              "3210",
+              "3220",
+              "3230",
+              "3240",
+              "3250"
+            ],
+            "token_group_sums": {
+              "Q9": "3200",
+              "TREC": "6430",
+              "BEIR": "9720"
+            },
+            "token_six_mean": "3225",
+            "latency_means": [
+              "4.7",
+              "4.8",
+              "4.9",
+              "5.0",
+              "5.1",
+              "5.2"
+            ],
+            "latency_six_mean": "4.95",
+            "average_rank": {
+              "quality": "109/12",
+              "tokens": "9",
+              "latency": "19/2"
+            },
+            "integer": {
+              "quality": 9,
+              "tokens": 9,
+              "latency": 9
+            }
+          },
+          {
+            "method": "lt",
+            "label": "LT($h$)",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.660",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.670",
+                "permutation_std": "0.011",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.660",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.660",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.660",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.660",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              }
+            ],
+            "token_means": [
+              "3300",
+              "3310",
+              "3320",
+              "3330",
+              "3340",
+              "3350"
+            ],
+            "token_group_sums": {
+              "Q9": "3300",
+              "TREC": "6630",
+              "BEIR": "10020"
+            },
+            "token_six_mean": "3325",
+            "latency_means": [
+              "4.7",
+              "4.8",
+              "4.9",
+              "5.0",
+              "5.1",
+              "5.2"
+            ],
+            "latency_six_mean": "4.95",
+            "average_rank": {
+              "quality": "119/12",
+              "tokens": "10",
+              "latency": "19/2"
+            },
+            "integer": {
+              "quality": 10,
+              "tokens": 10,
+              "latency": 9
+            }
+          }
+        ]
+      },
+      "Qwen3.5-27B": {
+        "model": "Qwen3.5-27B",
+        "demand": "full",
+        "synthetic": true,
+        "quality_metric": "spearman",
+        "rows": [
+          {
+            "method": "pointwise",
+            "label": "Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.840",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.860",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.860",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.860",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              }
+            ],
+            "token_means": [
+              "5000",
+              "5010",
+              "5020",
+              "5030",
+              "5040",
+              "5050"
+            ],
+            "token_group_sums": {
+              "Q9": "5000",
+              "TREC": "10030",
+              "BEIR": "15120"
+            },
+            "token_six_mean": "5025",
+            "latency_means": [
+              "2.0",
+              "2.1",
+              "2.2",
+              "2.3",
+              "2.4",
+              "2.5"
+            ],
+            "latency_six_mean": "2.25",
+            "average_rank": {
+              "quality": "3/2",
+              "tokens": "1",
+              "latency": "1"
+            },
+            "integer": {
+              "quality": 1,
+              "tokens": 1,
+              "latency": 1
+            }
+          },
+          {
+            "method": "ext_pointwise",
+            "label": "Ext.\\ Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.860",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.860",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.860",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.840",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.840",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "3"
+              }
+            ],
+            "token_means": [
+              "5100",
+              "5110",
+              "5120",
+              "5130",
+              "5140",
+              "5150"
+            ],
+            "token_group_sums": {
+              "Q9": "5100",
+              "TREC": "10230",
+              "BEIR": "15420"
+            },
+            "token_six_mean": "5125",
+            "latency_means": [
+              "2.4",
+              "2.5",
+              "2.6",
+              "2.7",
+              "2.8",
+              "2.9"
+            ],
+            "latency_six_mean": "2.65",
+            "average_rank": {
+              "quality": "5/3",
+              "tokens": "2",
+              "latency": "2"
+            },
+            "integer": {
+              "quality": 2,
+              "tokens": 2,
+              "latency": 2
+            }
+          },
+          {
+            "method": "bubble",
+            "label": "Ext.\\ Bubble",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.820",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.820",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.820",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.820",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.840",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "2"
+              }
+            ],
+            "token_means": [
+              "5200",
+              "5210",
+              "5220",
+              "5230",
+              "5240",
+              "5250"
+            ],
+            "token_group_sums": {
+              "Q9": "5200",
+              "TREC": "10430",
+              "BEIR": "15720"
+            },
+            "token_six_mean": "5225",
+            "latency_means": [
+              "2.8",
+              "2.9",
+              "3.0",
+              "3.1",
+              "3.2",
+              "3.3"
+            ],
+            "latency_six_mean": "3.05",
+            "average_rank": {
+              "quality": "3",
+              "tokens": "3",
+              "latency": "3"
+            },
+            "integer": {
+              "quality": 3,
+              "tokens": 3,
+              "latency": 3
+            }
+          },
+          {
+            "method": "merge",
+            "label": "Ext.\\ Merge",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.820",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.800",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              }
+            ],
+            "token_means": [
+              "5300",
+              "5310",
+              "5320",
+              "5330",
+              "5340",
+              "5350"
+            ],
+            "token_group_sums": {
+              "Q9": "5300",
+              "TREC": "10630",
+              "BEIR": "16020"
+            },
+            "token_six_mean": "5325",
+            "latency_means": [
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6",
+              "3.7"
+            ],
+            "latency_six_mean": "3.45",
+            "average_rank": {
+              "quality": "23/6",
+              "tokens": "4",
+              "latency": "4"
+            },
+            "integer": {
+              "quality": 4,
+              "tokens": 4,
+              "latency": 4
+            }
+          },
+          {
+            "method": "listk",
+            "label": "ListK Sort",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.780",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              }
+            ],
+            "token_means": [
+              "5400",
+              "5500",
+              "5600",
+              "6000",
+              "6000",
+              "6000"
+            ],
+            "token_group_sums": {
+              "Q9": "5400",
+              "TREC": "11100",
+              "BEIR": "18000"
+            },
+            "token_six_mean": "5750",
+            "latency_means": [
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9",
+              "4.0",
+              "4.1"
+            ],
+            "latency_six_mean": "3.85",
+            "average_rank": {
+              "quality": "5",
+              "tokens": "11/2",
+              "latency": "5"
+            },
+            "integer": {
+              "quality": 5,
+              "tokens": 6,
+              "latency": 5
+            }
+          },
+          {
+            "method": "tournament",
+            "label": "Tournament",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.760",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              }
+            ],
+            "token_means": [
+              "5410",
+              "5510",
+              "5610",
+              "5700",
+              "5700",
+              "5700"
+            ],
+            "token_group_sums": {
+              "Q9": "5410",
+              "TREC": "11120",
+              "BEIR": "17100"
+            },
+            "token_six_mean": "5605",
+            "latency_means": [
+              "4.0",
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4",
+              "4.5"
+            ],
+            "latency_six_mean": "4.25",
+            "average_rank": {
+              "quality": "6",
+              "tokens": "11/2",
+              "latency": "6"
+            },
+            "integer": {
+              "quality": 6,
+              "tokens": 5,
+              "latency": 6
+            }
+          },
+          {
+            "method": "lotus",
+            "label": "Lotus Quick",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.740",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              }
+            ],
+            "token_means": [
+              "7000",
+              "7010",
+              "7020",
+              "7030",
+              "7040",
+              "7050"
+            ],
+            "token_group_sums": {
+              "Q9": "7000",
+              "TREC": "14030",
+              "BEIR": "21120"
+            },
+            "token_six_mean": "7025",
+            "latency_means": [
+              "4.4",
+              "4.5",
+              "4.6",
+              "4.7",
+              "4.8",
+              "4.9"
+            ],
+            "latency_six_mean": "4.65",
+            "average_rank": {
+              "quality": "7",
+              "tokens": "7",
+              "latency": "7"
+            },
+            "integer": {
+              "quality": 7,
+              "tokens": 7,
+              "latency": 7
+            }
+          },
+          {
+            "method": "setwise",
+            "label": "Setwise Heap",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.720",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              }
+            ],
+            "token_means": [
+              "7100",
+              "7110",
+              "7120",
+              "7130",
+              "7140",
+              "7150"
+            ],
+            "token_group_sums": {
+              "Q9": "7100",
+              "TREC": "14230",
+              "BEIR": "21420"
+            },
+            "token_six_mean": "7125",
+            "latency_means": [
+              "4.8",
+              "4.9",
+              "5.0",
+              "5.1",
+              "5.2",
+              "5.3"
+            ],
+            "latency_six_mean": "5.05",
+            "average_rank": {
+              "quality": "8",
+              "tokens": "8",
+              "latency": "8"
+            },
+            "integer": {
+              "quality": 8,
+              "tokens": 8,
+              "latency": 8
+            }
+          },
+          {
+            "method": "sw",
+            "label": "SW",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.700",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.690",
+                "permutation_std": "0.030",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.700",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.700",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.700",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.700",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              }
+            ],
+            "token_means": [
+              "7200",
+              "7210",
+              "7220",
+              "7230",
+              "7240",
+              "7250"
+            ],
+            "token_group_sums": {
+              "Q9": "7200",
+              "TREC": "14430",
+              "BEIR": "21720"
+            },
+            "token_six_mean": "7225",
+            "latency_means": [
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5",
+              "5.6",
+              "5.7"
+            ],
+            "latency_six_mean": "5.45",
+            "average_rank": {
+              "quality": "109/12",
+              "tokens": "9",
+              "latency": "9"
+            },
+            "integer": {
+              "quality": 9,
+              "tokens": 9,
+              "latency": 9
+            }
+          },
+          {
+            "method": "lt",
+            "label": "LT($h$)",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.680",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.690",
+                "permutation_std": "0.011",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.680",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.680",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.680",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.680",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              }
+            ],
+            "token_means": [
+              "7300",
+              "7310",
+              "7320",
+              "7330",
+              "7340",
+              "7350"
+            ],
+            "token_group_sums": {
+              "Q9": "7300",
+              "TREC": "14630",
+              "BEIR": "22020"
+            },
+            "token_six_mean": "7325",
+            "latency_means": [
+              "5.6",
+              "5.7",
+              "5.8",
+              "5.9",
+              "6.0",
+              "6.1"
+            ],
+            "latency_six_mean": "5.85",
+            "average_rank": {
+              "quality": "119/12",
+              "tokens": "10",
+              "latency": "10"
+            },
+            "integer": {
+              "quality": 10,
+              "tokens": 10,
+              "latency": 10
+            }
+          }
+        ]
+      }
+    },
+    "limit10": {
+      "Qwen3.5-9B": {
+        "model": "Qwen3.5-9B",
+        "demand": "limit10",
+        "synthetic": true,
+        "quality_metric": "ndcg@10",
+        "rows": [
+          {
+            "method": "pointwise",
+            "label": "Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.780",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.780",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.780",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              }
+            ],
+            "token_means": [
+              "1700",
+              "1710",
+              "1720",
+              "1730",
+              "1740",
+              "1750"
+            ],
+            "token_group_sums": {
+              "Q9": "1700",
+              "TREC": "3430",
+              "BEIR": "5220"
+            },
+            "token_six_mean": "1725",
+            "latency_means": [
+              "1.8",
+              "1.9",
+              "2.0",
+              "2.1",
+              "2.2",
+              "2.3"
+            ],
+            "latency_six_mean": "2.05",
+            "average_rank": {
+              "quality": "3/2",
+              "tokens": "1",
+              "latency": "1"
+            },
+            "integer": {
+              "quality": 1,
+              "tokens": 1,
+              "latency": 1
+            }
+          },
+          {
+            "method": "ext_pointwise",
+            "label": "Ext.\\ Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.780",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.780",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.760",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "3"
+              }
+            ],
+            "token_means": [
+              "1800",
+              "1810",
+              "1820",
+              "1830",
+              "1840",
+              "1850"
+            ],
+            "token_group_sums": {
+              "Q9": "1800",
+              "TREC": "3630",
+              "BEIR": "5520"
+            },
+            "token_six_mean": "1825",
+            "latency_means": [
+              "2.2",
+              "2.3",
+              "2.4",
+              "2.5",
+              "2.6",
+              "2.7"
+            ],
+            "latency_six_mean": "2.45",
+            "average_rank": {
+              "quality": "5/3",
+              "tokens": "2",
+              "latency": "2"
+            },
+            "integer": {
+              "quality": 2,
+              "tokens": 2,
+              "latency": 2
+            }
+          },
+          {
+            "method": "bubble",
+            "label": "Ext.\\ Bubble",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.760",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.760",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.760",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.760",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.740",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "2"
+              }
+            ],
+            "token_means": [
+              "1900",
+              "1910",
+              "1920",
+              "1930",
+              "1940",
+              "1950"
+            ],
+            "token_group_sums": {
+              "Q9": "1900",
+              "TREC": "3830",
+              "BEIR": "5820"
+            },
+            "token_six_mean": "1925",
+            "latency_means": [
+              "2.6",
+              "2.7",
+              "2.8",
+              "2.9",
+              "3.0",
+              "3.1"
+            ],
+            "latency_six_mean": "2.85",
+            "average_rank": {
+              "quality": "3",
+              "tokens": "3",
+              "latency": "3"
+            },
+            "integer": {
+              "quality": 3,
+              "tokens": 3,
+              "latency": 3
+            }
+          },
+          {
+            "method": "merge",
+            "label": "Ext.\\ Merge",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.740",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.740",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.740",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.740",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.740",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              }
+            ],
+            "token_means": [
+              "2000",
+              "2010",
+              "2020",
+              "2030",
+              "2040",
+              "2050"
+            ],
+            "token_group_sums": {
+              "Q9": "2000",
+              "TREC": "4030",
+              "BEIR": "6120"
+            },
+            "token_six_mean": "2025",
+            "latency_means": [
+              "3.0",
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5"
+            ],
+            "latency_six_mean": "3.25",
+            "average_rank": {
+              "quality": "23/6",
+              "tokens": "4",
+              "latency": "4"
+            },
+            "integer": {
+              "quality": 4,
+              "tokens": 4,
+              "latency": 4
+            }
+          },
+          {
+            "method": "listk",
+            "label": "ListK Select",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.720",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              }
+            ],
+            "token_means": [
+              "2100",
+              "2200",
+              "2300",
+              "2700",
+              "2700",
+              "2700"
+            ],
+            "token_group_sums": {
+              "Q9": "2100",
+              "TREC": "4500",
+              "BEIR": "8100"
+            },
+            "token_six_mean": "2450",
+            "latency_means": [
+              "3.4",
+              "3.5",
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9"
+            ],
+            "latency_six_mean": "3.65",
+            "average_rank": {
+              "quality": "5",
+              "tokens": "11/2",
+              "latency": "5"
+            },
+            "integer": {
+              "quality": 5,
+              "tokens": 6,
+              "latency": 5
+            }
+          },
+          {
+            "method": "tournament",
+            "label": "Tournament",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.700",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              }
+            ],
+            "token_means": [
+              "2110",
+              "2210",
+              "2310",
+              "2400",
+              "2400",
+              "2400"
+            ],
+            "token_group_sums": {
+              "Q9": "2110",
+              "TREC": "4520",
+              "BEIR": "7200"
+            },
+            "token_six_mean": "2305",
+            "latency_means": [
+              "3.8",
+              "3.9",
+              "4.0",
+              "4.1",
+              "4.2",
+              "4.3"
+            ],
+            "latency_six_mean": "4.05",
+            "average_rank": {
+              "quality": "6",
+              "tokens": "11/2",
+              "latency": "6"
+            },
+            "integer": {
+              "quality": 6,
+              "tokens": 5,
+              "latency": 6
+            }
+          },
+          {
+            "method": "lotus",
+            "label": "Lotus Quick",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.680",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              }
+            ],
+            "token_means": [
+              "3700",
+              "3710",
+              "3720",
+              "3730",
+              "3740",
+              "3750"
+            ],
+            "token_group_sums": {
+              "Q9": "3700",
+              "TREC": "7430",
+              "BEIR": "11220"
+            },
+            "token_six_mean": "3725",
+            "latency_means": [
+              "4.2",
+              "4.3",
+              "4.4",
+              "4.5",
+              "4.6",
+              "4.7"
+            ],
+            "latency_six_mean": "4.45",
+            "average_rank": {
+              "quality": "7",
+              "tokens": "7",
+              "latency": "7"
+            },
+            "integer": {
+              "quality": 7,
+              "tokens": 7,
+              "latency": 7
+            }
+          },
+          {
+            "method": "setwise",
+            "label": "Setwise Heap",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.660",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              }
+            ],
+            "token_means": [
+              "3800",
+              "3810",
+              "3820",
+              "3830",
+              "3840",
+              "3850"
+            ],
+            "token_group_sums": {
+              "Q9": "3800",
+              "TREC": "7630",
+              "BEIR": "11520"
+            },
+            "token_six_mean": "3825",
+            "latency_means": [
+              "4.6",
+              "4.7",
+              "4.8",
+              "4.9",
+              "5.0",
+              "5.1"
+            ],
+            "latency_six_mean": "4.85",
+            "average_rank": {
+              "quality": "8",
+              "tokens": "8",
+              "latency": "8"
+            },
+            "integer": {
+              "quality": 8,
+              "tokens": 8,
+              "latency": 8
+            }
+          },
+          {
+            "method": "sw",
+            "label": "SW",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.640",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.630",
+                "permutation_std": "0.030",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.640",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.640",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.640",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.640",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              }
+            ],
+            "token_means": [
+              "3900",
+              "3910",
+              "3920",
+              "3930",
+              "3940",
+              "3950"
+            ],
+            "token_group_sums": {
+              "Q9": "3900",
+              "TREC": "7830",
+              "BEIR": "11820"
+            },
+            "token_six_mean": "3925",
+            "latency_means": [
+              "5.0",
+              "5.1",
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5"
+            ],
+            "latency_six_mean": "5.25",
+            "average_rank": {
+              "quality": "109/12",
+              "tokens": "9",
+              "latency": "9"
+            },
+            "integer": {
+              "quality": 9,
+              "tokens": 9,
+              "latency": 9
+            }
+          },
+          {
+            "method": "lt",
+            "label": "LT($h$)",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.620",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.630",
+                "permutation_std": "0.011",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.620",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.620",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.620",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.620",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              }
+            ],
+            "token_means": [
+              "4000",
+              "4010",
+              "4020",
+              "4030",
+              "4040",
+              "4050"
+            ],
+            "token_group_sums": {
+              "Q9": "4000",
+              "TREC": "8030",
+              "BEIR": "12120"
+            },
+            "token_six_mean": "4025",
+            "latency_means": [
+              "5.4",
+              "5.5",
+              "5.6",
+              "5.7",
+              "5.8",
+              "5.9"
+            ],
+            "latency_six_mean": "5.65",
+            "average_rank": {
+              "quality": "119/12",
+              "tokens": "10",
+              "latency": "10"
+            },
+            "integer": {
+              "quality": 10,
+              "tokens": 10,
+              "latency": 10
+            }
+          }
+        ]
+      },
+      "Qwen3.5-27B": {
+        "model": "Qwen3.5-27B",
+        "demand": "limit10",
+        "synthetic": true,
+        "quality_metric": "ndcg@10",
+        "rows": [
+          {
+            "method": "pointwise",
+            "label": "Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.800",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.820",
+                "permutation_std": "0.012",
+                "n_permutations": 10,
+                "midrank": "1"
+              }
+            ],
+            "token_means": [
+              "5700",
+              "5710",
+              "5720",
+              "5730",
+              "5740",
+              "5750"
+            ],
+            "token_group_sums": {
+              "Q9": "5700",
+              "TREC": "11430",
+              "BEIR": "17220"
+            },
+            "token_six_mean": "5725",
+            "latency_means": [
+              "2.3",
+              "2.4",
+              "2.5",
+              "2.6",
+              "2.7",
+              "2.8"
+            ],
+            "latency_six_mean": "2.55",
+            "average_rank": {
+              "quality": "3/2",
+              "tokens": "1",
+              "latency": "1"
+            },
+            "integer": {
+              "quality": 1,
+              "tokens": 1,
+              "latency": 1
+            }
+          },
+          {
+            "method": "ext_pointwise",
+            "label": "Ext.\\ Pointwise",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.820",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "1"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.800",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "2"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.780",
+                "permutation_std": "0.013",
+                "n_permutations": 10,
+                "midrank": "3"
+              }
+            ],
+            "token_means": [
+              "5800",
+              "5810",
+              "5820",
+              "5830",
+              "5840",
+              "5850"
+            ],
+            "token_group_sums": {
+              "Q9": "5800",
+              "TREC": "11630",
+              "BEIR": "17520"
+            },
+            "token_six_mean": "5825",
+            "latency_means": [
+              "2.7",
+              "2.8",
+              "2.9",
+              "3.0",
+              "3.1",
+              "3.2"
+            ],
+            "latency_six_mean": "2.95",
+            "average_rank": {
+              "quality": "5/3",
+              "tokens": "2",
+              "latency": "2"
+            },
+            "integer": {
+              "quality": 2,
+              "tokens": 2,
+              "latency": 2
+            }
+          },
+          {
+            "method": "bubble",
+            "label": "Ext.\\ Bubble",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.780",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.760",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.800",
+                "permutation_std": "0.014",
+                "n_permutations": 10,
+                "midrank": "2"
+              }
+            ],
+            "token_means": [
+              "5900",
+              "5910",
+              "5920",
+              "5930",
+              "5940",
+              "5950"
+            ],
+            "token_group_sums": {
+              "Q9": "5900",
+              "TREC": "11830",
+              "BEIR": "17820"
+            },
+            "token_six_mean": "5925",
+            "latency_means": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6"
+            ],
+            "latency_six_mean": "3.35",
+            "average_rank": {
+              "quality": "3",
+              "tokens": "3",
+              "latency": "3"
+            },
+            "integer": {
+              "quality": 3,
+              "tokens": 3,
+              "latency": 3
+            }
+          },
+          {
+            "method": "merge",
+            "label": "Ext.\\ Merge",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.780",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "3"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.760",
+                "permutation_std": "0.015",
+                "n_permutations": 10,
+                "midrank": "4"
+              }
+            ],
+            "token_means": [
+              "6000",
+              "6010",
+              "6020",
+              "6030",
+              "6040",
+              "6050"
+            ],
+            "token_group_sums": {
+              "Q9": "6000",
+              "TREC": "12030",
+              "BEIR": "18120"
+            },
+            "token_six_mean": "6025",
+            "latency_means": [
+              "3.5",
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9",
+              "4.0"
+            ],
+            "latency_six_mean": "3.75",
+            "average_rank": {
+              "quality": "23/6",
+              "tokens": "4",
+              "latency": "4"
+            },
+            "integer": {
+              "quality": 4,
+              "tokens": 4,
+              "latency": 4
+            }
+          },
+          {
+            "method": "listk",
+            "label": "ListK Select",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.740",
+                "permutation_std": "0.016",
+                "n_permutations": 10,
+                "midrank": "5"
+              }
+            ],
+            "token_means": [
+              "6100",
+              "6200",
+              "6300",
+              "6700",
+              "6700",
+              "6700"
+            ],
+            "token_group_sums": {
+              "Q9": "6100",
+              "TREC": "12500",
+              "BEIR": "20100"
+            },
+            "token_six_mean": "6450",
+            "latency_means": [
+              "3.9",
+              "4.0",
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "latency_six_mean": "4.15",
+            "average_rank": {
+              "quality": "5",
+              "tokens": "11/2",
+              "latency": "5"
+            },
+            "integer": {
+              "quality": 5,
+              "tokens": 6,
+              "latency": 5
+            }
+          },
+          {
+            "method": "tournament",
+            "label": "Tournament",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.720",
+                "permutation_std": "0.017",
+                "n_permutations": 10,
+                "midrank": "6"
+              }
+            ],
+            "token_means": [
+              "6110",
+              "6210",
+              "6310",
+              "6400",
+              "6400",
+              "6400"
+            ],
+            "token_group_sums": {
+              "Q9": "6110",
+              "TREC": "12520",
+              "BEIR": "19200"
+            },
+            "token_six_mean": "6305",
+            "latency_means": [
+              "4.3",
+              "4.4",
+              "4.5",
+              "4.6",
+              "4.7",
+              "4.8"
+            ],
+            "latency_six_mean": "4.55",
+            "average_rank": {
+              "quality": "6",
+              "tokens": "11/2",
+              "latency": "6"
+            },
+            "integer": {
+              "quality": 6,
+              "tokens": 5,
+              "latency": 6
+            }
+          },
+          {
+            "method": "lotus",
+            "label": "Lotus Quick",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.700",
+                "permutation_std": "0.018",
+                "n_permutations": 10,
+                "midrank": "7"
+              }
+            ],
+            "token_means": [
+              "7700",
+              "7710",
+              "7720",
+              "7730",
+              "7740",
+              "7750"
+            ],
+            "token_group_sums": {
+              "Q9": "7700",
+              "TREC": "15430",
+              "BEIR": "23220"
+            },
+            "token_six_mean": "7725",
+            "latency_means": [
+              "4.7",
+              "4.8",
+              "4.9",
+              "5.0",
+              "5.1",
+              "5.2"
+            ],
+            "latency_six_mean": "4.95",
+            "average_rank": {
+              "quality": "7",
+              "tokens": "7",
+              "latency": "7"
+            },
+            "integer": {
+              "quality": 7,
+              "tokens": 7,
+              "latency": 7
+            }
+          },
+          {
+            "method": "setwise",
+            "label": "Setwise Heap",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.680",
+                "permutation_std": "0.019",
+                "n_permutations": 10,
+                "midrank": "8"
+              }
+            ],
+            "token_means": [
+              "7800",
+              "7810",
+              "7820",
+              "7830",
+              "7840",
+              "7850"
+            ],
+            "token_group_sums": {
+              "Q9": "7800",
+              "TREC": "15630",
+              "BEIR": "23520"
+            },
+            "token_six_mean": "7825",
+            "latency_means": [
+              "5.1",
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5",
+              "5.6"
+            ],
+            "latency_six_mean": "5.35",
+            "average_rank": {
+              "quality": "8",
+              "tokens": "8",
+              "latency": "8"
+            },
+            "integer": {
+              "quality": 8,
+              "tokens": 8,
+              "latency": 8
+            }
+          },
+          {
+            "method": "sw",
+            "label": "SW",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.660",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.650",
+                "permutation_std": "0.030",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.660",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.660",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.660",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.660",
+                "permutation_std": "0.020",
+                "n_permutations": 10,
+                "midrank": "9"
+              }
+            ],
+            "token_means": [
+              "7900",
+              "7910",
+              "7920",
+              "7930",
+              "7940",
+              "7950"
+            ],
+            "token_group_sums": {
+              "Q9": "7900",
+              "TREC": "15830",
+              "BEIR": "23820"
+            },
+            "token_six_mean": "7925",
+            "latency_means": [
+              "5.5",
+              "5.6",
+              "5.7",
+              "5.8",
+              "5.9",
+              "6.0"
+            ],
+            "latency_six_mean": "5.75",
+            "average_rank": {
+              "quality": "109/12",
+              "tokens": "9",
+              "latency": "9"
+            },
+            "integer": {
+              "quality": 9,
+              "tokens": 9,
+              "latency": 9
+            }
+          },
+          {
+            "method": "lt",
+            "label": "LT($h$)",
+            "quality": [
+              {
+                "dataset": "Q9",
+                "mean": "0.640",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DL20",
+                "mean": "0.650",
+                "permutation_std": "0.011",
+                "n_permutations": 10,
+                "midrank": "19/2"
+              },
+              {
+                "dataset": "DL22",
+                "mean": "0.640",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "COVID",
+                "mean": "0.640",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "DBpedia",
+                "mean": "0.640",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              },
+              {
+                "dataset": "Robust04",
+                "mean": "0.640",
+                "permutation_std": "0.021",
+                "n_permutations": 10,
+                "midrank": "10"
+              }
+            ],
+            "token_means": [
+              "8000",
+              "8010",
+              "8020",
+              "8030",
+              "8040",
+              "8050"
+            ],
+            "token_group_sums": {
+              "Q9": "8000",
+              "TREC": "16030",
+              "BEIR": "24120"
+            },
+            "token_six_mean": "8025",
+            "latency_means": [
+              "5.9",
+              "6.0",
+              "6.1",
+              "6.2",
+              "6.3",
+              "6.4"
+            ],
+            "latency_six_mean": "6.15",
+            "average_rank": {
+              "quality": "119/12",
+              "tokens": "10",
+              "latency": "10"
+            },
+            "integer": {
+              "quality": 10,
+              "tokens": 10,
+              "latency": 10
+            }
+          }
+        ]
+      }
+    }
+  }
+}

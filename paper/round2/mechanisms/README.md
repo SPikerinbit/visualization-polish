@@ -1,36 +1,40 @@
 # Round 2 mechanism figures
 
-Four figures only. Nothing outside `paper/round2/mechanisms/` is an input to the paper build.
+Only this directory. Print files are the single-column SW, LT(h), and pointer, plus the text-width framework. There is no scaled-down copy of the wide v2 page.
 
-## Files
+`contact.png` uses one scale (6 px per bp). The framework is about twice as wide as the other three because that is the real page size. A 20 mm bar is on the sheet.
 
-| Figure | Source | Column / print PDF | Same-size recolor |
-|---|---|---|---|
-| Framework | `src/framework.tex` | `framework.pdf` 504.4 × 181.4 bp (178.0 × 64.0 mm) | new drawing |
-| SW | `src/sd_merge.svg` | `sw.pdf` 240 × 72.7 bp | `sw-v2size.pdf` 505 × 153 bp |
-| Unified LT(h) | `src/lt_unified.svg` | `lt.pdf` 240 × 89.6 bp | `lt-v2size.pdf` 505 × 189 bp |
-| Pointer | `src/pointer_rule.svg` | `pointer.pdf` 249 × 177 bp | same file (already the v2 media box) |
+## Page size
 
-`contact.png` is the review sheet: framework at text width, each of SW / LT / pointer beside the user v2 at the same pixel width, then the column-width renders.
+| Figure | PDF | Size |
+|---|---|---|
+| Framework | `framework.pdf` | 504.4 × 119.1 bp, 178.0 × 42.0 mm |
+| SW | `sw.pdf` | 240 × 96 bp |
+| Unified LT(h) | `lt.pdf` | 240 × 124 bp |
+| Pointer | `pointer.pdf` | 240 × 150 bp |
 
-VLDB sigconf after `\maketitle`: `\textwidth` = 506.295 TeX pt = 504.40 bp, `\columnwidth` = 241.147 TeX pt = 240.25 bp. SW and LT column files are 240 bp wide.
+Column width after `\maketitle` is 241.147 TeX pt = 240.25 bp. These three are 240 bp wide. The viewBox unit is 1 bp, so the `font-size` in the SVG is the size on the page.
 
-## What changed
+## Type size on the page
 
-Framework is the approved flat drawing, not the old numbered 16-element figure. Left side is four ordered runs with no digits. The middle is two merge nodes feeding one merge node. The cost-model box only says that it selects `k,h`, and three dashed blue drops land on the three merge nodes. Full and LIMIT are separate outputs. A dashed red pull under LIMIT ends on a stop tick labeled “stop at K”. No formula. `finite.py` is not in this tree, so none is drawn. There is no separate LIMIT figure and no segmented-LT figure.
+SW: round titles 7 bp; digits, run labels, and the legend 6.5 bp.
 
-SW, LT, and pointer are the user v2 vectors (`算法机制图/第二版/revision_v3/{sd_merge,lt_unified,pointer_rule}.svg`) with colors replaced and one legend edit. A color-stripped comparison of the SVG text matches the originals aside from that legend word and the page wash. Topology, numbers, and pointer targets are unchanged: Build assigns the pointer to R; Refresh in this example returns it to L.
+LT(h): titles, digits, run labels, and the legend 6.5 bp. Four leaves in each of three panels leave about 2.8 bp between leaf capsules, which is why the digits are 6.5 bp rather than 7 bp. A 7 bp digit pair is 7.8 bp wide and does not fit that gap with a visible call outline.
 
-Colors, shared by all four: paper `#FBF6EC`, emit `#3E7A9A`, call `#C56A55`, warm gray chips, merge nodes `#F4DFB8`.
+Pointer: column titles 7 bp; digits, L/R, row labels, and the legend 6.5 bp.
 
-Pointer legend: “next unread” is now “unread”. L/R labels and the thick pointer arrows are the original geometry.
+Framework: “ordered runs” 7 pt; merge, Full, LIMIT, cost model, and K 6.5 pt.
 
-## Size
+## What the pictures say
 
-SW and LT were drawn at 1700 user units with 29-unit labels. On the v2 page (505 bp) that is 8.6 pt. On a 240 bp column it is 4.1 pt. The column PDF is the single-column placement of that same drawing. `sw-v2size.pdf` and `lt-v2size.pdf` are the recolor at the user v2 media box, so the recolor can be judged without the column scale. Pointer labels are 23–29 units on a 1000-unit drawing; at 249 bp the legend is 5.7 pt and the column titles are 7.2 pt, which is the user v2 size.
+Framework. Four anonymous runs enter two merges, then one root. The cost box sits between them and the dashed blue lines end on those three merges; they carry `k,h`. Solid arrows run from the root to Full and to LIMIT. The dashed red request starts at LIMIT and ends on the root. The path is broken at `K`.
 
-## Looked at, not copied
+SW and LT keep the three v2 states, the same numbers, and the same pointers. Build sets the pointer to R. This refresh returns it to L. The right subtree pointer stays on R4. The red outline in LT panel (b) encloses only the refreshed root, its left child, and R2.
 
-ListK preprint Fig. 1 (page 2) is a listwise prompt beside an optimizer flow (tournament filter, quickselect, quicksort). It is not the geometry of these four figures.
+Pointer stays two rows by three columns. Winner and loser are not repeated in the cells; the shared legend carries those words, and the colors match the cells. The red letter under the replay is the side that runs out (`R` on Build, `L` on Refresh). L/R on the trees and on the replay slots stay.
 
-`pointer_previous/` in the same revision directory is an older draft. The v2 pointer file used here is `pointer_rule.svg`.
+Colors are unchanged from the previous round: paper `#FBF6EC`, emit `#3E7A9A`, call `#C56A55`, head gray `#9A9086`, unread `#D5CBBC`.
+
+## Not claimed
+
+`finite.py` is not in this tree, so the cost box has no formula. ListK Fig. 1 is a different diagram and is not the geometry here.

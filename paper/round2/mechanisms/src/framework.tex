@@ -1,5 +1,5 @@
-% Flat full-width framework. Abstract runs (no numbers), layered merge,
-% a side cost model that applies (k,h), Full vs LIMIT with a short pull stop.
+% Flat text-width framework. Abstract runs, layered merge, compact cost box.
+% The red request starts at LIMIT and ends on the root merge; K cuts that path.
 \documentclass[tikz,border=0pt]{standalone}
 \usetikzlibrary{arrows.meta}
 \definecolor{ink}{HTML}{2A3034}
@@ -13,55 +13,51 @@
 \begin{document}
 \begin{tikzpicture}[x=1mm,y=1mm,
   every node/.style={inner sep=0pt,outer sep=0pt,text=ink},
-  lab/.style={font=\fontsize{7.5}{8.5}\selectfont},
-  small/.style={font=\fontsize{6.6}{7.6}\selectfont},
-  dat/.style={-{Stealth[length=1.3mm]},draw=ink,line width=0.5pt},
-  ctl/.style={-{Stealth[length=1.2mm]},draw=ctrl,line width=0.55pt,dash pattern=on 0.85mm off 0.5mm},
-  pull/.style={{Stealth[length=1.2mm]}-,draw=stopc,line width=0.55pt,dash pattern=on 0.7mm off 0.45mm},
-  box/.style={draw,rounded corners=0.7mm,minimum height=6.6mm,font=\fontsize{7.5}{8}\selectfont}
+  lab/.style={font=\fontsize{7}{8}\selectfont},
+  box/.style={draw,rounded corners=0.55mm,minimum height=4.4mm,font=\fontsize{6.5}{7.4}\selectfont,inner sep=0.7mm},
+  dat/.style={-{Stealth[length=1.15mm]},draw=ink,line width=0.5pt},
+  ctl/.style={-{Stealth[length=1.05mm]},draw=ctrl,line width=0.55pt,dash pattern=on 0.7mm off 0.45mm},
+  pull/.style={-{Stealth[length=1.15mm]},draw=stopc,line width=0.55pt,dash pattern=on 0.7mm off 0.42mm}
 ]
-\useasboundingbox (0,0) rectangle (177.94,64);
-\fill[paper] (0,0) rectangle (177.94,64);
+\useasboundingbox (0,0) rectangle (177.94,42);
+\fill[paper] (0,0) rectangle (177.94,42);
 
-% left: ordered runs, anonymous segments
-\node[lab,anchor=west] at (4,58) {ordered runs};
+\node[lab,anchor=west] at (2,38.4) {ordered runs};
 \foreach \i in {0,1,2,3} {
-  \pgfmathsetmacro{\y}{50-8.6*\i}
-  \draw[runedge,rounded corners=1mm,fill=run] (4,\y-2.1) rectangle (34,\y+2.1);
+  \pgfmathsetmacro{\y}{33.2-7.2*\i}
+  \draw[runedge,rounded corners=0.8mm,fill=run] (2,\y-1.55) rectangle (22,\y+1.55);
   \foreach \k in {0,1,2,3} {
-    \fill[ink,opacity={0.16+0.14*\k}] ({8+6.2*\k},\y) circle (1.25);
+    \fill[ink,opacity={0.18+0.14*\k}] ({5.2+4.2*\k},\y) circle (1.05);
   }
 }
 
-% merge organization
-\node[box,draw=mergeedge,fill=merge,minimum width=18mm] (m1) at (72,45.7) {merge};
-\node[box,draw=mergeedge,fill=merge,minimum width=18mm] (m2) at (72,28.5) {merge};
-\node[box,draw=mergeedge,fill=merge,minimum width=20mm] (m3) at (112,37.1) {merge};
+% pass-1 merges, then the root. Boxes only as wide as the word.
+\node[box,draw=mergeedge,fill=merge] (m1) at (40,30.4) {merge};
+\node[box,draw=mergeedge,fill=merge] (m2) at (40,14.0) {merge};
+\node[box,draw=mergeedge,fill=merge] (m3) at (82,22.2) {merge};
 
-\draw[dat] (34,50) -- (m1.west);
-\draw[dat] (34,41.4) -- (m1.west);
-\draw[dat] (34,32.8) -- (m2.west);
-\draw[dat] (34,24.2) -- (m2.west);
-\draw[dat] (m1.east) -- (96,45.7) -- (96,40.6) -- (m3.west);
-\draw[dat] (m2.east) -- (96,28.5) -- (m3.south);
+\draw[dat] (22,33.2) -- (m1.west);
+\draw[dat] (22,26.0) -- (m1.west);
+\draw[dat] (22,18.4) -- (m2.west);
+\draw[dat] (22,11.2) -- (m2.west);
+% data travels above and below the cost box
+\draw[dat] (m1.east) -- (62,30.4) -- (m3.north);
+\draw[dat] (m2.east) -- (62,14.0) -- (m3.south west);
 
-% cost model above the merges; (k,h) drops onto each merge from a free side
-\node[draw=ctrl,fill=paper,rounded corners=0.7mm,minimum width=52mm,minimum height=6.2mm,font=\fontsize{7.2}{8.2}\selectfont] (cost) at (92,57.2) {cost model \quad $k,h$};
-\draw[ctl] (72,54.1) -- (m1.north);
-\draw[ctl] (99,54.1) -- (99,35) -- (72,35) -- (m2.north);
-\draw[ctl] (112,54.1) -- (m3.north);
+% k,h is applied to each merge; every dashed end lands on a box
+\node[draw=ctrl,fill=paper,rounded corners=0.5mm,align=center,inner sep=0.65mm,font=\fontsize{6.5}{7.4}\selectfont] (cost) at (62,22.2) {cost model\\[-0.4pt]\textcolor{ctrl}{$k,h$}};
+\draw[ctl] (cost.north) -- (m1.south);
+\draw[ctl] (cost.south) -- (m2.north);
+\draw[ctl] (cost.east) -- (m3.west);
 
-% Full vs LIMIT; short reverse pull stops when K is filled
-\node[box,draw=ctrl,minimum width=20mm] (full) at (148,48) {Full};
-\node[box,draw=stopc,minimum width=20mm] (lim) at (148,28) {LIMIT};
-\draw[dat] (m3.east) -- (126,37.1) -- (full.west);
-\draw[dat] (126,37.1) -- (lim.west);
-\draw[pull] (lim.south) -- (148,16) -- (118,16);
-\draw[stopc,line width=1.15pt] (118,14.3) -- (118,17.7);
-\node[small,text=stopc,anchor=south] at (136,17.4) {stop at $K$};
-
-\node[small,anchor=west] at (4,5) {solid: data};
-\node[small,text=ctrl,anchor=west] at (28,5) {dashed blue: $k,h$};
-\node[small,text=stopc,anchor=west] at (62,5) {dashed red: pull};
+% solid data leaves the root; the request returns from LIMIT and stops at K
+\node[box,draw=ctrl] (full) at (158,30.4) {Full};
+\node[box,draw=stopc] (lim) at (158,14.0) {LIMIT};
+\draw[dat] (m3.east) -- (124,22.2) -- (full.west);
+\draw[dat] (124,22.2) -- (lim.west);
+\draw[pull, -] (lim.south) -- (158,5.6) -- (128,5.6);
+\draw[stopc,line width=1.1pt] (122,4.0) -- (122,7.2);
+\node[font=\fontsize{6.5}{7.4}\selectfont,text=stopc,anchor=south] at (122,7.6) {$K$};
+\draw[pull] (116,5.6) -- (90,5.6) -- (m3.south east);
 \end{tikzpicture}
 \end{document}

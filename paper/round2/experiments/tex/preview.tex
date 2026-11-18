@@ -1,0 +1,42 @@
+%% Body-free VLDB/acmart placement check for E3--E5.
+%% Uses the paper's acmart + pvldb. No prose, no shared entry-point edits.
+\documentclass[sigconf,nonacm,review]{acmart}
+\usepackage{pvldb}
+\settopmatter{printacmref=false,printfolios=true}
+\usepackage{graphicx}
+\usepackage{subfigure}
+% main.tex uses subfigcapskip=-7pt. That skip covered the panel xlabel on this
+% compile, so the preview keeps the caption just under the panel.
+\setlength{\subfigcapskip}{1pt}
+\setlength{\subfigbottomskip}{0pt}
+\setlength{\abovecaptionskip}{0.2cm}
+\setlength{\belowcaptionskip}{-0.15cm}
+\graphicspath{%
+  {../figures/e3/}%
+  {../figures/e4a/}%
+  {../figures/e4b/}%
+  {../figures/e4c/}%
+  {../figures/e5/}%
+}
+\title{E3--E5 figure placement}
+\author{Placement}
+\renewcommand{\shortauthors}{Placement}
+\providecommand{\shorttitle}{E3--E5 figure placement}
+\begin{document}
+\maketitle
+\typeout{COLUMNWIDTH=\the\columnwidth}
+\typeout{TEXTWIDTH=\the\textwidth}
+\typeout{TEXTHEIGHT=\the\textheight}
+% One stored float per column. The as-compiled queue dropped
+% TREC-COVID n=100 and E4c, and stacked E4b under E4a until the
+% caption crossed the bottom margin. Flush after each float.
+\let\VPendfigure\endfigure
+\def\endfigure{\VPendfigure\clearpage}
+\input{fig-e3.tex}
+\input{fig-e4a.tex}
+\input{fig-e4b.tex}
+\let\endfigure\VPendfigure
+\input{fig-e4c.tex}
+\input{fig-e5.tex}
+\clearpage
+\end{document}

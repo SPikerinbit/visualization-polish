@@ -6,28 +6,27 @@
   \centering
   \includegraphics[width=\columnwidth]{e3-legend.pdf}\par
   \vspace{-0.45em}
-  \subfigure[SW, Full, predicted]{%
+  % Two short lines: a single line does not fit in 0.25 column.
+  % Fig.~8 uses \hspace{-2.6ex}. At this panel's margins that shift
+  % covers the following panel's "10k" (sigconf preview), so the
+  % four boxes sit edge to edge instead.
+  \newcommand{\eiiicap}[2]{\protect\shortstack{\scriptsize #1\\#2}}%
+  \subfigure[\eiiicap{SW, Full}{predicted}]{%
     \includegraphics[width=0.25\columnwidth]{e3-sw-full-predicted.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[SW, LIMIT, predicted]{%
+  \subfigure[\eiiicap{SW, LIMIT}{predicted}]{%
     \includegraphics[width=0.25\columnwidth]{e3-sw-limit10-predicted.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[LT, Full, predicted]{%
+  \subfigure[\eiiicap{LT, Full}{predicted}]{%
     \includegraphics[width=0.25\columnwidth]{e3-lt-full-predicted.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[LT, LIMIT, predicted]{%
+  \subfigure[\eiiicap{LT, LIMIT}{predicted}]{%
     \includegraphics[width=0.25\columnwidth]{e3-lt-limit10-predicted.pdf}}%
-  \\[-0.2em]
-  \subfigure[SW, Full, measured]{%
+  \\[0.15em]
+  \subfigure[\eiiicap{SW, Full}{measured}]{%
     \includegraphics[width=0.25\columnwidth]{e3-sw-full-measured.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[SW, LIMIT, measured]{%
+  \subfigure[\eiiicap{SW, LIMIT}{measured}]{%
     \includegraphics[width=0.25\columnwidth]{e3-sw-limit10-measured.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[LT, Full, measured]{%
+  \subfigure[\eiiicap{LT, Full}{measured}]{%
     \includegraphics[width=0.25\columnwidth]{e3-lt-full-measured.pdf}}%
-  \hspace{-2.6ex}%
-  \subfigure[LT, LIMIT, measured]{%
+  \subfigure[\eiiicap{LT, LIMIT}{measured}]{%
     \includegraphics[width=0.25\columnwidth]{e3-lt-limit10-measured.pdf}}%
   \caption{Synthetic scale scaffold, not a measured token cost.
   The top row is the predicted scaffold and the bottom row is the measured scaffold.

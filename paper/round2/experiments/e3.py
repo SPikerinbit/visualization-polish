@@ -79,7 +79,9 @@ def _style_ax(ax, ylim) -> None:
         pad=1.0,
         colors="black",
     )
-    ax.set_xlabel(r"$n$", fontsize=LABEL_FONT_USE, labelpad=0.6)
+    # labelpad is measured from the spine. 0.6pt put $n$ on top of "5k"
+    # at the Fig.~8 box (seen in the sigconf preview).
+    ax.set_xlabel(r"$n$", fontsize=LABEL_FONT_USE, labelpad=8.0)
 
 
 def _series_handles(payload) -> list[Line2D]:
@@ -120,7 +122,9 @@ def _ylim(payload) -> tuple[float, float]:
 
 def draw_panel(panel: dict, kind: str, ylim, color_offset: int) -> plt.Figure:
     fig = plt.figure(figsize=(pt_to_in(PANEL_PT), pt_to_in(PANEL_PT)))
-    ax = fig.add_axes([0.23, 0.24, 0.73, 0.70])
+    # Bottom band clears the tick labels, $n$, and the paper's -7pt
+    # subfigcapskip, which otherwise covers the last line of the panel.
+    ax = fig.add_axes([0.23, 0.38, 0.73, 0.56])
     _style_ax(ax, ylim)
     key = "predicted" if kind == "predicted" else "measured"
     for index, series in enumerate(panel["series"]):

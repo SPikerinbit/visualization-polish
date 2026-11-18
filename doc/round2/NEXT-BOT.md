@@ -1,6 +1,6 @@
 # 下一 bot 入口（本轮版式验收完成，有例外；已并入 main）
 
-当前 `main` 含验收历史。版式工程仍是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`，文档验收仍是它的后继 `d6c4ef1ce7094437231b18f38c738f890ea20a0f`。这两个提交都是 `main` 的祖先，不因后续合并提交而被替换。PDF SHA256 仍是 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。合并记录见 `MERGE-TO-MAIN.md`。
+全部远端分支第一次同时成为祖先的提交是 `01c91122897d636b77d78b8fe046e0882bce19a4`。它之上的文档提交只改 `doc/round2/`。版式工程仍是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`，文档验收仍是它的后继 `d6c4ef1ce7094437231b18f38c738f890ea20a0f`。这两个提交都是 `main` 的祖先。PDF SHA256 仍是 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。合并记录见 `MERGE-TO-MAIN.md`。
 
 版式验收对象是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`。PDF SHA256 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。记录这次结论的文档提交是该提交的后继，只改 `doc/round2/`，不代替 `060ef6d`，也不改 PDF。
 

@@ -8,7 +8,7 @@
 - 权威文档头：`d6c4ef1ce7094437231b18f38c738f890ea20a0f`（PR19）。它只记录验收，不代替版式工程。
 - 版式工程：`060ef6d951ff6471f4dcbb39aa4c449c1d131425`。
 - 验收 PDF SHA256：`05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。合并后该 blob 未变。
-- 合并提交把各分支祖先接进 `main`。本文件是其后的文档提交，不改 `paper/round2` 与 `paper/tex`。
+- 全部分支头第一次同时成为祖先：`01c91122897d636b77d78b8fe046e0882bce19a4`。其后的文档提交只改 `doc/round2/`，不改 `paper/round2` 与 `paper/tex`，也不代替版式 SHA。
 
 ## 检查
 

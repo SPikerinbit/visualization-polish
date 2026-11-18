@@ -211,7 +211,7 @@ def _sizes(layout: str) -> dict:
         # Printed cell is 79.282pt (scale 0.59521). Source 9.0pt → ~5.36pt on the page.
         pt_s=1.7, pt_lw_b=0.08, pt_lw_o=0.18, pt_a=0.7,
         star=26, diamond=12, mark_lw=0.3, loose=0.28,
-        tick=9.0, label=8.0, zoom=0.92, grid_lw=0.4,
+        tick=9.0, label=9.0, zoom=1.08, grid_lw=0.4,
         edge_b=0.32, edge_o=0.40,
     )
 
@@ -316,13 +316,16 @@ def draw_series(
     ax.set_box_aspect(BOX, zoom=size["zoom"])
     _paint_panes(ax, size["grid_lw"])
 
-    pad = 3 if layout == "panel" else 12
+    pad = 0 if layout == "panel" else 12
     ax.tick_params(axis="x", labelsize=size["tick"], pad=0, colors=TICK)
     ax.tick_params(axis="y", labelsize=size["tick"], pad=0, colors=TICK)
     ax.tick_params(axis="z", labelsize=size["tick"], pad=1, colors=TICK)
 
-    ax.set_xlabel("Fan-in $k$" if captions.get("x_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
-    ax.set_ylabel("Segment length $h$" if captions.get("y_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
+    # Short names sit on the axes. The caption repeats the same mapping.
+    x_name = "k" if layout == "panel" else "Fan-in $k$"
+    y_name = "h" if layout == "panel" else "Segment length $h$"
+    ax.set_xlabel(x_name if captions.get("x_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
+    ax.set_ylabel(y_name if captions.get("y_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
     z_text = "1k" if layout == "panel" else "Merge input tokens (1k)"
     ax.set_zlabel(z_text if captions.get("z_label") else "", labelpad=pad + 2, color=INK, fontsize=size["label"])
 
@@ -394,15 +397,17 @@ def render_panel(series: Series, stem: str, index: int, grid: tuple[int, int]) -
     # Each vector panel is self-contained for TeX inclusion (readable z ticks + cost axis).
     caps = {
         "x_ticks": True,
-        "x_label": False,
+        "x_label": True,
         "y_ticks": True,
-        "y_label": False,
+        "y_label": True,
         "z_ticks": True,
         "z_label": False,
     }
     # Fixed MediaBox. Inset the axes so z numerals and h=10 stay inside 133.2pt.
     fig = plt.figure(figsize=(PANEL_IN, PANEL_IN), facecolor="white")
-    ax = fig.add_axes([0.07, 0.12, 0.70, 0.80], projection="3d", computed_zorder=False)
+    # Larger axes inside the same 133.2pt page. Tick size stays 9pt, so the
+    # printed 5.36pt scale does not change when TeX includes the page at 79.28pt.
+    ax = fig.add_axes([0.06, 0.11, 0.74, 0.85], projection="3d", computed_zorder=False)
     draw_series(ax, series, "panel", frame, caps)
     for ext in ("pdf", "png"):
         fig.savefig(PANELS / f"{stem}.{ext}", dpi=220 if ext == "png" else None)
@@ -496,22 +501,72 @@ def pdf_to_png(pdf: Path, png: Path, dpi: int = 200) -> None:
     )
 
 
-def _content_bbox(page) -> tuple[float, float, float, float]:
-    """Union of text and images on a page, in PDF points (origin bottom-left)."""
-    rects = []
-    for block in page.get_text("dict")["blocks"]:
-        rects.append((block["bbox"][0], block["bbox"][1], block["bbox"][2], block["bbox"][3]))
-    for info in page.get_image_info():
-        box = info["bbox"]
-        rects.append((box[0], box[1], box[2], box[3]))
-    if not rects:
-        raise RuntimeError("empty page")
+def _union(rects: list[tuple[float, float, float, float]]) -> tuple[float, float, float, float]:
     return (
         min(r[0] for r in rects),
         min(r[1] for r in rects),
         max(r[2] for r in rects),
         max(r[3] for r in rects),
     )
+
+
+def _content_bbox(page) -> tuple[float, float, float, float]:
+    """Union of text, images, and vector strokes. Skips a full-page background."""
+    rects = []
+    pw, ph = float(page.rect.width), float(page.rect.height)
+    for block in page.get_text("dict")["blocks"]:
+        rects.append((block["bbox"][0], block["bbox"][1], block["bbox"][2], block["bbox"][3]))
+    for info in page.get_image_info():
+        box = info["bbox"]
+        rects.append((box[0], box[1], box[2], box[3]))
+    import fitz
+
+    for _kind, rect in page.get_bboxlog():
+        box = rect if hasattr(rect, "x0") else fitz.Rect(rect)
+        r = (float(box.x0), float(box.y0), float(box.x1), float(box.y1))
+        if r[2] - r[0] > pw * 0.95 and r[3] - r[1] > ph * 0.95:
+            continue
+        if r[2] - r[0] < 0.3 or r[3] - r[1] < 0.3:
+            continue
+        rects.append(r)
+    if not rects:
+        raise RuntimeError("empty page")
+    return _union(rects)
+
+
+def _placed_cells(page) -> list[tuple[float, float, float, float]]:
+    """Near-square panel boxes from the page's vector log (the included PDF media)."""
+    import fitz
+
+    cells = []
+    for _kind, rect in page.get_bboxlog():
+        box = rect if hasattr(rect, "width") else fitz.Rect(rect)
+        w, h = float(box.width), float(box.height)
+        if 70 < w < 95 and abs(w - h) < 8:
+            cells.append((float(box.x0), float(box.y0), w, h))
+    # The same cell is logged many times. Keep one box per origin.
+    unique = []
+    for cell in sorted(cells, key=lambda c: (round(c[1], 1), c[0])):
+        if unique and abs(cell[0] - unique[-1][0]) < 0.4 and abs(cell[1] - unique[-1][1]) < 0.4:
+            continue
+        unique.append(cell)
+    return unique
+
+
+def _row_steps(cells: list[tuple[float, float, float, float]]) -> list[dict]:
+    rows: dict[float, list[tuple[float, float, float, float]]] = {}
+    for cell in cells:
+        key = round(cell[1], 0)
+        rows.setdefault(key, []).append(cell)
+    report = []
+    for key in sorted(rows):
+        row = sorted(rows[key], key=lambda c: c[0])
+        steps = []
+        for prev, cur in zip(row, row[1:]):
+            step = cur[0] - prev[0]
+            steps.append({"step_pt": round(step, 3), "overlap_pt": round(prev[2] - step, 3)})
+        report.append({"y": key, "n": len(row), "x0": round(row[0][0], 2), "width": round(row[0][2], 3), "gaps": steps})
+    return report
 
 
 def _figure_page(pdf: Path, marker: str):
@@ -524,6 +579,25 @@ def _figure_page(pdf: Path, marker: str):
     raise RuntimeError(f"{marker} not in {pdf}")
 
 
+def _panel_whitespace() -> dict:
+    """Vertical band with no ink (gray < 245) on each source panel PNG, in PDF points."""
+    out = {}
+    for spec in SPECS_12:
+        png = PANELS / f"{spec['id']}.png"
+        arr = np.asarray(Image.open(png).convert("L"))
+        ink = np.where((arr < 245).any(axis=1))[0]
+        height_pt = PANEL_IN * 72
+        top = float(ink[0]) * height_pt / arr.shape[0]
+        bottom = float(arr.shape[0] - 1 - ink[-1]) * height_pt / arr.shape[0]
+        out[spec["id"]] = {
+            "top_pt": round(top, 2),
+            "bottom_pt": round(bottom, 2),
+            "sum_pt": round(top + bottom, 2),
+            "fraction": round((top + bottom) / height_pt, 4),
+        }
+    return out
+
+
 def area_evidence() -> dict:
     import fitz
 
@@ -534,17 +608,23 @@ def area_evidence() -> dict:
     _edoc, epage = _figure_page(preview, "Syn-L")
     bb = _content_bbox(bpage)
     eb = _content_bbox(epage)
+    bcells = _placed_cells(bpage)
+    ecells = _placed_cells(epage)
+    brow = _row_steps(bcells)
+    erow = _row_steps(ecells)
     dpi = 160
     bpix = bpage.get_pixmap(dpi=dpi, clip=fitz.Rect(*bb))
     epix = epage.get_pixmap(dpi=dpi, clip=fitz.Rect(*eb))
     bimg = Image.frombytes("RGB", (bpix.width, bpix.height), bpix.samples)
     eimg = Image.frombytes("RGB", (epix.width, epix.height), epix.samples)
-    # Same dpi and same page scale. Do not resample one crop onto the other.
+    # Same dpi and the page's own scale. Do not resample one crop onto the other.
     width = max(bimg.width, eimg.width)
-    gap = 28
+    gap = 36
     canvas = Image.new("RGB", (width, bimg.height + eimg.height + gap), "white")
     canvas.paste(bimg, (0, 0))
     canvas.paste(eimg, (0, bimg.height + gap))
+    draw = ImageDraw.Draw(canvas)
+    draw.text((4, bimg.height + 8), "top: recompiled fig:exp5-m (2D). bottom: E2 12-cell. same dpi, no rescale.", fill=(40, 40, 40))
     canvas.save(EVIDENCE / "area-exp5m-vs-e2-same-width.png")
     # Show only the figure on the delivered preview pages (CropBox). MediaBox stays letter.
     pad = 2.0
@@ -573,14 +653,37 @@ def area_evidence() -> dict:
     only.select([0])
     only.save(OUT / "e2-figure-12.pdf")
     only.close()
+    def _cell_block(cells: list[tuple[float, float, float, float]]) -> list[float]:
+        box = _union([(c[0], c[1], c[0] + c[2], c[1] + c[3]) for c in cells])
+        return [round(box[2] - box[0], 2), round(box[3] - box[1], 2)]
+
+    whitespace = _panel_whitespace()
     metrics = {
-        "note": "Same sigconf environment. Crops are figure content bboxes, not the paper MediaBox. exp5-m is the 2D batch-size figure, not a 3D k-sweep float.",
+        "note": (
+            "Same sigconf environment. Figure bboxes union text and vector strokes, "
+            "so a covered right frame would shrink the box. exp5-m is the 2D batch-size "
+            "figure, the nearest legal reference. No 3D k-sweep float was found. "
+            "The earlier 234.4/233.7 pt ratio is withdrawn: that baseline overlapped by 5.13 pt."
+        ),
         "baseline_figure_bbox_pt": [round(v, 2) for v in bb],
         "e2_12_figure_bbox_pt": [round(v, 2) for v in eb],
         "baseline_figure_wh_pt": [round(bb[2] - bb[0], 2), round(bb[3] - bb[1], 2)],
         "e2_12_figure_wh_pt": [round(eb[2] - eb[0], 2), round(eb[3] - eb[1], 2)],
-        "height_ratio_e2_over_baseline": round((eb[3] - eb[1]) / (bb[3] - bb[1]), 4),
+        "baseline_cell_block_wh_pt": _cell_block(bcells),
+        "e2_12_cell_block_wh_pt": _cell_block(ecells),
+        "baseline_placement": brow,
+        "e2_12_placement": erow,
+        "panel_vertical_whitespace_pt": whitespace,
+        "source_tick_pt": 9.0,
+        "placed_cell_pt": round(ecells[0][2], 3) if ecells else None,
+        "placed_tick_pt": round(9.0 * ecells[0][2] / (PANEL_IN * 72), 3) if ecells else None,
     }
+    for label, rows in (("baseline", brow), ("e2", erow)):
+        for row in rows:
+            # The original omits hspace between cell 3 and 4, so that gap is wider.
+            tight = [g for g in row["gaps"] if g["overlap_pt"] > 0]
+            if any(g["overlap_pt"] > 1.2 for g in tight):
+                raise RuntimeError(f"{label} panels overlap more than 1.2 pt: {row}")
     (EVIDENCE / "area-metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     return metrics
 
@@ -674,6 +777,8 @@ def inspect_panels() -> list[str]:
         texts = [w.text or "" for w in words]
         if not any(t.isdigit() and int(t) >= 100 for t in texts):
             issues.append(f"{spec['id']}: no cost numeral inside the page text")
+        if "k" not in texts or "h" not in texts:
+            issues.append(f"{spec['id']}: missing axis name k/h ({sorted(set(texts))[:12]})")
         for word in words:
             x0, y0 = float(word.get("xMin")), float(word.get("yMin"))
             x1, y1 = float(word.get("xMax")), float(word.get("yMax"))

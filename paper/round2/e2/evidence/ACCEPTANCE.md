@@ -1,20 +1,18 @@
-# E2 round-2 acceptance record
+# E2 acceptance record
 
-This is a measurement record, not a visual pass. A parent still has to look at the printed-size figure.
+Measurement record for the parent. Not a visual pass.
 
-## What was wrong, and what this build changes
+## This round
 
-- One preview PDF. Two pages. Page 1 is the 12-cell figure (2×6). Page 2 is the 10-cell derivative (2×5). The title page is not in this PDF.
-- `out/e2-layout-2x6.png` and `out/e2-figure-12.png` are rasters of preview page 1 (CropBox = the figure). `out/e2-layout-2x5.png` is the raster of page 2. `out/e2-figure-12.pdf` is page 1 alone.
-- Old matplotlib montage PDFs are removed. They were a different edition from the TeX panels.
-- Panel MediaBox stays 133.2×133.2 pt. Placed cell is 79.28 pt (`0.33\columnwidth` in this sigconf build). Tick type on the placed page measures 5.36 pt. Legend type measures 6.81 pt. The strings are `Meas. min` and `Pred. min` (no printed backslash).
-- Cost numerals are inside each panel MediaBox (checked with `pdftotext -bbox` on p01–p12). The unit is in the one-line caption: tokens ×10³. Heights are synthetic.
-- Figure bbox height is 234.4 pt against the recompiled `fig:exp5-m` bbox height 233.7 pt (ratio 1.003) in the same sigconf environment. That recompiled figure is the 2D batch-size grid, not a 3D k-sweep float. None was found in `unpacked-paper/exp.tex`.
+Three items only. Tick size, legend size, page count, and the 79.28 pt cell were already checked on `e8e3c0c` and were not rebuilt as a new design.
 
-## Rows
+1. Axis meaning. Each panel PDF has a short `k` on the front axis and `h` on the depth axis. The caption says: front axis \(k\) (fan-in), depth axis \(h\) (segment length); vertical tokens ×10³. Placed `k` / `h` / cost numerals are 5.357 pt. Legend words are 6.806 pt (`Measured`, `Predicted`, `Meas. min`, `Pred. min`).
+2. Inner whitespace. p01 ink (gray < 245) runs from 17.02 pt to 123.05 pt on the 133.2 pt page: empty band 27.16 pt (20.4%), which is 16.2 pt in the 79.28 pt cell. The previous band was 49.3 pt (29.3 pt placed). `pdftotext -bbox` on p01–p12: every word, including `k` and `h` and the cost numerals, is inside 133.2×133.2. Point set unchanged (Syn-A 96 with the five LT gaps; other LT panels 101; SW panels keep the legal domain).
+3. Area evidence. `tex/exp5-baseline-same-env.tex` now keeps the original multiline `\subfigure` breaks. Placed step 78.632 pt, overlap 0.650 pt, on both the exp5-m page and the E2 12-cell page. The 5.13 pt overlap is gone, so the right frame is no longer covered by the next cell. Vector-inclusive figure boxes, same dpi, no rescale: exp5-m 482.27×239.91 pt, E2 479.82×240.96 pt. Cell blocks are both 479.82 pt wide (heights 181.89 and 182.09). The earlier 234.4/233.7 ratio is withdrawn. exp5-m is still the 2D batch-size figure. No 3D k-sweep float was found.
 
-- Page 1 captions: (a)–(f) on one baseline, (g)–(l) on the next.
-- Page 2 captions: (a)–(e), then (f)–(j). Syn-F and Syn-L are omitted. This is a derivative, not an original float.
+## Pages
+
+`out/e2-vldb-preview.pdf` has two pages. CropBox is the figure; MediaBox is letter. Page 1 is 2×6, captions (a)–(f) then (g)–(l). Page 2 is 2×5, captions (a)–(e) then (f)–(j), and the caption says Syn-F and Syn-L are omitted. `out/e2-figure-12.png` matches page 1. `out/e2-layout-2x6.png` is the same raster. `out/e2-layout-2x5.png` matches page 2.
 
 ## Data
 

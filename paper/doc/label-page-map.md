@@ -13,6 +13,7 @@ PDF pages: 32
 | `fig:eg:pointer-rule` | 8 | `integration/fig-pointer.tex` |
 | `fig:eg:sliding_window` | 5 | `integration/fig-sw.tex` |
 | `fig:exp2-surface-2x2` | 14 | `integration/fig-e2-main.tex` |
+| `fig:exp2-surface-2x3` | 30 | `integration/fig-e2-appendix.tex` |
 | `fig:exp3-scale` | 15 | `integration/fig-e3-scale.tex` |
 | `fig:exp4a-covid-n100` | 32 | `integration/fig-e4a-appendix.tex` |
 | `fig:exp4a-covid-n500` | 17 | `integration/fig-e4a-main.tex` |

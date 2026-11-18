@@ -121,7 +121,7 @@ $S\gets[\textsc{QueueProducer}(R_1),\ldots,
     \eIf{$|\mathcal G_j|=1$}{
       Append its only producer to $S_{\mathrm{next}}$\;
     }{
-      Create a pumped sliding-window, binary loser-tree, or segmented
+      Create a pumped sliding-window, binary loser-tree, or LT($h$)
       loser-tree producer $M_j$ over $\mathcal G_j$ with budget $K$ and
       append it to $S_{\mathrm{next}}$\;
     }
@@ -174,7 +174,7 @@ $\mathit{delivered}(M)\gets\mathit{delivered}(M)+|X|$\;
 \label{alg:pipelined_lt_next}
 \KwIn{binary or LT($h$) loser-tree producer $M$, request $c$,
       instruction $\phi$, batch capacity $m$, segment length $h$ when
-      segmented, budget $K$}
+      $h>1$, budget $K$}
 \KwOut{up to $c$ next items}
 
 $c\gets\min(c,K-\mathit{delivered}(M))$; $X\gets[\ ]$\;

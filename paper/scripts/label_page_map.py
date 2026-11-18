@@ -21,6 +21,7 @@ for m in re.finditer(r"\\newlabel\{(sec:[^}]+)\}\{\{[^}]+\}\{(\d+)", aux):
     label_pages[m.group(1)] = int(m.group(2))
 sources = {
     "fig:exp2-surface-2x2": "integration/fig-e2-main.tex",
+    "fig:exp2-surface-2x3": "integration/fig-e2-appendix.tex",
     "fig:exp3-scale": "integration/fig-e3-scale.tex",
     "fig:exp4a-dl20-n100": "integration/fig-e4a-main.tex",
     "fig:exp4a-covid-n500": "integration/fig-e4a-main.tex",
@@ -51,7 +52,9 @@ sources = {
     "tab:params-full": "tables/generated/tab-params-full.tex",
     "sec:appendix-segment-correctness": "appendix.tex (pending stub)",
 }
-out = Path(__file__).resolve().parents[1] / "doc" / "label-page-map.md"
+paper = Path(__file__).resolve().parents[1]
+out = paper / "doc" / "label-page-map.md"
+out.parent.mkdir(parents=True, exist_ok=True)
 lines = [
     "# Label → page → source (auto-generated)\n",
     f"PDF pages: {page_count}\n",
@@ -66,8 +69,10 @@ out.write_text("".join(lines))
 (json_path := out.with_suffix(".json")).write_text(
     json.dumps({"label_pages": label_pages, "pages": page_count}, indent=2) + "\n"
 )
-repo_doc = out.parent.parent.parent / "doc" / "label-page-map.md"
+repo_doc = paper.parent / "doc" / "label-page-map.md"
 if repo_doc.parent.is_dir():
     repo_doc.write_text(out.read_text())
+    repo_json = repo_doc.with_suffix(".json")
+    repo_json.write_text(json_path.read_text())
     print(f"synced {repo_doc}")
 print(f"wrote {out} and {json_path}")

@@ -13,8 +13,8 @@ page_count = int(
 text = subprocess.check_output(["pdftotext", "-layout", str(pdf), "-"], text=True)
 pages = text.split("\f")
 label_pages = {}
-for m in re.finditer(r"\\newlabel\{([^}]+)\}\{\{(\d+)", aux):
-    label_pages[m.group(1)] = int(m.group(2))
+for m in re.finditer(r"\\newlabel\{([^}]+)\}\{\{(\d+)\}\{(\d+)", aux):
+    label_pages[m.group(1)] = int(m.group(3))
 sources = {
     "fig:exp2-surface-2x2": "integration/fig-e2-main.tex",
     "fig:exp3-scale": "integration/fig-e3-scale.tex",

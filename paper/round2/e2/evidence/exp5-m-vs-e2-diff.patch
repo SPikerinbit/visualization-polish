@@ -1,0 +1,20 @@
+--- a/unpacked-paper/exp.tex (fig:exp5-m excerpt)
++++ b/paper/round2/e2/tex/fig-e2-layout-2x6.tex (proposed image swap)
+@@
+-\begin{figure*}[t]
+-  \centering
+-  \includegraphics[width=0.8\linewidth]{fig/panels/exp5/exp5_legend.pdf}
+-  \vspace{-2ex}
+-  \subfigure[\Movies (full rank)]{
+-      \includegraphics[width=0.33\columnwidth]{fig/panels/exp5/exp5_movies_full_tokens.pdf}
+-  }
+-  ... twelve \subfigure lines ...
+-  \caption{Impact of listwise batch size $m$ on cost, latency and quality}
+-  \label{fig:exp5-m}
+-\end{figure*}
++\begin{figure*}[t]
++  \centering
++  \includegraphics[width=\textwidth]{e2-layout-2x6.pdf}
++  \caption{... cost surfaces only; synthetic layout ...}
++  \label{fig:e2-surface-2x6}
++\end{figure*}

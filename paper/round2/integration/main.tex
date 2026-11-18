@@ -1,0 +1,50 @@
+% Round-2 integration shell. No article body, no title page, no per-figure clearpage.
+% Admitted now: tables/pseudocode (PR18 b12cd371) and E2 main 12-cell (PR15 05f921f2).
+% Mechanisms and E3--E5 stay out until a parent-admitted HEAD is named.
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{pvldb}
+\settopmatter{printacmref=false,printfolios=true}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\graphicspath{{../e2/out/}}
+\DeclareRobustCommand{\examplelabel}{Synthetic fixture for tie-break coverage}
+\SetKwProg{Fn}{procedure}{:}{}
+\SetAlgoNlRelativeSize{-1}
+\newcommand{\qpm}[2]{%
+  {\renewcommand{\arraystretch}{0.82}%
+   \begin{tabular}[c]{@{}c@{}}#1\\[-1pt]{\scriptsize$\pm$#2}\end{tabular}}}
+% Table 1 and Table 2 are placed in a two-column banner. A real table float
+% cannot sit inside that minipage, so only the single-column table env is local.
+\makeatletter
+\renewenvironment{table}[1][]{%
+  \noindent\begin{minipage}[t]{\linewidth}%
+  \captionsetup{type=table}%
+  \centering
+}{%
+  \end{minipage}%
+}
+\makeatother
+\begin{document}
+\pagestyle{plain}
+% acmart stays one column until a title. Open two columns without a title page.
+\twocolumn[{%
+  \noindent\begin{minipage}[t]{0.48\textwidth}
+    \input{../tables-pseudocode/tex/tab-datasets.tex}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \input{../tables-pseudocode/tex/tab-algorithms.tex}
+  \end{minipage}\par
+  \vskip 0.6em
+}]
+\input{../tables-pseudocode/tex/generated/exp1-full.tex}
+\input{../tables-pseudocode/tex/generated/exp1-limit.tex}
+\input{../tables-pseudocode/tex/algorithms.tex}
+% E2: per-panel TeX from the admitted SHA. Not a scaled montage PNG.
+% The 10-cell file stays in paper/round2/e2/ and is not this page.
+\input{../e2/tex/fig-e2-exp5-container-12.tex}
+\end{document}

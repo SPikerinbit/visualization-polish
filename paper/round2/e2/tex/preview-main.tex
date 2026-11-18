@@ -1,0 +1,21 @@
+% Body-free preview. \maketitle is compiled only so sigconf \columnwidth matches the
+% paper (79.282pt cells). The build script drops the title page and any blank page.
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{../../../tex/vendor/pvldb}
+\settopmatter{printfolios=false,printccs=false,printacmref=false}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\graphicspath{{../out/}}
+\pagestyle{empty}
+\begin{document}
+\title{E2}
+\author{layout}
+\renewcommand{\shortauthors}{}
+\maketitle
+\pagestyle{empty}
+\thispagestyle{empty}
+\clearpage
+\input{fig-e2-exp5-container-12}
+\clearpage
+\input{fig-e2-exp5-container-10}
+\end{document}

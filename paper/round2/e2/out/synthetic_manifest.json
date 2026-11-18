@@ -1,0 +1,146 @@
+{
+  "warning": "NOT EXPERIMENTAL RESULTS \u2014 schematic heights for layout only.",
+  "camera": {
+    "elev": 26,
+    "azim": -54
+  },
+  "panel_pdf_in": 1.85,
+  "tex_container": "fig-e2-exp5-container-12.tex (per-panel includegraphics)",
+  "panels": [
+    {
+      "id": "p01",
+      "letter": "a",
+      "case": "Syn-A",
+      "n_points": 96,
+      "z_ticks": [
+        160,
+        200,
+        240
+      ]
+    },
+    {
+      "id": "p02",
+      "letter": "b",
+      "case": "Syn-B",
+      "n_points": 101,
+      "z_ticks": [
+        160,
+        200,
+        240
+      ]
+    },
+    {
+      "id": "p03",
+      "letter": "c",
+      "case": "Syn-C",
+      "n_points": 101,
+      "z_ticks": [
+        150,
+        175,
+        200,
+        225
+      ]
+    },
+    {
+      "id": "p04",
+      "letter": "d",
+      "case": "Syn-D",
+      "n_points": 101,
+      "z_ticks": [
+        120,
+        160,
+        200
+      ]
+    },
+    {
+      "id": "p05",
+      "letter": "e",
+      "case": "Syn-E",
+      "n_points": 101,
+      "z_ticks": [
+        150,
+        180,
+        210
+      ]
+    },
+    {
+      "id": "p06",
+      "letter": "f",
+      "case": "Syn-F",
+      "n_points": 96,
+      "z_ticks": [
+        150,
+        180,
+        210,
+        240
+      ]
+    },
+    {
+      "id": "p07",
+      "letter": "g",
+      "case": "Syn-G",
+      "n_points": 43,
+      "z_ticks": [
+        150,
+        180,
+        210
+      ]
+    },
+    {
+      "id": "p08",
+      "letter": "h",
+      "case": "Syn-H",
+      "n_points": 46,
+      "z_ticks": [
+        150,
+        175,
+        200
+      ]
+    },
+    {
+      "id": "p09",
+      "letter": "i",
+      "case": "Syn-I",
+      "n_points": 46,
+      "z_ticks": [
+        150,
+        180,
+        210,
+        240
+      ]
+    },
+    {
+      "id": "p10",
+      "letter": "j",
+      "case": "Syn-J",
+      "n_points": 46,
+      "z_ticks": [
+        120,
+        160,
+        200
+      ]
+    },
+    {
+      "id": "p11",
+      "letter": "k",
+      "case": "Syn-K",
+      "n_points": 46,
+      "z_ticks": [
+        160,
+        200,
+        240
+      ]
+    },
+    {
+      "id": "p12",
+      "letter": "l",
+      "case": "Syn-L",
+      "n_points": 46,
+      "z_ticks": [
+        160,
+        200,
+        240
+      ]
+    }
+  ]
+}

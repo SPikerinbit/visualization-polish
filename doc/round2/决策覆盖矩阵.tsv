@@ -1,0 +1,65 @@
+需求ID	现行需求	来源范围	产物路径或责任目录	路径类型	验收点	当前状态	已知证据	缺口或限制	最终commit	新QA报告及结论
+G01	完成本轮验收并commit/push全部决策和实现基线、完成下一bot交接	t63当前授权	目标文档目录及最终整合分支（待父锁定）	仓库相对路径（除明确BOX项）	四文档已入仓；完整SHA/分支/PR/push证据与交接可读	待最终整合	本地round2-handoff-seed四文件	本地seed不等于commit/push；此代理未操作repo	待最终整合补	待新HEAD验收补
+G02	所有任务Fast=false，按合适模型/思考路由；无周额度上限	最新覆盖11:04/当前授权	四路任务记录与最终交接	仓库相对路径（除明确BOX项）	Fast关闭；不再按失效30%/50%停止；不虚构用量	当前要求已明确	主代理14:30恢复说明	实际最终任务配置随新报告留痕	待最终整合补	待新HEAD验收补
+G03	最终无正文VLDB模板，仅图表/伪代码/必要caption	本轮总要求	最终TeX入口（待锁定）	仓库相对路径（除明确BOX项）	无论文正文，无Layout Supplement替代，无旧占位页	待最终整合			待最终整合补	待新HEAD验收补
+G04	TeX Live2026 pdfLaTeX可复现	既有确认	最终构建脚本/README（待补）	仓库相对路径（除明确BOX项）	版本/命令/退出码/日志/PDF hash可复现	待命令与编译证据			待最终整合补	待新HEAD验收补
+G05	原尺寸对照、压白而非缩字；测试不等于视觉合格	本轮总要求	各包evidence/及最终QA	仓库相对路径（除明确BOX项）	同论文尺寸对照+肉眼+科学检查独立记录	待最终QA			待最终整合补	待新HEAD验收补
+G06	可复用原TeX尽量复用，不盲改tex/src两树	t45及集成约束	最终TeX入口与diff	仓库相对路径（除明确BOX项）	明确真实入口；原容器diff可追踪	待最终QA			待最终整合补	待新HEAD验收补
+G07	真实时间线：11:50–14:27停滞，14:30才恢复	当前主代理事实	NEXT-BOT-HANDOFF-SEED.md §3	仓库相对路径（除明确BOX项）	不写持续运行，不以任务提交冒充完成	事实已记录未终验			待最终整合补	待新HEAD验收补
+M01	机制图v2图形/构图+柔化v1配色，淡黄保留	t33起及t59	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	全套统一；非第一版构图回退	待最终QA			待最终整合补	待新HEAD验收补
+M02	SW单栏，用户v2仅换色和局部精修，同步图例	本轮SW确认	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	对用户v2构图逐项比，非大图简单缩小	待最终QA			待最终整合补	待新HEAD验收补
+M03	统一LT(h)单栏，v2构图，仅换色/局部精修	本轮LT确认	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	无LT/segmented双家族，h=1非新增算法	待最终QA			待最终整合补	待新HEAD验收补
+M04	Pointer单栏两行三列，v2构图，图例简字/共享，箭头对齐	本轮pointer确认	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	两行三列保持、前后可比、无多余说明	待最终QA			待最终整合补	待新HEAD验收补
+M05	Pointer状态/耗尽因果正确，不把所有耗尽画flip，不编状态	实现正确性	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	与validated_states及原v2轨迹一致；replay非新LLM调用	待最终QA			待最终整合补	待新HEAD验收补
+F01	Framework左抽象有序runs，不具体数字	t58–t60	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	没有16元素长例替代抽象框架	待最终QA			待最终整合补	待新HEAD验收补
+F02	Framework中间逐层归并是主线	t58批准	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	多组runs汇合可追踪，非三个不相连框	待最终QA			待最终整合补	待新HEAD验收补
+F03	旁侧cost model选(k,h)明确作用归并组织	t58批准	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	参数输出及作用点明确，不悬空公式	待最终QA			待最终整合补	待新HEAD验收补
+F04	Full/LIMIT输出，反向pull请求下传，结果上传，满K停止	t58批准及当前返修	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	箭头方向/停止对象正确，无独立大例	返修后待新QA	主代理指出反向pull返修	旧图方向需新HEAD实际看	待最终整合补	待新HEAD验收补
+F05	Framework扁平低高度通栏、实际面积小	t60	paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	压上下留白，字体最终可读，不高堆模块	未验-4.1pt属于SW/LT单栏，不是Framework通栏；Framework待查反向pull	父纠正：4.1pt是SW/LT；Framework是反向pull	4.1pt不是批准基线	待最终整合补	待新HEAD验收补
+T01	Table1完整批准版本不改，包括caption和准备缺口	本轮Table1及当前返修	paper/round2/tables-pseudocode/tex/tab-datasets.tex	仓库相对路径（除明确BOX项）	与批准源完整比较，含DL22/Robust04准备缺口提示	条件通过-表1版式与批准caption（父Read；非实测）	BOX:round2-tables-review/AUDIT.md §其他表	旧首稿表体同但caption不同，未通过	待最终整合补	待新HEAD验收补
+T02	Table2一算法一行，按来源分组，Sort/Select合行	本轮Table2	paper/round2/tables-pseudocode/tex/tab-algorithms.tex	仓库相对路径（除明确BOX项）	OrderByLLM/ListK/LOTUS/Setwise/ours分组；10行	条件通过-分组结构随PR18纳入；公式未验	BOX:round2-tables-review/AUDIT.md	结构准入非公式通过	待最终整合补	待新HEAD验收补
+T03	Table2未核公式/缺式不得冒称科学通过	科学验收	paper/round2/tables-pseudocode/tex/tab-algorithms.tex	仓库相对路径（除明确BOX项）	unchecked/缺项与P(k)/mu_sw等定义可追溯或明确未核	未验-公式/Setwise缺式/P(k)/mu_sw	BOX:round2-tables-review/AUDIT.md	Setwise缺公式，finite.py缺失	待最终整合补	待新HEAD验收补
+E101	E1仅Full/LIMIT两表，model/dataset全横向	本轮E1	paper/round2/tables-pseudocode/tex/generated/exp1-{full,limit}.tex	仓库相对路径（除明确BOX项）	只两表，无每model拆表或对照页	条件通过-仅Full与LIMIT两表（合成版式）	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+E102	每model13列：6质量std/3组Token/1latency/3整数序位	本轮E1	paper/round2/tables-pseudocode/tex/generated/	仓库相对路径（除明确BOX项）	6+3+1+3，方法名不计入；各model并排	条件通过-每模型13列合成示例	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+E103	六集及Token组求和：Q9、TREC(DL20+DL22)、BEIR(COVID+DBpedia+Robust04)	t43及真实规范	paper/round2/tables-pseudocode/src/与tex/generated/exp1-audit.json	仓库相对路径（除明确BOX项）	组内各集平均Token相加，不改均值或组三票	条件通过-合成聚合与存储一致；非实测	BOX:round2-tables-review/STATS.md		待最终整合补	待新HEAD验收补
+E104	Full Spearman、LIMIT10 NDCG@10，排列std真实定义	真实实验规范及本轮质量列	paper/round2/tables-pseudocode/数据adapter/审计（最终待补）	仓库相对路径（除明确BOX项）	原始候选/指标/排列/查询单位和std convention有证据	未验-真实测量与std定义	BOX:visualization-polish/paper-experiments.md §3	本地measurement.md全文未取得，不猜std细则	待最终整合补	待新HEAD验收补
+E105	Latency六集各自均值再等权平均，独立延迟批次	t57统计确认	paper/round2/tables-pseudocode/src/与审计	仓库相对路径（除明确BOX项）	六集各1/6，不按query混池	条件通过-合成六集等权latency；非实测批次	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+E106	三类序位按六集等权平均名次排序，原始精度，不四舍五入	t43/t57	paper/round2/tables-pseudocode/src/ranking.py	仓库相对路径（除明确BOX项）	每集midrank、六集主键、整数序位复算留痕	条件通过-合成序位与未舍入主键一致	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+E107	同平均名次用具体原指标合规tie-break，助手定细则	t57	paper/round2/tables-pseudocode/src/ranking.py及STATS.md	仓库相对路径（除明确BOX项）	Token/latency六集均值低优先；质量方向尺度明确；不按名字/舍入强排	条件通过-缺n禁止std；非显著性	BOX:round2-tables-review/AUDIT.md	后备std无合法n不可用；规则必须公开	待最终整合补	待新HEAD验收补
+E108	合成展示可改fixture输入标测试覆盖；保留全等测试，真实数据/规则不改	当前返修授权与科学边界	paper/round2/tables-pseudocode/src/synthetic.py及src/tests/	仓库相对路径（除明确BOX项）	展示覆盖无并列路径；真全等测试如实不制造区别	条件通过-展示fixture与全等测试分离	旧9B Full latency复制向量导致9/9	待新展示及全等回归测试分离证据	待最终整合补	待新HEAD验收补
+E109	无差异不写显著，未测/NULL不造结果，synthetic标识清楚	本轮统计边界	paper/round2/tables-pseudocode/STATS.md及caption/数据审计	仓库相对路径（除明确BOX项）	排序非显著性；缺失保持原因；不以10排列当10query	条件通过-synthetic披露；排序非显著			待最终整合补	待新HEAD验收补
+E110	真实模型身份核实，不静默用标题改condition	来源冲突	paper/round2/tables-pseudocode/模型元信息/真实condition manifest	仓库相对路径（除明确BOX项）	Qwen3.8-27B旧文与3.5-27B当前表冲突由部署证据解决	未验-型号以部署manifest锁定；展示为Qwen3.5-27B合成	BOX:paper-experiments.md与round2-tables-review/STATS.md	不能猜型号	待最终整合补	待新HEAD验收补
+E201	E2只成本预测实测，删Spearman	t44纠正	paper/round2/e2/out/与tex/	仓库相对路径（除明确BOX项）	无右侧质量/inset	条件通过-主12图仅成本（合成，父Read）			待最终整合补	待新HEAD验收补
+E202	原3D脚本风格，每(k,h)配置点，曲面不被巨点盖住	t44–t45	paper/round2/e2/plot_surfaces.py与out/panels/	仓库相对路径（除明确BOX项）	逐点合法；蓝实测橙预测/同视角；无稀疏退化	条件通过-主12图风格已父读；仍为合成非实验			待最终整合补	待新HEAD验收补
+E203	通栏10与12图两候选，压白，与原实际面积对照	t45	paper/round2/e2/out/e2-layout-2x{5,6}.{pdf,png}	仓库相对路径（除明确BOX项）	两个候选；统一宽度/完整bbox，无失真缩放	条件通过-主2×6与exp5-m面积差0.46%；10格为同包候选未单列替代主图	BOX:round2-e2-independent-audit/recheck/audit/RECHECK-BRIEF.md	旧内部白37%、原参照遮框需修	待最终整合补	待新HEAD验收补
+E204	复用原k-sweep TeX只换图，来源不能假称已找到	t45	paper/round2/e2/tex/fig-e2-exp5-container-{10,12}.tex	仓库相对路径（除明确BOX项）	明确现用2D exp5-m逐panel，未找到原3D容器不报闭合	未通过闭合-原3D k-sweep TeX仍缺失；exp5-m是2D替代参照	BOX:round2-e2-independent-audit/recheck/evidence/TEX_CONTAINER_REPORT.md	原3D TeX未定位；不得声称只换图已完全通过	待最终整合补	待新HEAD验收补
+E205	k/h/cost轴方向单位与完整刻度可读	科学可读性返修	paper/round2/e2/tex/与out/panels/	仓库相对路径（除明确BOX项）	TeX公共说明/轴文字对应方向，无只剩数字	条件通过-主图caption含k/h/tokens；刻度5.357pt无clip	BOX:round2-e2-independent-audit/recheck/audit/RECHECK-BRIEF.md		待最终整合补	待新HEAD验收补
+E206	非法/缺测区留空，最优点读对应实测高度，重合双角色	科学实现约束	paper/round2/e2/plot_surfaces.py与输入manifest	仓库相对路径（除明确BOX项）	不跨非法域拟合、不把预测高度当所选实际成本	未单列终验-非法域留空与实测高度角色			待最终整合补	待新HEAD验收补
+E207	CropBox正确观察、不二次整组缩放、不用缺矢量bbox假验面积	独立审核返修	paper/round2/e2/evidence/与tex/原参照	仓库相对路径（除明确BOX项）	完整无遮挡原参照；统一版宽；测量计矢量/字/图	条件通过-exp5-m右框完整、空白约20.6%；勿用131758B旧PNG	BOX:round2-e2-independent-audit/recheck/audit/RECHECK-BRIEF.md		待最终整合补	待新HEAD验收补
+E301	E3单栏4列2行8图，预测实测拆开	t47/t48纠正	paper/round2/experiments/	仓库相对路径（除明确BOX项）	实际八图、不是通栏	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E302	E3 SW/LT/Full/LIMIT标题TeX外置、图例一行	t47	paper/round2/experiments/	仓库相对路径（除明确BOX项）	文字不嵌面板；共享一行图例	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E303	E3三横轴值收紧、Fig8实际面积、白底浅灰格、保采样点	t45–t48	paper/round2/experiments/	仓库相对路径（除明确BOX项）	有坐标支点，不造数据走势；最终尺寸可读	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E304	E3真实n和固定(k,h)需最终prompt成本模型冻结	真实规范	paper/round2/experiments/真实输入manifest（待接）	仓库相对路径（除明确BOX项）	参考1k/5k/10k不冒称已完成采集/最终绑定	待真实数据接入			待最终整合补	待新HEAD验收补
+E4A1	E4a单栏、完整(k,h)横轴、白底浅灰网格、无分区	t49	paper/round2/experiments/	仓库相对路径（除明确BOX项）	横轴无需猜编码，无彩色背景	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E4A2	Prefix cache Off/On图例最前，最优角色随后	t51	paper/round2/experiments/	仓库相对路径（除明确BOX项）	第一眼看懂两条曲线	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E4A3	真实点后置不阻塞，合成点也合法	t49/t50	paper/round2/experiments/输入/合法域测试	仓库相对路径（除明确BOX项）	n100 m20 r5不能k8；不clamp伪标签；不声称真实重叠小	待新工件QA/真实选点后接			待最终整合补	待新HEAD验收补
+E4B1	E4b单栏、删背景色带、删局部放大	t51	paper/round2/experiments/	仓库相对路径（除明确BOX项）	无inset变相保留	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E4B2	beta离线定价与最优角色正确	真实规范	paper/round2/experiments/数据adapter/图注	仓库相对路径（除明确BOX项）	五展示beta，完整七值保留；beta1 On非Off，不重跑排序	待真实数据接入			待最终整合补	待新HEAD验收补
+E4C1	E4c单栏四图Full/LIMIT×Off/On，不按dataset分面	t52	paper/round2/experiments/	仓库相对路径（除明确BOX项）	单栏2×2当前执行布局	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E4C2	质量成本各先每集均值，再DL20/COVID等权；不per-query	t52/t57	paper/round2/experiments/聚合输入/测试	仓库相对路径（除明确BOX项）	各集3query等权后两集各1/2，均值点	待数据与新工件QA			待最终整合补	待新HEAD验收补
+E4C3	红色虚线引导必须核参考含义、有数据支撑	t58	paper/round2/experiments/红线计算/图注/来源	仓库相对路径（除明确BOX项）	若Pareto则由均值非支配点算，描述性非拟合，无造端点	待语义与数据QA	BOX:round2-line-references/NOTES.md	不能把笔记转述当最终核义证据	待最终整合补	待新HEAD验收补
+E4C4	ListK为主外参考，简洁清晰，点形+颜色不乱连算法	t52	paper/round2/experiments/样式与evidence/	仓库相对路径（除明确BOX项）	原论文线点色优先；共享图例/短标题单栏可读	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E501	E5保满意构图，通栏八图合并Off/On，不单栏	t53/t54纠正	paper/round2/experiments/	仓库相对路径（除明确BOX项）	四列两行当前执行，不重构	工件/编译证据待补			待最终整合补	待新HEAD验收补
+E502	E5仅微调色线压白，Full独立不与LIMIT连线	t53/t54	paper/round2/experiments/	仓库相对路径（除明确BOX项）	Full与LIMITn不合并/不当更大K，NDCG质量端点一致	工件/编译证据待补			待最终整合补	待新HEAD验收补
+D01	删除E4验证汇总表及引用，不转附录	t55	最终TeX入口/引用检查	仓库相对路径（除明确BOX项）	无tab:exp4-validation等旧表残留	待最终整合			待最终整合补	待新HEAD验收补
+D02	删除独立LIMIT图及引用，只融framework	t58	最终TeX入口与paper/round2/mechanisms/	仓库相对路径（除明确BOX项）	无独立LIMIT图/附录复活	待最终整合			待最终整合补	待新HEAD验收补
+S01	全部折线先原论文实际线点色，再已有顶会/ListK微调	t51–t52	paper/round2/experiments/样式/evidence/	仓库相对路径（除明确BOX项）	133.2pt源面板/1.6pt线/4.8pt点按最终缩放复核，不换预览风	待新工件视觉QA	BOX:round2-line-references/NOTES.md		待最终整合补	待新HEAD验收补
+S02	白底浅灰格在下层，线型/点形区分，无无据误差带/拟合	本轮及科学边界	paper/round2/experiments/	仓库相对路径（除明确BOX项）	不凭美观改数据，缩小后图例/轴可读	待新工件视觉QA			待最终整合补	待新HEAD验收补
+P01	伪代码保漂亮排版，提炼关键动作与统一符号	t56	paper/round2/tables-pseudocode/tex/algorithms.tex	仓库相对路径（除明确BOX项）	归并/winner/更新/按需停止可见，删机械冗余	条件通过-五段父Read page3；非实现等价			待最终整合补	待新HEAD验收补
+P02	必要子过程可用但不得含糊函数藏SW/LT核心	t56	paper/round2/tables-pseudocode/tex/algorithms.tex	仓库相对路径（除明确BOX项）	读主过程能辨关键机制，不以短行数牺牲正确性	条件通过-核心步骤可辨；非实现等价			待最终整合补	待新HEAD验收补
+P03	Replay返回/副作用与调用方解包一致	审核科学修复	paper/round2/tables-pseudocode/tex/algorithms.tex	仓库相对路径（除明确BOX项）	Algorithm4/5接口一致	条件通过-Replay返回(w,l,p)由调用方存储	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+P04	显式LIMIT且K缺省/0/耗尽等边界有定义	审核科学修复	paper/round2/tables-pseudocode/tex/algorithms.tex及测试	仓库相对路径（除明确BOX项）	无未定义K；Full/LIMIT逻辑清楚	条件通过-显式LIMIT无K则耗尽	BOX:round2-tables-review/AUDIT.md		待最终整合补	待新HEAD验收补
+H01	历史失败与旧报告不可冒充final；每路新HEAD再验	本轮交接	NEXT-BOT-HANDOFF-SEED.md及最终QA	仓库相对路径（除明确BOX项）	最终产物hash与新QA对应，不继承旧pass	待最终整合			待最终整合补	待新HEAD验收补
+H02	四路branch/HEAD、PR13 wrapper关系、复现命令与hash补齐	当前交接	NEXT-BOT-HANDOFF-SEED.md §2/6/7	仓库相对路径（除明确BOX项）	PR15/16/17/18最新身份真实；未知命令不猜	待最终整合			待最终整合补	待新HEAD验收补
+H03	下一bot接真实数据，不重开已定视觉；保缺失与全等测试	当前交接	NEXT-BOT-HANDOFF-SEED.md §8	仓库相对路径（除明确BOX项）	数据身份可追溯，重算统计/最优/红线并检查溢出	待真实数据接入			待最终整合补	待新HEAD验收补
+H04	所有决策与来源可在仓库中取回，非仅BOX绝对路径	t63	最终文档/refs/manifest（待父接入）	仓库相对路径（除明确BOX项）	seed落仓、原件必要副本/链接/hash齐，坏附件路径不充足	待最终整合			待最终整合补	待新HEAD验收补

@@ -1,0 +1,46 @@
+% Table 2. Call-count expressions are transcribed, not derived or checked.
+\begin{table}[t]
+\centering
+\caption{One algorithm per row.
+Horizontal rules separate sources, in order: the first four from OrderByLLM, two from ListK, LOTUS Quick, Setwise Heap, and ours.
+ListK Sort/Select is one row: the Full column is LMPQSort and the LIMIT column is LMPQSelect.
+Tournament is listwise tournament top~$K$.
+LT($h$) is one family; $h{=}1$ is the classical tree, not another row.
+Every call-count expression is an unchecked draft transcribed from the integration note.
+Setwise Heap has no expression.
+None of these expressions was re-derived or checked against the implementation.}
+\label{tab:ranking-algorithms}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Type} & \textbf{Full} & \textbf{LIMIT $K$} \\
+\midrule
+Pointwise & Point & $\mathcal{O}(n)$ & $\mathcal{O}(n)$ \\
+Ext.\ Pointwise & Point & $\mathcal{O}(n/m)$ & $\mathcal{O}(n/m)$ \\
+Ext.\ Bubble & List & $\mathcal{O}(n^{2}/m^{2})$ & $\mathcal{O}(Kn/m^{2})$ \\
+Ext.\ Merge & List & $\mathcal{O}((n/m)[1{+}\ell_m])$ & $\mathcal{O}((n/m)[2{+}\log(K/m)])$ \\
+\midrule
+ListK Sort/Select & List & $\mathcal{O}(n\log n/\chi_p{+}n)$ & $\mathcal{O}((p{+}1)n/\psi_p(\kappa))$ \\
+Tournament & List & $\mathcal{O}(b_m{+}(n{-}1)\ell_m)$ & $\mathcal{O}(b_m{+}(K{-}1)\ell_m)$ \\
+\midrule
+Lotus Quick & Pair & $\mathcal{O}(n\log n)$ & $\mathcal{O}(n{+}K\log K)$ \\
+\midrule
+Setwise Heap & Set & --- & --- \\
+\midrule
+SW & List & $\mathcal{O}(r{+}nP(k)/\mu_{\mathrm{sw}})$ & $\mathcal{O}(r{+}KP(k)/\mu_{\mathrm{sw}})$ \\
+LT($h$) & List & $\mathcal{O}(r{+}nP(k)/h)$ & $\mathcal{O}(r{+}KP(k)/h)$ \\
+\bottomrule
+\end{tabular*}
+\vspace{0.35em}
+
+{\footnotesize
+Symbols are copied with the draft, not re-derived:
+$n$ rows, $m$ list size, $K$ limit, $r{=}\lceil n/m\rceil$,
+$\ell_m{=}\log(n/m)$, $b_m{=}(n{-}1)/(m{-}1)$,
+$\kappa{=}K/n$, $\chi_p{=}(m{-}p)\log(p{+}1)$,
+$\psi_p(\kappa){=}(m{-}p)[p{-}1{+}\kappa^{p+1}{+}(1{-}\kappa)^{p+1}]$,
+and $p$ the pivot count.
+$P(k)$ and $\mu_{\mathrm{sw}}$ remain the draft's own symbols.\par}
+\end{table}

@@ -1,0 +1,224 @@
+{
+  "note": "Same sigconf environment. Figure bboxes union text and vector strokes, so a covered right frame would shrink the box. exp5-m is the 2D batch-size figure, the nearest legal reference. No 3D k-sweep float was found. The earlier 234.4/233.7 pt ratio is withdrawn: that baseline overlapped by 5.13 pt.",
+  "baseline_figure_bbox_pt": [
+    66.09,
+    83.69,
+    548.36,
+    323.59
+  ],
+  "e2_12_figure_bbox_pt": [
+    66.09,
+    83.69,
+    545.91,
+    324.64
+  ],
+  "baseline_figure_wh_pt": [
+    482.27,
+    239.91
+  ],
+  "e2_12_figure_wh_pt": [
+    479.82,
+    240.96
+  ],
+  "baseline_cell_block_wh_pt": [
+    479.82,
+    181.89
+  ],
+  "e2_12_cell_block_wh_pt": [
+    479.82,
+    182.09
+  ],
+  "baseline_placement": [
+    {
+      "y": 101.0,
+      "n": 6,
+      "x0": 66.09,
+      "width": 79.282,
+      "gaps": [
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 86.006,
+          "overlap_pt": -6.724
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        }
+      ]
+    },
+    {
+      "y": 204.0,
+      "n": 6,
+      "x0": 66.09,
+      "width": 79.282,
+      "gaps": [
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 86.006,
+          "overlap_pt": -6.724
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        }
+      ]
+    }
+  ],
+  "e2_12_placement": [
+    {
+      "y": 102.0,
+      "n": 6,
+      "x0": 66.09,
+      "width": 79.282,
+      "gaps": [
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 86.006,
+          "overlap_pt": -6.724
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        }
+      ]
+    },
+    {
+      "y": 205.0,
+      "n": 6,
+      "x0": 66.09,
+      "width": 79.282,
+      "gaps": [
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 86.006,
+          "overlap_pt": -6.724
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        },
+        {
+          "step_pt": 78.632,
+          "overlap_pt": 0.65
+        }
+      ]
+    }
+  ],
+  "panel_vertical_whitespace_pt": {
+    "p01": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p02": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p03": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p04": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p05": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p06": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p07": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p08": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p09": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p10": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p11": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    },
+    "p12": {
+      "top_pt": 17.02,
+      "bottom_pt": 10.15,
+      "sum_pt": 27.16,
+      "fraction": 0.2039
+    }
+  },
+  "source_tick_pt": 9.0,
+  "placed_cell_pt": 79.282,
+  "placed_tick_pt": 5.357
+}

@@ -128,9 +128,25 @@ def _boxes(style: str) -> dict[tuple[str, str], tuple[float, float, float, float
     return {key: (x / WIDTH_IN, y / height, pw / WIDTH_IN, ph / height) for key, (x, y, w, h) in boxes.items()}
 
 
-def _style_text(style: str, method: dict) -> tuple[str, float]:
+def _listk_text(metric: str) -> tuple[str, str]:
+    if metric == "full":
+        return "ListK Sort", "Sort"
+    return "ListK Select", "Select"
+
+
+def _legend_label(method: dict, metric: str) -> str:
+    if method["id"] == "listk":
+        legend, _ = _listk_text(metric)
+        return f"{method['number']}  {legend}"
+    return f"{method['number']}  {method['legend']}"
+
+
+def _style_text(style: str, method: dict, metric: str) -> tuple[str, float]:
     if style == "numbered":
         return str(method["number"]), NUMBER_PT
+    if method["id"] == "listk":
+        _, short = _listk_text(metric)
+        return short, DIRECT_PT
     return method["short"], DIRECT_PT
 
 
@@ -190,7 +206,7 @@ def _place_panel(ax, fig, renderer, rows, methods, style, metric, sizes):
         method = by_id[row["method"]]
         px, py = ax.transData.transform((row["x"], row["y"]))
         markers.append({"id": method["id"], "x": float(px), "y": float(py), "r": radius})
-        text, size = _style_text(style, method)
+        text, size = _style_text(style, method, metric)
         label_sizes[method["id"]] = sizes[(text, size)]
     placed = place_labels(markers, label_sizes, bounds, dpi=fig.dpi)
     inv = ax.transData.inverted()
@@ -206,7 +222,7 @@ def _place_panel(ax, fig, renderer, rows, methods, style, metric, sizes):
             dx, dy = MANUAL_NUDGE_PT[key]
             cx += dx * fig.dpi / 72.0
             cy += dy * fig.dpi / 72.0
-        text, size = _style_text(style, method)
+        text, size = _style_text(style, method, metric)
         data_xy = inv.transform((cx, cy))
         artist = ax.text(
             data_xy[0],
@@ -288,7 +304,7 @@ def render_figure(metric: str, style: str) -> dict:
                 markeredgewidth=0.4,
                 markersize=7.6,
                 lw=0,
-                label=f"{method['number']}  {method['legend']}",
+                label=_legend_label(method, metric),
             )
             for method in METHODS
         ]
@@ -306,7 +322,7 @@ def render_figure(metric: str, style: str) -> dict:
     renderer = fig.canvas.get_renderer()
     samples = []
     for method in METHODS:
-        text, size = _style_text(style, method)
+        text, size = _style_text(style, method, metric)
         samples.append((text, size))
     sizes = _measure(fig, renderer, samples)
     stored = {}

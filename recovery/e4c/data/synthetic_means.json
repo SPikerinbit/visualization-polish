@@ -36,8 +36,8 @@
       "legend": "Pointwise",
       "short": "PW",
       "e1_name": "OrderByLLM Pointwise",
-      "color": "#0072B2",
-      "marker": "o"
+      "color": "#E7298A",
+      "marker": "p"
     },
     {
       "id": "ext_pointwise",
@@ -63,8 +63,8 @@
       "legend": "External Merge",
       "short": "Merge",
       "e1_name": "External Merge",
-      "color": "#D55E00",
-      "marker": "^"
+      "color": "#332288",
+      "marker": "<"
     },
     {
       "id": "listk",
@@ -108,8 +108,8 @@
       "legend": "SW",
       "short": "SW",
       "e1_name": "SW",
-      "color": "#E7298A",
-      "marker": "p"
+      "color": "#d62728",
+      "marker": "o"
     },
     {
       "id": "lt",
@@ -117,8 +117,8 @@
       "legend": "LT",
       "short": "LT",
       "e1_name": "LT",
-      "color": "#332288",
-      "marker": "<"
+      "color": "#1f77b4",
+      "marker": "^"
     }
   ],
   "points": [

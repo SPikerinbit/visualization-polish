@@ -7,16 +7,16 @@ stored and must not be plotted. These numbers are not measurements.
 from __future__ import annotations
 
 METHODS = [
-    {"id": "pointwise", "number": 1, "legend": "Pointwise", "short": "PW", "e1_name": "OrderByLLM Pointwise", "color": "#0072B2", "marker": "o"},
+    {"id": "pointwise", "number": 1, "legend": "Pointwise", "short": "PW", "e1_name": "OrderByLLM Pointwise", "color": "#E7298A", "marker": "p"},
     {"id": "ext_pointwise", "number": 2, "legend": "Ext. Pointwise", "short": "ExtPW", "e1_name": "Ext. Pointwise", "color": "#E69F00", "marker": "s"},
     {"id": "bubble", "number": 3, "legend": "External Bubble", "short": "Bubble", "e1_name": "External Bubble", "color": "#009E73", "marker": "D"},
-    {"id": "merge", "number": 4, "legend": "External Merge", "short": "Merge", "e1_name": "External Merge", "color": "#D55E00", "marker": "^"},
+    {"id": "merge", "number": 4, "legend": "External Merge", "short": "Merge", "e1_name": "External Merge", "color": "#332288", "marker": "<"},
     {"id": "listk", "number": 5, "legend": "ListK", "short": "ListK", "e1_name": "ListK Sort (Full) / ListK Select (LIMIT 10)", "color": "#CC79A7", "marker": "v"},
     {"id": "tournament", "number": 6, "legend": "Tournament", "short": "Tourn", "e1_name": "Tournament", "color": "#6A3D9A", "marker": "P"},
     {"id": "lotus", "number": 7, "legend": "Lotus Quick", "short": "Lotus", "e1_name": "Lotus Quick", "color": "#A6761D", "marker": "X"},
     {"id": "setwise", "number": 8, "legend": "Setwise Heap", "short": "SetH", "e1_name": "Setwise Heap", "color": "#882255", "marker": "h"},
-    {"id": "sw", "number": 9, "legend": "SW", "short": "SW", "e1_name": "SW", "color": "#E7298A", "marker": "p"},
-    {"id": "lt", "number": 10, "legend": "LT", "short": "LT", "e1_name": "LT", "color": "#332288", "marker": "<"},
+    {"id": "sw", "number": 9, "legend": "SW", "short": "SW", "e1_name": "SW", "color": "#d62728", "marker": "o"},
+    {"id": "lt", "number": 10, "legend": "LT", "short": "LT", "e1_name": "LT", "color": "#1f77b4", "marker": "^"},
 ]
 
 # (metric, dataset, state, method) -> (equivalent tokens, quality)

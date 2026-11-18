@@ -1,46 +1,53 @@
-% Experiment 4a fragment. Suggested insertion into the new experiment-4 section.
-% Do not replace fig:exp4-full or fig:exp4-topk: those answer a different question.
-% Labels below are suggestions, not confirmed. Both layouts are proposals.
-% The drawings are 178 mm wide. \includegraphics[width=\textwidth] scales them
-% to the VLDB sigconf text width. This file is not a layout supplement.
+% Experiment 4a — compact layout A (primary). Synthetic drawing sample only.
+% Do not replace fig:exp4-full or fig:exp4-topk.
+% Legacy proposal-B PNG/PDF in the same folder are an untouched reference.
 %
-% From the paper root, either copy the PDFs beside the paper figures or add:
-%   \graphicspath{{recovery/e4a/figures/}}
+% \graphicspath{{recovery/e4a/figures/}}
+
+\newcommand{\eFourAcaptionshared}{%
+  \emph{Synthetic layout sample only; not an experimental result.}
+  No cache or model advantage is claimed.
+  Qwen3.5-9B; one representative query per dataset; $\beta{=}0$; unit is \emph{input tokens}, not dollars.
+  Off is measured input $U$. On-cold is measured $U{-}Q$ on a separate synthetic series (not a shared Off ledger).
+  Blue: Off. Orange: On-cold.
+  Open diamond: that state's predicted configuration. Star: that state's minimum over the \emph{eight displayed} $(k,h)$ categories only---not the global minimum over the full SW/LT legal domain (46/101 points at $m{=}20$).
+  Both marks sit on the measured curve at the chosen configuration; a combined mark means both roles share one $(k,h)$.
+  The horizontal axis is categorical: ticks are $h$, grouped by $k$; lines join this display subset only.
+  Formal data should compute the four roles on the full legal domain, then choose a display set that includes those configurations.}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{e4a-layout-a-dl20.pdf}
-  \caption{Layout proposal A, DL20 representative-query slot (synthetic sample, not an experimental result).
-  9B, one draw per condition, $\beta=0$.
-  Off is measured input $U$. On-cold is measured input minus the measured cache hit, $U-Q$.
-  Blue is Off and orange is On-cold. An open diamond is that state's predicted configuration; a star is that state's measured minimum.
-  Both marks are drawn on the measured curve. Where the two roles share one $(k,h)$, they use one combined mark.
-  Ticks are $h$, grouped by $k$. The line joins this display subset only and does not fill in omitted legal pairs.
-  Every $n{=}100$ panel in both proposals shares one $y$ scale; every $n{=}500$ panel shares a second scale.
-  The axis is equivalent input tokens, not dollars.
-  No cache or selection advantage is claimed.}
-  \label{fig:exp4a-layout-a-dl20}
+  \includegraphics[width=\textwidth]{e4a-compact-dl20-n100.pdf}
+  \caption{Prefix-cache cost shapes, DL20 representative query, $n{=}100$ (synthetic layout).
+  Rows: SW / LT. Columns: Full / LIMIT10.
+  All four panels share one $y$ scale for this~$n$.
+  \eFourAcaptionshared}
+  \label{fig:exp4a-dl20-n100}
 \end{figure*}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{e4a-layout-a-trec-covid.pdf}
-  \caption{Layout proposal A, TREC-COVID representative-query slot. Same encoding, scale, and synthetic-data status as the DL20 proposal. Dataset names are an assumption: the 4a paragraph says two datasets and does not name them.}
-  \label{fig:exp4a-layout-a-trec-covid}
+  \includegraphics[width=\textwidth]{e4a-compact-dl20-n500.pdf}
+  \caption{Same encoding, DL20, $n{=}500$ (synthetic layout). Shared $y$ scale within this figure.}
+  \eFourAcaptionshared}
+  \label{fig:exp4a-dl20-n500}
 \end{figure*}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{e4a-layout-b-sw.pdf}
-  \caption{Layout proposal B, SW only, both representative-query slots side by side.
-  Same measured curves, role marks, category order, and shared per-$n$ scale as proposal A.
-  Panel count and this arrangement are not a settled choice.}
-  \label{fig:exp4a-layout-b-sw}
+  \includegraphics[width=\textwidth]{e4a-compact-trec-covid-n100.pdf}
+  \caption{TREC-COVID representative query, $n{=}100$ (synthetic layout). Dataset name is an assumption until the 4a paragraph names the two collections.}
+  \eFourAcaptionshared}
+  \label{fig:exp4a-covid-n100}
 \end{figure*}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{e4a-layout-b-lt.pdf}
-  \caption{Layout proposal B, LT only. Same encoding as the SW sheet. $h{=}1$ is not a third algorithm.}
-  \label{fig:exp4a-layout-b-lt}
+  \includegraphics[width=\textwidth]{e4a-compact-trec-covid-n500.pdf}
+  \caption{TREC-COVID, $n{=}500$ (synthetic layout).}
+  \eFourAcaptionshared}
+  \label{fig:exp4a-covid-n500}
 \end{figure*}
+
+% Reference only — not reworked in the compact pass:
+% e4a-layout-b-sw.pdf, e4a-layout-b-lt.pdf

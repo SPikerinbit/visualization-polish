@@ -11,11 +11,10 @@ Run from any working directory:
 Outputs, next to this file:
 
     data/e4a_synthetic.json
-    figures/e4a-layout-a-dl20.pdf
-    figures/e4a-layout-a-trec-covid.pdf
-    figures/e4a-layout-b-sw.pdf
-    figures/e4a-layout-b-lt.pdf
+    figures/e4a-compact-<dataset>-n<100|500>.pdf
     and a PNG at the same 178 mm width for each PDF
+
+    Legacy proposal-B sheets under figures/e4a-layout-b-*.pdf are not regenerated.
 
 Marker y values are taken only from the measured series of the matching
 cache state. Predicted token scores are stored so a reader can check that
@@ -43,7 +42,10 @@ FIG_DIR = ROOT / "figures"
 
 WIDTH_MM = 178.0
 WIDTH_IN = WIDTH_MM / 25.4
+HEIGHT_MM_TARGET = 98.0  # compact A sheets: aim 90--105 mm
+HEIGHT_IN = HEIGHT_MM_TARGET / 25.4
 PNG_DPI = 160
+MIN_TEXT_PT = 7.0
 
 OFF = "#1F4E79"
 ON = "#C46B2C"
@@ -471,10 +473,63 @@ def style_axis(ax, ylim: tuple[float, float], show_y: bool) -> None:
 
 def panel_title(panel: dict, mode: str) -> str:
     demand = "Full" if panel["demand"] == "Full" else "LIMIT10"
+    if mode == "compact":
+        return f"{panel['family']}, {demand}"
     if mode == "dataset":
         return f"{panel['family']}  ·  {demand}  ·  n={panel['n']}"
     short = "DL20" if panel["dataset"] == "DL20" else "COVID"
     return f"{short}  ·  {demand}  ·  n={panel['n']}"
+
+
+def add_compact_legend(fig) -> None:
+    """One tight legend row; synthetic / axis contract live in the TeX caption."""
+    handles = [
+        Line2D([0], [0], linestyle="None", marker="D", markersize=5.5, markerfacecolor="white", markeredgecolor=OFF, markeredgewidth=0.95, label="Off pred."),
+        Line2D([0], [0], linestyle="None", marker="*", markersize=8, color=OFF, markeredgecolor="white", markeredgewidth=0.35, label="Off min."),
+        Line2D([0], [0], linestyle="None", marker="D", markersize=5.5, markerfacecolor="white", markeredgecolor=ON, markeredgewidth=0.95, label="On pred."),
+        Line2D([0], [0], linestyle="None", marker="*", markersize=8, color=ON, markeredgecolor="white", markeredgewidth=0.35, label="On min."),
+        Line2D([0], [0], color=OFF, lw=1.35, label=r"Off $U$"),
+        Line2D([0], [0], color=ON, lw=1.35, label=r"On $U{-}Q$"),
+        Line2D([0], [0], linestyle="None", label="both"),
+    ]
+    fig.legend(
+        handles=handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0.995),
+        ncol=7,
+        frameon=False,
+        fontsize=MIN_TEXT_PT,
+        handletextpad=0.28,
+        columnspacing=0.85,
+        borderaxespad=0.2,
+        handlelength=1.6,
+        handler_map={handles[-1]: CoincideHandler()},
+    )
+
+
+def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, float]) -> list[dict]:
+    fig, axes = plt.subplots(2, 2, figsize=(WIDTH_IN, HEIGHT_IN), squeeze=False)
+    records = []
+    for r, row in enumerate(grid):
+        for c, panel in enumerate(row):
+            ax = axes[r][c]
+            xs = np.arange(len(DISPLAY))
+            off = series(panel, "measured_off_U") / 1000.0
+            on = series(panel, "measured_on_U_minus_Q") / 1000.0
+            style_axis(ax, ylim, show_y=(c == 0))
+            draw_groups(ax)
+            ax.plot(xs, off, color=OFF, lw=1.2, solid_capstyle="round", zorder=2)
+            ax.plot(xs, on, color=ON, lw=1.2, solid_capstyle="round", zorder=2)
+            draw_markers(ax, panel, records)
+            ax.set_title(panel_title(panel, "compact"), pad=2.5, color=INK, fontsize=8)
+            if c == 0:
+                ax.set_ylabel("tokens ×10³", labelpad=2)
+    add_compact_legend(fig)
+    fig.subplots_adjust(left=0.10, right=0.992, top=0.84, bottom=0.16, hspace=0.42, wspace=0.11)
+    fig.savefig(path.with_suffix(".pdf"))
+    fig.savefig(path.with_suffix(".png"), dpi=PNG_DPI)
+    plt.close(fig)
+    return records
 
 
 def add_header(fig, subtitle: str) -> None:
@@ -642,7 +697,7 @@ def subtitles() -> dict[str, tuple[str, str]]:
     }
 
 
-def pdf_width_mm(path: Path) -> float:
+def pdf_page_mm(path: Path) -> tuple[float, float]:
     raw = path.read_bytes()
     marker = b"/MediaBox"
     start = raw.rfind(marker)
@@ -661,7 +716,43 @@ def pdf_width_mm(path: Path) -> float:
         if len(nums) == 4:
             break
     width_pt = nums[2] - nums[0]
-    return width_pt / 72.0 * 25.4
+    height_pt = nums[3] - nums[1]
+    return width_pt / 72.0 * 25.4, height_pt / 72.0 * 25.4
+
+
+def compact_layout_grids(panels: list[dict]) -> dict[str, tuple[list[list[dict]], int]]:
+    by_key = {(p["dataset"], p["n"], p["demand"], p["family"]): p for p in panels}
+
+    def cell(dataset, n, demand, family):
+        return by_key[(dataset, n, demand, family)]
+
+    specs = (
+        ("e4a-compact-dl20-n100", "DL20", 100),
+        ("e4a-compact-dl20-n500", "DL20", 500),
+        ("e4a-compact-trec-covid-n100", "TREC-COVID", 100),
+        ("e4a-compact-trec-covid-n500", "TREC-COVID", 500),
+    )
+    out = {}
+    for name, dataset, n in specs:
+        grid = [
+            [cell(dataset, n, "Full", "SW"), cell(dataset, n, "LIMIT10", "SW")],
+            [cell(dataset, n, "Full", "LT"), cell(dataset, n, "LIMIT10", "LT")],
+        ]
+        out[name] = (grid, n)
+    return out
+
+
+def assert_display_subset_minima(panels_in_fig: list[dict]) -> None:
+    """Stars mark the minimum over the eight displayed categories only."""
+    for panel in panels_in_fig:
+        for state, meas_kh, measured_key in (
+            ("off", tuple(panel["off_measured_kh"]), "measured_off_U"),
+            ("on", tuple(panel["on_measured_kh"]), "measured_on_U_minus_Q"),
+        ):
+            vals = series(panel, measured_key)
+            idx = INDEX[meas_kh]
+            if int(vals[idx]) != int(vals.min()):
+                raise RuntimeError(f"{panel['family']} {panel['demand']} {state}: star is not subset minimum")
 
 
 def main() -> None:
@@ -671,15 +762,18 @@ def main() -> None:
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     drawn = {}
-    titles = subtitles()
-    for name, grid in layout_grids(panels).items():
-        mode, subtitle = titles[name]
-        drawn[name] = draw_figure(FIG_DIR / name, grid, limits, subtitle, mode)
-        width = pdf_width_mm(FIG_DIR / f"{name}.pdf")
-        if abs(width - WIDTH_MM) > 0.2:
-            raise RuntimeError(f"{name}.pdf width is {width:.2f} mm")
+    for name, (grid, n) in compact_layout_grids(panels).items():
+        flat = [p for row in grid for p in row]
+        assert_display_subset_minima(flat)
+        records = draw_compact_figure(FIG_DIR / name, grid, limits[n])
+        drawn[name] = records
+        pdf = FIG_DIR / f"{name}.pdf"
+        w_mm, h_mm = pdf_page_mm(pdf)
+        if abs(w_mm - WIDTH_MM) > 0.2:
+            raise RuntimeError(f"{name}.pdf width is {w_mm:.2f} mm")
+        if not (90.0 <= h_mm <= 105.0):
+            raise RuntimeError(f"{name}.pdf height is {h_mm:.2f} mm (want 90--105)")
         png = FIG_DIR / f"{name}.png"
-        # PNG pixel width must match the same physical width at PNG_DPI.
         expected = round(WIDTH_IN * PNG_DPI)
         with png.open("rb") as handle:
             handle.seek(16)
@@ -703,6 +797,7 @@ def main() -> None:
         "on_cold_measured": "U-Q",
         "predicted_scores_are_selection_only": True,
         "markers_use_measured_height": True,
+        "measured_minimum_is_display_subset_only": True,
         "display_categories": [{"k": k, "h": h} for k, h in DISPLAY],
         "display_is_proposal": True,
         "legal_domain_m20_25runs": {"SW": 46, "LT": 101},
@@ -713,6 +808,13 @@ def main() -> None:
             "are the pair named for experiments 2 and 5."
         ),
         "shared_y_thousands": {str(n): [round(limits[n][0], 2), round(limits[n][1], 2)] for n in limits},
+        "primary_figures": list(compact_layout_grids(panels).keys()),
+        "legacy_reference_figures_untouched": [
+            "e4a-layout-a-dl20",
+            "e4a-layout-a-trec-covid",
+            "e4a-layout-b-sw",
+            "e4a-layout-b-lt",
+        ],
         "panels": panels,
         "markers_by_figure": drawn,
     }
@@ -721,7 +823,8 @@ def main() -> None:
     for n, pair in limits.items():
         print(f"y n={n}: {pair[0]:.1f} .. {pair[1]:.1f} ×10³")
     for name in drawn:
-        print(f"{name}: {pdf_width_mm(FIG_DIR / (name + '.pdf')):.2f} mm, {len(drawn[name])} markers")
+        w_mm, h_mm = pdf_page_mm(FIG_DIR / (name + ".pdf"))
+        print(f"{name}: {w_mm:.2f} x {h_mm:.2f} mm, {len(drawn[name])} markers")
 
 
 if __name__ == "__main__":

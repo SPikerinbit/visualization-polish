@@ -1,5 +1,18 @@
 # 实现基线（仓库相对路径）
 
+## 本轮来源与状态补充（2026-11-18，已同步决策）
+
+- 以下原仓库基线路径继续有效；`recovery/`仅用于明确指定的历史来源，不是当前终稿入口。
+- 云端已具备TeX Live 2026并实际编译过基线及若干独立候选；下表关于“本机引擎仍TL2023”的文字保留历史，不作为新环境能力断言。当前构建证据应随最终候选归档，不能只留下执行机器绝对路径。
+- 本轮E2直接视觉参考为用户新提供的旧3D截图，内容包含成本及Spearman两侧面板。只继承配置点清楚、面与网格次要的表达；仍不恢复已删除的Spearman面板。该附件需由整合者复制入稳定仓库路径并记录hash后再列为已归档；本补充不虚构已上传位置。
+- E2轴义来源：`实验结果可视化/可参考：实验二3D/compute_surface.py`中P=est.input_tokens；相邻`plot_surface.py`中U/1000和P/1000及Merge input tokens(1k)。这是输入成本而非Total。`paper/round2/e2/plot_surfaces.py`仍生成合成值；原surface_data.json缺失事实不变。
+- 外部参考证据分级：`paper/recovery/e4c/REFERENCE.md`记录Palimpzest Fig.3与LOTUS Fig.4/6的阅读笔记；`paper/round2/experiments/NOTES.md`记录ListK Fig.4/5语义。当前快照未找到笔记所指外部PDF/裁图全集，不得称本轮已直接复核全部论文原图。ListK仍只按已记录预印本身份引用，SemBench只有记录线索不能臆造图号。
+- 本轮独立视觉候选不是稳定实现基线。最终合入时逐项补：仓库相对源/图路径、数据不变核验、模板编译环境、图例与指标语义、视觉检查及对应commit。未获验收前明确标“候选”。
+
+
+---
+
+
 现行视觉要求见 `CURRENT-DECISIONS.md`。本文件只回答文件在哪。种子里的 BOX 路径在 `archive/BASELINES-SEED-with-box-paths.md`，**不是**现行路径。
 
 ## 已在本仓库、可直接打开

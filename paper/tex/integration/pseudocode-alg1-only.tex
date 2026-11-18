@@ -1,0 +1,36 @@
+\begin{algorithm}[t]
+\caption{Semantic external merge}
+\label{alg:semantic_external_merge}
+\KwIn{rows $D$, optional $K$}
+\KwOut{order $\Pi$}
+\If{$K=0$ or $|D|\le 1$}{\Return the trivial order}
+\eIf{no $K$, or $K\ge|D|$}{mode $\leftarrow$ Full}{mode $\leftarrow$ Buffer}
+\lIf{a mode is given}{use that mode}
+\lIf{ascending and $K$ is set}{mode $\leftarrow$ Full}
+cut $D$ into chunks of size at most $m$\;
+each chunk becomes a run $R_i$ by $\Rank$\;
+$(f,k,h)\leftarrow\arg\min\Expect(f,k,h)$ over calls that fit in $m$\;
+ties keep LT, then smaller $k$, then smaller $h$\;
+$\mathcal{R}\leftarrow(R_1,\ldots)$\;
+\While{$|\mathcal{R}|>1$}{
+  $\mathcal{R}'\leftarrow\emptyset$\;
+  \For{each group $G$ of at most $k$ runs in $\mathcal{R}$}{
+    \eIf{mode is Full}{
+      $r\leftarrow$ materialize $\MergeGroup(G,f,h)$ fully\;
+      append $r$ to $\mathcal{R}'$\;
+    }{
+      append the stream $\MergeGroup(G,f,h)$ to $\mathcal{R}'$\;
+    }
+  }
+  $\mathcal{R}\leftarrow\mathcal{R}'$\;
+}
+\eIf{mode is Full}{
+  $\Pi\leftarrow$ the sole remaining materialized run in $\mathcal{R}$\;
+}{
+  drain the sole root stream in $\mathcal{R}$ into $\Pi$\;
+  stop at $K$ if specified, else exhaust the root\;
+  \textbf{finally} close the root\;
+}
+\lIf{ascending}{reverse $\Pi$}
+\lIf{$K$ is set}{keep the first $K$ rows of $\Pi$}
+\end{algorithm}

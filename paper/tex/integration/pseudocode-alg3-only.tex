@@ -1,0 +1,36 @@
+\begin{algorithm}[t]
+\caption{LT($h$)}
+\label{alg:loser_tree_kway_group_merge}
+\KwIn{$k$ run streams;\ $h$ or none}
+\KwOut{a locally ordered row stream}
+\If{$k=1$}{
+  \textbf{yield} every row of that run until exhausted\;
+  \Return\;
+}
+\lIf{$h$ is absent}{$h\leftarrow\lfloor m/(1+\lceil\log_2 k\rceil)\rfloor$}
+require $(1+\lceil\log_2 k\rceil)\,h\le m$\;
+build an exact binary tree\;
+do not pad it to a power of two\;
+a leaf stores a run index\;
+an internal node stores a loser and a pointer\;
+fill every leaf with at most $h$ real rows\;
+\For{each block of $\mathrm{Init}(k,h,m)$}{
+  $\rho\leftarrow$ repair of $\Rank$(real frontier)\;
+  replay the block bottom-up under $\rho$\;
+}
+$S\leftarrow$ root segment\;
+\While{$S\neq\emptyset$}{
+  \textbf{yield} the rows of $S$\;
+  $S\leftarrow$ Refresh\;
+}
+
+\Fn{$\mathrm{Init}(k,h,m)$}{
+  $F\leftarrow$ the leaves\;
+  \While{the root $\notin F$}{
+    packed: in $F$, or $(\#\text{leaves})\,h\le m$\;
+    $C\leftarrow$ the highest packed nodes\;
+    one block per internal node in $C$, bottom-up\;
+    $F\leftarrow C$\;
+  }
+}
+\end{algorithm}

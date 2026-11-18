@@ -1,0 +1,17 @@
+\subsection{Per-round Token Cost for Segmented Loser Tree}
+
+\begin{proposition}[$\Pcost_{\SLT}$ for segmented loser tree]
+The per-round token cost at the t-th merge pass for segmented loser tree merge is
+\begin{align}
+  \Pcost_{\SLT}(t,k;n,m)
+  &=\left\lceil\frac{n}{h}\right\rceil
+    +G_t\left(
+      \Cost_{\SD}(2;kh,m)
+      +\left\lceil\frac{kh}{m}\right\rceil
+    \right).
+\end{align}
+\end{proposition}
+
+\begin{proof}
+For each of the $G_t$ merge groups, tree initialization ranks the $kh$ representatives in $\lceil kh/m\rceil$ Phase~1 listwise calls and then uses $\Cost_{\SD}(2;kh,m)$ calls for the same two-way sliding window merge. Each path refresh processes $h$ items. In the cost model, the item counts of the merge groups are summed before the ceiling is applied, giving $\lceil n/h\rceil$ path refresh calls over the pass. Adding this term to the $G_t$ identical initialization costs proves Eq.~\eqref{eq:pcost-slt}.
+\end{proof}

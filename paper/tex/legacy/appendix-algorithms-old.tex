@@ -1,0 +1,404 @@
+% Archived SIGMOD draft algorithms (InitLoserTree, segmented Alg6, etc.)
+\section{Algorithm Details}
+\label{sec:appendix-algorithms}
+
+\subsection{Loser Tree Construction and Path Refresh}
+
+Each internal node stores the loser of its most recent match; the root additionally exposs the current winner.  
+
+\begin{algorithm}[t]
+\small
+\caption{\textsc{InitLoserTree}}
+\label{alg:init_loser_tree}
+\KwIn{active run indices $A$, representatives $\{x_i\mid i\in A\}$,
+      instruction $\phi$, batch capacity $m$}
+\KwOut{a binary loser tree $T$}
+
+$Q_{\mathrm{init}}\gets
+  \textsc{FullSlidingWindowMerge}(\{[x_i]\mid i\in A\},\phi,m)$\;
+Construct $\rho$ such that $\rho(x)$ is the position of $x$ in
+$Q_{\mathrm{init}}$\;
+Construct an exact binary tree $T$ with one leaf for every $i\in A$\;
+\ForEach{$i\in A$}{$\textsc{SetWinner}(\textsc{Leaf}(i),i)$\;}
+\ForEach{internal node $v$ in bottom-up order}{
+  $a\gets\textsc{CurrentWinner}(\textsc{LeftChild}(v))$\;
+  $b\gets\textsc{CurrentWinner}(\textsc{RightChild}(v))$\;
+  \uIf{$\rho(x_a)<\rho(x_b)$}{
+    $\textsc{SetWinner}(v,a)$;$\textsc{SetStoredLoser}(v,b)$\;
+  }
+  \Else{
+    $\textsc{SetWinner}(v,b)$;$\textsc{SetStoredLoser}(v,a)$\;
+  }
+}
+$\textsc{SetCurrentWinner}(T,\textsc{CurrentWinner}(\textsc{Root}(T)))$\;
+\Return{$T$}\;
+\end{algorithm}
+
+\begin{algorithm}[t]
+\small
+\caption{\textsc{RefreshPath}}
+\label{alg:refresh_loser_tree_path}
+\KwIn{loser tree $T$, changed run index $u$, active indices $A$,
+      representatives $\{x_i\mid i\in A\}$, instruction $\phi$}
+\KwOut{updated loser tree $T$}
+
+$B\gets[\ ]$\;
+\lIf{$u\in A$}{Append $x_u$ to $B$}
+$z\gets\textsc{Leaf}(u)$\;
+\While{$z\ne\textsc{Root}(T)$}{
+  $p\gets\textsc{Parent}(z)$; $q\gets\textsc{StoredLoser}(p)$\;
+  \lIf{$q\in A$ \textbf{and} $x_q\notin B$}{Append $x_q$ to $B$}
+  $z\gets p$\;
+}
+\If{$B\ne\emptyset$}{
+  $\mathcal O_{\mathrm{path}}\gets\textsc{ListwiseRank}(B,\phi)$\;
+  Construct $\rho_{\mathrm{path}}$ from $\mathcal O_{\mathrm{path}}$\;
+}
+$z\gets\textsc{Leaf}(u)$\;
+$a\gets u$ if $u\in A$, and $a\gets\textsc{null}$ otherwise\;
+\While{$z\ne\textsc{Root}(T)$}{
+  $p\gets\textsc{Parent}(z)$; $q\gets\textsc{StoredLoser}(p)$\;
+  \lIf{$q\notin A$}{$q\gets\textsc{null}$}
+  \uIf{$a=\textsc{null}$ \textbf{or} $q=\textsc{null}$}{
+    $\textsc{SetStoredLoser}(p,\textsc{null})$;
+    $a\gets q$ if $a=\textsc{null}$\;
+  }
+  \uElseIf{$\rho_{\mathrm{path}}(x_a)<\rho_{\mathrm{path}}(x_q)$}{
+    $\textsc{SetStoredLoser}(p,q)$\;
+  }
+  \Else{
+    $\textsc{SetStoredLoser}(p,a)$;$a\gets q$\;
+  }
+  $\textsc{SetWinner}(p,a)$;$z\gets p$\;
+}
+$\textsc{SetCurrentWinner}(T,a)$\;
+\Return{$T$}\;
+\end{algorithm}
+
+
+\subsection{Segmented Loser Tree and Pointer-Guided Path Refresh}
+\label{sec:appendix-segment-algorithm}
+
+The segmented loser tree applies each loser-tree match to $h$-item
+segments.  An internal node $v$ stores only
+$\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$; the winner $tmp$ is a
+transient segment passed to its parent.  For a group of $k$ runs, we set
+\begin{equation}
+  h=\left\lfloor
+    \frac{m}{1+\lceil\log_2 k\rceil}
+  \right\rfloor,
+  \label{eq:segment-length}
+\end{equation}
+so that one replacement segment and the losers on a root-to-leaf path
+fit in a single listwise call.  $\textsc{FillLeaf}(v,h)$ returns the next
+segment from the run associated with leaf $v$.
+
+\begin{algorithm}[t]
+\small
+\caption{Segmented Loser Tree Merge}
+\label{alg:segmented_loser_tree_merge}
+\KwIn{a group of sorted runs $\mathcal G=\{R_1,\ldots,R_k\}$,
+      instruction $\phi$}
+\KwOut{the merged order $\Pi$}
+
+$\Pi\gets[\ ]$\;
+
+Construct a binary segmented loser tree $T$ over $\mathcal G$
+with segment length $h$\;
+
+\algocomment{load and jointly rank the initial leaf segments}\;
+\ForEach{leaf $v$ concurrently}{
+  $S_v\gets\textsc{FillLeaf}(v,h)$\nllabel{line:slt-init}\;
+}
+Rank all $S_v$ with \textsc{FullSlidingWindowMerge}\;
+Let $\rho_0$ be the resulting rank map\;
+
+\algocomment{initialize internal-node states using the shared rank map}\;
+\Fn{\textsc{BuildSubtree}$(v,\rho_0)$}{
+  \If{$v$ is a leaf}{\Return{$S_v$}\;}
+  $L\gets\textsc{BuildSubtree}(\textsc{LeftChild}(v),\rho_0)$\;
+  $R\gets\textsc{BuildSubtree}(\textsc{RightChild}(v),\rho_0)$\;
+  \Return{$\textsc{ReplaySegmentNode}(v,L,R,\rho_0)$}
+    \nllabel{line:slt-build}\;
+}
+
+\algocomment{emit winner segments using pointer-guided path refresh}\;
+$tmp\gets\textsc{BuildSubtree}(\textsc{Root}(T),\rho_0)$\;
+\While{$tmp\ne\emptyset$}{
+  Append $tmp$ to $\Pi$\nllabel{line:slt-emit}\;
+  $tmp\gets\textsc{PointerGuidedPathRefresh}(T,\phi)$
+    \nllabel{line:slt-repair}\;
+}
+\Return{$\Pi$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{Segmented Loser Tree Merge}
+% \label{alg:segmented_loser_tree_merge}
+% \KwIn{a group of sorted runs $\mathcal G=\{R_1,\ldots,R_g\}$,
+%       instruction $\phi$, listwise batch size $m$, optional output limit $K$}
+% \KwOut{the first $K$ items of the merged order $\Pi$; the full order if
+%        $K=\infty$}
+
+% Remove empty runs from $\mathcal G$\;
+% $g\gets|\mathcal G|$\;
+% $\Pi\gets[\ ]$\;
+% \If{$g=0$}{\Return{$\Pi$}\;}
+% \If{$g=1$}{\Return{the first $K$ items of $R_1$}\;}
+% $d\gets\max(1,\lceil\log_2 g\rceil)$\;
+% $h\gets\max(1,\lfloor m/(1+d)\rfloor)$\;
+% Require $(1+d)h\le m$\;
+% Construct a binary tree $T$ with exactly one leaf for every
+% run in $\mathcal G$\;
+% Set $\mathit{done}(i)\gets\textsc{false}$ for every leaf run $i$\;
+% \ForEach{node $v$ in $T$}{
+%   $\mathit{ready}(v)\gets[\ ]$\;
+%   $\mathit{residual}(v)\gets[\ ]$\;
+%   $\mathit{blocked}(v)\gets\textsc{null}$\;
+% }
+% \ForEach{leaf $v$ concurrently}{
+%   $\textsc{FillLeaf}(v,h)$\nllabel{line:slt-init}\;
+% }
+% $Q_0\gets\textsc{FullSlidingWindowMerge}
+%   (\{\mathit{ready}(v)\mid v\text{ is a leaf}\},\phi,m)$\;
+% Construct $\rho_0$ such that $\rho_0(x)$ is the position of $x$ in $Q_0$\;
+% \ForEach{internal node $v$ in bottom-up order}{
+%   $L\gets\textsc{TakeReady}(\textsc{LeftChild}(v),h)$\;
+%   $R\gets\textsc{TakeReady}(\textsc{RightChild}(v),h)$\;
+%   $\textsc{ReplaySegmentNode}(v,L,R,\rho_0,[\ ])$
+%   \nllabel{line:slt-build}\;
+% }
+% $r\gets\textsc{Root}(T)$\;
+% \While{$|\Pi|<K$ \textbf{and} \textsc{HasMore}$(r)$}{
+%   \If{$\mathit{ready}(r)=\emptyset$}{
+%     $ok\gets\textsc{PointerGuidedPathRefresh}(T,\phi,m,h)$
+%     \nllabel{line:slt-repair}\;
+%     \lIf{\textbf{not} $ok$}{\textbf{break}}
+%   }
+%   $E\gets\textsc{TakeReady}(r,\min(h,K-|\Pi|))$\;
+%   Append $E$ to $\Pi$\nllabel{line:slt-emit}\;
+% }
+% \Return{$\Pi$}\;
+% \end{algorithm}
+The rank map $\rho$ defines the order of $L\uplus R$.
+Membership $x\in L$ or $x\in R$ refers to the replay input supplying
+$x$, not merely its value.  Algorithm~\ref{alg:replay_segment_node}
+shows the common case $|L|=|R|=h$; final partial segments are handled
+analogously using their actual lengths.
+\begin{algorithm}[t]
+\small
+\caption{\textsc{ReplaySegmentNode}}
+\label{alg:replay_segment_node}
+\KwIn{node $v$, $h$-item replay segments $L,R$ associated with its
+      left and right child slots, rank map $\rho$}
+\KwOut{winner segment $tmp$; updated
+       $\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$}
+
+$Z\gets\operatorname{Sort}_{\rho}(L\uplus R)$
+  \nllabel{line:replay-merge}\;
+
+$n_L,n_R\gets0,0$\;
+\ForEach{$x\in Z$ in order}{
+  \uIf{$x\in L$}{
+    $n_L\gets n_L+1$\;
+  }
+  \Else{
+    $n_R\gets n_R+1$\;
+  }
+  \lIf{$n_L=h$ \textbf{or} $n_R=h$}{\textbf{break}}
+}
+$\mathit{Pointer}(v)\gets
+  \begin{cases}
+    \textsc{LeftChild}(v),  & n_L=h,\\
+    \textsc{RightChild}(v), & n_R=h
+  \end{cases}$
+  \nllabel{line:replay-split}\;
+
+$tmp\gets Z[1..h]$
+  \nllabel{line:replay-winner}\;
+$\mathit{Loser}(v)\gets Z[h+1..2h]$
+  \nllabel{line:replay-loser}\;
+
+\Return{$tmp$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{\textsc{ReplaySegmentNode}}
+% \label{alg:install_segment_state}
+% \KwIn{internal node $v$, certified left and right child segments $L,R$,
+%       rank map $\rho$, certified prefix $P$ already stored at $v$}
+% \KwOut{$v$ with an updated certified prefix, retained segment, and
+%        blocked-child pointer}
+
+% $\ell\gets\textsc{LeftChild}(v)$\;
+% $r\gets\textsc{RightChild}(v)$\;
+% $more_\ell\gets\textsc{HasMore}(\ell)$\;
+% $more_r\gets\textsc{HasMore}(r)$\;
+% $\mathit{ready}(v)\gets P$\;
+% $\mathit{residual}(v)\gets[\ ]$\;
+% $\mathit{blocked}(v)\gets\textsc{null}$\;
+% \uIf{$L=\emptyset$ \textbf{and} $R=\emptyset$}{
+%   Require $\neg(more_\ell\wedge more_r)$
+%   \nllabel{line:install-empty-start}\;
+%   \uIf{$more_\ell$}{$\mathit{blocked}(v)\gets\ell$}
+%   \ElseIf{$more_r$}{$\mathit{blocked}(v)\gets r$}
+% }
+% \uElseIf{$L=\emptyset$}{
+%   \uIf{$more_\ell$}{
+%     $\mathit{residual}(v)\gets R$\;
+%     $\mathit{blocked}(v)\gets\ell$\;
+%   }
+%   \Else{
+%     Append $R$ to $\mathit{ready}(v)$\;
+%     \lIf{$more_r$}{$\mathit{blocked}(v)\gets r$}
+%   }
+% }
+% \uElseIf{$R=\emptyset$}{
+%   \uIf{$more_r$}{
+%     $\mathit{residual}(v)\gets L$\;
+%     $\mathit{blocked}(v)\gets r$\;
+%   }
+%   \Else{
+%     Append $L$ to $\mathit{ready}(v)$\;
+%     \lIf{$more_\ell$}{$\mathit{blocked}(v)\gets\ell$\nllabel{line:install-empty-end}}
+%   }
+% }
+% \Else{
+%   $Z\gets\textsc{StableMerge}_{\rho}(L,R)$
+%   \nllabel{line:install-merge}\;
+%   \algocomment{preserve the order inside $L$ and $R$} \\
+%   Let $b$ be the first position in $Z$ at which $L$ or $R$ is exhausted\;
+%   Let $e$ be that exhausted child and $o$ the other child\;
+%   \uIf{$\textsc{HasMore}(e)$}{
+%     Append $Z[1..b]$ to $\mathit{ready}(v)$\;
+%     $\mathit{residual}(v)\gets Z[b+1..|Z|]$\;
+%     $\mathit{blocked}(v)\gets e$\nllabel{line:install-barrier}\;
+%   }
+%   \Else{
+%     Append $Z$ to $\mathit{ready}(v)$\;
+%     \lIf{$\textsc{HasMore}(o)$}{$\mathit{blocked}(v)\gets o$\nllabel{line:install-exhausted}}
+%   }
+% }
+% \Return{the updated state of $v$}\;
+% \end{algorithm}
+\noindent\textbf{Initialization.}
+Algorithm~\ref{alg:segmented_loser_tree_merge} jointly ranks the initial
+leaf segments.  \textsc{BuildSubtree} recursively passes each winner
+upward, while every internal node retains only its loser and pointer.
+The winner returned by the root becomes the first output segment.
+
+\noindent\textbf{Pointer-guided refresh.}
+After a root winner is emitted, Algorithm~\ref{alg:repair_segment_path}
+follows the pointers to the affected leaf and jointly ranks
+\[
+  \mathcal B
+  =
+  tmp\uplus\biguplus_{v\in\mathcal P}\mathit{Loser}(v).
+\]
+During bottom-up replay, the old pointer places $tmp$ and the stored loser
+in their replay slots.  \textsc{ReplaySegmentNode} then updates the node
+state and passes the next transient winner toward the root.
+\begin{algorithm}[t]
+\small
+\caption{Pointer-Guided Path Refresh}
+\label{alg:repair_segment_path}
+\KwIn{segmented loser tree $T$, instruction $\phi$}
+\KwOut{the next $h$-item winner segment $tmp$ at the root}
+
+$\mathcal P\gets[\ ]$; $u\gets\textsc{Root}(T)$\;
+
+\algocomment{follow the pointers to the affected leaf}\;
+\While{$u$ is internal}{
+  Append $u$ to $\mathcal P$\;
+  $u\gets\mathit{Pointer}(u)$
+    \nllabel{line:repair-descend}\;
+}
+$tmp\gets\textsc{FillLeaf}(u,h)$\;
+
+\algocomment{jointly rank the segments on the refresh path}\;
+$\mathcal B\gets
+  tmp\uplus\biguplus_{v\in\mathcal P}\mathit{Loser}(v)$\;
+$\mathcal O_{\mathcal B}
+  \gets\textsc{ListwiseRank}(\mathcal B,\phi)$
+  \nllabel{line:repair-rank}\;
+Let $\rho_{\mathcal B}$ be the rank map induced by
+$\mathcal O_{\mathcal B}$\;
+
+\algocomment{replay the winner segment toward the root}\;
+\ForEach{$v\in\mathcal P$ in bottom-up order}{
+  \uIf{$\mathit{Pointer}(v)=\textsc{LeftChild}(v)$}{
+    $L\gets tmp$; $R\gets\mathit{Loser}(v)$\;
+  }
+  \Else{
+    $L\gets\mathit{Loser}(v)$; $R\gets tmp$\;
+  }
+  $tmp\gets
+    \textsc{ReplaySegmentNode}(v,L,R,\rho_{\mathcal B})$
+    \nllabel{line:repair-replay}\;
+}
+
+\Return{$tmp$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{Pointer-Guided Path Refresh}
+% \label{alg:repair_segment_path}
+% \KwIn{segmented loser tree $T$, instruction $\phi$, listwise batch size $m$,
+%        segment length $h$}
+% \KwOut{updated $T$; \textsc{true} iff the root has a nonempty certified prefix}
+
+% $r\gets\textsc{Root}(T)$\;
+% \If{$\mathit{ready}(r)\ne\emptyset$}{\Return{\textsc{true}}\;}
+% $P\gets[\ ]$\;
+% $u\gets r$\;
+% \While{$u$ is not a leaf}{
+%   $b\gets\mathit{blocked}(u)$\;
+%   \If{$b=\textsc{null}$}{\Return{\textsc{false}}\;}
+%   Append $u$ to $P$\;
+%   $u\gets b$\nllabel{line:repair-descend}\;
+%   \If{$u$ is internal \textbf{and} $\mathit{blocked}(u)=\textsc{null}$}{
+%     \textbf{break}\;
+%   }
+% }
+% \ForEach{$v\in P$}{
+%   Save $Q_v\gets\mathit{ready}(v)$,
+%        $Z_v\gets\mathit{residual}(v)$, and
+%        $b_v\gets\mathit{blocked}(v)$\nllabel{line:repair-save}\;
+% }
+% $c\gets\sum_{v\in P}(|Q_v|+|Z_v|)$\;
+% Require $c+h\le m$\;
+% \If{$u$ is a leaf}{\textsc{FillLeaf}$(u,h)$\;}
+% $I\gets\textsc{TakeReady}(u,h)$\;
+% $B\gets I$ followed by all $Q_v$ and $Z_v$ for $v\in P$\;
+% $\mathcal O_B\gets\textsc{ListwiseRank}(B,\phi)$
+% \nllabel{line:repair-rank}\;
+% Construct $\rho_B$ such that $\rho_B(x)$ is the position of $x$ in
+% $\mathcal O_B$\;
+% $through\gets I$\;
+% $child\gets u$\;
+% \ForEach{$v\in P$ in bottom-up order}{
+%   Require $b_v=child$\;
+%   \uIf{$child=\textsc{LeftChild}(v)$}{
+%     $L\gets through$; $R\gets Z_v$\;
+%   }
+%   \Else{
+%     $L\gets Z_v$; $R\gets through$\;
+%   }
+%   $\textsc{ReplaySegmentNode}(v,L,R,\rho_B,Q_v)$
+%   \nllabel{line:repair-replay}\;
+%   $child\gets v$\;
+%   \If{$v\ne r$}{
+%     $through\gets\textsc{TakeReady}(v,h)$
+%     \nllabel{line:repair-propagate}\;
+%   }
+% }
+% \Return{$\mathit{ready}(r)\ne\emptyset$}\;
+% \end{algorithm}
+
+

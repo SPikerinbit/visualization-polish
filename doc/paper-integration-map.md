@@ -15,7 +15,9 @@ Specialist trees live under `paper/recovery/` and `paper/viz/recovery/` (git-arc
 | E3 scale | `cursor/e3-scale-layout-14e8` | `recovery/e3/` | `exp.tex` → `\ref{sec:exp:ablation}` | `fig:exp3-scale` (new; does not retire `fig:exp3-ablation`) |
 | E5 LIMIT sweep | `cursor/e5-limit-sweep-5af7` | `recovery/e5/` | `exp.tex` → `\ref{sec:exp:limit-sweep}` | `fig:exp5-k-sweep-off`, `fig:exp5-k-sweep-on` |
 | SW wide | `cursor/sw-sliding-window-figure-ad37` | `recovery/sw/sw-wide.pdf` | `framework.tex` §SW, `figure*` | `fig:eg:sliding_window` |
-| LIMIT trial | `cursor/recovery-limit-ondemand-trial-a880` | `viz/recovery/limit/` | `framework.tex` §`\ref{sec:topk-exec}` optional | `fig:limit-demand-trial` |
+| LIMIT trial | `cursor/recovery-limit-ondemand-trial-a880` | `viz/recovery/limit/` | appendix optional | `fig:limit-demand-trial` |
+| Framework algo1 | `cursor/framework-algo1-cost-6f22` @ `5b3a024` | `recovery/framework/` | `framework.tex` `figure*` replaces Fig.1 | `fig:exp:semantic_external_merge` |
+| E4b / E4c / pseudocode | PR12 / PR11 / PR10 | `recovery/e4b`, `e4c`, `pseudocode` | `exp-body.tex` / `framework` / appendix | see `label-page-map.md` |
 
 PDF copies for `\includegraphics` are in `paper/tex/fig-approved/`. Captions are in `paper/tex/integration/*.tex` (integrator-authored wrappers only; no graphic edits).
 

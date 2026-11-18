@@ -1,0 +1,17 @@
+% Includable fragment. Parent loads algorithm2e.
+\DontPrintSemicolon
+\newcommand{\Rank}{\mbox{\textsc{ListwiseRank}}}
+\newcommand{\MergeGroup}{\mbox{\textsc{MergeGroup}}}
+\newcommand{\Expect}{\mathrm{Expect}}
+\SetKwProg{Fn}{procedure}{:}{}
+
+{\raggedright\hyphenpenalty10000\exhyphenpenalty10000
+\noindent\textit{Notation.}\quad
+$\phi$ instruction;\ $m$ listwise capacity;\ $k$ fan-in;\ $h$ segment length.\par
+\noindent $R_i$ is run $i$.\ $\rho$ is rank after run-order repair.\par
+\noindent $\Rank$ takes real rows only.\ $h{=}1$ is this LT.\ Families: SW, LT.\par
+\noindent $\Expect(f,k,h)$ estimates input tokens.\ Formula not in the eight sources.\par
+\noindent Slots $s_0,s_1$ are not children and not run indexes.\par
+\noindent Only Algorithm~1 takes optional $K$ and builds $\Pi$.\par
+\noindent $\MergeGroup(G,f,h)$ on run group $G$ uses family $f$ and parameters $(k,h)$.\par
+}

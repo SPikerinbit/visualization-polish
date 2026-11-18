@@ -49,9 +49,10 @@
 
 \settopmatter{printacmref=false,printfolios=true}
 \graphicspath{{fig-approved/}{fig/}}
+\usepackage{placeins}
 \usepackage{eso-pic}
 \AddToShipoutPictureFG{%
-  \AtPageLowerLeft{\put(0,14){\makebox[\paperwidth][c]{\scriptsize\bfseries\color{red}SYNTHETIC DATA --- PAPER INTEGRATION (SPECIALIST FIGURES ONLY)}}}%
+  \AtPageLowerLeft{\put(0,14){\makebox[\paperwidth][c]{\scriptsize\bfseries\color{red}VISUAL LAYOUT PREVIEW --- NOT EXPERIMENTAL RESULTS}}}%
 }
 
 \usepackage{tabularx}
@@ -268,7 +269,7 @@
 \begin{abstract}
 Semantic \textsf{ORDER BY} enables data systems to rank unstructured records according to natural language criteria, but its execution cost is dominated by Large Language Model (LLM) invocations. Due to the context window limit of LLMs, practical execution requires divide-and-conquer sorting. However, existing listwise methods either perform many repeated calls or underutilize the context window during merging. 
 This paper presents cost-effective multi-way merge algorithms for semantic \textsf{ORDER BY} using listwise prompting as the comparison primitive. 
-We formulate an external $k$-way merge framework that first generates locally sorted runs and then iteratively merges groups of runs. Within this framework, we propose three group-merge algorithms: a sliding window merge that packs run heads and emits only safe prefixes; a loser tree merge that maintains global orderedness among run representatives and refreshes only affected paths; and a segmented loser tree that amortizes each refresh over multiple output items. We further derive algorithm-specific token cost models that automatically choose the merge fan-in for full ranking, balancing the number of merge passes against per-call item throughput. The framework is also extended to \LIMIT~$K$ through demand-driven pipelined execution. Experiments on 6 benchmarks with 155 semantic ranking queries compare our methods with pointwise, pairwise, and listwise baselines. The proposed algorithms achieve competitive or higher ranking quality while reducing token consumption by about 47\% for full ranking and 19\%–61\% for \LIMIT~$K$ compared with listwise baselines, confirming the effectiveness of the cost models.
+We formulate an external $k$-way merge framework that first generates locally sorted runs and then iteratively merges groups of runs. Within this framework, we propose two merge families---sliding window (SW) and loser tree (LT) parameterized by segment length $h$ ($h{=}1$ is the classical single-item case). We further derive algorithm-specific token cost models that automatically choose the merge fan-in for full ranking, balancing the number of merge passes against per-call item throughput. The framework is also extended to \LIMIT~$K$ through demand-driven pipelined execution. Experiments on six benchmarks compare our methods with pointwise, pairwise, and listwise baselines under the revised evaluation protocol (layout-preview figures in this checkpoint are not experimental results).
 
 
 \end{abstract}
@@ -318,17 +319,20 @@ We formulate an external $k$-way merge framework that first generates locally so
 
 \input{framework}
 
+\FloatBarrier
 \input{exp}
+\FloatBarrier
 
 
 
 
+\FloatBarrier
 \input{related work}
 \section{Conclusion}
 \label{sec:conclusion}
-In this paper, we adapt classical $k$-way merge external sort framework to process semantic \textsf{ORDER BY} with listwise LLM calls as the only ranking primitive. Within this framework, we introduce three group merge algorithms: a sliding window merge, a loser tree merge, and a segmented loser tree merge.
+In this paper, we adapt classical $k$-way merge external sort framework to process semantic \textsf{ORDER BY} with listwise LLM calls as the only ranking primitive. Within this framework, we introduce sliding-window merge and LT($h$) merge with automatic fan-in selection.
 %a sliding window algorithm that emits safe prefixes, a loser tree algorithm that maintains explicit global ordering among run representatives, and a segmented loser tree that amortizes each path refresh over multiple output items. 
-We derive token cost model to select the optimal fan-in $k$ that minimizes listwise invocations for full ranking, and we further extend these algorithms to support \LIMIT~$K$ through demand-driven pipelined execution. The experiments show that sliding window and segmented loser tree algorithms perform well in full ranking, and loser tree algorithm excels in \LIMIT~$K$ query.
+We derive token cost model to select the optimal fan-in $k$ that minimizes listwise invocations for full ranking, and we further extend these algorithms to support \LIMIT~$K$ through demand-driven pipelined execution. Formal measured results for the revised experiments are pending this layout integration pass.
 
 
 %%

@@ -1,0 +1,165 @@
+% Includable fragment. Parent loads algorithm2e.
+\DontPrintSemicolon
+\newcommand{\Rank}{\mbox{\textsc{ListwiseRank}}}
+\newcommand{\MergeGroup}{\mbox{\textsc{MergeGroup}}}
+\newcommand{\Expect}{\mathrm{Expect}}
+\SetKwProg{Fn}{procedure}{:}{}
+
+{\raggedright\hyphenpenalty10000\exhyphenpenalty10000
+\noindent\textit{Notation.}\quad
+$\phi$ instruction;\ $m$ listwise capacity;\ $k$ fan-in;\ $h$ segment length.\par
+\noindent $R_i$ is run $i$.\ $\rho$ is rank after run-order repair.\par
+\noindent $\Rank$ takes real rows only.\ $h{=}1$ is this LT.\ Families: SW, LT.\par
+\noindent $\Expect(f,k,h)$ estimates input tokens.\ Formula not in the eight sources.\par
+\noindent Slots $s_0,s_1$ are not children and not run indexes.\par
+\noindent Only Algorithm~1 takes optional $K$ and builds $\Pi$.\par
+\noindent $\MergeGroup(G,f,h)$ on run group $G$ uses family $f$ and parameters $(k,h)$.\par
+}
+
+\begin{algorithm}[t]
+\caption{Semantic external merge}
+\label{alg:semantic_external_merge}
+\KwIn{rows $D$, optional $K$}
+\KwOut{order $\Pi$}
+\If{$K=0$ or $|D|\le 1$}{\Return the trivial order}
+\eIf{no $K$, or $K\ge|D|$}{mode $\leftarrow$ Full}{mode $\leftarrow$ Buffer}
+\lIf{a mode is given}{use that mode}
+\lIf{ascending and $K$ is set}{mode $\leftarrow$ Full}
+cut $D$ into chunks of size at most $m$\;
+each chunk becomes a run $R_i$ by $\Rank$\;
+$(f,k,h)\leftarrow\arg\min\Expect(f,k,h)$ over calls that fit in $m$\;
+ties keep LT, then smaller $k$, then smaller $h$\;
+$\mathcal{R}\leftarrow(R_1,\ldots)$\;
+\While{$|\mathcal{R}|>1$}{
+  $\mathcal{R}'\leftarrow\emptyset$\;
+  \For{each group $G$ of at most $k$ runs in $\mathcal{R}$}{
+    \eIf{mode is Full}{
+      $r\leftarrow$ materialize $\MergeGroup(G,f,h)$ fully\;
+      append $r$ to $\mathcal{R}'$\;
+    }{
+      append the stream $\MergeGroup(G,f,h)$ to $\mathcal{R}'$\;
+    }
+  }
+  $\mathcal{R}\leftarrow\mathcal{R}'$\;
+}
+\eIf{mode is Full}{
+  $\Pi\leftarrow$ the sole remaining materialized run in $\mathcal{R}$\;
+}{
+  drain the sole root stream in $\mathcal{R}$ into $\Pi$\;
+  stop at $K$ if specified, else exhaust the root\;
+  \textbf{finally} close the root\;
+}
+\lIf{ascending}{reverse $\Pi$}
+\lIf{$K$ is set}{keep the first $K$ rows of $\Pi$}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Sliding window}
+\label{alg:sliding_window_kway_group_merge}
+\KwIn{run streams $R_1,\ldots,R_g$;\ $h$ or none}
+\KwOut{a locally ordered row stream}
+$B\leftarrow\emptyset$\;
+\While{not exhausted}{
+  \If{$B=\emptyset$ and no run has supply}{\textbf{break}}
+  $I\leftarrow\{i : B$ holds $R_i$, or $R_i$ has supply$\}$\;
+  \If{$|I|=1$ and no other run has supply}{
+    \textbf{yield} $B$ in pull order\;
+    \textbf{yield} the rest of that run in pull order\;
+    \textbf{break}\;
+  }
+  \eIf{$h$ is fixed}{
+    pull at most $h$ from each $i\in I$\;
+  }{
+    $q\leftarrow\max(1,\lfloor m/|I|\rfloor)$\;
+    pull up to $q$ from each $i\in I$\;
+    borrow from supplied runs, up to $|I|q$\;
+  }
+  \lIf{$|B|\le 1$}{$O\leftarrow B$}
+  \lElse{$O\leftarrow\Rank(B)$}
+  $t\leftarrow|O|$\;
+  \For{$j\leftarrow 1$ \KwTo $|O|$}{
+    $i\leftarrow$ run of $O_j$\;
+    \If{$O_j$ ends $R_i$ in $B$, and $R_i$ has supply}{
+      $t\leftarrow j$\;
+      \textbf{break}\;
+    }
+  }
+  \tcp{$O_1,\ldots,O_t$ is the safe prefix}
+  \textbf{yield} $O_1,\ldots,O_t$\;
+  $B\leftarrow(O_{t+1},O_{t+2},\ldots)$\;
+}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{LT($h$)}
+\label{alg:loser_tree_kway_group_merge}
+\KwIn{$k$ run streams;\ $h$ or none}
+\KwOut{a locally ordered row stream}
+\If{$k=1$}{
+  \textbf{yield} every row of that run until exhausted\;
+  \Return\;
+}
+\lIf{$h$ is absent}{$h\leftarrow\lfloor m/(1+\lceil\log_2 k\rceil)\rfloor$}
+require $(1+\lceil\log_2 k\rceil)\,h\le m$\;
+build an exact binary tree\;
+do not pad it to a power of two\;
+a leaf stores a run index\;
+an internal node stores a loser and a pointer\;
+fill every leaf with at most $h$ real rows\;
+\For{each block of $\mathrm{Init}(k,h,m)$}{
+  $\rho\leftarrow$ repair of $\Rank$(real frontier)\;
+  replay the block bottom-up under $\rho$\;
+}
+$S\leftarrow$ root segment\;
+\While{$S\neq\emptyset$}{
+  \textbf{yield} the rows of $S$\;
+  $S\leftarrow$ Refresh\;
+}
+
+\Fn{$\mathrm{Init}(k,h,m)$}{
+  $F\leftarrow$ the leaves\;
+  \While{the root $\notin F$}{
+    packed: in $F$, or $(\#\text{leaves})\,h\le m$\;
+    $C\leftarrow$ the highest packed nodes\;
+    one block per internal node in $C$, bottom-up\;
+    $F\leftarrow C$\;
+  }
+}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Replay}
+\label{alg:replay_segment_node}
+\KwIn{slots $s_0,s_1$; children $c_0,c_1$}
+\KwOut{$(w,\ell,p)$ together}
+order the real rows by $\rho$\;
+pad each slot to length $h$ with $+\infty$\;
+\tcp{$+\infty$ counts in $h$; it is not ranked}
+scan until one slot's count is $h$\;
+$p\leftarrow$ the child of that slot\;
+$w\leftarrow$ real rows in the first $h$ positions\;
+$\ell\leftarrow$ the other real rows\;
+\Return{$(w,\ell,p)$}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Refresh}
+\label{alg:refresh_loser_tree_path}
+follow the pointer from the root to a leaf\;
+fill only that leaf, at most $h$ real rows\;
+\textbf{Collect}\;
+$C\leftarrow$ the new leaf segment\;
+\For{each node on the path}{append its loser to $C$}
+\textbf{Rank}\;
+$\rho\leftarrow$ repair of $\Rank(C)$\;
+\textbf{Write-back}\;
+$s\leftarrow$ the new leaf segment\;
+\For{each node, parent through root}{
+  put $s$ in the pointer's slot\;
+  put the stored loser in the other slot\;
+  $(w,\ell,p)\leftarrow$ Replay$(s_0,s_1,\rho,h,c_0,c_1)$\;
+  store $\ell$ and $p$\;
+  $s\leftarrow w$\;
+}
+\Return{$s$}
+\end{algorithm}

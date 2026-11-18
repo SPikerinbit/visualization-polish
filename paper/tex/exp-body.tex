@@ -1,0 +1,46 @@
+% Experiment body: approved layout figures only; legacy measured panels in tex/legacy/
+\input{integration/placeholders-pending}
+
+\subsection{Overall Performance of Full Ranking}
+\label{sec:exp:full}
+\pendingviz{Experiment~1 full-ranking tables (awaiting measured runs and table specialist)}
+
+\subsection{Overall Performance under \LIMIT~$K$}
+\label{sec:exp:topk}
+\pendingviz{Experiment~1 \LIMIT~$K$ tables (awaiting measured runs)}
+\pendingviz{Legacy LIMIT-$K$ sensitivity figure \texttt{fig:exp2-k} withdrawn from this preview}
+
+\subsection{Scale sensitivity with fixed $(k,h)$}
+\label{sec:exp:scale}
+\label{sec:exp:ablation}
+
+\textbf{RQ2.} How do the five confirmed SW/LT configuration pairs behave as input size scales from 1k to 10k under Full and LIMIT~10?
+
+\input{integration/fig-e3-scale}
+
+\noindent\textit{Preview note.} This subsection uses only the approved scale layout (\cref{fig:exp3-scale}). Legacy ablation panels and measured percentage claims from the SIGMOD draft are not rendered.
+
+\FloatBarrier
+\subsection{Predicted vs.\ measured cost surfaces}
+\label{sec:exp:e2}
+
+\input{integration/fig-e2-main}
+
+\subsection{Cost model validation}
+\label{sec:exp:cost}
+
+\pendingviz{Experiment~4a fan-in sweeps (awaiting specialist approval)}
+
+\input{integration/fig-e4b}
+
+\input{integration/fig-e4c}
+
+\noindent\textit{Preview note.} Closed-form cost identities tied to production \texttt{Expect} are pending verification; legacy fan-in sweep panels (\texttt{fig:exp4-full}, \texttt{fig:exp4-topk}) are withheld.
+
+\FloatBarrier
+\subsection{\LIMIT $n$ sensitivity}
+\label{sec:exp:limit-sweep}
+
+\input{integration/fig-e5-sweep}
+
+\pendingviz{Legacy listwise batch-size $m$ study (\texttt{fig:exp5-m}) not in current experiment spec}

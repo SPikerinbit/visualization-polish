@@ -1,0 +1,189 @@
+{
+  "width_mm": 178.0,
+  "pad_frac": 0.16,
+  "marker_area": 62.0,
+  "per_query_points": false,
+  "pareto_line": false,
+  "figures": [
+    {
+      "metric": "full",
+      "style": "numbered",
+      "pdf": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-full-numbered.pdf",
+      "png": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-full-numbered.png",
+      "width_in": 7.0078740157480315,
+      "height_in": 5.48,
+      "limits": {
+        "xlim": [
+          12560.0,
+          57440.0
+        ],
+        "ylim": [
+          0.356,
+          0.8839999999999999
+        ],
+        "xticks": [
+          20000.0,
+          30000.0,
+          40000.0,
+          50000.0
+        ],
+        "yticks": [
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "xticklabels": [
+          "20000",
+          "30000",
+          "40000",
+          "50000"
+        ],
+        "yticklabels": [
+          "0.40",
+          "0.50",
+          "0.60",
+          "0.70",
+          "0.80"
+        ]
+      }
+    },
+    {
+      "metric": "full",
+      "style": "labeled",
+      "pdf": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-full-labeled.pdf",
+      "png": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-full-labeled.png",
+      "width_in": 7.0078740157480315,
+      "height_in": 5.16,
+      "limits": {
+        "xlim": [
+          12560.0,
+          57440.0
+        ],
+        "ylim": [
+          0.356,
+          0.8839999999999999
+        ],
+        "xticks": [
+          20000.0,
+          30000.0,
+          40000.0,
+          50000.0
+        ],
+        "yticks": [
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "xticklabels": [
+          "20000",
+          "30000",
+          "40000",
+          "50000"
+        ],
+        "yticklabels": [
+          "0.40",
+          "0.50",
+          "0.60",
+          "0.70",
+          "0.80"
+        ]
+      }
+    },
+    {
+      "metric": "topk",
+      "style": "numbered",
+      "pdf": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-topk-numbered.pdf",
+      "png": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-topk-numbered.png",
+      "width_in": 7.0078740157480315,
+      "height_in": 5.48,
+      "limits": {
+        "xlim": [
+          12140.0,
+          56360.0
+        ],
+        "ylim": [
+          0.27280000000000004,
+          0.8272
+        ],
+        "xticks": [
+          20000.0,
+          30000.0,
+          40000.0,
+          50000.0
+        ],
+        "yticks": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "xticklabels": [
+          "20000",
+          "30000",
+          "40000",
+          "50000"
+        ],
+        "yticklabels": [
+          "0.30",
+          "0.40",
+          "0.50",
+          "0.60",
+          "0.70",
+          "0.80"
+        ]
+      }
+    },
+    {
+      "metric": "topk",
+      "style": "labeled",
+      "pdf": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-topk-labeled.pdf",
+      "png": "/agent/repos/visualization-polish/recovery/e4c/figures/exp4c-topk-labeled.png",
+      "width_in": 7.0078740157480315,
+      "height_in": 5.16,
+      "limits": {
+        "xlim": [
+          12140.0,
+          56360.0
+        ],
+        "ylim": [
+          0.27280000000000004,
+          0.8272
+        ],
+        "xticks": [
+          20000.0,
+          30000.0,
+          40000.0,
+          50000.0
+        ],
+        "yticks": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "xticklabels": [
+          "20000",
+          "30000",
+          "40000",
+          "50000"
+        ],
+        "yticklabels": [
+          "0.30",
+          "0.40",
+          "0.50",
+          "0.60",
+          "0.70",
+          "0.80"
+        ]
+      }
+    }
+  ]
+}

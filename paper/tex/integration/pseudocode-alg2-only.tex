@@ -1,0 +1,36 @@
+\begin{algorithm}[t]
+\caption{Sliding window}
+\label{alg:sliding_window_kway_group_merge}
+\KwIn{run streams $R_1,\ldots,R_g$;\ $h$ or none}
+\KwOut{a locally ordered row stream}
+$B\leftarrow\emptyset$\;
+\While{not exhausted}{
+  \If{$B=\emptyset$ and no run has supply}{\textbf{break}}
+  $I\leftarrow\{i : B$ holds $R_i$, or $R_i$ has supply$\}$\;
+  \If{$|I|=1$ and no other run has supply}{
+    \textbf{yield} $B$ in pull order\;
+    \textbf{yield} the rest of that run in pull order\;
+    \textbf{break}\;
+  }
+  \eIf{$h$ is fixed}{
+    pull at most $h$ from each $i\in I$\;
+  }{
+    $q\leftarrow\max(1,\lfloor m/|I|\rfloor)$\;
+    pull up to $q$ from each $i\in I$\;
+    borrow from supplied runs, up to $|I|q$\;
+  }
+  \lIf{$|B|\le 1$}{$O\leftarrow B$}
+  \lElse{$O\leftarrow\Rank(B)$}
+  $t\leftarrow|O|$\;
+  \For{$j\leftarrow 1$ \KwTo $|O|$}{
+    $i\leftarrow$ run of $O_j$\;
+    \If{$O_j$ ends $R_i$ in $B$, and $R_i$ has supply}{
+      $t\leftarrow j$\;
+      \textbf{break}\;
+    }
+  }
+  \tcp{$O_1,\ldots,O_t$ is the safe prefix}
+  \textbf{yield} $O_1,\ldots,O_t$\;
+  $B\leftarrow(O_{t+1},O_{t+2},\ldots)$\;
+}
+\end{algorithm}

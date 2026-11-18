@@ -1,4 +1,5 @@
 
+\input{integration/placeholders-pending}
 \section{Multi-way Merge Semantic \textsf{ORDER BY}}
 
 % \begin{table}[t]
@@ -72,43 +73,9 @@ In the following, we present an example for Algorithm~\ref{alg:semantic_external
 
 
 
-\begin{algorithm}[t]
-\small
-\caption{External Merge Group via $k$-Way Merge}
-\label{alg:semantic_external_merge}
-\KwIn{Dataset $D$, listwise batch size $m$, semantic instruction $\phi$, group merger $\textsc{MergeGroup}()$}
-\KwOut{final semantic sorted run $\Pi$}
-
-\textbf{Phase 1: Run generation} \;
-Assign every item a temporary id \;
-Partition $D$ into chunks $\mathcal{C}_1,\dots,\mathcal{C}_r$ of size at most $m$ \;
-\For{$i \gets 1$ \KwTo $r$ \textbf{in parallel}}{
-    $R_i \gets \textsc{ListwiseRank}(\mathcal{C}_i,\phi)$ \;
-}
-$\mathcal{L} \gets [R_1,\dots,R_r]$ \;
-
-\textbf{Phase 2: Iterative $k$-way group merging} \;
-$k \gets \textsc{MergeCostModel}(|D|, m, \textsc{MergeGroup})$ \algocomment{choose merge fan-in automatically for this round} \;
-\While{$|\mathcal{L}| > 1$}{
-    $\mathcal{L}_{next} \gets [\ ]$ \;
-    Partition $\mathcal{L}$ into groups $\mathcal{G}_1,\dots,\mathcal{G}_s$ with at most $k$ runs each \;
-    \For{$j \gets 1$ \KwTo $s$ \textbf{in parallel}}{
-        $Q_j \gets \textsc{MergeGroup}(\mathcal{G}_j,\phi,k)$ \;
-        Append $Q_j$ to $\mathcal{L}_{next}$ \;
-    }
-    $\mathcal{L} \gets \mathcal{L}_{next}$ \;
-}
-$\Pi \gets \mathcal{L}[1]$, Remove temporary ids from $\Pi$ \;
-\Return{$\Pi$} \;
-\end{algorithm}
-
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.95\linewidth]{fig/algo1-exp.pdf}
-    \caption{Example of Algorithm~\ref{alg:semantic_external_merge}: 4 runs generation, then two merge passes.}
-    \label{fig:exp:semantic_external_merge}
-\end{figure}
+\input{integration/pseudocode-notation.tex}
+\input{integration/pseudocode-alg1-only.tex}
+\input{integration/fig-framework-algo1.tex}
 
 \begin{example}\label{ex:alg1}
 Fig~\ref{fig:exp:semantic_external_merge} traces Algorithm~\ref{alg:semantic_external_merge} on $n=16$ items with batch size $m=4$.
@@ -240,53 +207,7 @@ There exists an optimal fan-in $k$ in $\{2,\ldots, \lfloor m/2\rfloor\}$ maximiz
 
 
 
-\begin{algorithm}[t]
-\small
-\caption{Sliding-Window Semantic $k$-Way Merge}
-\label{alg:sliding_window_kway_group_merge}
-\KwIn{a group of sorted runs $\mathcal{G}=\{R_1,\dots,R_k\}$, instruction $\phi$, listwise batch size $m$}
-\KwOut{one merged sorted run $\Pi$}
-
-Initialize cursor $p_i \gets 0$ for every run $R_i$, $\Pi \gets [\ ]$ \;
-
-\While{at least one run in $\mathcal{G}$ is not exhausted}{
-    $A \gets \{R_i \mid p_i < |R_i|\}$ ; \algocomment{collect active runs} \\
-    \If{$A=\emptyset$}{
-        \textbf{break} \;
-    }
-    \If{$|A|=1$}{
-        let $R_u$ be the only active run in $A$ \;
-        Append $R_u[p_u:|R_u|]$ to $\Pi$ \;
-        \textbf{break} \;
-    }
-
-    $h \gets \lfloor m / |A| \rfloor$ ; \algocomment{window size contributed by each active run} \\
-    $B \gets [\ ]$ \;
-
-    \ForEach{$R_i \in A$}{
-        $W_i \gets$ up to $h$ items from $R_i[p_i:]$ \;
-        $b_i \gets |W_i|$ ; \algocomment{items contributed by run $i$ in this batch} \\
-        $e_i \gets 0$ ; \algocomment{items emitted from run $i$ in this batch} \\
-        Append $W_i$ to $B$ \;
-    }
-
-    $\mathcal{O} \gets \textsc{ListwiseRank}(B,\phi)$ \;
-
-    \ForEach{$x \in \mathcal{O}$}{
-        let $R_t$ be the originating run of $x$ \;
-        Append $x$ to $\Pi$, $e_t \gets e_t + 1$ \;
-        \If{$e_t = b_t$ \textbf{and} $p_t + b_t < |R_t|$}{
-            \textbf{break} ; \algocomment{run $R_t$ drained its window but still has unseen items} \\
-        }
-    }
-
-\ForEach{$R_i \in A$}{
-    $p_i \gets p_i + e_i$ ; \algocomment{update cursors; unsafe suffix of $\mathcal{O}$ stay pending} \;
-}
-}
-
-\Return{$\Pi$}
-\end{algorithm}
+\input{integration/pseudocode-alg2-only.tex}
 
 \input{integration/fig-sw}
 
@@ -314,9 +235,9 @@ In Round 2, the unemitted items ${7, 8, 9}$ re-enter the batch together with new
 \section{Loser Tree Multi-way Merge}
 \label{sec:lt}
 
-This section proposes algorithmic instantiations of $\textsc{MergeGroup}$ via tournament data structures, including two algorithms with a loser tree~(\cref{sec:lt:binary}) and an optimized segmented loser tree (\cref{sec:lt:segment}). 
+This section presents LT($h$), a pointer-guided loser tree parameterized by segment length $h$ ($h{=}1$ is the classical single-item refresh).
 
-\subsection{Loser Tree}
+\subsection{LT($h$) merge}
 \label{sec:lt:binary}
 
 Algorithm~\ref{alg:loser_tree_kway_group_merge} replaces the flat window of Algorithm~\ref{alg:sliding_window_kway_group_merge} 
@@ -439,52 +360,12 @@ When the replay reaches the root, all affected matches have been repaired, and $
 % $\textsc{CurrentWinner}(T)$ is the next global head.
 
 The loser tree maintains global orderedness for the current representatives of all active runs. This design is distinguished from a tournament graph-based LLM ranking in the ListK framework~\cite{DBLP:journals/corr/abs-2603-17223}. In this tournament LLM ranking, there is no explicit data structure to maintain global orderedness; therefore, the algorithm is brittle to possible inconsistent results across different listwise calls. 
-The loser tree merge sort emits one item after a listwise call (in $\textsc{RefreshPath}$).
-To improve the item throughput regarding listwise calls, \cref{sec:lt:segment} introduces a segmented variant in which each leaf holds a segment of $h$ items, and each refresh emits $h$ items per call.
+For $h>1$, each refresh ranks and emits up to $h$ items per call; $h{=}1$ is the same generator with single-item segments.
 
 
 
 
-\begin{algorithm}[t]
-\small
-\caption{Loser-Tree Semantic $k$-Way Merge}
-\label{alg:loser_tree_kway_group_merge}
-\KwIn{a group of sorted runs $\mathcal{G}=\{R_1,\dots,R_k\}$, instruction $\phi$}
-\KwOut{one merged sorted run $\Pi$}
-
-Initialize cursor $p_i \gets 0$ for every run $R_i$ \;
-$A \gets \{R_i \mid |R_i|>0\}$ ; \algocomment{indices of non-empty runs} \\
-\If{$A=\emptyset$}{
-    \Return{$[\ ]$} \;
-}
-
-\ForEach{$R_i \in A$}{
-    $x_i \gets R_i[p_i]$ ; \algocomment{current representative of run $i$} \\
-}
-
-$T \gets \textsc{InitLoserTree}(A,\{x_i \mid R_i\in A\},\phi)$, $\Pi \gets [\ ]$ \;
-
-\While{$A \neq \emptyset$}{
-    \If{$|A|=1$}{
-        let $R_u$ be the only active run in $A$ \;
-        Append $R_u[p_u:|R_u|]$ to $\Pi$ \;
-        \textbf{break} \;
-    }
-
-    $R_u \gets \textsc{CurrentWinner}(T)$ \;
-    Append $x_u$ to $\Pi$, $p_u \gets p_u + 1$ \;
-
-    \eIf{$p_u < |R_u|$}{
-        $x_u \gets R_u[p_u]$ \;
-    }{
-        Remove $R_u$ from $A$ and mark $\textsc{Leaf}(R_u)$ inactive in $T$ \;
-    }
-
-    $T \gets \textsc{RefreshPath}(T,R_u,A,\{x_i \mid R_i\in A\},\phi)$ \;
-}
-
-\Return{$\Pi$} \;
-\end{algorithm}
+\input{integration/pseudocode-alg3-only.tex}
 
 
 
@@ -521,10 +402,10 @@ Fig.~\ref{fig:eg:loser_tree_kway_group_merge}(c) refreshes the path from $R_3$. 
 
 
 
-\subsection{Segmented Loser Tree}
+\subsection{Segment length $h$ and throughput}
 \label{sec:lt:segment}
 
-Recall that Algorithm~\ref{alg:loser_tree_kway_group_merge} emits exactly one item per path refresh that spends one listwise call, and each listwise call ranks $O(\log_2 k)$ items on a path from leaf to root. This number of items to rank is commonly smaller than the actual batch size $m$ of a listwise call, which is in about $[10, 30]$, depending on the effective context length and the expectation of the item tokens. This under-utilization of listwise calls degrades the throughput of item emission, which motivates us to design an optimized structure to maintain the global orderedness for more items. Segmented loser tree extends a binary loser tree by accommodating a segment of $h$ items in one node instead of a single representative. The root also stores the $h$ winners, which emit together after path refreshing via one listwise call. With the gist of the $k$-way merge algorithm (Algorithm~\ref{alg:loser_tree_kway_group_merge}), \textsc{InitLoserTree} and \textsc{RefreshPath} unchanged, the differences from the segmented loser tree algorithm lie in three aspects as follows:
+Recall that LT($h$) with $h{=}1$ issues one path refresh per emitted item that spends one listwise call, and each listwise call ranks $O(\log_2 k)$ items on a path from leaf to root. This number of items to rank is commonly smaller than the actual batch size $m$ of a listwise call, which is in about $[10, 30]$, depending on the effective context length and the expectation of the item tokens. This under-utilization motivates larger segments: LT($h$) stores up to $h$ items per tree slot instead of a single representative. The root also stores the $h$ winners, which emit together after path refreshing via one listwise call. With the gist of the $k$-way merge algorithm (Algorithm~\ref{alg:loser_tree_kway_group_merge}), \textsc{InitLoserTree} and \textsc{RefreshPath} unchanged, the differences from the segmented loser tree algorithm lie in three aspects as follows:
 
 
 % The binary merger of
@@ -586,7 +467,7 @@ The segmented loser tree is then constructed bottom-up with all the block-child 
 % the resulting rank map and remains free of LLM calls.
 
 
-For both loser tree ($h = 1$) and segmented loser tree ($h > 1$), throughput gain comes with a trade-off. Since $h=\lfloor m/(1+d) \rfloor$, the listwise output per call decreases as the fan-in $k$ increases through $d = \lceil \log_2 k \rceil$, while the number of merge passes also declines. Consequently, the overall throughput of the merge tree is not necessarily monotonic in \(k\), as it is jointly determined by the per-call output and the number of merge passes.
+For all $h$, throughput gain comes with a trade-off. Since $h=\lfloor m/(1+d) \rfloor$, the listwise output per call decreases as the fan-in $k$ increases through $d = \lceil \log_2 k \rceil$, while the number of merge passes also declines. Consequently, the overall throughput of the merge tree is not necessarily monotonic in \(k\), as it is jointly determined by the per-call output and the number of merge passes.
 As $d \geq 1$ implies $d \leq m - 1$, and hence $k \le 2^{m-1}$. There exists an optimal fan-in $k$ in $\{2,\ldots, 2^{m-1}\}$ minimizing the expected total number of listwise calls (\cref{sec:cost}).
 
 
@@ -601,46 +482,15 @@ As $d \geq 1$ implies $d \leq m - 1$, and hence $k \le 2^{m-1}$. There exists an
 % that minimizes the total call count.
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.95\linewidth]{fig/segment_loser_tree_exp.pdf}
-    \caption{Segmented loser tree ($m  = 8 \Rightarrow d =2, h = 2$) }
-    \label{fig:eg:segment_loser_tree}
-\end{figure}
-
-\begin{example}\label{ex:alg3seg}
-Fig.~\ref{fig:eg:segment_loser_tree} illustrates a segmented loser tree with fan-in $k = 4$ and a listwise batch size $m = 8$. 
-Thus, the tree depth $d=\max(1,\lceil\log_2 4\rceil)=2$ and the segment length $h=\lfloor 8/(1+2)\rfloor=2$. 
-In Fig.~\ref{fig:eg:segment_loser_tree}(a), each leaf, $R_1$, $R_2$, $R_3$, and $R_4$, load two head items, 
-These eight items are ranked by one listwise call, and the tree is initialized by bottom-up tournaments where two loser items are retained in each node. The blocked-child pointers identify when the winner $[1, 2]$ is emitted, either left or right subtree will be refreshed. For node $v_2$ with loser $[5, 7]$, a two-way merge of its children $R_1, R_2$ will first exhaust the items $[1,5]$ because of the local order $[1, 5, 3, 7]$. $R_1$ is non-exhausted due to 7 falling behind $5$. Therefore, the pointer of $v_2$ points to the leaf with $R_2$. Similarly, the internal node $v_1$ points its child $v_2$. That is because at node $v_1$, winner $[1, 3]$ from $v_2$ competes with winner $[2, 4]$ from $v_1$, and the merge result $[1, 2, 3, 4]$ making $v_2$ earlier exhausts its winner. From the perspective of two-way merge, the pointer identifies which child provide a safe prefix, and temporary blocks refreshing on the other child. 
-After the winner $[1, 2]$ emits, the affect path $(v_1, v_2, R_2)$ is identified. Two items are refilled into $R_2$ and a listwise call is used to refresh this path as shown in Fig.~\ref{fig:eg:segment_loser_tree}(b). 
-
-% In Fig.~\ref{fig:eg:segment_loser_tree}(a), the four initial leaf segments $R_1$, $R_2$, $R_3$, and $R_4$ contain the first two items of their runs. \textsc{InitLoserTree} ranks these eight items in one listwise call, constructs the tree from the resulting rank map, and certifies the root prefix $[1,2,3]$. Before any item is emitted, the left-child segment $[1,3]$ competes with the right- child segment $[2,4]$ at the root. In their merged order $[1,2,3,4]$, the left segment is exhausted after contributing $3$, while the right segment still retains $4$. The root therefore records the left child as blocked and retains $4$ until the left child is replenished. The same reasoning applies at the left internal node, recording $R_2$ as its blocked child. Following these records from the root therefore determines the unique refresh path from the root through the left internal node to $R_2$. Since $h=2$ and unread items remain, the root emits the complete segment $[1,2]$ but retains $3$ for the next refresh. As shown in Fig.~\ref{fig:eg:segment_loser_tree}(b), \textsc{RefreshPath} reloads $[9,14]$ from $R_2$ and ranks it together with the retained segment $[5,7]$ and the root items $[3,4]$. The resulting refresh window is $[3,4,5,7,9,14]$. Replaying this order along the path makes $[3,4]$ the next root segment. 
-% repeats the merge of Figure~3 with the segmented tree and
-% $m=8$. Fan-in $k=4$ gives depth $d=\max(1,\lceil\log_2 4\rceil)=2$
-% and segment length $h=\lfloor 8/(1+2)\rfloor=2$, so every leaf
-% initially holds two items of its run. Windowed initialization ranks
-% the $gh=8$ leaf-resident items in $\lceil gh/m\rceil=1$ call, giving
-% $\rho=[1,\dots,8]$; the tree is then built by lookups: $\{1,3\}$
-% ascends past $\{5,7\}$, $\{2,4\}$ past $\{6,8\}$, and the root
-% receives and emits $\{1,2\}$, with $\{3,4\}$ stored as the root's
-% loser segment. \textsc{RefreshPath}$(R_2)$ reloads leaf~2 with the
-% next $h=2$ items $\{9,14\}$ and ranks the $(1+d)h=6$-item window
-% $[3,4,5,7,9,14]$ with one call. Balanced halving replays the path:
-% the pool $\{9,14\}$ loses to the stored segment $\{5,7\}$, which
-% ascends and in turn loses to $\{3,4\}$; each node keeps the bottom
-% half as its new loser, and the root emits $\{3,4\}$. One call
-% therefore ranks six items and emits $h=2$, against three ranked and
-% one emitted per call in Figure~3.
-\end{example}
+% Legacy standalone segmented figure withheld; see tex/legacy/segment-figure.tex.
 
 \section{Token Cost Model}
 \label{sec:cost}
 
-We derive token cost models w.r.t. fan-in $k$ in sliding-window, loser-tree, and segmented loser-tree merge algorithms.
+We derive token cost models w.r.t. fan-in $k$ for sliding-window merge and LT($h$). Production fan-in selection uses implementation-side $\mathrm{Expect}(f,k,h)$; \texttt{finite.py} is not verified in this checkpoint.
 We use the number of listwise calls during the merge phase (Phase 2 of Algorithm~\ref{alg:semantic_external_merge}) as a linear proxy of total token cost. Under a fixed prompt template, a fixed batch size $m$, and expected item serialization length, each listwise call consumes a similar amount of input and output tokens.
 
-Let $a \in \{\SD,\LT,\SLT\}$ denote a merge algorithm with sliding window (\SD), loser tree (\LT), or segmented loser tree (\SLT). The cost model $\Cost_a(k;n,m)$ measures the number of listwise calls regarding the fan-in $k$, given the item number $n$ and batch size $m$. The optimal $k$ that minimizes token cost can be derived from
+Let $a \in \{\SD,\LT\}$ denote sliding-window merge (\SD) or LT($h$) with fixed segment length $h$ for the pass. The cost model $\Cost_a(k;n,m)$ measures the number of listwise calls regarding the fan-in $k$, given the item number $n$ and batch size $m$. The optimal $k$ that minimizes token cost can be derived from
 \begin{align}
     k^{\star}_{a}
     =\arg\min_{k\in\mathcal{K}_a}
@@ -660,11 +510,11 @@ Let $\Pass_a(k)$ denote the number of merge passes for algorithm $a$ under fan-i
     &=\left\lceil
       \log_k\left\lceil\frac{n}{m}\right\rceil
       \right\rceil,
-      \qquad a\in\{\SD,\LT,\SLT\}.
+      \qquad a\in\{\SD,\LT\}.
       \label{eq:number_merge_pass}
 \end{align}
 \end{proposition}
-It is worth noting that, as shown in Eq.~\eqref{eq:number_merge_pass}, for the same fan-in $k$, the three algorithms have the same number of merge passes in Phase 2 (Algorithm~\ref{alg:semantic_external_merge}). Therefore, their cost differences come from the per-pass term $\Pcost_a(t,k;n,m)$, which captures the patterns of how each algorithm uses listwise calls inside one pass.
+For the same fan-in $k$, SW and LT share the merge-pass count in Eq.~\eqref{eq:number_merge_pass}; differences come from $\Pcost_a(t,k;n,m)$.
 We next derive $\Pcost_a(t,k;n,m)$ for each algorithm.
 Complete derivations and corner cases are provided in our technical report~\cite{appendix2027} (Appendix~\ref{sec:cost-derivations}).
 We use $r_0=\lceil n/m\rceil$ and $r_t=\lceil r_0/k^t\rceil$ to denote the number of runs at the beginning and the $t$-th merge pass, respectively. 
@@ -733,34 +583,8 @@ Recall that for loser tree merge, in one pass, $\textsc{RefreshPath}$ emits all 
 
 % The refresh term therefore dominates the initialization term in our setting, making the number of merge passes the decisive factor. Hence, over $\mathcal K_{\LT}=\{2,\ldots,r_0\}$, the largest feasible fan-in, $k=r_0$, is selected, yielding $\Pass_{\LT}(k)=1$ and the minimum predicted cost.
 
-\stitle{Per-round token cost for segmented loser tree.} 
-For segmented loser tree, we have tree depth $d = \max(1, \lceil\log_2 k \rceil)$, and segment length $h = \lfloor {m}/({1+d})\rfloor$. Per-group merge cost is similar to that of loser tree, but there still remains two differences. 
-First, for tree construction, the sliding window merge need to rank $kh$ representatives for $k$ runs.
-Second, for path refresh, $\lceil n_t/h \rceil$ listwise calls process these $n_t$ items.
-\begin{proposition}[$\Pcost_{\SLT}$ for segmented loser tree] The per-round token cost at the $t$-th merge pass for segmented loser tree merge is 
-\begin{align}
-    \Pcost_{\SLT}(t,k;n,m)
-    &=\sum_{t = 1}^{G_t}
-      \left(
-        \left\lceil
-          \frac{n_{t}}{h}
-        \right\rceil
-        + \Cost_{\SD}(2, kh, m) + \left\lceil \frac{kh}{m} \right\rceil
-      \right) \nonumber \\
-    & =  \left\lceil
-          \frac{n}{h}
-        \right\rceil + {G_t} \left(\Cost_{\SD}(2, kh, m) + \left\lceil \frac{kh}{m} \right\rceil \right)
-    \label{eq:pcost-slt}
-\end{align}
-\end{proposition}
-
-
-% \begin{proposition}[Proof Sketch:]
-% Balanced path replay preserves a pool of $h_{t,j}$ items in loser tree $j$, so one call emits $h_{t,j}$ items and the group requires $\lceil n_{t,j}/h_{t,j}\rceil$ refreshes. Loser tree $j$ ranks its $k_{t,j}h_{t,j}$ resident items with the same smallest-first initializer, costing $\mathrm{Init}_{\SD}(k_{t,j}h_{t,j},m)$. Summing both call populations over the non-singleton groups proves the formula.
-% \end{proposition}
-For segmented loser tree, the path refresh term $\lceil{n}/{h}\rceil$ may no longer dominate Eq.~\eqref{eq:pcost-slt} for $h \geq 2$. We therefore preserve the cost term of tree construction by evaluating $\Cost_{\SD}(2;kh,m)$, when selecting a fan-in $k$ in $\mathcal K_{\SLT}=\{2,\ldots,\min(r_0,2^{m-1})\}$. 
-
-%so the refresh term no longer overwhelmingly dominates the initialization term. Increasing $k$ reduces the number of merge passes but may decrease $h_{t,j}$ and increase both refresh and initialization costs. We therefore evaluate the complete objective $\Cost_{\SLT}(k;n,m)$ over the finite feasible set $\mathcal K_{\SLT}=\{2,\ldots,\min(r_0,2^{m-1})\}$ and select the best integer fan-in.
+\stitle{LT($h$) cost selection (preview).}
+Legacy closed-form $\Pcost_{\SLT}$ identities are archived in \texttt{tex/legacy/cost-slt.tex} and withheld until \texttt{finite.py} is verified. Fan-in search in the preview follows $\mathrm{Expect}(\text{family},k,h)$ from the implementation, not re-derived formulas here.
 
 
 
@@ -774,7 +598,7 @@ A \LIMIT~$K$ query requires only the prefix $\Pi_K$ items, instead of the full p
 The level-at-a-time execution of Phase 2 in Algorithm~\ref{alg:semantic_external_merge}, which materializes every intermediate run in a merge pass before the next pass begins, is therefore necessary for \LIMIT~$K$ query. 
 To efficiently support \LIMIT~$K$, we extend the physical execution of Phase 2 with a demand-driven version of the same logical merge plan, while keeping Phase 1. Specifically, the physical plan is represented as a $k$-way merge tree in which nodes are asynchronous \emph{producers}. Leaf producers scan the sorted runs generated in Phase 1, and each internal producer implements \textsc{Next}$(c)$, which returns up to $c$ items from that node's children. An internal node pulls from its children only when its local merge state requires refilling, and the root is drained until $K$ items have been produced or until the input is exhausted. We present the complete algorithm in our technical report~\cite{appendix2027}. 
 
-The producer formulation preserves the group merge algorithms in \cref{sec:sw} and \cref{sec:lt}. A sliding window producer maintains the same candidate window as Algorithm \ref{alg:sliding_window_kway_group_merge}: it ranks the current window, emits only the safe prefix, and retains the unsafe suffix for the next round. The only difference is that refills are obtained by invoking \textsc{Next}$(c)$ on the corresponding child producers. Similarly, a loser tree producer maintains one representative per child. After emitting the winner from the root, the producer requests one new item from the winning child and refreshes only the affected leaf-to-root path, following Algorithm~\ref{alg:loser_tree_kway_group_merge}. The segmented loser tree producer adopts the same idea at segment granularity: it pulls new segments from children, refreshes the selected path, and emits the root segment. 
+The producer formulation preserves the group merge algorithms in \cref{sec:sw} and \cref{sec:lt}. A sliding window producer maintains the same candidate window as Algorithm \ref{alg:sliding_window_kway_group_merge}: it ranks the current window, emits only the safe prefix, and retains the unsafe suffix for the next round. The only difference is that refills are obtained by invoking \textsc{Next}$(c)$ on the corresponding child producers. An LT($h$) producer follows Algorithm~\ref{alg:loser_tree_kway_group_merge} at the chosen segment length $h$. 
 
 
 To implement pipeline parallelism, in the merge tree, every non-root producer is driven by a thread with a bounded queue allowing one-item lookahead. 
@@ -826,6 +650,5 @@ The token cost model in \cref{sec:cost} is not applicable for \LIMIT~$K$ query. 
 % execution substantially reduces tokens and latency while preserving
 % top-$K$ quality.
 
-\input{integration/fig-limit-trial}
 
 

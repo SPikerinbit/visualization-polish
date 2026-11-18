@@ -1,0 +1,36 @@
+\begin{algorithm}[t]
+\caption{Replay}
+\label{alg:replay_segment_node}
+\KwIn{slots $s_0,s_1$; children $c_0,c_1$}
+\KwOut{$(w,\ell,p)$ together}
+order the real rows by $\rho$\;
+pad each slot to length $h$ with $+\infty$\;
+\tcp{$+\infty$ counts in $h$; it is not ranked}
+scan until one slot's count is $h$\;
+$p\leftarrow$ the child of that slot\;
+$w\leftarrow$ real rows in the first $h$ positions\;
+$\ell\leftarrow$ the other real rows\;
+\Return{$(w,\ell,p)$}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Refresh}
+\label{alg:refresh_loser_tree_path}
+follow the pointer from the root to a leaf\;
+fill only that leaf, at most $h$ real rows\;
+\textbf{Collect}\;
+$C\leftarrow$ the new leaf segment\;
+\For{each node on the path}{append its loser to $C$}
+\textbf{Rank}\;
+$\rho\leftarrow$ repair of $\Rank(C)$\;
+\textbf{Write-back}\;
+$s\leftarrow$ the new leaf segment\;
+\For{each node, parent through root}{
+  put $s$ in the pointer's slot\;
+  put the stored loser in the other slot\;
+  $(w,\ell,p)\leftarrow$ Replay$(s_0,s_1,\rho,h,c_0,c_1)$\;
+  store $\ell$ and $p$\;
+  $s\leftarrow w$\;
+}
+\Return{$s$}
+\end{algorithm}

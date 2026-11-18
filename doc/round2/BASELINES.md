@@ -1,5 +1,16 @@
 # 实现基线（仓库相对路径）
 
+## 本次证据与未交付边界（2026-11-18）
+
+- 本次提交以重新读取的远端main e122c13b7ef62ae72a0a4b60c9ef9c906fff45ca为父，仅更新三份doc。独立Framework/机制/E1/实验及整合候选尚未随此提交入库；不得把它们视为仓库已交付或整体已验收。
+- 云端GitHub网页实查上游[OperatorSemanticOrderBy提交历史](https://github.com/BITQiKangK/SemaPrototype/commits/OperatorSemanticOrderBy/)：最新条目为2026-11-17“Implement paper experiment workflows and archive study results”，实际链接完整SHA为0d96d0bf116e52f1664ae2539446f05921f5e947，等于现有冻结点；因此该分支无冻结之后的已提交变化，含merge/loser_tree及_shared。Connector当时对上游返回404，结论来自已登录云端网页，不是connector比较成功。不能据此证明部署或未提交工作状态。
+- 旧正文LT h=1、现图h=2实例、exhausted-run loser措辞的潜在语义冲突仍待逐项闭合。上述HEAD相同不等于旧正文正确，也不消除实例参数差异。
+- 用户最新指定模型2名Qwen3.8-27B；实际部署manifest尚缺，旧Qwen3.5记录仅可追溯，不可无证改写为已部署3.8。实验数值仍synthetic，真实measurement未验证。
+- 图像统一规则为视觉层级而非同色：E4a蓝/橙是Off/On-cold缓存配置；各实验系列角色保留。Framework H/L含义、Full同层并发/层间屏障、LIMIT禁prefetch等以CURRENT-DECISIONS最新节为准。
+- 仓库外实际TL2026检查及候选对照需在后续合入时补稳定相对路径、hash、构建日志与整体验收。本次不虚构候选已归档；既有相对路径和历史证据保留。
+
+---
+
 ## 最新工件组织要求与状态（2026-11-18）
 
 - 当前Fig.7–10的E4a合为通栏16子图；实验每panel独立输出，TeX subfigure组装，legend独立。Fig.12需进一步压缩。编号仅定位当前审阅稿，最终以内容与TeX标签映射为准。

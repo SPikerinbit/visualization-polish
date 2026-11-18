@@ -1,5 +1,15 @@
 # 下一 bot 入口（继续视觉打磨；历史验收另见下文）
 
+## 最新接续重点（2026-11-18；优先于下文冲突历史）
+
+先读CURRENT-DECISIONS最顶部“最新审阅增量”。继续Framework的document/request双来源、四输入及cost model视觉表达、Full层间屏障/LIMIT初始化后严格按需；Alg.1按原论文单栏圆形示例；Pointer保留认可结构紧凑化；鲜橙浅黄仅用于元素、全图白底。E1的±std小字号同行、方法单行、第一粗第二下划线，模型2按用户指定Qwen3.8-27B展示但部署未核。伪代码核心清楚而不机械展开；跨图统一风格而非统一语义色。每panel和legend独立，不退回不可编辑整组图。
+
+仓库外候选及局部通过不能替代整稿终验；本次仅doc提交，没有推送本轮图稿/源图/PDF。实验仍synthetic。优先核旧正文LT h=1与当前h=2实例及exhausted-run loser措辞，不把文本/图/冻结实现之间潜在矛盾掩盖为已统一。
+
+本轮云端已登录GitHub网页只读核实：上游BITQiKangK/SemaPrototype的OperatorSemanticOrderBy最新HEAD仍为0d96d0bf116e52f1664ae2539446f05921f5e947，与冻结点相同。这只说明该分支当前已提交内容相同，不证明部署、未提交修改或科学结论。后续继续工作时重新核远端，不将本条当永久最新。
+
+---
+
 ## 最新接续增量（2026-11-18；先读）
 
 先读CURRENT-DECISIONS.md最顶部“后续新增决策”。新增工作为：当前Fig.7–10的E4a合并通栏16子图；实验每panel独立文件、TeX subfigure组装、独立legend；实验图例优先一行可两行；压缩当前Fig.12；机制图例形状一致并压紧Pointer；补Alg.1总体流程示例；Framework四输入视觉化及有依据的cost model内部模块。图号只定位当前审阅稿，不能在重排后机械照号改错图。

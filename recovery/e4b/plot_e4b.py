@@ -16,7 +16,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerBase
 from matplotlib.lines import Line2D
-from matplotlib.patches import ConnectionPatch, FancyBboxPatch, Rectangle
+from matplotlib.patches import ConnectionPatch, Rectangle
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "e4b_beta.json"
@@ -24,15 +24,13 @@ PDF = HERE / "e4b-beta.pdf"
 PNG = HERE / "e4b-beta.png"
 
 WIDTH_MM = 178.0
-HEIGHT_MM = 92.0
+HEIGHT_MM = 79.0
 MM_TO_IN = 1.0 / 25.4
 
 INK = "#262B30"
 MUTED = "#5C6B76"
 FRAME = "#5C6B76"
 GRID = "#E1E6EA"
-WARN = "#7A2E2A"
-WARN_BG = "#FBF4F1"
 
 # Five series colors. Role is marker shape, not a second palette.
 SERIES = {
@@ -266,8 +264,8 @@ def build():
     fig = plt.figure(figsize=(WIDTH_MM * MM_TO_IN, HEIGHT_MM * MM_TO_IN), dpi=300)
     fig.patch.set_facecolor("white")
 
-    main = fig.add_axes((0.075, 0.145, 0.585, 0.555))
-    zoom = fig.add_axes((0.748, 0.145, 0.232, 0.555))
+    main = fig.add_axes((0.075, 0.085, 0.585, 0.79))
+    zoom = fig.add_axes((0.748, 0.085, 0.232, 0.79))
 
     all_y = [y for series in curves.values() for y in series]
     main_lo, main_hi = min(all_y) - 10, max(all_y) + 12
@@ -357,7 +355,7 @@ def build():
         line_handles + [pred_handle, meas_handle, both_handle],
         [h.get_label() for h in line_handles] + ["predicted", "measured", "both roles"],
         loc="upper center",
-        bbox_to_anchor=(0.50, 0.885),
+        bbox_to_anchor=(0.50, 0.985),
         ncol=8,
         frameon=False,
         fontsize=7.5,
@@ -366,37 +364,6 @@ def build():
         columnspacing=0.85,
         borderaxespad=0,
         handler_map={both_handle: OverlayHandler()},
-    )
-
-    banner = FancyBboxPatch(
-        (0.045, 0.905),
-        0.91,
-        0.078,
-        boxstyle="square,pad=0",
-        transform=fig.transFigure,
-        facecolor=WARN_BG,
-        edgecolor="none",
-        mutation_aspect=0.3,
-    )
-    fig.add_artist(banner)
-    fig.text(
-        0.50,
-        0.958,
-        "SYNTHETIC LAYOUT SAMPLE  ·  NOT AN EXPERIMENTAL RESULT  ·  NO CONCLUSION",
-        ha="center",
-        va="center",
-        fontsize=8,
-        fontweight="bold",
-        color=WARN,
-    )
-    fig.text(
-        0.50,
-        0.922,
-        r"Invented tokens for layout only.  $\beta$ = 1 is cache on, no hit discount.  Marks use measured cost.",
-        ha="center",
-        va="center",
-        fontsize=7,
-        color=WARN,
     )
 
     fig.savefig(PDF, dpi=300)

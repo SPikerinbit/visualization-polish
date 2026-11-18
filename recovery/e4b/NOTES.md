@@ -32,10 +32,8 @@
 
 ## 图上读到的标签
 
-178.00 mm × 92.00 mm 矢量 PDF。文字层里的标签是：
+178.00 mm × 79.00 mm 矢量 PDF。合成披露只写在 `e4b-beta.tex` caption，图内无海报横幅。文字层里的标签是：
 
-- 横幅：SYNTHETIC LAYOUT SAMPLE · NOT AN EXPERIMENTAL RESULT · NO CONCLUSION
-- 次行：Invented tokens for layout only. β = 1 is cache on, no hit discount. Marks use measured cost.
 - 图例：β = 0，β = 0.25，β = 0.5，β = 0.75，β = 1，predicted，measured，both roles
 - 主轴刻度：(2, 1) (2, 2) (4, 1) (4, 2) (4, 3) (8, 1) (8, 2)，以及 60 到 160
 - 纵轴：equivalent input tokens, U−(1−β)Q

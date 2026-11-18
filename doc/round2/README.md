@@ -1,4 +1,4 @@
-# Round-2 交接（进行中，不是验收完成）
+# Round-2 交接（版式验收完成，有例外）
 
 分支从失败快照 `2d05b2de` 另开。那一版视觉被用户否定，本目录不把旧 PDF 改写成终稿。
 
@@ -14,7 +14,7 @@
 
 ## 还没做
 
-父已读 `f55de18` 的十页。分页收口见 `qa/PAGINATION-CLOSEOUT.md`，仍不是最终通过。真实数据、Table 2 公式、`finite.py`、原 3D k-sweep TeX、TeX Live 2026 都未闭合。E2 不能写成“原 3D 只换图已经完全通过”。折线刻度里的小字（E3 约 4.6pt / 图例 5pt）是 60pt 硬容器下的例外，不是舒适字号通过。
+版式验收对象是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`，PDF SHA256 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。结论在 `qa/FINAL-ACCEPTANCE.md`。不是科研通过。真实数据、Table 2 公式、`finite.py`、原 3D k-sweep TeX、TeX Live 2026、E3 小字、型号部署 manifest 都未闭合。
 
 复现：`cd paper/round2/integration && ./build.sh`。本机是 TeX Live 2023。
 

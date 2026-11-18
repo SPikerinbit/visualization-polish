@@ -1,7 +1,7 @@
 # 现行决策（round2）
 
 效力：本文件是现行要求。第10节只解释已被覆盖的旧说法，**不参与执行**。完整失效表另见 `archive/SUPERSEDED.md`。
-本文件不是作品验收通过声明。四路工件已按父给的 SHA 放进无正文壳，整合 PDF 仍候父最终视觉 QA，不能写成终验。
+本轮版式验收已经完成，对象是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425` 和 PDF SHA256 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。这不是科研验收，也不是 TeX Live 2026 通过。见 `qa/FINAL-ACCEPTANCE.md`。
 
 4.1pt 微字指 **SW/LT 单栏**，不是 Framework 通栏字号。Framework 待查的是反向 pull。不要把二者对调。
 

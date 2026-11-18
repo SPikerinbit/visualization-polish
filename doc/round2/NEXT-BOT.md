@@ -1,14 +1,18 @@
-# 下一 bot 入口（未完成验收）
+# 下一 bot 入口（本轮版式验收完成，有例外）
 
-2026-11-18 补记：四路已进 `paper/round2/integration/main.tex`。机制用 `c959d22b0eeffaeb78f345b320faaa849164c1a6`，不要 `bed819cd`。折线用 `22b432ca01054da271366518d5ba6684795b1b20`。表用 `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`。E2 用 `05f921f20c634dbb4d6e05eb5f4003d17f354183`。复现是 `paper/round2/integration/build.sh`。本机 TeX Live 2023，不是 2026。页序和例外在 `qa/INTEGRATION-SHELL.md`。父还没做最终视觉 QA。
+版式验收对象是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`。PDF SHA256 `05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`。记录这次结论的文档提交是该提交的后继，只改 `doc/round2/`，不代替 `060ef6d`，也不改 PDF。
+
+本轮是有例外的版式验收完成，不是科研验收，也不是 TeX Live 2026 通过。验收原文：`qa/FINAL-ACCEPTANCE.md`。
+
+四路：机制 `c959d22b0eeffaeb78f345b320faaa849164c1a6`（不要 `bed819cd`）；表格 `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`；E2 `05f921f20c634dbb4d6e05eb5f4003d17f354183`；折线 `22b432ca01054da271366518d5ba6684795b1b20`。入口 `paper/round2/integration/main.tex`。复现 `cd paper/round2/integration && ./build.sh`。本机 TeX Live 2023。
+
+未闭合，不能写成通过：全部合成；Table 2 公式与 Expect 未核，Setwise 缺式；原 3D k-sweep TeX 缺失；E3 刻度约 4.6pt、图例 5pt；Qwen3.8 对 Qwen3.5 的部署 manifest 未核。
 
 
-
-本文件在交接种子上改了状态，不是终验记录。
 
 - 已纳入四路：机制 `c959d22b0eeffaeb78f345b320faaa849164c1a6`（不要 `bed819cd`）；表格 `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`；E2 `05f921f20c634dbb4d6e05eb5f4003d17f354183`；折线 `22b432ca01054da271366518d5ba6684795b1b20`。
 - 模板：`paper/round2/integration/main.tex`。复现 `paper/round2/integration/build.sh`。无标题页。没有逐图 clearpage；只有比通栏下整栏还高的盒子才换页。
-- 父看过的十页是 `f55de18cf87ea324ecb1b94eefc5486bf6a0581f`。审计 `qa/history/FINAL-AUDIT-f55de18.md` 否认证碰撞。分页修复见 `qa/PAGINATION-CLOSEOUT.md`。PR19，未 merge `main`。
+- 父已读的 9 页版式就是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`。十页审计 `qa/history/FINAL-AUDIT-f55de18.md` 只是否认证碰撞的历史。分页过程见 `qa/PAGINATION-CLOSEOUT.md`。PR19，未 merge `main`。
 - E2 例外：合成；原 3D k-sweep TeX 仍缺失；exp5-m 是二维参照。主 12 图版式可以沿用，不要重画，也不要说“原 3D 只换图”已完全满足。
 - 废弃 PNG：131758 bytes、SHA256 `5b0a4740e0687377f2021a0d04945566a19330fdbb73c67eaf99d5a832034277`。正确主 PNG 是 162298 bytes、`cddf9a1a1a4fd305cb5971ecb4485b2cbc4028d61293feb968f8aacfff99675f`。
 - 4.1pt 是 SW/LT 单栏问题，不是 Framework。
@@ -140,13 +144,16 @@ pdftoppm -cropbox -png -r 160 out/e2-vldb-preview.pdf /tmp/e2-crop
 
 - integration_branch：`cursor/round2-handoff-234e`
 - PR：https://github.com/SPikerinbit/visualization-polish/pull/19
-- 父已读的十页 HEAD：`f55de18cf87ea324ecb1b94eefc5486bf6a0581f`
+- 版式验收 HEAD：`060ef6d951ff6471f4dcbb39aa4c449c1d131425`。文档提交是它的后继，只锁说明，不锁产物。
+- 父已读的十页 HEAD（历史）：`f55de18cf87ea324ecb1b94eefc5486bf6a0581f`
 - main 是否已 merge：否。基线 `2d05b2de0b8eb6a6fc71df7c7662d708e0eee971` 未改写。
 - 四路 HEAD：机制 `c959d22b0eeffaeb78f345b320faaa849164c1a6`；E2 `05f921f20c634dbb4d6e05eb5f4003d17f354183`；表格 `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`；折线 `22b432ca01054da271366518d5ba6684795b1b20`
 - final_tex_entry：`paper/round2/integration/main.tex`
 - 复现：`cd paper/round2/integration && ./build.sh`。本机 TeX Live 2023，不是 TeX Live 2026。
-- 父已读 PDF SHA256：`558d290327542773e816191fda0836d050f1b73770cb6ed140354613eb6c0d5c`（10 页）。分页收口后的 PDF 以该提交里的 `paper/round2/integration/main.pdf` 为准，9 页。
-- 审计：`doc/round2/qa/history/FINAL-AUDIT-f55de18.md`。修复：`doc/round2/qa/PAGINATION-CLOSEOUT.md`。
+- 验收 PDF SHA256：`05cece898d313acdb41c272ec2ecf031ab1532c098685f3438d428471a3cde0a`（9 页，`060ef6d` 的 `paper/round2/integration/main.pdf`）。
+- 当时源包 SHA256：`80489ae016ddd75dd7180551bb5c74dff6db02a76cfb867249d882bf8b31f5c5`。
+- 十页历史 PDF SHA256：`558d290327542773e816191fda0836d050f1b73770cb6ed140354613eb6c0d5c`，不是本轮交付。
+- 验收：`doc/round2/qa/FINAL-ACCEPTANCE.md`。十页审计：`doc/round2/qa/history/FINAL-AUDIT-f55de18.md`。分页过程：`doc/round2/qa/PAGINATION-CLOSEOUT.md`。
 - 未解决：合成数据、Table 2 公式、原 3D k-sweep TeX、TeX Live 2026、Qwen3.8 对 Qwen3.5 的部署 manifest。这些不是空白，也不能写成通过。
 
 ## 8. 下一bot：真实数据接入，不重开视觉设计

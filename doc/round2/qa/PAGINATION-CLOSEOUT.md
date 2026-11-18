@@ -1,4 +1,6 @@
-# 分页收口（不是科研通过，也不是最终视觉通过）
+# 分页收口（过程记录）
+
+本文件记录从十页到 9 页的排版。版式验收结论在 `FINAL-ACCEPTANCE.md`，对象是 `060ef6d951ff6471f4dcbb39aa4c449c1d131425`。这里不是科研通过。
 
 对象：PR19 `cursor/round2-handoff-234e`。父已看过的十页是 `f55de18cf87ea324ecb1b94eefc5486bf6a0581f`。那一版的只读审计在 `history/FINAL-AUDIT-f55de18.md`。本文件只记录那次审计之后的有界修复。
 

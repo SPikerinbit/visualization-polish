@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import emit
 import ranking
 import synthetic
-from catalog import DATASETS, METHOD_IDS
+from catalog import DATASETS, METHOD_IDS, METRICS
 
 
 class RankingTests(unittest.TestCase):
@@ -155,7 +155,7 @@ class SheetTests(unittest.TestCase):
         self.assertLess(db["lotus"], db["tournament"])
         tokens = ranked["per"]["tokens"]["COVID"]
         self.assertLess(tokens["lt"], tokens["sw"])
-        self.assertEqual(emit.fmt_token(88000), "88")
+        self.assertEqual(emit.fmt_token(12000), "12")
         latency = ranked["per"]["latency"]["DL22"]
         self.assertLess(latency["lt"], latency["sw"])
         self.assertEqual(emit.fmt_latency(2.24), "2.2")
@@ -212,17 +212,24 @@ class EmitTests(unittest.TestCase):
     def test_main_tex_contract(self):
         full = "\n".join(emit.emit_stacked(s) for s in self.sheets if s["demand"] == "full")
         limit = "\n".join(emit.emit_stacked(s) for s in self.sheets if s["demand"] == "limit10")
+        one = emit.emit_stacked(next(s for s in self.sheets if s["model"] == "Qwen3.5-9B" and s["demand"] == "full"))
         for tex, name in ((full, "ListK Sort"), (limit, "ListK Select")):
             self.assertIn(name, tex)
             self.assertIn("Synthetic layout numbers, not experimental results.", tex)
+            self.assertIn("awaits contract sign-off", tex)
             self.assertIn("table*", tex)
             self.assertNotIn("SLT", tex)
             self.assertNotIn("Segmented", tex)
             self.assertNotIn("Movies", tex)
             self.assertIn("Q9", tex)
             self.assertIn("Robust04", tex)
-            self.assertIn(r"\cmidrule", tex)
             self.assertIn("Avg.\\ Rank", tex)
+        self.assertEqual(one.count(r"\begin{tabular}"), 2)
+        self.assertIn(r"\makebox[\textwidth]", one)
+        self.assertIn(r"0.105\textwidth", one)
+        self.assertIn(r"\small", one)
+        self.assertNotIn(r"\footnotesize", one)
+        self.assertIn(r"\cmidrule", one)
         self.assertIn("Spearman", full)
         self.assertIn("NDCG@10", limit)
         self.assertNotIn("nDCG@10", full)
@@ -236,13 +243,13 @@ class EmitTests(unittest.TestCase):
 
     def test_static_tables_do_not_invent_results(self):
         datasets = emit.datasets_tex()
-        self.assertIn("Not an experimental result.", datasets)
+        self.assertIn("Not experimental.", datasets)
         self.assertIn("DBpedia-Entity", datasets)
         self.assertIn("Robust04", datasets)
         data_rows = datasets.split(r"\begin{tabular}")[1]
         self.assertNotIn("FiQA", data_rows)
         self.assertNotIn("Movies", data_rows)
-        self.assertEqual(datasets.count("Movies"), 1)
+        self.assertNotIn("FiQA", data_rows)
         algs = emit.algorithms_tex()
         self.assertIn("ListK Sort/Select", algs)
         self.assertIn("LT($h$)", algs)
@@ -250,7 +257,7 @@ class EmitTests(unittest.TestCase):
         self.assertIn("---", algs)
         params = emit.params_tex()
         self.assertIn("tab:params-full", params)
-        self.assertIn("not the commented notation list", params)
+        self.assertIn("disabled", params)
         self.assertIn("$h{=}1$", params)
         self.assertEqual(params.count("mathrm{bin}"), 1)
         self.assertIn("not two algorithms", params)
@@ -274,11 +281,45 @@ class EmitTests(unittest.TestCase):
         measured["synthetic"] = False
         tex = emit.emit_stacked(measured)
         self.assertNotIn("Synthetic layout numbers", tex)
-        self.assertIn("not a repeated-run standard deviation", tex)
+        self.assertIn("permutation std", tex)
         with self.assertRaises(ValueError):
             bad = json.loads(json.dumps(measured))
             bad["methods"] = ["slt"] + bad["methods"][1:]
             emit.check_sheet(bad)
+
+    def test_json_to_tex_marks_match_ranker(self):
+        mismatches = []
+        for sheet in self.sheets:
+            ranked = ranking.rank_sheet(sheet)
+            for dataset in DATASETS:
+                for metric in METRICS:
+                    marks = ranked["marks"][metric][dataset]
+                    for method in sheet["methods"]:
+                        cell = sheet["cells"][method][dataset][metric]
+                        if cell.get("mean") is None:
+                            continue
+                        expected = marks.get(method, "none")
+                        tex = emit.metric_tex(sheet, ranked, method, dataset, metric, "inline")
+                        has_bold = "\\textbf" in tex or "\\boldmath" in tex
+                        has_under = "\\underline" in tex
+                        if expected == "first" and not has_bold:
+                            mismatches.append((sheet["model"], sheet["demand"], dataset, metric, method, "first", tex))
+                        if expected == "second" and not has_under:
+                            mismatches.append((sheet["model"], sheet["demand"], dataset, metric, method, "second", tex))
+            for metric in METRICS:
+                marks = ranked["avg_marks"][metric]
+                for method in sheet["methods"]:
+                    if ranked["avg"][metric][method] is None:
+                        continue
+                    expected = marks.get(method, "none")
+                    tex = emit.avg_tex(ranked, method, metric)
+                    has_bold = "\\textbf" in tex
+                    has_under = "\\underline" in tex
+                    if expected == "first" and not has_bold:
+                        mismatches.append((sheet["model"], sheet["demand"], "avg", metric, method, "first", tex))
+                    if expected == "second" and not has_under:
+                        mismatches.append((sheet["model"], sheet["demand"], "avg", metric, method, "second", tex))
+        self.assertEqual(mismatches, [], msg=f"{len(mismatches)} mark mismatches")
 
     def test_printed_cost_ties_are_only_the_plants(self):
         allowed = {

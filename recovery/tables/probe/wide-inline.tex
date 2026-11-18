@@ -4,9 +4,11 @@
 \centering
 \caption{PROBE, not for inclusion. Synthetic layout numbers, not experimental results. One inline row of all six datasets plus Avg.\ Rank, same 9B full sheet as the main table. Kept only to show whether this width fits a PVLDB table*.}
 \label{tab:exp1-probe-inline}
-\footnotesize
+\begingroup
+\small
 \setlength{\tabcolsep}{2pt}
-\begin{tabular}{@{}lrrrrrrrrrrrrrrrrrrrrr@{}}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{lrrrrrrrrrrrrrrrrrrrrr}
 \toprule
 Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{COVID} & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ Rank} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13} \cmidrule(lr){14-16} \cmidrule(lr){17-19} \cmidrule(lr){20-22}
@@ -27,4 +29,5 @@ SW & $0.310\pm0.013$ & 44 & 6.2 & {\boldmath $0.620\pm0.030$} & 45 & 6.5 & \unde
 LT & $0.300\pm0.017$ & 47 & 6.6 & {\boldmath $0.620\pm0.030$} & 48 & 6.9 & {\boldmath $0.491\pm0.024$} & 49 & \textbf{2.2} & {\boldmath $0.520\pm0.010$} & \textbf{12} & 7.5 & $0.330\pm0.017$ & 51 & 7.8 & {\boldmath $0.512\pm0.024$} & 52 & 8.1 & \textbf{4.08} & 8.50 & 8.50 \\
 \bottomrule
 \end{tabular}
+\endgroup
 \end{table*}

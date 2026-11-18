@@ -5,9 +5,11 @@
 \centering
 \caption{Synthetic layout numbers, not experimental results. Compact left--right comparison of average ranks only, not a main result table. A per-dataset matrix for both models does not fit side by side in one PVLDB table*.}
 \label{tab:exp1-compare-lr}
-\footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}lrrrrrr@{}}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{lrrrrrr}
 \toprule
 \multicolumn{7}{@{}l}{\emph{Full ranking}} \\
 Method & \multicolumn{3}{c}{Qwen3.5-9B} & \multicolumn{3}{c}{Qwen3.8-27B} \\
@@ -30,7 +32,7 @@ LT & \textbf{4.08} & 8.50 & 8.50 & \textbf{1.42} & 10.00 & 10.00 \\
 \bottomrule
 \end{tabular}
 \par\vspace{0.45em}
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{lrrrrrr}
 \toprule
 \multicolumn{7}{@{}l}{\emph{LIMIT 10}} \\
 Method & \multicolumn{3}{c}{Qwen3.5-9B} & \multicolumn{3}{c}{Qwen3.8-27B} \\
@@ -52,6 +54,7 @@ SW & \underline{1.83} & 8.83 & 9.00 & 3.17 & 9.00 & 8.83 \\
 LT & \textbf{1.17} & 9.83 & 10.00 & \textbf{2.50} & 10.00 & 9.83 \\
 \bottomrule
 \end{tabular}
+\endgroup
 \end{table*}
 
 \begin{table}[t]
@@ -60,7 +63,7 @@ LT & \textbf{1.17} & 9.83 & 10.00 & \textbf{2.50} & 10.00 & 9.83 \\
 \label{tab:exp1-compare-sub}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lrrr@{}}
+\begin{tabular}{lrrr}
 \toprule
 Method & \multicolumn{3}{c}{Q9} \\
 \cmidrule(lr){2-4}

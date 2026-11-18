@@ -134,7 +134,78 @@ def heads(demand):
     return quality, r"\#Tok.", "s"
 
 
+def exp1_column_spec():
+    """Four triplets (three datasets + Avg. Rank) share one width budget."""
+    triplet = (
+        r">{\centering\arraybackslash}p{0.105\textwidth}"
+        r">{\centering\arraybackslash}p{0.048\textwidth}"
+        r">{\centering\arraybackslash}p{0.040\textwidth}"
+    )
+    method = r">{\raggedright\arraybackslash}p{0.17\textwidth}"
+    return "@{}" + method + triplet * 4
+
+
+EXP1_TABCOLSEP = "4pt"
+
+
+def segment_lines(sheet, ranked, datasets, style, *, avg_block):
+    """One band with exactly four 3-column blocks; top band leaves the fourth empty."""
+    quality, tokens, latency = heads(sheet["demand"])
+    blocks = list(datasets) + ([None] if len(datasets) < 4 else [])
+    while len(blocks) < 4:
+        blocks.append(None)
+    blocks = blocks[:4]
+    top = ["Method"]
+    sub = [""]
+    rules = []
+    column = 2
+    for block in blocks:
+        if block is None and avg_block == "empty":
+            top.append(r"\multicolumn{3}{c}{}")
+            sub.extend(["", "", ""])
+            rules.append(f"\\cmidrule(lr){{{column}-{column + 2}}}")
+        elif block is None and avg_block == "data":
+            top.append(r"\multicolumn{3}{c}{Avg.\ Rank}")
+            sub.extend([quality, tokens, latency])
+            rules.append(f"\\cmidrule(lr){{{column}-{column + 2}}}")
+        else:
+            top.append("\\multicolumn{3}{c}{" + DATASET_HEADER[block] + "}")
+            sub.extend([quality, tokens, latency])
+            rules.append(f"\\cmidrule(lr){{{column}-{column + 2}}}")
+        column += 3
+    lines = [
+        r"\toprule",
+        " & ".join(top) + r" \\",
+        " ".join(rules),
+        " & ".join(sub) + r" \\",
+        r"\midrule",
+    ]
+    previous = None
+    for method in sheet["methods"]:
+        group = GROUP_OF[method]
+        if previous is not None and group != previous:
+            lines.append(r"\midrule")
+        previous = group
+        bits = [row_name(method, sheet["demand"])]
+        for block in blocks:
+            if block is None and avg_block == "empty":
+                bits.extend(["", "", ""])
+            elif block is None and avg_block == "data":
+                for metric in METRICS:
+                    bits.append(avg_tex(ranked, method, metric))
+            elif block is not None:
+                for metric in METRICS:
+                    bits.append(metric_tex(sheet, ranked, method, block, metric, style))
+        lines.append(" & ".join(bits) + r" \\")
+    lines.append(r"\bottomrule")
+    return lines
+
+
 def band_lines(sheet, ranked, datasets, style, with_avg):
+    """Legacy helper for probe/compare single-band tables."""
+    avg = "data" if with_avg else "empty"
+    if with_avg and len(datasets) == 3:
+        return segment_lines(sheet, ranked, datasets, style, avg_block=avg)
     quality, tokens, latency = heads(sheet["demand"])
     top = ["Method"]
     sub = [""]
@@ -174,20 +245,27 @@ def band_lines(sheet, ranked, datasets, style, with_avg):
     return lines
 
 
+def tabular_block(spec, lines):
+    return "\\begin{tabular}{%s}\n%s\n\\end{tabular}" % (spec, "\n".join(lines))
+
+
 def tabular(spec, lines):
-    return "\\begin{tabular}{@{}%s@{}}\n%s\n\\end{tabular}" % (spec, "\n".join(lines))
+    return tabular_block(spec, lines)
 
 
-def table_star(caption, label, inner, tabcolsep="2.5pt"):
+def table_star(caption, label, inner, tabcolsep=EXP1_TABCOLSEP, body_size=r"\small"):
     return (
         "\\begin{table*}[t]\n"
         "\\centering\n"
         "\\caption{" + caption + "}\n"
         "\\label{" + label + "}\n"
-        "\\footnotesize\n"
-        "\\setlength{\\tabcolsep}{" + tabcolsep + "}\n"
+        "\\begingroup\n"
+        + body_size
+        + "\n\\setlength{\\tabcolsep}{" + tabcolsep + "}\n"
+        "\\renewcommand{\\arraystretch}{1.06}\n"
         + inner
-        + "\n\\end{table*}\n"
+        + "\n\\endgroup\n"
+        "\\end{table*}\n"
     )
 
 
@@ -205,48 +283,39 @@ def table_column(caption, label, inner, size=r"\footnotesize", tabcolsep="3pt"):
 
 
 def caption_exp1(sheet):
+    lead = "Synthetic layout numbers, not experimental results. " if sheet.get("synthetic", False) else ""
     if sheet["demand"] == "full":
-        quality = r"Spearman $\rho$ on the full order"
-        listk = "ListK Sort"
+        quality = r"Spearman $\rho$"
         demand = "full ranking"
     else:
         quality = "NDCG@10"
-        listk = "ListK Select"
         demand = "LIMIT 10"
-    lead = ""
-    if sheet.get("synthetic", False):
-        lead = "Synthetic layout numbers, not experimental results. "
     return (
         lead
         + sheet["model"]
         + ", "
         + demand
-        + ". Quality is "
+        + ". "
         + quality
-        + r"; $\pm$ is the permutation std across input orders, not a repeated-run standard deviation. "
-        + r"\#Tok.\ is logical Total (input$+$output), the integer nearest the unrounded mean in thousands; one run, no $\pm$. "
-        + r"Latency is one isolated run in seconds, no $\pm$. "
-        + r"Bold and underline are the best and second-best groups on the unrounded means "
-        + r"(quality: higher mean, then smaller permutation std; cost: lower mean, then higher quality when repeated-run variance is not legal). "
-        + r"Equal printed values can still differ in rank. "
-        + r"Avg.\ Rank is the equal-weight mean of the per-dataset ranks for that metric; missing cells are omitted. "
-        + listk
-        + r" is this table's name for the single ListK row. "
-        + r"LT is one algorithm; $h{=}1$ is a parameter, not another row. "
-        + r"Pointwise names OrderByLLM Pointwise. "
-        + r"COVID is TREC-COVID and DBpedia is DBpedia-Entity."
+        + r" uses inline $\pm$ for permutation std (not a repeated-run error); \#Tok.\ and $s$ have no $\pm$. "
+        + r"\textbf{Bold}/\underline{underline} mark best and second-best groups from unrounded means (rules in \texttt{recovery/tables/NOTES.md}). "
+        + r"Avg.\ Rank is a layout-demo equal-weight standard midrank; final statistic awaits contract sign-off."
     )
 
 
 def emit_stacked(sheet, style="inline"):
     check_sheet(sheet)
     ranked = rank_sheet(sheet)
-    blocks = []
-    for index, band in enumerate(BANDS):
-        with_avg = index == len(BANDS) - 1
-        spec = "l" + "rrr" * (len(band) + (1 if with_avg else 0))
-        blocks.append(tabular(spec, band_lines(sheet, ranked, band, style, with_avg)))
-    inner = "\n\\par\\vspace{0.45em}\n".join(blocks)
+    spec = exp1_column_spec()
+    top = tabular_block(spec, segment_lines(sheet, ranked, list(BANDS[0]), style, avg_block="empty"))
+    bot = tabular_block(spec, segment_lines(sheet, ranked, list(BANDS[1]), style, avg_block="data"))
+    inner = (
+        "\\makebox[\\textwidth][c]{%\n"
+        + top
+        + "}\n\\vspace{0.4em}\n\\makebox[\\textwidth][c]{%\n"
+        + bot
+        + "}"
+    )
     label = MAIN_LABEL[(sheet["model"], sheet["demand"])]
     return table_star(caption_exp1(sheet), label, inner)
 
@@ -372,13 +441,8 @@ def emit_compare_file(sheets_by_key):
 
 def datasets_tex():
     caption = (
-        "Not an experimental result. "
-        "Datasets named by the current experiment contract. "
-        "Query counts are that contract's targets: Q9 is one query over 128 reviews; the other five target 30 queries. "
-        "Corpus $|D|$ is open. "
-        "When that contract was written, DL22 still lacked an official duplicate map and Robust04 a licensed corpus; those gaps are not filled here. "
-        "Domain names a public task, not a measurement. "
-        "Movies, Touch\\'e, and FiQA are not in this table."
+        "Not experimental. Contract dataset names; Q9 uses one query, others target 30. "
+        r"Corpus $|D|$ and DL22/Robust04 preparation gaps stay open (\texttt{recovery/tables/NOTES.md})."
     )
     body = r"""\begin{tabular}{@{}c l c l c@{}}
 \toprule
@@ -394,27 +458,17 @@ Q9 & Q9 & --- & Review ratings & 1 \\
  & Robust04 & --- & --- & 30 \\
 \bottomrule
 \end{tabular}"""
-    return table_column(caption, "tab:datasets", body, size=r"\footnotesize", tabcolsep="2.5pt")
+    return table_column(caption, "tab:datasets", body, size=r"\small", tabcolsep="4pt")
 
 
 def algorithms_tex():
     caption = (
-        "Not an experimental result. "
-        "Ten methods, the same rows as the end-to-end tables. "
-        "ListK is one row (Sort on full ranking, Select on LIMIT 10). "
-        "LT is one algorithm; $h{=}1$ is a parameter, not a segmented-LT row. "
-        "Call expressions are copied from the rejected draft and are unchecked against the current implementation. "
-        "Setwise Heap has no expression in that draft, so those cells stay open. "
-        "No new complexity is derived here. "
-        r"Draft definitions, also unchecked: "
-        r"$b_m=(n-1)/(m-1)$, $\ell_m=\log(n/m)$, $\kappa=K/n$, "
-        r"$\chi_p=(m-p)\log(p+1)$, "
-        r"$\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$, "
-        r"$r=\lceil n/m\rceil$."
+        "Not experimental. Same ten methods as E1; ListK one row, LT one row ($h{=}1$ not SLT). "
+        "Big-$O$ cells are unchecked draft text; Setwise stays open."
     )
-    body = r"""\begin{tabular}{@{}l c c c@{}}
+    body = r"""\begin{tabular}{@{}l c >{\raggedright\arraybackslash}p{0.295\columnwidth} >{\raggedright\arraybackslash}p{0.295\columnwidth}@{}}
 \toprule
-\textbf{Algorithm} & \textbf{Type} & \makecell[c]{\textbf{Full calls}} & \makecell[c]{\textbf{LIMIT 10 calls}} \\
+\textbf{Algorithm} & \textbf{Type} & \makecell[l]{\textbf{Full calls}} & \makecell[l]{\textbf{LIMIT 10 calls}} \\
 \midrule
 Pointwise & Pointwise & $\mathcal{O}(n)$ & $\mathcal{O}(n)$ \\
 Ext. Pointwise & Pointwise & $\mathcal{O}(n/m)$ & $\mathcal{O}(n/m)$ \\
@@ -431,17 +485,13 @@ SW & Listwise & $\mathcal{O}(r+nP(k)/\mu_{\mathrm{sw}})$ & $\mathcal{O}(r+KP(k)/
 LT($h$) & Listwise & $\mathcal{O}(r+nP(k)/h)$ & $\mathcal{O}(r+KP(k)/h)$ \\
 \bottomrule
 \end{tabular}"""
-    return table_column(caption, "tab:ranking-algorithms", body, size=r"\scriptsize", tabcolsep="1.5pt")
+    return table_column(caption, "tab:ranking-algorithms", body, size=r"\small", tabcolsep="2.5pt")
 
 
 def params_tex():
     caption = (
-        "Not an experimental result. "
-        "Symbols for the algorithms and cost models. Numeric values are open. "
-        r"$h$ is the segment length of the single LT algorithm ($h{=}1$ is that algorithm). "
-        r"The rejected draft also used $h$ for the sliding-window per-run quota; that second meaning is not kept, and the quota is left open rather than renamed. "
-        r"Separate binary and segmented call totals are not listed. "
-        r"This is not the commented notation list (\texttt{tab:params}), which stays disabled."
+        "Not experimental. Symbol glossary; numeric $k$, $h$, $\\mu_g$ stay open. "
+        r"Not the disabled \texttt{tab:params} list."
     )
     rows = [
         (r"$D$", "Input item collection."),
@@ -476,12 +526,8 @@ def params_tex():
 
 def validation_tex():
     caption = (
-        "Not an experimental result. "
-        r"Skeleton of the rejected draft's cost-model table (\texttt{tab:exp4-validation}), "
-        r"which compared a model-chosen $k_{\mathrm{cm}}$ with the empirical token-best $k^{*}$. "
-        "It is not the Off/On prefix-cache comparison, and the draft's regret numbers are not copied. "
-        "Binary LT and Segment LT are not separate rows. "
-        r"Best $(k,h)$ stays open."
+        "Not experimental. Empty skeleton for legacy $k_{\\mathrm{cm}}$ vs.\\ $k^{*}$ validation; "
+        "not Off/On cache. Best $(k,h)$ and regret stay open."
     )
     body = r"""\begin{tabular}{@{}llrrrrr@{}}
 \toprule
@@ -500,7 +546,7 @@ Dataset & Algorithm & \#Runs & $k_{\mathrm{cm}}$ & $k^{*}$ & Reg.\,(\%) & $\Delt
 \quad COVID & LT & --- & --- & --- & --- & --- \\
 \bottomrule
 \end{tabular}"""
-    return table_column(caption, "tab:exp4-validation", body, size=r"\footnotesize", tabcolsep="4pt")
+    return table_column(caption, "tab:exp4-validation", body, size=r"\small", tabcolsep="4pt")
 
 
 def symbols_dormant_tex():

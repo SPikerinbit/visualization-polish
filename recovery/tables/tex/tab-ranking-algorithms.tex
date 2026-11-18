@@ -2,13 +2,13 @@
 % Synthetic layout numbers, not experimental results.
 \begin{table}[t]
 \centering
-\caption{Not an experimental result. Ten methods, the same rows as the end-to-end tables. ListK is one row (Sort on full ranking, Select on LIMIT 10). LT is one algorithm; $h{=}1$ is a parameter, not a segmented-LT row. Call expressions are copied from the rejected draft and are unchecked against the current implementation. Setwise Heap has no expression in that draft, so those cells stay open. No new complexity is derived here. Draft definitions, also unchecked: $b_m=(n-1)/(m-1)$, $\ell_m=\log(n/m)$, $\kappa=K/n$, $\chi_p=(m-p)\log(p+1)$, $\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$, $r=\lceil n/m\rceil$.}
+\caption{Not experimental. Same ten methods as E1; ListK one row, LT one row ($h{=}1$ not SLT). Big-$O$ cells are unchecked draft text; Setwise stays open.}
 \label{tab:ranking-algorithms}
-\scriptsize
-\setlength{\tabcolsep}{1.5pt}
-\begin{tabular}{@{}l c c c@{}}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}l c >{\raggedright\arraybackslash}p{0.295\columnwidth} >{\raggedright\arraybackslash}p{0.295\columnwidth}@{}}
 \toprule
-\textbf{Algorithm} & \textbf{Type} & \makecell[c]{\textbf{Full calls}} & \makecell[c]{\textbf{LIMIT 10 calls}} \\
+\textbf{Algorithm} & \textbf{Type} & \makecell[l]{\textbf{Full calls}} & \makecell[l]{\textbf{LIMIT 10 calls}} \\
 \midrule
 Pointwise & Pointwise & $\mathcal{O}(n)$ & $\mathcal{O}(n)$ \\
 Ext. Pointwise & Pointwise & $\mathcal{O}(n/m)$ & $\mathcal{O}(n/m)$ \\

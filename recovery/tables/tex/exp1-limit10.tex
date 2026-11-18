@@ -4,33 +4,37 @@
 % Synthetic layout numbers, not experimental results.
 \begin{table*}[t]
 \centering
-\caption{Synthetic layout numbers, not experimental results. Qwen3.5-9B, LIMIT 10. Quality is NDCG@10; $\pm$ is the permutation std across input orders, not a repeated-run standard deviation. \#Tok.\ is logical Total (input$+$output), the integer nearest the unrounded mean in thousands; one run, no $\pm$. Latency is one isolated run in seconds, no $\pm$. Bold and underline are the best and second-best groups on the unrounded means (quality: higher mean, then smaller permutation std; cost: lower mean, then higher quality when repeated-run variance is not legal). Equal printed values can still differ in rank. Avg.\ Rank is the equal-weight mean of the per-dataset ranks for that metric; missing cells are omitted. ListK Select is this table's name for the single ListK row. LT is one algorithm; $h{=}1$ is a parameter, not another row. Pointwise names OrderByLLM Pointwise. COVID is TREC-COVID and DBpedia is DBpedia-Entity.}
+\caption{Synthetic layout numbers, not experimental results. Qwen3.5-9B, LIMIT 10. NDCG@10 uses inline $\pm$ for permutation std (not a repeated-run error); \#Tok.\ and $s$ have no $\pm$. \textbf{Bold}/\underline{underline} mark best and second-best groups from unrounded means (rules in \texttt{recovery/tables/NOTES.md}). Avg.\ Rank is a layout-demo equal-weight standard midrank; final statistic awaits contract sign-off.}
 \label{tab:exp1-topk}
-\footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}lrrrrrrrrr@{}}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.06}
+\makebox[\textwidth][c]{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}}
 \toprule
-Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} & \multicolumn{3}{c}{DL22} \\
-\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
- & nDCG & \#Tok. & s & nDCG & \#Tok. & s & nDCG & \#Tok. & s \\
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13}
+ & nDCG & \#Tok. & s & nDCG & \#Tok. & s & nDCG & \#Tok. & s &  &  &  \\
 \midrule
-Pointwise & $0.391\pm0.015$ & \textbf{40} & \textbf{3.7} & $0.398\pm0.015$ & \textbf{41} & \textbf{4.0} & $0.405\pm0.015$ & \textbf{42} & \textbf{4.3} \\
-Ext. Pointwise & $0.404\pm0.016$ & \underline{43} & \underline{4.1} & $0.411\pm0.016$ & \underline{44} & 4.4 & $0.418\pm0.016$ & \underline{45} & \underline{4.7} \\
+Pointwise & $0.391\pm0.015$ & \textbf{40} & \textbf{3.7} & $0.398\pm0.015$ & \textbf{41} & \textbf{4.0} & $0.405\pm0.015$ & \textbf{42} & \textbf{4.3} &  &  &  \\
+Ext. Pointwise & $0.404\pm0.016$ & \underline{43} & \underline{4.1} & $0.411\pm0.016$ & \underline{44} & 4.4 & $0.418\pm0.016$ & \underline{45} & \underline{4.7} &  &  &  \\
 \midrule
-Ext. Bubble & $0.417\pm0.017$ & 46 & 4.5 & $0.424\pm0.017$ & 47 & \underline{4.2} & $0.431\pm0.017$ & 48 & 5.1 \\
-Ext. Merge & $0.430\pm0.018$ & 49 & 4.9 & $0.437\pm0.018$ & 50 & 4.2 & $0.444\pm0.018$ & 51 & 5.5 \\
+Ext. Bubble & $0.417\pm0.017$ & 46 & 4.5 & $0.424\pm0.017$ & 47 & \underline{4.2} & $0.431\pm0.017$ & 48 & 5.1 &  &  &  \\
+Ext. Merge & $0.430\pm0.018$ & 49 & 4.9 & $0.437\pm0.018$ & 50 & 4.2 & $0.444\pm0.018$ & 51 & 5.5 &  &  &  \\
 \midrule
-ListK Select & $0.443\pm0.019$ & 52 & 5.3 & $0.450\pm0.019$ & 53 & 5.6 & $0.457\pm0.019$ & 54 & 5.9 \\
-Tournament & $0.456\pm0.020$ & 55 & 5.7 & $0.463\pm0.020$ & 56 & 6.0 & $0.470\pm0.020$ & 57 & 6.3 \\
-Lotus Quick & $0.469\pm0.021$ & 58 & 6.1 & $0.476\pm0.021$ & 59 & 6.4 & $0.483\pm0.021$ & 60 & 6.7 \\
-Setwise Heap & $0.482\pm0.022$ & --- & 6.5 & $0.489\pm0.022$ & 62 & 6.8 & $0.496\pm0.022$ & 63 & 7.1 \\
+ListK Select & $0.443\pm0.019$ & 52 & 5.3 & $0.450\pm0.019$ & 53 & 5.6 & $0.457\pm0.019$ & 54 & 5.9 &  &  &  \\
+Tournament & $0.456\pm0.020$ & 55 & 5.7 & $0.463\pm0.020$ & 56 & 6.0 & $0.470\pm0.020$ & 57 & 6.3 &  &  &  \\
+Lotus Quick & $0.469\pm0.021$ & 58 & 6.1 & $0.476\pm0.021$ & 59 & 6.4 & $0.483\pm0.021$ & 60 & 6.7 &  &  &  \\
+Setwise Heap & $0.482\pm0.022$ & --- & 6.5 & $0.489\pm0.022$ & 62 & 6.8 & $0.496\pm0.022$ & 63 & 7.1 &  &  &  \\
 \midrule
-SW & \underline{$0.495\pm0.023$} & 64 & 6.9 & \underline{$0.502\pm0.023$} & 65 & 7.2 & \underline{$0.509\pm0.023$} & 66 & 7.5 \\
-LT & {\boldmath $0.508\pm0.024$} & 67 & 7.3 & {\boldmath $0.515\pm0.024$} & 68 & 7.6 & {\boldmath $0.522\pm0.024$} & 69 & 7.9 \\
+SW & \underline{$0.495\pm0.023$} & 64 & 6.9 & \underline{$0.502\pm0.023$} & 65 & 7.2 & \underline{$0.509\pm0.023$} & 66 & 7.5 &  &  &  \\
+LT & {\boldmath $0.508\pm0.024$} & 67 & 7.3 & {\boldmath $0.515\pm0.024$} & 68 & 7.6 & {\boldmath $0.522\pm0.024$} & 69 & 7.9 &  &  &  \\
 \bottomrule
-\end{tabular}
-\par\vspace{0.45em}
-\begin{tabular}{@{}lrrrrrrrrrrrr@{}}
+\end{tabular}}
+\vspace{0.4em}
+\makebox[\textwidth][c]{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}}
 \toprule
 Method & \multicolumn{3}{c}{COVID} & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ Rank} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13}
@@ -50,40 +54,45 @@ Setwise Heap & $0.503\pm0.022$ & 64 & 7.4 & $0.300\pm0.017$ & 65 & 7.7 & $0.517\
 SW & \underline{$0.516\pm0.023$} & 67 & 7.8 & {\boldmath $0.470\pm0.008$} & 68 & 8.1 & \underline{$0.530\pm0.023$} & 69 & 8.4 & \underline{1.83} & 8.83 & 9.00 \\
 LT & {\boldmath $0.529\pm0.024$} & 70 & 8.2 & \underline{$0.470\pm0.030$} & 71 & 8.5 & {\boldmath $0.543\pm0.024$} & 72 & 8.8 & \textbf{1.17} & 9.83 & 10.00 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
+\endgroup
 \end{table*}
 
 % Generated by recovery/tables/emit.py. Do not edit numbers by hand.
 % Synthetic layout numbers, not experimental results.
 \begin{table*}[t]
 \centering
-\caption{Synthetic layout numbers, not experimental results. Qwen3.8-27B, LIMIT 10. Quality is NDCG@10; $\pm$ is the permutation std across input orders, not a repeated-run standard deviation. \#Tok.\ is logical Total (input$+$output), the integer nearest the unrounded mean in thousands; one run, no $\pm$. Latency is one isolated run in seconds, no $\pm$. Bold and underline are the best and second-best groups on the unrounded means (quality: higher mean, then smaller permutation std; cost: lower mean, then higher quality when repeated-run variance is not legal). Equal printed values can still differ in rank. Avg.\ Rank is the equal-weight mean of the per-dataset ranks for that metric; missing cells are omitted. ListK Select is this table's name for the single ListK row. LT is one algorithm; $h{=}1$ is a parameter, not another row. Pointwise names OrderByLLM Pointwise. COVID is TREC-COVID and DBpedia is DBpedia-Entity.}
+\caption{Synthetic layout numbers, not experimental results. Qwen3.8-27B, LIMIT 10. NDCG@10 uses inline $\pm$ for permutation std (not a repeated-run error); \#Tok.\ and $s$ have no $\pm$. \textbf{Bold}/\underline{underline} mark best and second-best groups from unrounded means (rules in \texttt{recovery/tables/NOTES.md}). Avg.\ Rank is a layout-demo equal-weight standard midrank; final statistic awaits contract sign-off.}
 \label{tab:exp1-topk-27b}
-\footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}lrrrrrrrrr@{}}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.06}
+\makebox[\textwidth][c]{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}}
 \toprule
-Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} & \multicolumn{3}{c}{DL22} \\
-\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
- & nDCG & \#Tok. & s & nDCG & \#Tok. & s & nDCG & \#Tok. & s \\
+Method & \multicolumn{3}{c}{Q9} & \multicolumn{3}{c}{DL20} & \multicolumn{3}{c}{DL22} & \multicolumn{3}{c}{} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13}
+ & nDCG & \#Tok. & s & nDCG & \#Tok. & s & nDCG & \#Tok. & s &  &  &  \\
 \midrule
-Pointwise & $0.410\pm0.015$ & \textbf{80} & \textbf{4.2} & $0.417\pm0.015$ & \underline{51} & \textbf{4.5} & $0.424\pm0.015$ & \textbf{82} & \textbf{4.8} \\
-Ext. Pointwise & $0.423\pm0.016$ & \underline{83} & \underline{4.6} & $0.430\pm0.016$ & \textbf{51} & \underline{4.9} & $0.437\pm0.016$ & \underline{85} & \underline{5.2} \\
+Pointwise & $0.410\pm0.015$ & \textbf{80} & \textbf{4.2} & $0.417\pm0.015$ & \underline{51} & \textbf{4.5} & $0.424\pm0.015$ & \textbf{82} & \textbf{4.8} &  &  &  \\
+Ext. Pointwise & $0.423\pm0.016$ & \underline{83} & \underline{4.6} & $0.430\pm0.016$ & \textbf{51} & \underline{4.9} & $0.437\pm0.016$ & \underline{85} & \underline{5.2} &  &  &  \\
 \midrule
-Ext. Bubble & $0.436\pm0.017$ & 86 & 5.0 & $0.443\pm0.017$ & 87 & 5.3 & $0.450\pm0.017$ & 88 & 5.6 \\
-Ext. Merge & $0.449\pm0.018$ & 89 & 5.4 & $0.456\pm0.018$ & 90 & 5.7 & $0.463\pm0.018$ & 91 & 6.0 \\
+Ext. Bubble & $0.436\pm0.017$ & 86 & 5.0 & $0.443\pm0.017$ & 87 & 5.3 & $0.450\pm0.017$ & 88 & 5.6 &  &  &  \\
+Ext. Merge & $0.449\pm0.018$ & 89 & 5.4 & $0.456\pm0.018$ & 90 & 5.7 & $0.463\pm0.018$ & 91 & 6.0 &  &  &  \\
 \midrule
-ListK Select & $0.462\pm0.019$ & 92 & 5.8 & $0.469\pm0.019$ & 93 & 6.1 & $0.476\pm0.019$ & 94 & 6.4 \\
-Tournament & $0.475\pm0.020$ & 95 & 6.2 & $0.482\pm0.020$ & 96 & 6.5 & $0.489\pm0.020$ & 97 & 6.8 \\
-Lotus Quick & $0.488\pm0.021$ & 98 & 6.6 & $0.495\pm0.021$ & 99 & 6.9 & $0.502\pm0.021$ & 100 & 7.2 \\
-Setwise Heap & $0.501\pm0.022$ & 101 & 7.0 & $0.508\pm0.022$ & 102 & 7.3 & $0.515\pm0.022$ & 103 & 7.6 \\
+ListK Select & $0.462\pm0.019$ & 92 & 5.8 & $0.469\pm0.019$ & 93 & 6.1 & $0.476\pm0.019$ & 94 & 6.4 &  &  &  \\
+Tournament & $0.475\pm0.020$ & 95 & 6.2 & $0.482\pm0.020$ & 96 & 6.5 & $0.489\pm0.020$ & 97 & 6.8 &  &  &  \\
+Lotus Quick & $0.488\pm0.021$ & 98 & 6.6 & $0.495\pm0.021$ & 99 & 6.9 & $0.502\pm0.021$ & 100 & 7.2 &  &  &  \\
+Setwise Heap & $0.501\pm0.022$ & 101 & 7.0 & $0.508\pm0.022$ & 102 & 7.3 & $0.515\pm0.022$ & 103 & 7.6 &  &  &  \\
 \midrule
-SW & \underline{$0.514\pm0.023$} & 104 & 7.4 & \underline{$0.521\pm0.023$} & 105 & 7.7 & \underline{$0.528\pm0.023$} & 106 & 8.0 \\
-LT & {\boldmath $0.527\pm0.024$} & 107 & 7.8 & {\boldmath $0.534\pm0.024$} & 108 & 8.1 & {\boldmath $0.541\pm0.024$} & 109 & 8.4 \\
+SW & \underline{$0.514\pm0.023$} & 104 & 7.4 & \underline{$0.521\pm0.023$} & 105 & 7.7 & \underline{$0.528\pm0.023$} & 106 & 8.0 &  &  &  \\
+LT & {\boldmath $0.527\pm0.024$} & 107 & 7.8 & {\boldmath $0.534\pm0.024$} & 108 & 8.1 & {\boldmath $0.541\pm0.024$} & 109 & 8.4 &  &  &  \\
 \bottomrule
-\end{tabular}
-\par\vspace{0.45em}
-\begin{tabular}{@{}lrrrrrrrrrrrr@{}}
+\end{tabular}}
+\vspace{0.4em}
+\makebox[\textwidth][c]{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}>{\centering\arraybackslash}p{0.105\textwidth}>{\centering\arraybackslash}p{0.048\textwidth}>{\centering\arraybackslash}p{0.040\textwidth}}
 \toprule
 Method & \multicolumn{3}{c}{COVID} & \multicolumn{3}{c}{DBpedia} & \multicolumn{3}{c}{Robust04} & \multicolumn{3}{c}{Avg.\ Rank} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13}
@@ -103,5 +112,6 @@ Setwise Heap & {\boldmath $0.530\pm0.020$} & 104 & 7.9 & $0.529\pm0.022$ & 105 &
 SW & $0.330\pm0.018$ & 107 & 8.3 & \underline{$0.542\pm0.023$} & 108 & 8.6 & \underline{$0.549\pm0.023$} & 109 & 8.9 & 3.17 & 9.00 & 8.83 \\
 LT & $0.310\pm0.019$ & 110 & 8.7 & {\boldmath $0.555\pm0.024$} & 111 & 9.0 & {\boldmath $0.562\pm0.024$} & 112 & 9.3 & \textbf{2.50} & 10.00 & 9.83 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
+\endgroup
 \end{table*}

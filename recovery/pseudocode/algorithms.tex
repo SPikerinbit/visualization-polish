@@ -12,7 +12,8 @@ $\phi$ instruction;\ $m$ listwise capacity;\ $k$ fan-in;\ $h$ segment length.\pa
 \noindent $\Rank$ takes real rows only.\ $h{=}1$ is this LT.\ Families: SW, LT.\par
 \noindent $\Expect(f,k,h)$ estimates input tokens.\ Formula not in the eight sources.\par
 \noindent Slots $s_0,s_1$ are not children and not run indexes.\par
-\noindent Only Algorithm~1 takes optional $K$ and builds $\Pi$.\ $\MergeGroup$ yields a stream.\par
+\noindent Only Algorithm~1 takes optional $K$ and builds $\Pi$.\par
+\noindent $\MergeGroup(G,f,h)$ on run group $G$ uses family $f$ and parameters $(k,h)$.\par
 }
 
 \begin{algorithm}[t]
@@ -28,17 +29,25 @@ cut $D$ into chunks of size at most $m$\;
 each chunk becomes a run $R_i$ by $\Rank$\;
 $(f,k,h)\leftarrow\arg\min\Expect(f,k,h)$ over calls that fit in $m$\;
 ties keep LT, then smaller $k$, then smaller $h$\;
-\For{each pass}{
-  \For{each group of at most $k$ runs}{
-    replace the group by the stream from $\MergeGroup(f)$\;
+$\mathcal{R}\leftarrow(R_1,\ldots)$\;
+\While{$|\mathcal{R}|>1$}{
+  $\mathcal{R}'\leftarrow\emptyset$\;
+  \For{each group $G$ of at most $k$ runs in $\mathcal{R}$}{
+    \eIf{mode is Full}{
+      $r\leftarrow$ materialize $\MergeGroup(G,f,h)$ fully\;
+      append $r$ to $\mathcal{R}'$\;
+    }{
+      append the stream $\MergeGroup(G,f,h)$ to $\mathcal{R}'$\;
+    }
   }
+  $\mathcal{R}\leftarrow\mathcal{R}'$\;
 }
-\eIf{mode is Buffer}{
-  drain the root stream into $\Pi$\;
+\eIf{mode is Full}{
+  $\Pi\leftarrow$ the sole remaining materialized run in $\mathcal{R}$\;
+}{
+  drain the sole root stream in $\mathcal{R}$ into $\Pi$\;
   stop at $K$ if specified, else exhaust the root\;
   \textbf{finally} close the root\;
-}{
-  \For{each pass}{materialize every $\MergeGroup$ stream fully\;}
 }
 \lIf{ascending}{reverse $\Pi$}
 \lIf{$K$ is set}{keep the first $K$ rows of $\Pi$}

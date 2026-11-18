@@ -9,7 +9,10 @@ commit `0d96d0bf116e52f1664ae2539446f05921f5e947`。八个源校验在 `viz/evid
 | 概念 | 伪代码位置 | 源码 |
 |---|---|---|
 | 可选 $K$、全局 $\Pi$ | 仅 Algorithm~1 | `operator.py` 292–293 最终切片；merge 本身无 $\Pi$ |
-| $\MergeGroup$ 产出 | 每组的**流**，不是 $\Pi$ | `runtime.py` 153–197 `StreamProducer` / `StructuralMergeBuffer` 生成器 |
+| $\MergeGroup(G,f,h)$ | 显式组 $G$ 与 $(f,h)$ | `plan.py` 730–751 `PlannedGroup`；`runtime.py` 153–197 |
+| 每 pass 与物化同循环 | Full 本趟物化再进下趟 | `runtime.py` 230–282：`current` 每 pass 替换为物化结果 |
+| Full 闭合 $\Pi$ | `Π ←` 唯一物化 run | `runtime.py` 288–289 `current[0]` |
+| Buffer 不中途物化 | 循环只接流；末趟一根流 | `runtime.py` 217–226 建树后 drain |
 | 中间组不设 $K$ | Algorithm~2/3 无 $K$、无 $\Pi$ | `runtime.py` 170–181：仅 `root=True` 时 `top_k=limit`；其它 `None` |
 | Buffer 根截断 | Algorithm~1 drain | `runtime.py` 217–226 `materialize_producer(root, top_k=limit)` |
 | Buffer 无 $K$ 仍排干 | Algorithm~1 `stop at $K$ if specified, else exhaust` | 同上：`top_k=None` 时 `producer.py` 221–244 排到耗尽 |
@@ -26,9 +29,11 @@ commit `0d96d0bf116e52f1664ae2539446f05921f5e947`。八个源校验在 `viz/evid
 | 升序且 $K$ → Full | `operator.py` 205–207 |
 | 切块、`ListwiseRank` → $R_i$ | `_common.py` 175–198 |
 | $\arg\min\Expect$；平局 LT, $k$, $h$ | `plan.py` 604–698 |
-| $\MergeGroup$ 按计划 pass | `plan.py` 730–751 |
-| Buffer drain + finally | `runtime.py` 217–226；`producer.py` 221–244 |
-| Full 物化 + 切片 | `runtime.py` 230–278，289 |
+| `while |R|>1` 每 pass 分组 | `runtime.py` 232–282 / 143–199 |
+| Full：`materialize MergeGroup` 后 $\mathcal{R}'$ | `runtime.py` 278 `materialize_producer(..., top_k=None)` |
+| Buffer：$\mathcal{R}'$ 为流，最后 drain | `runtime.py` 161–197；217–226 |
+| $\Pi\leftarrow$ 唯一 run（Full） | `runtime.py` 288–289 |
+| Buffer drain + finally | `producer.py` 221–244 |
 | 升序 reverse 再 slice | `operator.py` 290–293 |
 | SW：$I$ 活跃下标 | `sliding_window.py` 376–380 |
 | SW：单路 fast path 按 pull 序 yield | 386–398，504–547；`_sw_stream` 113–118 逐行 yield |

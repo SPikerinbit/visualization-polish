@@ -4,7 +4,7 @@
 
 | 旧 label | 现在 |
 |---|---|
-| `alg:semantic_external_merge` | 唯一含 $K$/$\Pi$；$\MergeGroup$ 产出流；Buffer 根 drain；Full 末切片 |
+| `alg:semantic_external_merge` | $\MergeGroup(G,f,h)$；每 pass 同循环物化（Full）或接流（Buffer）；$\Pi\leftarrow$ 唯一 run 或根 drain |
 | `alg:sliding_window_kway_group_merge` | 局部有序**流**；无 $\Pi$/$K$ |
 | `alg:loser_tree_kway_group_merge` | 同上；$k=1$ yield 到耗尽 |
 | 其余 Init / Replay / Refresh | 未改 |

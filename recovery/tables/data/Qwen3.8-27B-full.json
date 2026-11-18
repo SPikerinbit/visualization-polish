@@ -1,0 +1,1072 @@
+{
+  "schema": "sema.exp1.sheet.v1",
+  "synthetic": true,
+  "model": "Qwen3.8-27B",
+  "demand": "full",
+  "quality_metric": "spearman",
+  "token_unit": "logical_total_input_plus_output",
+  "token_display": "nearest_integer_of_mean_over_1000",
+  "latency_unit": "isolated_single_run_seconds",
+  "datasets": [
+    "Q9",
+    "DL20",
+    "DL22",
+    "COVID",
+    "DBpedia",
+    "Robust04"
+  ],
+  "methods": [
+    "pointwise",
+    "ext_pointwise",
+    "bubble",
+    "merge",
+    "listk",
+    "tournament",
+    "lotus",
+    "setwise",
+    "sw",
+    "lt"
+  ],
+  "cells": {
+    "pointwise": {
+      "Q9": {
+        "quality": {
+          "mean": 0.379,
+          "permutation_std": 0.015,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 60000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 3.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.386,
+          "permutation_std": 0.015,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 61000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 3.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.45,
+          "permutation_std": 0.01,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 62000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": null,
+          "permutation_std": null,
+          "n_permutations": null
+        },
+        "tokens": {
+          "mean": 63000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.407,
+          "permutation_std": 0.015,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 64000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.414,
+          "permutation_std": 0.015,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 65000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "ext_pointwise": {
+      "Q9": {
+        "quality": {
+          "mean": 0.392,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 63000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 3.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.399,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 64000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.43,
+          "permutation_std": 0.011,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 65000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.413,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 66000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.42,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 67000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.427,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 68000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "bubble": {
+      "Q9": {
+        "quality": {
+          "mean": 0.7,
+          "permutation_std": 0.01,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 10000.0,
+          "n_repeats": 1,
+          "repeat_variance": 9.0
+        },
+        "latency": {
+          "mean": 4.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.412,
+          "permutation_std": 0.017,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 67000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.47,
+          "permutation_std": 0.01,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 68000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 4.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.426,
+          "permutation_std": 0.017,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 69000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.433,
+          "permutation_std": 0.017,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 70000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.44,
+          "permutation_std": 0.017,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 71000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "merge": {
+      "Q9": {
+        "quality": {
+          "mean": 0.65,
+          "permutation_std": 0.01,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 10000.0,
+          "n_repeats": 1,
+          "repeat_variance": 1.0
+        },
+        "latency": {
+          "mean": 4.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.425,
+          "permutation_std": 0.018,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 70000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.39,
+          "permutation_std": 0.013,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 71000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.439,
+          "permutation_std": 0.018,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 72000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.446,
+          "permutation_std": 0.018,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 73000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.453,
+          "permutation_std": 0.018,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 74000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "listk": {
+      "Q9": {
+        "quality": {
+          "mean": 0.431,
+          "permutation_std": 0.019,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 72000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.438,
+          "permutation_std": 0.019,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 73000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.37,
+          "permutation_std": 0.014,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 74000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.452,
+          "permutation_std": 0.019,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 75000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.459,
+          "permutation_std": 0.019,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 76000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.466,
+          "permutation_std": 0.019,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 77000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "tournament": {
+      "Q9": {
+        "quality": {
+          "mean": 0.444,
+          "permutation_std": 0.02,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 75000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.451,
+          "permutation_std": 0.02,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 76000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.35,
+          "permutation_std": 0.015,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 77000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.465,
+          "permutation_std": 0.02,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 78000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.472,
+          "permutation_std": 0.02,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 79000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.479,
+          "permutation_std": 0.02,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 80000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "lotus": {
+      "Q9": {
+        "quality": {
+          "mean": 0.457,
+          "permutation_std": 0.020999999999999998,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 78000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 5.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.464,
+          "permutation_std": 0.020999999999999998,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 79000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.33,
+          "permutation_std": 0.016,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 80000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.478,
+          "permutation_std": 0.020999999999999998,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 81000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.485,
+          "permutation_std": 0.020999999999999998,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 82000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.492,
+          "permutation_std": 0.020999999999999998,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 83000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "setwise": {
+      "Q9": {
+        "quality": {
+          "mean": 0.47,
+          "permutation_std": 0.022,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 81000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.477,
+          "permutation_std": 0.022,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 82000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.31,
+          "permutation_std": 0.017,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 83000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.491,
+          "permutation_std": 0.022,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 84000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.498,
+          "permutation_std": 0.022,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 85000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.5,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.505,
+          "permutation_std": 0.022,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 86000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.8,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "sw": {
+      "Q9": {
+        "quality": {
+          "mean": 0.483,
+          "permutation_std": 0.023,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 84000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 6.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.49,
+          "permutation_std": 0.023,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 85000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.51,
+          "permutation_std": 0.025,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 86000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.504,
+          "permutation_std": 0.023,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 87000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.511,
+          "permutation_std": 0.023,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 88000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.9,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.518,
+          "permutation_std": 0.023,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 89000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 8.2,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    },
+    "lt": {
+      "Q9": {
+        "quality": {
+          "mean": 0.496,
+          "permutation_std": 0.024,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 87000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.1,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL20": {
+        "quality": {
+          "mean": 0.503,
+          "permutation_std": 0.024,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 88000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.4,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DL22": {
+        "quality": {
+          "mean": 0.51,
+          "permutation_std": 0.025,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 89000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 7.7,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "COVID": {
+        "quality": {
+          "mean": 0.517,
+          "permutation_std": 0.024,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 90000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 8.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "DBpedia": {
+        "quality": {
+          "mean": 0.524,
+          "permutation_std": 0.024,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 91000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 8.3,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      },
+      "Robust04": {
+        "quality": {
+          "mean": 0.531,
+          "permutation_std": 0.024,
+          "n_permutations": 10
+        },
+        "tokens": {
+          "mean": 92000.0,
+          "n_repeats": 1,
+          "repeat_variance": null
+        },
+        "latency": {
+          "mean": 8.6,
+          "n_repeats": 1,
+          "repeat_variance": null
+        }
+      }
+    }
+  }
+}

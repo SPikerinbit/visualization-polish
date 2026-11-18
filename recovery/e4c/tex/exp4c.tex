@@ -1,0 +1,53 @@
+% Includable fragment for the experiment-4 section.
+% Not a standalone document. Do not compile this file alone, and do not build a layout-supplement PDF.
+% The graphic was drawn at 178 mm, the double-column width of this checkpoint.
+% Point the graphic path at recovery/e4c/figures/ before input.
+%
+% Two styles are alternative checkpoints, not four paper figures.
+% Keep one style. Numbered is the first pair; direct labels are the second pair.
+% Suggested paper label fig:exp4c-quality-cost is not approved and is not used here.
+% Numbers are synthetic layout values, not measurements.
+% ListK is ListK Sort on Full and ListK Select on LIMIT 10, one E1 row.
+% Pointwise in the legend is OrderByLLM Pointwise.
+% Direct labels: PW, ExtPW, Bubble, Merge, ListK, Tourn, Lotus, SetH, SW, LT.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=178mm]{exp4c-full-numbered.pdf}
+  \caption{Full ranking. Each mark is one method's equal-weight mean over the three queries in that dataset.
+  The horizontal axis is equivalent tokens \(U-(1-\beta)Q+O\) at \(\beta=0\) with output weight 1, not currency.
+  The vertical axis is full-ranking Spearman.
+  Off and On-cold, and both datasets, use one pair of axis limits computed from every mean in this figure. Each panel prints that full set of tick labels.
+  Query-level points are omitted. No Pareto curve is drawn.
+  The values are synthetic layout checks, not measurements.}
+  \label{fig:exp4c-full-numbered}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=178mm]{exp4c-topk-numbered.pdf}
+  \caption{LIMIT 10. Same methods, colors, and shapes as the Full numbered figure, with NDCG@10 on its own vertical axis.
+  Off and On-cold again share limits computed from every mean in this figure only.
+  These values are synthetic layout checks, not measurements.}
+  \label{fig:exp4c-topk-numbered}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=178mm]{exp4c-full-labeled.pdf}
+  \caption{Full ranking, direct labels. Colors and shapes match the numbered figure.
+  Short names are PW, ExtPW, Bubble, Merge, ListK, Tourn, Lotus, SetH, SW, and LT.
+  A short leader is drawn only where the label leaves its mark, and it stops at the mark edge.
+  Axis limits match the numbered Full figure. Synthetic layout values, not measurements.}
+  \label{fig:exp4c-full-labeled}
+\end{figure*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=178mm]{exp4c-topk-labeled.pdf}
+  \caption{LIMIT 10, direct labels, NDCG@10.
+  Colors, shapes, and short names match the other checkpoint figures.
+  Off and On-cold share limits computed from the LIMIT 10 means only.
+  Synthetic layout values, not measurements.}
+  \label{fig:exp4c-topk-labeled}
+\end{figure*}

@@ -1,0 +1,766 @@
+{
+  "status": "synthetic-layout-only",
+  "not_a_measurement": true,
+  "per_query_points": false,
+  "n_queries_represented_by_each_mean": 3,
+  "aggregation": "equal-weight mean; query-level values are omitted",
+  "model_context": "Qwen3.5-9B is the contract setting; coordinates are not model output",
+  "initial_permutation": 0,
+  "beta": 0,
+  "output_weight": 1,
+  "x_definition": "equivalent tokens U-(1-beta)Q+O",
+  "currency": false,
+  "pareto_line": false,
+  "datasets": [
+    "DL20",
+    "COVID"
+  ],
+  "states": [
+    "Off",
+    "On-cold"
+  ],
+  "metrics": {
+    "full": {
+      "y": "Spearman",
+      "y_definition": "full-ranking Spearman"
+    },
+    "topk": {
+      "y": "NDCG@10",
+      "y_definition": "LIMIT 10 NDCG@10"
+    }
+  },
+  "methods": [
+    {
+      "id": "pointwise",
+      "number": 1,
+      "legend": "Pointwise",
+      "short": "PW",
+      "e1_name": "OrderByLLM Pointwise",
+      "color": "#0072B2",
+      "marker": "o"
+    },
+    {
+      "id": "ext_pointwise",
+      "number": 2,
+      "legend": "Ext. Pointwise",
+      "short": "ExtPW",
+      "e1_name": "Ext. Pointwise",
+      "color": "#E69F00",
+      "marker": "s"
+    },
+    {
+      "id": "bubble",
+      "number": 3,
+      "legend": "External Bubble",
+      "short": "Bubble",
+      "e1_name": "External Bubble",
+      "color": "#009E73",
+      "marker": "D"
+    },
+    {
+      "id": "merge",
+      "number": 4,
+      "legend": "External Merge",
+      "short": "Merge",
+      "e1_name": "External Merge",
+      "color": "#D55E00",
+      "marker": "^"
+    },
+    {
+      "id": "listk",
+      "number": 5,
+      "legend": "ListK",
+      "short": "ListK",
+      "e1_name": "ListK Sort (Full) / ListK Select (LIMIT 10)",
+      "color": "#CC79A7",
+      "marker": "v"
+    },
+    {
+      "id": "tournament",
+      "number": 6,
+      "legend": "Tournament",
+      "short": "Tourn",
+      "e1_name": "Tournament",
+      "color": "#6A3D9A",
+      "marker": "P"
+    },
+    {
+      "id": "lotus",
+      "number": 7,
+      "legend": "Lotus Quick",
+      "short": "Lotus",
+      "e1_name": "Lotus Quick",
+      "color": "#A6761D",
+      "marker": "X"
+    },
+    {
+      "id": "setwise",
+      "number": 8,
+      "legend": "Setwise Heap",
+      "short": "SetH",
+      "e1_name": "Setwise Heap",
+      "color": "#882255",
+      "marker": "h"
+    },
+    {
+      "id": "sw",
+      "number": 9,
+      "legend": "SW",
+      "short": "SW",
+      "e1_name": "SW",
+      "color": "#E7298A",
+      "marker": "p"
+    },
+    {
+      "id": "lt",
+      "number": 10,
+      "legend": "LT",
+      "short": "LT",
+      "e1_name": "LT",
+      "color": "#332288",
+      "marker": "<"
+    }
+  ],
+  "points": [
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "bubble",
+      "x": 42500,
+      "y": 0.5
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "ext_pointwise",
+      "x": 47500,
+      "y": 0.68
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "listk",
+      "x": 28200,
+      "y": 0.73
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "lotus",
+      "x": 38000,
+      "y": 0.56
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "lt",
+      "x": 19800,
+      "y": 0.58
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "merge",
+      "x": 34000,
+      "y": 0.6
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "pointwise",
+      "x": 52000,
+      "y": 0.45
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "setwise",
+      "x": 25200,
+      "y": 0.63
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "sw",
+      "x": 23500,
+      "y": 0.66
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "tournament",
+      "x": 24800,
+      "y": 0.77
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "bubble",
+      "x": 40800,
+      "y": 0.43
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "ext_pointwise",
+      "x": 45500,
+      "y": 0.7
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "listk",
+      "x": 29500,
+      "y": 0.72
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "lotus",
+      "x": 37800,
+      "y": 0.58
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "lt",
+      "x": 18000,
+      "y": 0.55
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "merge",
+      "x": 34200,
+      "y": 0.63
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "pointwise",
+      "x": 50000,
+      "y": 0.46
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "setwise",
+      "x": 22500,
+      "y": 0.63
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "sw",
+      "x": 20000,
+      "y": 0.7
+    },
+    {
+      "metric": "full",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "tournament",
+      "x": 25000,
+      "y": 0.76
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "bubble",
+      "x": 40500,
+      "y": 0.42
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "ext_pointwise",
+      "x": 44500,
+      "y": 0.7
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "listk",
+      "x": 28500,
+      "y": 0.76
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "lotus",
+      "x": 36800,
+      "y": 0.57
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "lt",
+      "x": 21000,
+      "y": 0.5
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "merge",
+      "x": 33200,
+      "y": 0.63
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "pointwise",
+      "x": 49500,
+      "y": 0.47
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "setwise",
+      "x": 22500,
+      "y": 0.58
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "sw",
+      "x": 19000,
+      "y": 0.82
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "tournament",
+      "x": 25000,
+      "y": 0.68
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "bubble",
+      "x": 39000,
+      "y": 0.44
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "ext_pointwise",
+      "x": 43000,
+      "y": 0.66
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "listk",
+      "x": 26000,
+      "y": 0.74
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "lotus",
+      "x": 35500,
+      "y": 0.52
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "lt",
+      "x": 21500,
+      "y": 0.55
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "merge",
+      "x": 30500,
+      "y": 0.57
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "pointwise",
+      "x": 47000,
+      "y": 0.49
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "setwise",
+      "x": 28800,
+      "y": 0.69
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "sw",
+      "x": 18200,
+      "y": 0.79
+    },
+    {
+      "metric": "full",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "tournament",
+      "x": 24000,
+      "y": 0.63
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "bubble",
+      "x": 42500,
+      "y": 0.58
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "ext_pointwise",
+      "x": 46500,
+      "y": 0.47
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "listk",
+      "x": 30500,
+      "y": 0.69
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "lotus",
+      "x": 38800,
+      "y": 0.4
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "lt",
+      "x": 19000,
+      "y": 0.5
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "merge",
+      "x": 35200,
+      "y": 0.55
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "pointwise",
+      "x": 51000,
+      "y": 0.34
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "setwise",
+      "x": 23500,
+      "y": 0.62
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "sw",
+      "x": 20500,
+      "y": 0.66
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "Off",
+      "method": "tournament",
+      "x": 26000,
+      "y": 0.74
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "bubble",
+      "x": 41000,
+      "y": 0.54
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "ext_pointwise",
+      "x": 45200,
+      "y": 0.42
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "listk",
+      "x": 29500,
+      "y": 0.71
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "lotus",
+      "x": 37500,
+      "y": 0.48
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "lt",
+      "x": 17800,
+      "y": 0.7
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "merge",
+      "x": 33800,
+      "y": 0.6
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "pointwise",
+      "x": 49000,
+      "y": 0.37
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "setwise",
+      "x": 23000,
+      "y": 0.57
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "sw",
+      "x": 19500,
+      "y": 0.65
+    },
+    {
+      "metric": "topk",
+      "dataset": "COVID",
+      "state": "On-cold",
+      "method": "tournament",
+      "x": 25000,
+      "y": 0.75
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "bubble",
+      "x": 39000,
+      "y": 0.62
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "ext_pointwise",
+      "x": 43000,
+      "y": 0.5
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "listk",
+      "x": 27500,
+      "y": 0.71
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "lotus",
+      "x": 35500,
+      "y": 0.41
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "lt",
+      "x": 23000,
+      "y": 0.45
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "merge",
+      "x": 31800,
+      "y": 0.56
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "pointwise",
+      "x": 47000,
+      "y": 0.36
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "setwise",
+      "x": 21000,
+      "y": 0.58
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "sw",
+      "x": 18500,
+      "y": 0.75
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "Off",
+      "method": "tournament",
+      "x": 24200,
+      "y": 0.66
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "bubble",
+      "x": 48000,
+      "y": 0.6
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "ext_pointwise",
+      "x": 40000,
+      "y": 0.52
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "listk",
+      "x": 29000,
+      "y": 0.73
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "lotus",
+      "x": 36500,
+      "y": 0.43
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "lt",
+      "x": 20000,
+      "y": 0.48
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "merge",
+      "x": 33000,
+      "y": 0.55
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "pointwise",
+      "x": 44500,
+      "y": 0.39
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "setwise",
+      "x": 22000,
+      "y": 0.61
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "sw",
+      "x": 17500,
+      "y": 0.76
+    },
+    {
+      "metric": "topk",
+      "dataset": "DL20",
+      "state": "On-cold",
+      "method": "tournament",
+      "x": 25500,
+      "y": 0.68
+    }
+  ]
+}

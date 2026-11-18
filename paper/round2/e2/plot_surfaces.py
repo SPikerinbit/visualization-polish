@@ -208,10 +208,11 @@ def _sizes(layout: str) -> dict:
     base = {k: v for k, v in POSTER.items() if k not in ("loose", "edge_b", "edge_o")}
     return dict(
         **base,
-        pt_s=1.25, pt_lw_b=0.1, pt_lw_o=0.22, pt_a=0.65,
-        star=52, diamond=22, mark_lw=0.35, loose=0.38,
-        tick=5.8, label=6.6, zoom=0.98, grid_lw=0.45,
-        edge_b=0.42, edge_o=0.55,
+        # Printed cell is 79.282pt (scale 0.59521). Source 9.0pt → ~5.36pt on the page.
+        pt_s=1.7, pt_lw_b=0.08, pt_lw_o=0.18, pt_a=0.7,
+        star=26, diamond=12, mark_lw=0.3, loose=0.28,
+        tick=9.0, label=8.0, zoom=0.92, grid_lw=0.4,
+        edge_b=0.32, edge_o=0.40,
     )
 
 
@@ -322,7 +323,7 @@ def draw_series(
 
     ax.set_xlabel("Fan-in $k$" if captions.get("x_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
     ax.set_ylabel("Segment length $h$" if captions.get("y_label") else "", labelpad=pad, color=INK, fontsize=size["label"])
-    z_text = "Input tokens (1k)" if layout == "panel" else "Merge input tokens (1k)"
+    z_text = "1k" if layout == "panel" else "Merge input tokens (1k)"
     ax.set_zlabel(z_text if captions.get("z_label") else "", labelpad=pad + 2, color=INK, fontsize=size["label"])
 
 
@@ -350,21 +351,22 @@ def _frames(series_list: list[Series]) -> list[dict]:
 
 
 def render_legend() -> None:
+    """Fixed 5.60 in width so 0.8\\linewidth inclusion does not upscale the type."""
     _apply_font()
-    fig = plt.figure(figsize=(5.6, 0.22), facecolor="white")
+    fig = plt.figure(figsize=(5.60, 0.28), facecolor="white")
     handles = [
-        Line2D([0], [0], color=BLUE, linewidth=5, alpha=0.65, marker="o", markersize=3.5, label="Measured"),
+        Line2D([0], [0], color=BLUE, linewidth=3.2, alpha=0.7, marker="o", markersize=3.2, label="Measured"),
         Line2D(
-            [0], [0], color=ORANGE, linewidth=2.2, alpha=0.85, marker="o",
-            markerfacecolor="white", markersize=3.5, label="Predicted",
+            [0], [0], color=ORANGE, linewidth=1.6, alpha=0.9, marker="o",
+            markerfacecolor="white", markersize=3.2, label="Predicted",
         ),
         Line2D(
             [0], [0], marker="*", color="none", markerfacecolor=BLUE, markeredgecolor="white",
-            markeredgewidth=0.4, markersize=8, linestyle="None", label="Meas.\ minimum",
+            markeredgewidth=0.3, markersize=6.5, linestyle="None", label="Meas. min",
         ),
         Line2D(
             [0], [0], marker="D", color="none", markerfacecolor=ORANGE, markeredgecolor="white",
-            markeredgewidth=0.35, markersize=5, linestyle="None", label="Pred.\ minimum",
+            markeredgewidth=0.3, markersize=4.2, linestyle="None", label="Pred. min",
         ),
     ]
     fig.legend(
@@ -372,14 +374,16 @@ def render_legend() -> None:
         loc="center",
         ncol=4,
         frameon=False,
-        fontsize=7.5,
-        handlelength=1.2,
-        columnspacing=1.0,
+        fontsize=6.8,
+        handlelength=1.35,
+        columnspacing=1.15,
         labelcolor=INK,
+        borderaxespad=0.0,
     )
     OUT.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUT / "e2-legend.pdf", bbox_inches="tight", pad_inches=0.01)
-    fig.savefig(OUT / "e2-legend.png", dpi=220, bbox_inches="tight", pad_inches=0.01)
+    # Do not use bbox_inches='tight': that shrinks the PDF and TeX then enlarges the type.
+    fig.savefig(OUT / "e2-legend.pdf")
+    fig.savefig(OUT / "e2-legend.png", dpi=200)
     plt.close(fig)
 
 
@@ -396,11 +400,12 @@ def render_panel(series: Series, stem: str, index: int, grid: tuple[int, int]) -
         "z_ticks": True,
         "z_label": False,
     }
+    # Fixed MediaBox. Inset the axes so z numerals and h=10 stay inside 133.2pt.
     fig = plt.figure(figsize=(PANEL_IN, PANEL_IN), facecolor="white")
-    ax = fig.add_axes([0.02, 0.02, 0.96, 0.96], projection="3d", computed_zorder=False)
+    ax = fig.add_axes([0.07, 0.12, 0.70, 0.80], projection="3d", computed_zorder=False)
     draw_series(ax, series, "panel", frame, caps)
     for ext in ("pdf", "png"):
-        fig.savefig(PANELS / f"{stem}.{ext}", dpi=240 if ext == "png" else None)
+        fig.savefig(PANELS / f"{stem}.{ext}", dpi=220 if ext == "png" else None)
     plt.close(fig)
 
 
@@ -447,15 +452,41 @@ def _pdflatex(tex_dir: Path, name: str) -> None:
 
 
 def compile_tex_preview() -> None:
+    """Compile, then keep only the 12-cell page and the 10-cell page."""
+    from pypdf import PdfReader, PdfWriter
+
     tex_dir = ROOT / "tex"
-    _pdflatex(tex_dir, "exp5-m-area-block.tex")
+    _pdflatex(tex_dir, "exp5-baseline-same-env.tex")
     _pdflatex(tex_dir, "preview-main.tex")
-    for src, dest in (
-        (tex_dir / "exp5-m-area-block.pdf", tex_dir / "exp5-m-area-block.pdf"),
-        (tex_dir / "preview-main.pdf", OUT / "e2-vldb-preview.pdf"),
-    ):
-        if src.exists() and dest != src:
-            dest.write_bytes(src.read_bytes())
+    src = tex_dir / "preview-main.pdf"
+    if not src.exists():
+        raise RuntimeError("preview-main.pdf was not produced")
+    reader = PdfReader(str(src))
+    page_12 = page_10 = None
+    for i, page in enumerate(reader.pages):
+        text = page.extract_text() or ""
+        if "(l)" in text and "Syn-L, SW" in text:
+            page_12 = i
+        elif "Ten-cell derivative" in text:
+            page_10 = i
+    if page_12 is None or page_10 is None or page_12 == page_10:
+        raise RuntimeError(f"expected separate 12 and 10 pages, got 12={page_12} 10={page_10} n={len(reader.pages)}")
+    writer = PdfWriter()
+    writer.add_page(reader.pages[page_12])
+    writer.add_page(reader.pages[page_10])
+    dest = OUT / "e2-vldb-preview.pdf"
+    with dest.open("wb") as handle:
+        writer.write(handle)
+    only12 = PdfWriter()
+    only12.add_page(reader.pages[page_12])
+    with (OUT / "e2-figure-12.pdf").open("wb") as handle:
+        only12.write(handle)
+    # Raster of those exact pages. Names match the PDFs, not an older montage.
+    subprocess.run(["pdftoppm", "-png", "-r", "160", "-f", "1", "-l", "1", str(dest), "/tmp/e2-12"], check=True)
+    subprocess.run(["pdftoppm", "-png", "-r", "160", "-f", "2", "-l", "2", str(dest), "/tmp/e2-10"], check=True)
+    Image.open("/tmp/e2-12-1.png").save(OUT / "e2-layout-2x6.png")
+    Image.open("/tmp/e2-12-1.png").save(OUT / "e2-figure-12.png")
+    Image.open("/tmp/e2-10-2.png").save(OUT / "e2-layout-2x5.png")
 
 
 def pdf_to_png(pdf: Path, png: Path, dpi: int = 200) -> None:
@@ -465,82 +496,91 @@ def pdf_to_png(pdf: Path, png: Path, dpi: int = 200) -> None:
     )
 
 
+def _content_bbox(page) -> tuple[float, float, float, float]:
+    """Union of text and images on a page, in PDF points (origin bottom-left)."""
+    rects = []
+    for block in page.get_text("dict")["blocks"]:
+        rects.append((block["bbox"][0], block["bbox"][1], block["bbox"][2], block["bbox"][3]))
+    for info in page.get_image_info():
+        box = info["bbox"]
+        rects.append((box[0], box[1], box[2], box[3]))
+    if not rects:
+        raise RuntimeError("empty page")
+    return (
+        min(r[0] for r in rects),
+        min(r[1] for r in rects),
+        max(r[2] for r in rects),
+        max(r[3] for r in rects),
+    )
+
+
+def _figure_page(pdf: Path, marker: str):
+    import fitz
+
+    doc = fitz.open(pdf)
+    for page in doc:
+        if marker in (page.get_text() or ""):
+            return doc, page
+    raise RuntimeError(f"{marker} not in {pdf}")
+
+
 def area_evidence() -> dict:
-    from pypdf import PdfReader
-
-    metrics: dict = {"textwidth_in": PAGE_WIDTH_IN, "panel_source_in": PANEL_IN}
-
-    exp5_ref = ROOT / "tex" / "exp5-m-area-block.pdf"
-    if exp5_ref.exists():
-        metrics["exp5_m_block_pdf_in"] = list(_page_size_in(exp5_ref))
-
-    preview = OUT / "e2-vldb-preview.pdf"
-    if preview.exists():
-        reader = PdfReader(str(preview))
-        metrics["e2_preview_page1_in"] = list(_page_size_in(preview))  # whole doc
-        if len(reader.pages) >= 1:
-            b0 = reader.pages[0].mediabox
-            metrics["e2_page1_mediabox_in"] = [float(b0.width) / 72, float(b0.height) / 72]
-
-    ref_img = Image.open(REFERENCE).convert("RGB")
-    hero = Image.open(OUT / "e2-hero-cost-only.png").convert("RGB")
-    panel = Image.open(PANELS / "p01.png").convert("RGB")
-
-    w = PAGE_WIDTH_IN * 200
-    header = 72
-    canvas_h = header + ref_img.height + hero.height + panel.height + 40
-    canvas = Image.new("RGB", (int(w * 1.1), canvas_h), "white")
-    x0 = 20
-    canvas.paste(ref_img, (x0, header))
-    canvas.paste(hero, (x0, header + ref_img.height + 10))
-    canvas.paste(panel, (x0 + hero.width + 20, header + ref_img.height + 10))
-
-    draw = ImageDraw.Draw(canvas)
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf", 18)
-    except OSError:
-        font = ImageFont.load_default()
-    draw.text((x0, 8), "Physical scale: user reference vs hero vs single TeX cell (p01)", fill=INK, font=font)
-    if preview.exists():
-        draw.text((x0, canvas_h - 24), f"Compiled preview PDF page size: {metrics.get('e2_preview_pdf_in')}", fill=GRAY, font=font)
+    import fitz
 
     EVIDENCE.mkdir(parents=True, exist_ok=True)
-    canvas.save(EVIDENCE / "area-vs-reference-and-exp5.png")
-    if exp5_ref.exists() and preview.exists():
-        try:
-            from pdf2image import convert_from_path
-
-            exp5_img = convert_from_path(str(exp5_ref), dpi=150, first_page=1, last_page=1)[0]
-            e2_img = convert_from_path(str(preview), dpi=150, first_page=2, last_page=2)[0]
-            ew, eh = exp5_img.size
-            tw = ew
-            strip = Image.new("RGB", (tw, eh + e2_img.size[1] + 50), "white")
-            strip.paste(exp5_img.convert("RGB"), (0, 40))
-            strip.paste(e2_img.convert("RGB"), (0, eh + 45))
-            d = ImageDraw.Draw(strip)
-            d.text((8, 8), "Original fig:exp5-m block (compiled at sigconf width)", fill=INK, font=font)
-            d.text((8, eh + 48), "E2 12-cell exp5-m container (page 1 of preview PDF)", fill=INK, font=font)
-            strip.save(EVIDENCE / "area-exp5m-vs-e2-same-width.png")
-            metrics["area_compare_image"] = str(EVIDENCE / "area-exp5m-vs-e2-same-width.png")
-        except ImportError:
-            subprocess.run(
-                ["pdftoppm", "-png", "-r", "150", "-f", "1", "-l", "1", str(exp5_ref), "/tmp/exp5m"],
-                check=False,
-            )
-            subprocess.run(
-                ["pdftoppm", "-png", "-r", "150", "-f", "2", "-l", "2", str(preview), "/tmp/e2p"],
-                check=False,
-            )
-            p5 = sorted(Path("/tmp").glob("exp5m*.png"))
-            p2 = sorted(Path("/tmp").glob("e2p*.png"))
-            if p5 and p2:
-                exp5_img = Image.open(p5[-1]).convert("RGB")
-                e2_img = Image.open(p2[-1]).convert("RGB")
-                ew, eh = exp5_img.size
-                strip = Image.new("RGB", (max(ew, e2_img.size[0]), eh + e2_img.size[1] + 50), "white")
-                strip.paste(exp5_img, (0, 40))
-                strip.paste(e2_img, (0, eh + 45))
-                strip.save(EVIDENCE / "area-exp5m-vs-e2-same-width.png")
+    baseline = ROOT / "tex" / "exp5-baseline-same-env.pdf"
+    preview = OUT / "e2-vldb-preview.pdf"
+    _bdoc, bpage = _figure_page(baseline, "Batch size")
+    _edoc, epage = _figure_page(preview, "Syn-L")
+    bb = _content_bbox(bpage)
+    eb = _content_bbox(epage)
+    dpi = 160
+    bpix = bpage.get_pixmap(dpi=dpi, clip=fitz.Rect(*bb))
+    epix = epage.get_pixmap(dpi=dpi, clip=fitz.Rect(*eb))
+    bimg = Image.frombytes("RGB", (bpix.width, bpix.height), bpix.samples)
+    eimg = Image.frombytes("RGB", (epix.width, epix.height), epix.samples)
+    # Same dpi and same page scale. Do not resample one crop onto the other.
+    width = max(bimg.width, eimg.width)
+    gap = 28
+    canvas = Image.new("RGB", (width, bimg.height + eimg.height + gap), "white")
+    canvas.paste(bimg, (0, 0))
+    canvas.paste(eimg, (0, bimg.height + gap))
+    canvas.save(EVIDENCE / "area-exp5m-vs-e2-same-width.png")
+    # Show only the figure on the delivered preview pages (CropBox). MediaBox stays letter.
+    pad = 2.0
+    src = fitz.open(preview)
+    boxes = []
+    already = src[0].cropbox.height < 400
+    for page, marker in ((src[0], "Syn-L"), (src[1], "Ten-cell")):
+        if already:
+            continue
+        box = _content_bbox(page)
+        boxes.append(box)
+        page.set_cropbox(fitz.Rect(box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad))
+    tmp_pdf = preview.with_suffix(".crop.pdf")
+    src.save(tmp_pdf, encryption=fitz.PDF_ENCRYPT_KEEP)
+    src.close()
+    tmp_pdf.replace(preview)
+    shown = fitz.open(preview)
+    for index, name in ((0, "e2-layout-2x6.png"), (1, "e2-layout-2x5.png")):
+        pix = shown[index].get_pixmap(dpi=160, alpha=False)
+        png = OUT / name
+        pix.save(png)
+        if index == 0:
+            pix.save(OUT / "e2-figure-12.png")
+    shown.close()
+    only = fitz.open(preview)
+    only.select([0])
+    only.save(OUT / "e2-figure-12.pdf")
+    only.close()
+    metrics = {
+        "note": "Same sigconf environment. Crops are figure content bboxes, not the paper MediaBox. exp5-m is the 2D batch-size figure, not a 3D k-sweep float.",
+        "baseline_figure_bbox_pt": [round(v, 2) for v in bb],
+        "e2_12_figure_bbox_pt": [round(v, 2) for v in eb],
+        "baseline_figure_wh_pt": [round(bb[2] - bb[0], 2), round(bb[3] - bb[1], 2)],
+        "e2_12_figure_wh_pt": [round(eb[2] - eb[0], 2), round(eb[3] - eb[1], 2)],
+        "height_ratio_e2_over_baseline": round((eb[3] - eb[1]) / (bb[3] - bb[1]), 4),
+    }
     (EVIDENCE / "area-metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     return metrics
 
@@ -617,40 +657,62 @@ def write_manifest(all_series: list[Series]) -> None:
 
 
 def inspect_panels() -> list[str]:
+    """Every text glyph in each panel PDF must sit inside that PDF's MediaBox."""
+    import xml.etree.ElementTree as ET
+    from pypdf import PdfReader
+
     issues: list[str] = []
     for spec in SPECS_12:
-        png = PANELS / f"{spec['id']}.png"
-        if not png.exists():
-            issues.append(f"missing {png.name}")
-            continue
-        im = Image.open(png)
-        # crude clip check: non-white border mean
-        arr = np.asarray(im.convert("L"))
-        if arr[2, :].mean() > 250 and arr[:, 2].mean() > 250:
-            issues.append(f"{spec['id']}: possible axis clipping")
-    (EVIDENCE / "panel-inspection.txt").write_text("\n".join(issues) or "ok", encoding="utf-8")
+        pdf = PANELS / f"{spec['id']}.pdf"
+        box = PdfReader(str(pdf)).pages[0].mediabox
+        width, height = float(box.width), float(box.height)
+        if abs(width - 133.2) > 0.6 or abs(height - 133.2) > 0.6:
+            issues.append(f"{spec['id']}: MediaBox {width:.2f}x{height:.2f}, expected 133.2")
+        xml = subprocess.check_output(["pdftotext", "-bbox", str(pdf), "-"], text=True)
+        root = ET.fromstring(xml)
+        words = list(root.iter("{http://www.w3.org/1999/xhtml}word"))
+        texts = [w.text or "" for w in words]
+        if not any(t.isdigit() and int(t) >= 100 for t in texts):
+            issues.append(f"{spec['id']}: no cost numeral inside the page text")
+        for word in words:
+            x0, y0 = float(word.get("xMin")), float(word.get("yMin"))
+            x1, y1 = float(word.get("xMax")), float(word.get("yMax"))
+            if x0 < -0.4 or y0 < -0.4 or x1 > width + 0.4 or y1 > height + 0.4:
+                issues.append(f"{spec['id']}: '{word.text}' bbox ({x0:.1f},{y0:.1f})-({x1:.1f},{y1:.1f}) outside {width:.1f}x{height:.1f}")
+    (EVIDENCE / "panel-inspection.txt").write_text("\n".join(issues) or "all panel glyphs inside MediaBox", encoding="utf-8")
     return issues
+
+
+def _drop_stale() -> None:
+    stale = [
+        OUT / "e2-layout-2x5.pdf",
+        OUT / "e2-layout-2x6.pdf",
+        OUT / "e2-layout-2x6-tex.png",
+        ROOT / "tex" / "exp5-m-area-block.pdf",
+        EVIDENCE / "area-compare-10-vs-12.png",
+        EVIDENCE / "area-compare-10-vs-12.pdf",
+        EVIDENCE / "area-vs-reference-and-exp5.png",
+        EVIDENCE / "small-multiple-spotcheck.png",
+    ]
+    for path in stale:
+        path.unlink(missing_ok=True)
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    _drop_stale()
     render_legend()
-    hero = render_hero(
-        dict(id="hero", letter="H", family="LT", demand="Full", case="Syn-A", kind="shift", valley_k=14, valley_h=2.5, phase=0.3, gap=True),
-    )
     twelve: list[Series] = []
-    for i, spec in enumerate(SPECS_12):
-        twelve.append(build_series(spec))
-        render_panel(twelve[-1], spec["id"], i, (6, 2))  # index unused; each panel is self-contained
-    for spec in SPECS_10:
-        s = next(x for x in twelve if x.spec["id"] == spec["id"])
-        # relabeled a-j already on meta; IDs unchanged on disk
-        pass
+    for index, spec in enumerate(SPECS_12):
+        series = build_series(spec)
+        twelve.append(series)
+        render_panel(series, spec["id"], index, (6, 2))
     write_manifest(twelve)
-    inspect_panels()
+    issues = inspect_panels()
+    if issues:
+        raise SystemExit("panel clip check failed:\n" + "\n".join(issues))
     compile_tex_preview()
-    if (OUT / "e2-vldb-preview.pdf").exists():
-        pdf_to_png(OUT / "e2-vldb-preview.pdf", OUT / "e2-layout-2x6-tex.png")
     metrics = area_evidence()
     print(json.dumps(metrics, indent=2))
 

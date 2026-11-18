@@ -1,16 +1,24 @@
 {
-  "textwidth_in": 7.0,
-  "panel_source_in": 1.85,
-  "exp5_m_block_pdf_in": [
-    8.5,
-    11.0
+  "note": "Same sigconf environment. Crops are figure content bboxes, not the paper MediaBox. exp5-m is the 2D batch-size figure, not a 3D k-sweep float.",
+  "baseline_figure_bbox_pt": [
+    86.32,
+    88.95,
+    532.45,
+    322.65
   ],
-  "e2_preview_page1_in": [
-    8.5,
-    11.0
+  "e2_12_figure_bbox_pt": [
+    2.0,
+    2.0,
+    467.58,
+    236.4
   ],
-  "e2_page1_mediabox_in": [
-    8.5,
-    11.0
-  ]
+  "baseline_figure_wh_pt": [
+    446.12,
+    233.7
+  ],
+  "e2_12_figure_wh_pt": [
+    465.58,
+    234.4
+  ],
+  "height_ratio_e2_over_baseline": 1.003
 }

@@ -1,32 +1,21 @@
-% VLDB-style preview: E2 figures + captions only.
+% Body-free preview. \maketitle is compiled only so sigconf \columnwidth matches the
+% paper (79.282pt cells). The build script drops the title page and any blank page.
 \documentclass[sigconf,nonacm]{acmart}
 \usepackage{../../../tex/vendor/pvldb}
 \settopmatter{printfolios=false,printccs=false,printacmref=false}
-\acmConference[Preview]{E2 round 2}{2026}{}
 \usepackage{graphicx}
 \usepackage{subfigure}
-\usepackage{xcolor}
-\graphicspath{{../out/}{../out/panels/}}
-
+\graphicspath{{../out/}}
+\pagestyle{empty}
 \begin{document}
-\title{E2 round-2 preview (figures only)}
-\author{Round-2 agent}
-\renewcommand{\shortauthors}{Preview}
+\title{E2}
+\author{layout}
+\renewcommand{\shortauthors}{}
 \maketitle
-
-\noindent\textcolor{gray}{\textit{Synthetic schematic heights --- not experimental results. Primary layout uses per-panel PDFs in an \texttt{exp5-m} subfigure container (not a single montage image).}}
-
+\pagestyle{empty}
+\thispagestyle{empty}
+\clearpage
 \input{fig-e2-exp5-container-12}
-
-\newpage
+\clearpage
 \input{fig-e2-exp5-container-10}
-
-\newpage
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{e2-hero-cost-only.pdf}
-  \caption{Single-panel cost-only reference (Spearman removed). Camera matches \texttt{plot\_surface.py}; vertex markers kept at reduced area.}
-  \label{fig:e2-hero}
-\end{figure}
-
 \end{document}

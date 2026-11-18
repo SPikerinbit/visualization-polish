@@ -1,0 +1,47 @@
+% Same sigconf environment as preview-main.tex, original fig:exp5-m panels.
+% This is the 2D batch-size figure, not a 3D k-sweep container.
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{../../../tex/vendor/pvldb}
+\settopmatter{printfolios=false,printccs=false,printacmref=false}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\graphicspath{{../../../tex/fig/panels/exp5/}}
+\pagestyle{empty}
+\begin{document}
+\title{exp5}
+\author{baseline}
+\renewcommand{\shortauthors}{}
+\maketitle
+\pagestyle{empty}
+\thispagestyle{empty}
+\clearpage
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.8\linewidth]{exp5_legend.pdf}
+
+  \vspace{-2ex}
+
+  \subfigure[Movies (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_full_tokens.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[Movies (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_full_latency.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[Movies (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_full_quality.pdf}}
+  \subfigure[Movies (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_top10_tokens.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[Movies (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_top10_latency.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[Movies (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_movies_top10_quality.pdf}}
+
+  \subfigure[DL20 (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_full_tokens.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[DL20 (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_full_latency.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[DL20 (full rank)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_full_quality.pdf}}
+  \subfigure[DL20 (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_top10_tokens.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[DL20 (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_top10_latency.pdf}}
+  \hspace{-2.5ex}
+  \subfigure[DL20 (LIMIT 10)]{\includegraphics[width=0.33\columnwidth]{exp5_dl20_top10_quality.pdf}}
+  \caption{Impact of listwise batch size $m$ on cost, latency and quality}
+\end{figure*}
+\end{document}

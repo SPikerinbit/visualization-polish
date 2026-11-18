@@ -1,6 +1,6 @@
-# 整合壳（候父最终视觉 QA）
+# 整合壳
 
-这不是最终通过。`paper/round2/integration/build.sh` 在 TeX Live 2023 上编出 10 页，没有 Overfull vbox。父还要逐页看。
+父已读的十页是 `f55de18`。分页收口之后的页序和测量见 `PAGINATION-CLOSEOUT.md`。这不是最终通过，也不是科研通过。
 
 引擎要求是 TeX Live 2026。这台机器是 `pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)`。没有升级引擎。类文件 `acmart.cls` 头是 2026/06/27，那不是引擎版本。见 `../TEXLIVE.md`。
 
@@ -15,18 +15,19 @@ cd paper/round2/integration
 
 ## 页
 
+父已读的十页页序见 `history/FINAL-AUDIT-f55de18.md`。分页收口后的 9 页：
+
 | 页 | 内容 |
 |---|---|
-| 1 | 框架通栏；SW、LT 左栏；pointer 右栏。图题在各自图下。 |
-| 2 | 表 1、表 2、Full 宽表 |
-| 3 | LIMIT 宽表 |
-| 4 | 记号与算法 1–4 |
-| 5 | 算法 5 |
-| 6 | E2 主 12 格，2×6 |
-| 7 | E3 单栏 4×2；E4a DL20 n=100 |
-| 8 | E4a COVID n=100；DL20 n=500 |
-| 9 | E4a COVID n=500；E4b；E4c |
-| 10 | E5 通栏 4×2 |
+| 1 | 框架通栏；SW、LT 左栏；pointer 右栏 |
+| 2 | 表 1、表 2、Full |
+| 3 | LIMIT 通栏，其下记号与算法 1、算法 2 |
+| 4 | 算法 3 左栏；算法 4 与算法 5 右栏 |
+| 5 | E2 主 12 格，左栏 E3。E4a 高 418pt，放不进剩下的 394pt 栏，所以不跟在这一页 |
+| 6 | E4a DL20 n=100 与 COVID n=100 |
+| 7 | E4a DL20 n=500 与 COVID n=500 |
+| 8 | E4b 与 E4c |
+| 9 | E5 通栏 |
 
 没有独立 LIMIT 机制图，没有 E4 验证表，没有 “E3–E5 figure placement” 标题，没有 review 行号。E3 在自己的 float 里把 `\subfigcapskip` 设为 1pt。
 

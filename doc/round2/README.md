@@ -7,14 +7,14 @@
 - 现行要求：`CURRENT-DECISIONS.md`（64 条在 `决策覆盖矩阵.tsv`）
 - 仓库路径：`BASELINES.md`
 - 四路都已进模板：机制 `c959d22`、表格 PR18、E2 `05f921f2`、折线 `22b432ca`。见 `STAGING-HEADS.md`。
-- 壳：`paper/round2/integration/`。10 页 `main.pdf`。没有独立 LIMIT 机制图，没有 E4 验证表，没有 preview 标题和 review 行号。
+- 壳：`paper/round2/integration/`。分页收口后是 9 页。没有独立 LIMIT 机制图，没有 E4 验证表，没有 preview 标题和 review 行号。
 - `bed819cd` 的失败记录仍在 `qa/history/`，不覆盖这次返修 QA。
 - 失效旧说法：`archive/SUPERSEDED.md`。更早的表格/E2 审核在 `archive/`，**不能**当新稿通过。
 - 引擎差异：`TEXLIVE.md`。这台机器是 TeX Live 2023。
 
 ## 还没做
 
-父对这 10 页整合 PDF 的最终视觉 QA。真实数据、Table 2 公式、`finite.py`、原 3D k-sweep TeX、TeX Live 2026 都未闭合。E2 不能写成“原 3D 只换图已经完全通过”。折线刻度里的小字（E3 约 4.6pt / 图例 5pt）是 60pt 硬容器下的例外，不是舒适字号通过。
+父已读 `f55de18` 的十页。分页收口见 `qa/PAGINATION-CLOSEOUT.md`，仍不是最终通过。真实数据、Table 2 公式、`finite.py`、原 3D k-sweep TeX、TeX Live 2026 都未闭合。E2 不能写成“原 3D 只换图已经完全通过”。折线刻度里的小字（E3 约 4.6pt / 图例 5pt）是 60pt 硬容器下的例外，不是舒适字号通过。
 
 复现：`cd paper/round2/integration && ./build.sh`。本机是 TeX Live 2023。
 

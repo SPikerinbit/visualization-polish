@@ -30,6 +30,7 @@ if printf '%s\n' "$TEXT" | grep -q "figure placement"; then
 fi
 echo "integration shell compiled: $ROOT/main.pdf"
 pdfinfo main.pdf | awk '/Pages|Producer/{print}'
+rm -rf pages
 mkdir -p pages
 pdftoppm -png -r 110 main.pdf pages/page
 echo "pages: $(ls pages/page-*.png | wc -l)"

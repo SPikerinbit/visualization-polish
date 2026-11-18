@@ -1,6 +1,6 @@
 # 四路 HEAD 快照（不是终验）
 
-查询时间：2026-11-18。只记录当时 GitHub PR `head.sha`。机制与折线 **尚未父准入**，禁止把旧稿或这些 SHA 混进 `paper/round2/integration/`。
+查询时间：2026-11-18。四路都已按父给的 SHA 进入 `paper/round2/integration/`。不要再用 `bed819cd`，也不要把 14:30 种子里的“未纳入”当成现行禁令。那句只留在 `archive/` 和 `qa/history/`。
 
 | 路 | PR | 分支 | 当时 head.sha | 本整合 |
 |---|---|---|---|---|

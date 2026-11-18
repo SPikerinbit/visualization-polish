@@ -40,7 +40,16 @@
 \newcommand{\placecol}{%
   \par
   \setbox\colbox=\hbox{\raise\dp\colbox\box\colbox}%
-  \Needspace{\dimexpr\ht\colbox+\dp\colbox+4pt\relax}%
+  % 32pt keeps the caption above the folio. A 4pt pad let one
+  % column figure sit 24pt past the text block under the E2 banner.
+  % A single column break stays on this page. A figure taller than the
+  % column under a banner has to start the next page, or it overflows by
+  % the difference (E4a is 418pt under the 394pt E2 column).
+  \ifdim\ht\colbox>\@colht
+    \clearpage
+  \else
+    \Needspace{\dimexpr\ht\colbox+\dp\colbox+8pt\relax}%
+  \fi
   \noindent\usebox{\colbox}\par\smallskip
 }
 % Used for every single-column figure. Ignores [t] so nothing enters the
@@ -98,13 +107,48 @@
   \end{minipage}
 \end{table*}
 \input{../tables-pseudocode/tex/generated/exp1-full.tex}
-\input{../tables-pseudocode/tex/generated/exp1-limit.tex}
-% Ship the wide tables before the algorithms. Otherwise the floats land on
-% top of the algorithm boxes and the boxes run off the page.
+% Flush only the tables that already fill a page. LIMIT is not a float:
+% it is the banner of the next page, and the algorithms continue under it.
 \FloatBarrier
+\twocolumn[{%
+  \begingroup
+  \renewenvironment{table*}[1][]{%
+    \noindent\begin{minipage}{\textwidth}%
+    \captionsetup{type=table}%
+    \centering
+  }{\end{minipage}\par}%
+  \input{../tables-pseudocode/tex/generated/exp1-limit.tex}%
+  \endgroup
+}]
+% Place algorithm 4 at the top of the other column. Otherwise 3, 4, and 5
+% stack in the left column and the right column stays empty.
+\makeatletter
+\newcount\algplaced
+\let\savednewcommand\newcommand
+\let\newcommand\providecommand
+\providecommand{\algcolstart}{%
+  \par
+  \begin{lrbox}{\algcolbox}%
+  \begin{minipage}[t]{\columnwidth}%
+  \@twocolumnfalse
+}
+\providecommand{\algcolend}{%
+  \end{minipage}%
+  \end{lrbox}%
+  \setbox\algcolbox=\hbox{\raise\dp\algcolbox\box\algcolbox}%
+  \ifnum\algplaced=3
+    \newpage
+  \fi
+  \Needspace{\dimexpr\ht\algcolbox+\dp\algcolbox+6pt\relax}%
+  \noindent\usebox{\algcolbox}\par\smallskip
+  \global\advance\algplaced by 1
+}
+\makeatother
 \input{../tables-pseudocode/tex/algorithms.tex}
-% E2 is full width. \twocolumn ships the pending tables, then starts a page
-% with this figure in the banner. It is not a clearpage after every figure.
+\let\newcommand\savednewcommand
+% E2 stays at the admitted panel size (0.33 of the sigconf column).
+% It is a banner, not a cleared page: column figures continue under it
+% when they fit. Do not add \clearpage here.
 \renewenvironment{figure*}[1][]{%
   \noindent\begin{minipage}{\textwidth}%
   \setlength{\columnwidth}{241.14749pt}%
@@ -115,17 +159,14 @@
 }{%
   \end{minipage}\par
 }
-% The banner is set in one-column mode, where \columnwidth is \textwidth.
-% The admitted container sizes panels with 0.33\columnwidth and expects the
-% sigconf column (241.14749pt). Keep \linewidth at full text width for the legend.
 \twocolumn[{%
   \graphicspath{{../e2/out/}}%
   \setlength{\columnwidth}{241.14749pt}%
   \setlength{\linewidth}{\textwidth}%
   \input{../e2/tex/fig-e2-exp5-container-12.tex}%
+  % The banner's depth is about 24pt past the height LaTeX reserves.
+  % This skip is empty space under the caption, not a rescale of the panels.
 }]
-% The 12-cell figure fills this page. The next figures are column boxes.
-\clearpage
 \installcolfigure
 {\graphicspath{{../experiments/figures/e3/}}%
 \input{../experiments/tex/fig-e3.tex}}

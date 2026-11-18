@@ -46,10 +46,14 @@ HEIGHT_MM_TARGET = 98.0  # compact A sheets: aim 90--105 mm
 HEIGHT_IN = HEIGHT_MM_TARGET / 25.4
 PNG_DPI = 160
 MIN_TEXT_PT = 7.0
-COMPACT_TOP = 0.947
-COMPACT_BOTTOM = 0.15
-COMPACT_HSPACE = 0.30
-LOWER_ROW_TITLE_PAD = 15.5  # points; clears k-group labels above LT/SW titles
+COMPACT_LEFT = 0.10
+COMPACT_RIGHT = 0.992
+COMPACT_WSPACE = 0.11
+COMPACT_UPPER_Y0 = 0.60
+COMPACT_LOWER_Y0 = 0.15
+COMPACT_AX_HEIGHT = 0.28
+COMPACT_TITLE_PAD = 5.0
+LEGEND_CENTER_Y = 0.98
 MIN_ROW_GAP_MM = 3.0
 
 OFF = "#1F4E79"
@@ -486,7 +490,7 @@ def panel_title(panel: dict, mode: str) -> str:
     return f"{short}  ·  {demand}  ·  n={panel['n']}"
 
 
-def add_compact_legend(fig) -> None:
+def add_compact_legend(fig):
     """One tight legend row; synthetic / axis contract live in the TeX caption."""
     handles = [
         Line2D([0], [0], linestyle="None", marker="D", markersize=5.5, markerfacecolor="white", markeredgecolor=OFF, markeredgewidth=0.95, label="Off pred."),
@@ -497,10 +501,10 @@ def add_compact_legend(fig) -> None:
         Line2D([0], [0], color=ON, lw=1.35, label=r"On $U{-}Q$"),
         Line2D([0], [0], linestyle="None", label="both"),
     ]
-    fig.legend(
+    return fig.legend(
         handles=handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.988),
+        bbox_to_anchor=(0.5, LEGEND_CENTER_Y),
         ncol=7,
         frameon=False,
         fontsize=MIN_TEXT_PT,
@@ -512,31 +516,92 @@ def add_compact_legend(fig) -> None:
     )
 
 
-def _assert_compact_row_gap(fig, axes) -> None:
-    """k-group labels on the upper row must clear lower-row panel titles (>=3 mm)."""
+def compact_axis_rects() -> list[tuple[float, float, float, float]]:
+    span = COMPACT_RIGHT - COMPACT_LEFT
+    width = span / (2 + COMPACT_WSPACE)
+    x_right = COMPACT_LEFT + width * (1 + COMPACT_WSPACE)
+    upper = COMPACT_UPPER_Y0
+    lower = COMPACT_LOWER_Y0
+    h = COMPACT_AX_HEIGHT
+    return [
+        (COMPACT_LEFT, upper, width, h),
+        (x_right, upper, width, h),
+        (COMPACT_LEFT, lower, width, h),
+        (x_right, lower, width, h),
+    ]
+
+
+def _upper_row_foot_bboxes(fig, axes, renderer) -> tuple[float, float]:
+    """Lowest ink from the upper row: x tick labels, brackets, and k= labels."""
+    y_values = []
+    for ax in axes[0].flat:
+        pos = ax.get_position()
+        y_values.append(pos.y0)
+        for label in ax.get_xticklabels():
+            bb = label.get_window_extent(renderer).transformed(fig.transFigure.inverted())
+            y_values.extend((bb.y0, bb.y1))
+        for text in ax.texts:
+            bb = text.get_window_extent(renderer).transformed(fig.transFigure.inverted())
+            y_values.extend((bb.y0, bb.y1))
+        for line in ax.lines:
+            try:
+                bb = line.get_window_extent(renderer).transformed(fig.transFigure.inverted())
+            except (ValueError, RuntimeError):
+                continue
+            if bb.y1 <= pos.y0 + 0.02:
+                y_values.extend((bb.y0, bb.y1))
+    return min(y_values), max(y_values)
+
+
+def _assert_compact_layout(fig, axes, legend) -> None:
+    """Visual stack: legend → upper titles → upper axes → h/k → gap → lower titles → lower axes."""
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
-    k_top = max(
-        text.get_window_extent(renderer).transformed(fig.transFigure.inverted()).y1
-        for ax in axes[0].flat
-        for text in ax.texts
-        if text.get_text().startswith("k=")
+    to_fig = fig.transFigure.inverted()
+    mm = fig.get_figheight() * 25.4
+
+    leg = legend.get_window_extent(renderer).transformed(to_fig)
+    upper_title_top = max(
+        ax.title.get_window_extent(renderer).transformed(to_fig).y1 for ax in axes[0].flat
     )
-    title_bottom = min(
-        ax.title.get_window_extent(renderer).transformed(fig.transFigure.inverted()).y0
-        for ax in axes[1].flat
+    upper_title_bottom = min(
+        ax.title.get_window_extent(renderer).transformed(to_fig).y0 for ax in axes[0].flat
     )
-    gap_mm = (title_bottom - k_top) * fig.get_figheight() * 25.4
+    upper_axes_top = max(ax.get_position().y1 for ax in axes[0].flat)
+    foot_lo, foot_hi = _upper_row_foot_bboxes(fig, axes, renderer)
+
+    lower_title_top = max(
+        ax.title.get_window_extent(renderer).transformed(to_fig).y1 for ax in axes[1].flat
+    )
+    lower_title_bottom = min(
+        ax.title.get_window_extent(renderer).transformed(to_fig).y0 for ax in axes[1].flat
+    )
+    lower_axes_top = max(ax.get_position().y1 for ax in axes[1].flat)
+
+    if leg.y0 < upper_title_top + 0.003:
+        raise RuntimeError("legend overlaps upper panel titles")
+    if upper_title_bottom < upper_axes_top - 0.002:
+        raise RuntimeError("upper titles overlap upper axes")
+    if foot_hi > upper_axes_top + 0.01:
+        raise RuntimeError("upper x/k decorations sit inside the plot band")
+    gap_mm = (foot_lo - lower_title_top) * mm
     if gap_mm < MIN_ROW_GAP_MM:
-        raise RuntimeError(f"inter-row gap {gap_mm:.2f} mm < {MIN_ROW_GAP_MM} mm")
+        raise RuntimeError(f"k/h foot to lower-title gap {gap_mm:.2f} mm < {MIN_ROW_GAP_MM} mm")
+    if lower_title_bottom < lower_axes_top - 0.002:
+        raise RuntimeError("lower titles overlap lower axes")
 
 
 def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, float]) -> list[dict]:
-    fig, axes = plt.subplots(2, 2, figsize=(WIDTH_IN, HEIGHT_IN), squeeze=False)
+    fig = plt.figure(figsize=(WIDTH_IN, HEIGHT_IN))
+    rects = compact_axis_rects()
+    axes = np.empty((2, 2), dtype=object)
     records = []
+    slot = 0
     for r, row in enumerate(grid):
         for c, panel in enumerate(row):
-            ax = axes[r][c]
+            ax = fig.add_axes(rects[slot])
+            slot += 1
+            axes[r, c] = ax
             xs = np.arange(len(DISPLAY))
             off = series(panel, "measured_off_U") / 1000.0
             on = series(panel, "measured_on_U_minus_Q") / 1000.0
@@ -545,22 +610,13 @@ def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, f
             ax.plot(xs, off, color=OFF, lw=1.2, solid_capstyle="round", zorder=2)
             ax.plot(xs, on, color=ON, lw=1.2, solid_capstyle="round", zorder=2)
             draw_markers(ax, panel, records)
-            title_pad = LOWER_ROW_TITLE_PAD if r == 1 else 2.5
-            ax.set_title(panel_title(panel, "compact"), pad=title_pad, color=INK, fontsize=8)
+            ax.set_title(panel_title(panel, "compact"), pad=COMPACT_TITLE_PAD, color=INK, fontsize=8)
             if c == 0:
                 ax.set_ylabel("tokens ×10³", labelpad=2)
-    add_compact_legend(fig)
-    fig.subplots_adjust(
-        left=0.10,
-        right=0.992,
-        top=COMPACT_TOP,
-        bottom=COMPACT_BOTTOM,
-        hspace=COMPACT_HSPACE,
-        wspace=0.11,
-    )
-    _assert_compact_row_gap(fig, axes)
-    fig.savefig(path.with_suffix(".pdf"))
-    fig.savefig(path.with_suffix(".png"), dpi=PNG_DPI)
+    legend = add_compact_legend(fig)
+    _assert_compact_layout(fig, axes, legend)
+    fig.savefig(path.with_suffix(".pdf"), bbox_inches=None, pad_inches=0)
+    fig.savefig(path.with_suffix(".png"), dpi=PNG_DPI, bbox_inches=None, pad_inches=0)
     plt.close(fig)
     return records
 

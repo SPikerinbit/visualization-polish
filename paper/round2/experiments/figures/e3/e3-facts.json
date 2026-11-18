@@ -1,0 +1,274 @@
+{
+  "source": "/agent/repos/visualization-polish/paper/recovery/e3/e3_layout_data.json",
+  "ylim_shared": [
+    11.1,
+    66.2
+  ],
+  "x_linear": [
+    1000,
+    5000,
+    10000
+  ],
+  "prediction_is_separate_panel": true,
+  "supplements_not_drawn": [
+    {
+      "n": 5000,
+      "k": 250,
+      "h": 2,
+      "y": 69.0,
+      "mode": "Full"
+    },
+    {
+      "n": 10000,
+      "k": 500,
+      "h": 2,
+      "y": 69.0,
+      "mode": "Full"
+    },
+    {
+      "n": 5000,
+      "k": 250,
+      "h": 1,
+      "y": 69.0,
+      "mode": "LIMIT10"
+    },
+    {
+      "n": 10000,
+      "k": 500,
+      "h": 1,
+      "y": 69.0,
+      "mode": "LIMIT10"
+    }
+  ],
+  "panels": [
+    {
+      "file": "e3-sw-full-predicted.pdf",
+      "family": "SW",
+      "mode": "Full",
+      "kind": "predicted",
+      "pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-sw-limit10-predicted.pdf",
+      "family": "SW",
+      "mode": "LIMIT10",
+      "kind": "predicted",
+      "pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-lt-full-predicted.pdf",
+      "family": "LT",
+      "mode": "Full",
+      "kind": "predicted",
+      "pairs": [
+        [
+          50,
+          2
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          32,
+          3
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-lt-limit10-predicted.pdf",
+      "family": "LT",
+      "mode": "LIMIT10",
+      "kind": "predicted",
+      "pairs": [
+        [
+          50,
+          2
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          32,
+          3
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-sw-full-measured.pdf",
+      "family": "SW",
+      "mode": "Full",
+      "kind": "measured",
+      "pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-sw-limit10-measured.pdf",
+      "family": "SW",
+      "mode": "LIMIT10",
+      "kind": "measured",
+      "pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-lt-full-measured.pdf",
+      "family": "LT",
+      "mode": "Full",
+      "kind": "measured",
+      "pairs": [
+        [
+          50,
+          2
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          32,
+          3
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ]
+    },
+    {
+      "file": "e3-lt-limit10-measured.pdf",
+      "family": "LT",
+      "mode": "LIMIT10",
+      "kind": "measured",
+      "pairs": [
+        [
+          50,
+          2
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          32,
+          3
+        ],
+        [
+          50,
+          1
+        ],
+        [
+          20,
+          1
+        ]
+      ]
+    }
+  ],
+  "line_pt": 0.7241666666666667,
+  "marker_pt": 2.1725000000000003,
+  "panel_pt": 60.286875,
+  "tick_font_pt": 4.6,
+  "reason_tick_font": "Fig. 8 printed tick size is 4.07 pt. Labels are set at 4.60 pt so 1k/5k/10k stay readable at the same include box."
+}

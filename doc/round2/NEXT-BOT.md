@@ -1,5 +1,9 @@
 # 下一 bot 入口（未完成验收）
 
+2026-11-18 补记：四路已进 `paper/round2/integration/main.tex`。机制用 `c959d22b0eeffaeb78f345b320faaa849164c1a6`，不要 `bed819cd`。折线用 `22b432ca01054da271366518d5ba6684795b1b20`。表用 `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`。E2 用 `05f921f20c634dbb4d6e05eb5f4003d17f354183`。复现是 `paper/round2/integration/build.sh`。本机 TeX Live 2023，不是 2026。页序和例外在 `qa/INTEGRATION-SHELL.md`。父还没做最终视觉 QA。
+
+
+
 本文件在交接种子上改了状态，不是终验记录。
 
 - 已纳入：`paper/round2/tables-pseudocode/` @ `b12cd37113919d32d15a596b0d7e0913cd1c4ec4`；`paper/round2/e2/` @ `05f921f20c634dbb4d6e05eb5f4003d17f354183`。

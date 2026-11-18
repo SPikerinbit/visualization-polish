@@ -1,0 +1,32 @@
+{
+  "source_csv": "/agent/repos/visualization-polish/paper/recovery/e5/data/e5_limit_sweep.csv",
+  "source_meta": "/agent/repos/visualization-polish/paper/recovery/e5/data/e5_limit_sweep_meta.json",
+  "width_mm": 178.609625,
+  "height_mm": 104.0,
+  "line_pt": 0.9559000000000002,
+  "marker_pt": 3.6,
+  "columns": [
+    "DL20 Off",
+    "DL20 On",
+    "COVID Off",
+    "COVID On"
+  ],
+  "full_joined": false,
+  "spacing": "equal contract slots, not linear in n",
+  "y_limits": {
+    "Off": [
+      15,
+      58
+    ],
+    "On-cold": [
+      10,
+      48
+    ]
+  },
+  "ndcg_limits": [
+    0.66,
+    0.8
+  ],
+  "banner_moved_to_caption": true,
+  "values": "unchanged placeholder cells"
+}

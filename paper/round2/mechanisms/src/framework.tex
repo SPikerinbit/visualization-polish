@@ -1,0 +1,64 @@
+% Flat text-width framework. Abstract runs, layered merge, compact cost box.
+% The red request starts at LIMIT and ends on the root merge; K cuts that path.
+\documentclass[tikz,border=0pt]{standalone}
+\usetikzlibrary{arrows.meta}
+\definecolor{ink}{HTML}{2A3034}
+\definecolor{paper}{HTML}{FBF6EC}
+\definecolor{run}{HTML}{E6DFD2}
+\definecolor{runedge}{HTML}{C9C0B2}
+\definecolor{merge}{HTML}{F4DFB8}
+\definecolor{mergeedge}{HTML}{C9843A}
+\definecolor{ctrl}{HTML}{3E7A9A}
+\definecolor{stopc}{HTML}{C56A55}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=1mm,
+  every node/.style={inner sep=0pt,outer sep=0pt,text=ink},
+  lab/.style={font=\fontsize{7}{8}\selectfont},
+  box/.style={draw,rounded corners=0.55mm,minimum height=4.4mm,font=\fontsize{6.5}{7.4}\selectfont,inner sep=0.7mm},
+  dat/.style={-{Stealth[length=1.15mm]},draw=ink,line width=0.5pt},
+  ctl/.style={-{Stealth[length=1.05mm]},draw=ctrl,line width=0.55pt,dash pattern=on 0.7mm off 0.45mm},
+  pull/.style={-{Stealth[length=1.15mm]},draw=stopc,line width=0.55pt,dash pattern=on 0.7mm off 0.42mm}
+]
+\useasboundingbox (0,0) rectangle (177.94,42);
+\fill[paper] (0,0) rectangle (177.94,42);
+
+\node[lab,anchor=west] at (2,38.4) {ordered runs};
+\foreach \i in {0,1,2,3} {
+  \pgfmathsetmacro{\y}{33.2-7.2*\i}
+  \draw[runedge,rounded corners=0.8mm,fill=run] (2,\y-1.55) rectangle (22,\y+1.55);
+  \foreach \k in {0,1,2,3} {
+    \fill[ink,opacity={0.18+0.14*\k}] ({5.2+4.2*\k},\y) circle (1.05);
+  }
+}
+
+% pass-1 merges, then the root. Boxes only as wide as the word.
+\node[box,draw=mergeedge,fill=merge] (m1) at (40,30.4) {merge};
+\node[box,draw=mergeedge,fill=merge] (m2) at (40,14.0) {merge};
+\node[box,draw=mergeedge,fill=merge] (m3) at (82,22.2) {merge};
+
+\draw[dat] (22,33.2) -- (m1.west);
+\draw[dat] (22,26.0) -- (m1.west);
+\draw[dat] (22,18.4) -- (m2.west);
+\draw[dat] (22,11.2) -- (m2.west);
+% data travels above and below the cost box
+\draw[dat] (m1.east) -- (62,30.4) -- (m3.north);
+\draw[dat] (m2.east) -- (62,14.0) -- (m3.south west);
+
+% k,h is applied to each merge; every dashed end lands on a box
+\node[draw=ctrl,fill=paper,rounded corners=0.5mm,align=center,inner sep=0.65mm,font=\fontsize{6.5}{7.4}\selectfont] (cost) at (62,22.2) {cost model\\[-0.4pt]\textcolor{ctrl}{$k,h$}};
+\draw[ctl] (cost.north) -- (m1.south);
+\draw[ctl] (cost.south) -- (m2.north);
+\draw[ctl] (cost.east) -- (m3.west);
+
+% solid data leaves the root; the request returns from LIMIT and stops at K
+\node[box,draw=ctrl] (full) at (158,30.4) {Full};
+\node[box,draw=stopc] (lim) at (158,14.0) {LIMIT};
+\draw[dat] (m3.east) -- (124,22.2) -- (full.west);
+\draw[dat] (124,22.2) -- (lim.west);
+% The request is one path. The bar sits on it and is the stop.
+\draw[pull, -] (lim.south) -- (158,5.6) -- (122,5.6);
+\draw[pull] (122,5.6) -- (90,5.6) -- (m3.south east);
+\draw[stopc,line width=1.35pt] (122,3.2) -- (122,8.0);
+\node[font=\fontsize{6.5}{7.4}\selectfont,text=stopc,anchor=south] at (122,8.4) {stop at $K$};
+\end{tikzpicture}
+\end{document}

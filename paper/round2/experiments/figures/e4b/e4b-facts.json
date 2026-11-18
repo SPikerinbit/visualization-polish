@@ -1,0 +1,19 @@
+{
+  "source": "/agent/repos/visualization-polish/paper/recovery/e4b/e4b_beta.json",
+  "betas_drawn": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "betas_not_drawn": [
+    "0.1",
+    "0.9"
+  ],
+  "inset": false,
+  "color_bands": false,
+  "n100_k8": "not used; this slice is not an n=100 sample",
+  "values_unchanged": true,
+  "line_pt": 0.9559000000000002
+}

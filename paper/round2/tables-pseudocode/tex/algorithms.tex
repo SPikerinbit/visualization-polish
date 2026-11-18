@@ -13,15 +13,29 @@
 \SetAlgoSkip{smallskip}
 \SetAlgoInsideSkip{smallskip}
 \makeatletter
-% algorithm2e rejects [H] in two-column mode. A column-width minipage
-% keeps the printed measure and lets the next algorithm move to the next column.
+% algorithm2e rejects [H] in two-column mode. Measure the column box, then
+% move the whole algorithm to the next column when it does not fit.
+% \Needspace comes from the integration preamble; the fallback keeps the
+% specialist preview compiling if that package was not loaded.
+\providecommand{\Needspace}[1]{}
+\newsavebox{\algcolbox}
 \newcommand{\algcolstart}{%
-  \par\smallskip\noindent
-  \begin{minipage}{\columnwidth}%
+  \par
+  \begin{lrbox}{\algcolbox}%
+  \begin{minipage}[t]{\columnwidth}%
   \@twocolumnfalse
 }
+\newcommand{\algcolend}{%
+  \end{minipage}%
+  \end{lrbox}%
+  % minipage[t] stores the body as depth. Raise it so the page builder
+  % sees the whole algorithm above the baseline and cannot hang off the page.
+  \setbox\algcolbox=\hbox{\raise\dp\algcolbox\box\algcolbox}%
+  \typeout{ALGBOX ht=\the\ht\algcolbox dp=\the\dp\algcolbox}%
+  \Needspace{\dimexpr\ht\algcolbox+\dp\algcolbox+6pt\relax}%
+  \noindent\usebox{\algcolbox}\par\smallskip
+}
 \makeatother
-\newcommand{\algcolend}{\end{minipage}\par\smallskip}
 
 {\footnotesize\raggedright\hyphenpenalty10000\exhyphenpenalty10000
 \noindent\textit{Notation.}\quad

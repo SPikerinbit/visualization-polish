@@ -1,0 +1,39 @@
+% Placement only. No paper prose. Measures are sigconf after \maketitle.
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{pvldb}
+\renewcommand\vldbdoi{XX.XX/XXX.XX}
+\renewcommand\vldbpages{XXX-XXX}
+\renewcommand\vldbavailabilityurl{}
+\begin{document}
+\title{Mechanism figure placement}
+\author{Placement preview}
+\renewcommand{\shortauthors}{Placement preview}
+\maketitle
+\typeout{TEXTWIDTH=\the\textwidth}
+\typeout{COLUMNWIDTH=\the\columnwidth}
+\twocolumn[{%
+  \centering
+  \includegraphics[width=\textwidth]{framework.pdf}\par
+  \captionof{figure}{Framework, full text width.}
+  \vspace{1em}
+}]
+\noindent\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{sw.pdf}\par
+\captionof{figure}{SW, one column.}
+\end{minipage}
+
+\vspace{0.8em}
+\noindent\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{lt.pdf}\par
+\captionof{figure}{LT(h), one column.}
+\end{minipage}
+
+\vspace{0.8em}
+\noindent\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{pointer.pdf}\par
+\captionof{figure}{Pointer, one column.}
+\end{minipage}
+\end{document}

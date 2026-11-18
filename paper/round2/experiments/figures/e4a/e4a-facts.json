@@ -1,0 +1,437 @@
+{
+  "source_n500": "/agent/repos/visualization-polish/paper/recovery/e4a/data/e4a_synthetic.json",
+  "n100_remap": {
+    "(8,1)": "(5,1)",
+    "(8,2)": "(5,2)"
+  },
+  "n100_axis": [
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      4,
+      1
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      1
+    ],
+    [
+      5,
+      2
+    ]
+  ],
+  "n500_axis": [
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      4,
+      1
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      8,
+      1
+    ],
+    [
+      8,
+      2
+    ]
+  ],
+  "files": [
+    "e4a-dl20-n100.pdf",
+    "e4a-covid-n100.pdf",
+    "e4a-dl20-n500.pdf",
+    "e4a-covid-n500.pdf"
+  ],
+  "line_pt": 0.9559000000000002,
+  "minima": "displayed categories only; not the legal-domain argmin",
+  "panels": [
+    {
+      "dataset": "DL20",
+      "n": 100,
+      "demand": "Full",
+      "family": "SW",
+      "off_measured": [
+        4,
+        2
+      ],
+      "off_predicted": [
+        4,
+        3
+      ],
+      "on_measured": [
+        4,
+        1
+      ],
+      "on_predicted": [
+        4,
+        1
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 100,
+      "demand": "LIMIT10",
+      "family": "SW",
+      "off_measured": [
+        2,
+        2
+      ],
+      "off_predicted": [
+        2,
+        2
+      ],
+      "on_measured": [
+        5,
+        2
+      ],
+      "on_predicted": [
+        2,
+        1
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 100,
+      "demand": "Full",
+      "family": "LT",
+      "off_measured": [
+        5,
+        1
+      ],
+      "off_predicted": [
+        2,
+        1
+      ],
+      "on_measured": [
+        4,
+        2
+      ],
+      "on_predicted": [
+        4,
+        3
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 100,
+      "demand": "LIMIT10",
+      "family": "LT",
+      "off_measured": [
+        4,
+        1
+      ],
+      "off_predicted": [
+        4,
+        1
+      ],
+      "on_measured": [
+        2,
+        4
+      ],
+      "on_predicted": [
+        2,
+        4
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 100,
+      "demand": "Full",
+      "family": "SW",
+      "off_measured": [
+        2,
+        1
+      ],
+      "off_predicted": [
+        2,
+        4
+      ],
+      "on_measured": [
+        4,
+        2
+      ],
+      "on_predicted": [
+        4,
+        2
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 100,
+      "demand": "LIMIT10",
+      "family": "SW",
+      "off_measured": [
+        5,
+        2
+      ],
+      "off_predicted": [
+        2,
+        1
+      ],
+      "on_measured": [
+        2,
+        2
+      ],
+      "on_predicted": [
+        5,
+        1
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 100,
+      "demand": "Full",
+      "family": "LT",
+      "off_measured": [
+        4,
+        3
+      ],
+      "off_predicted": [
+        4,
+        3
+      ],
+      "on_measured": [
+        5,
+        1
+      ],
+      "on_predicted": [
+        2,
+        2
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 100,
+      "demand": "LIMIT10",
+      "family": "LT",
+      "off_measured": [
+        5,
+        2
+      ],
+      "off_predicted": [
+        4,
+        1
+      ],
+      "on_measured": [
+        2,
+        4
+      ],
+      "on_predicted": [
+        5,
+        2
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 500,
+      "demand": "Full",
+      "family": "SW",
+      "off_measured": [
+        4,
+        3
+      ],
+      "off_predicted": [
+        8,
+        2
+      ],
+      "on_measured": [
+        2,
+        2
+      ],
+      "on_predicted": [
+        2,
+        4
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 500,
+      "demand": "LIMIT10",
+      "family": "SW",
+      "off_measured": [
+        8,
+        1
+      ],
+      "off_predicted": [
+        8,
+        1
+      ],
+      "on_measured": [
+        4,
+        2
+      ],
+      "on_predicted": [
+        2,
+        1
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 500,
+      "demand": "Full",
+      "family": "LT",
+      "off_measured": [
+        2,
+        4
+      ],
+      "off_predicted": [
+        8,
+        2
+      ],
+      "on_measured": [
+        8,
+        2
+      ],
+      "on_predicted": [
+        8,
+        2
+      ]
+    },
+    {
+      "dataset": "DL20",
+      "n": 500,
+      "demand": "LIMIT10",
+      "family": "LT",
+      "off_measured": [
+        4,
+        2
+      ],
+      "off_predicted": [
+        2,
+        2
+      ],
+      "on_measured": [
+        4,
+        3
+      ],
+      "on_predicted": [
+        4,
+        1
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 500,
+      "demand": "Full",
+      "family": "SW",
+      "off_measured": [
+        4,
+        1
+      ],
+      "off_predicted": [
+        8,
+        1
+      ],
+      "on_measured": [
+        8,
+        1
+      ],
+      "on_predicted": [
+        8,
+        1
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 500,
+      "demand": "LIMIT10",
+      "family": "SW",
+      "off_measured": [
+        2,
+        4
+      ],
+      "off_predicted": [
+        2,
+        4
+      ],
+      "on_measured": [
+        4,
+        3
+      ],
+      "on_predicted": [
+        2,
+        1
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 500,
+      "demand": "Full",
+      "family": "LT",
+      "off_measured": [
+        8,
+        2
+      ],
+      "off_predicted": [
+        4,
+        2
+      ],
+      "on_measured": [
+        2,
+        1
+      ],
+      "on_predicted": [
+        2,
+        2
+      ]
+    },
+    {
+      "dataset": "TREC-COVID",
+      "n": 500,
+      "demand": "LIMIT10",
+      "family": "LT",
+      "off_measured": [
+        4,
+        2
+      ],
+      "off_predicted": [
+        4,
+        2
+      ],
+      "on_measured": [
+        8,
+        2
+      ],
+      "on_predicted": [
+        8,
+        2
+      ]
+    }
+  ]
+}

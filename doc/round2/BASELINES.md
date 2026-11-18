@@ -18,7 +18,9 @@
 | 组图 TeX 笔记 | `实验可视化组图tex源码参考.txt` |
 | 旧论文 TeX | `paper/tex/exp.tex`、`paper/tex/framework.tex` |
 | Table 1 批准源 | `paper/recovery/tables/tex/tab-datasets.tex` |
-| 官方模板 | `paper/tex/vendor/acmart.cls`、`paper/tex/vendor/pvldb.sty` |
+| 机制四图 | `paper/round2/mechanisms/{framework,sw,lt,pointer}.pdf`。来源 HEAD `c959d22b0eeffaeb78f345b320faaa849164c1a6`，图提交 `859a6fea272855eaf6976e23b199aea9557c04b9`。`src/preview.tex` 不是入口。 |
+| 折线 E3–E5 图段 | `paper/round2/experiments/tex/fig-e3.tex` 至 `fig-e5.tex`；面板 PDF 在 `paper/round2/experiments/figures/`。来源 SHA `22b432ca01054da271366518d5ba6684795b1b20`。`tex/preview.tex` 只是审图预览，不是入口。 |
+| 官方模板 | `paper/tex/vendor/acmart.cls`、`paper/tex/vendor/pvldb.sty`。类文件头写 2026/06/27；本机引擎仍是 TeX Live 2023，见 `TEXLIVE.md`。 |
 | 研究合同（含历史型号） | `paper-experiments.md`（文中仍有 `Qwen3.8-27B`，与现行表 `Qwen3.5-27B` 冲突，只留追溯） |
 | 上游源码快照 | `viz/evidence/sources/sema_prototype/...`；清单 `viz/evidence/manifest.json`。快照 commit `0d96d0bf116e52f1664ae2539446f05921f5e947` 不是本仓库提交，也不锁定部署。 |
 

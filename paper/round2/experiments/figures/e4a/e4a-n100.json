@@ -1,0 +1,842 @@
+[
+  {
+    "dataset": "DL20",
+    "n": 100,
+    "demand": "Full",
+    "family": "SW",
+    "off_measured_kh": [
+      4,
+      2
+    ],
+    "off_predicted_kh": [
+      4,
+      3
+    ],
+    "on_measured_kh": [
+      4,
+      1
+    ],
+    "on_predicted_kh": [
+      4,
+      1
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 89400,
+        "predicted_off_U": 242800,
+        "measured_on_U_minus_Q": 85800,
+        "predicted_on_U_minus_Q": 252400,
+        "U_on": 110000,
+        "Q_on": 24200
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 69000,
+        "predicted_off_U": 225800,
+        "measured_on_U_minus_Q": 68800,
+        "predicted_on_U_minus_Q": 232000,
+        "U_on": 77303,
+        "Q_on": 8503
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 79200,
+        "predicted_off_U": 232600,
+        "measured_on_U_minus_Q": 75600,
+        "predicted_on_U_minus_Q": 242200,
+        "U_on": 109565,
+        "Q_on": 33965
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 65600,
+        "predicted_off_U": 222400,
+        "measured_on_U_minus_Q": 45000,
+        "predicted_on_U_minus_Q": 215000,
+        "U_on": 53571,
+        "Q_on": 8571
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 52000,
+        "predicted_off_U": 215600,
+        "measured_on_U_minus_Q": 58600,
+        "predicted_on_U_minus_Q": 235400,
+        "U_on": 63696,
+        "Q_on": 5096
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 82600,
+        "predicted_off_U": 202000,
+        "measured_on_U_minus_Q": 72200,
+        "predicted_on_U_minus_Q": 245600,
+        "U_on": 98904,
+        "Q_on": 26704
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 75800,
+        "predicted_off_U": 239400,
+        "measured_on_U_minus_Q": 82400,
+        "predicted_on_U_minus_Q": 238800,
+        "U_on": 94713,
+        "Q_on": 12313
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 92800,
+        "predicted_off_U": 236000,
+        "measured_on_U_minus_Q": 79000,
+        "predicted_on_U_minus_Q": 255800,
+        "U_on": 97531,
+        "Q_on": 18531
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "DL20",
+    "n": 100,
+    "demand": "LIMIT10",
+    "family": "SW",
+    "off_measured_kh": [
+      2,
+      2
+    ],
+    "off_predicted_kh": [
+      2,
+      2
+    ],
+    "on_measured_kh": [
+      5,
+      2
+    ],
+    "on_predicted_kh": [
+      2,
+      1
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 78400,
+        "predicted_off_U": 225000,
+        "measured_on_U_minus_Q": 91000,
+        "predicted_on_U_minus_Q": 244000,
+        "U_on": 112346,
+        "Q_on": 21346
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 58000,
+        "predicted_off_U": 208000,
+        "measured_on_U_minus_Q": 108000,
+        "predicted_on_U_minus_Q": 274600,
+        "U_on": 138462,
+        "Q_on": 30462
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 71600,
+        "predicted_off_U": 228400,
+        "measured_on_U_minus_Q": 94400,
+        "predicted_on_U_minus_Q": 257600,
+        "U_on": 106067,
+        "Q_on": 11667
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 85200,
+        "predicted_off_U": 245400,
+        "measured_on_U_minus_Q": 111400,
+        "predicted_on_U_minus_Q": 271200,
+        "U_on": 161449,
+        "Q_on": 50049
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 95400,
+        "predicted_off_U": 231800,
+        "measured_on_U_minus_Q": 97800,
+        "predicted_on_U_minus_Q": 281400,
+        "U_on": 116429,
+        "Q_on": 18629
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 75000,
+        "predicted_off_U": 221600,
+        "measured_on_U_minus_Q": 87600,
+        "predicted_on_U_minus_Q": 261000,
+        "U_on": 95217,
+        "Q_on": 7617
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 92000,
+        "predicted_off_U": 235200,
+        "measured_on_U_minus_Q": 101200,
+        "predicted_on_U_minus_Q": 278000,
+        "U_on": 138630,
+        "Q_on": 37430
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 81800,
+        "predicted_off_U": 238600,
+        "measured_on_U_minus_Q": 74000,
+        "predicted_on_U_minus_Q": 267800,
+        "U_on": 85057,
+        "Q_on": 11057
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "DL20",
+    "n": 100,
+    "demand": "Full",
+    "family": "LT",
+    "off_measured_kh": [
+      5,
+      1
+    ],
+    "off_predicted_kh": [
+      2,
+      1
+    ],
+    "on_measured_kh": [
+      4,
+      2
+    ],
+    "on_predicted_kh": [
+      4,
+      3
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 92800,
+        "predicted_off_U": 202000,
+        "measured_on_U_minus_Q": 98400,
+        "predicted_on_U_minus_Q": 271800,
+        "U_on": 113103,
+        "Q_on": 14703
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 75800,
+        "predicted_off_U": 219000,
+        "measured_on_U_minus_Q": 78000,
+        "predicted_on_U_minus_Q": 254800,
+        "U_on": 96296,
+        "Q_on": 18296
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 82600,
+        "predicted_off_U": 229200,
+        "measured_on_U_minus_Q": 88200,
+        "predicted_on_U_minus_Q": 261600,
+        "U_on": 113077,
+        "Q_on": 24877
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 72400,
+        "predicted_off_U": 215600,
+        "measured_on_U_minus_Q": 74600,
+        "predicted_on_U_minus_Q": 251400,
+        "U_on": 83820,
+        "Q_on": 9220
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 65600,
+        "predicted_off_U": 222400,
+        "measured_on_U_minus_Q": 61000,
+        "predicted_on_U_minus_Q": 244600,
+        "U_on": 88406,
+        "Q_on": 27406
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 79200,
+        "predicted_off_U": 232600,
+        "measured_on_U_minus_Q": 91600,
+        "predicted_on_U_minus_Q": 231000,
+        "U_on": 109048,
+        "Q_on": 17448
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 52000,
+        "predicted_off_U": 225800,
+        "measured_on_U_minus_Q": 84800,
+        "predicted_on_U_minus_Q": 268400,
+        "U_on": 92174,
+        "Q_on": 7374
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 86000,
+        "predicted_off_U": 242800,
+        "measured_on_U_minus_Q": 101800,
+        "predicted_on_U_minus_Q": 265000,
+        "U_on": 139452,
+        "Q_on": 37652
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "DL20",
+    "n": 100,
+    "demand": "LIMIT10",
+    "family": "LT",
+    "off_measured_kh": [
+      4,
+      1
+    ],
+    "off_predicted_kh": [
+      4,
+      1
+    ],
+    "on_measured_kh": [
+      2,
+      4
+    ],
+    "on_predicted_kh": [
+      2,
+      4
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 75000,
+        "predicted_off_U": 228400,
+        "measured_on_U_minus_Q": 66400,
+        "predicted_on_U_minus_Q": 233000,
+        "U_on": 90959,
+        "Q_on": 24559
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 92000,
+        "predicted_off_U": 238600,
+        "measured_on_U_minus_Q": 76600,
+        "predicted_on_U_minus_Q": 250000,
+        "U_on": 88046,
+        "Q_on": 11446
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 78400,
+        "predicted_off_U": 221600,
+        "measured_on_U_minus_Q": 46000,
+        "predicted_on_U_minus_Q": 216000,
+        "U_on": 56790,
+        "Q_on": 10790
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 58000,
+        "predicted_off_U": 208000,
+        "measured_on_U_minus_Q": 73200,
+        "predicted_on_U_minus_Q": 253400,
+        "U_on": 93846,
+        "Q_on": 20646
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 81800,
+        "predicted_off_U": 245400,
+        "measured_on_U_minus_Q": 83400,
+        "predicted_on_U_minus_Q": 239800,
+        "U_on": 93708,
+        "Q_on": 10308
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 71600,
+        "predicted_off_U": 225000,
+        "measured_on_U_minus_Q": 63000,
+        "predicted_on_U_minus_Q": 229600,
+        "U_on": 91304,
+        "Q_on": 28304
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 85200,
+        "predicted_off_U": 242000,
+        "measured_on_U_minus_Q": 80000,
+        "predicted_on_U_minus_Q": 243200,
+        "U_on": 95238,
+        "Q_on": 15238
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 88600,
+        "predicted_off_U": 231800,
+        "measured_on_U_minus_Q": 69800,
+        "predicted_on_U_minus_Q": 246600,
+        "U_on": 75870,
+        "Q_on": 6070
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "TREC-COVID",
+    "n": 100,
+    "demand": "Full",
+    "family": "SW",
+    "off_measured_kh": [
+      2,
+      1
+    ],
+    "off_predicted_kh": [
+      2,
+      4
+    ],
+    "on_measured_kh": [
+      4,
+      2
+    ],
+    "on_predicted_kh": [
+      4,
+      2
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 52000,
+        "predicted_off_U": 239400,
+        "measured_on_U_minus_Q": 100400,
+        "predicted_on_U_minus_Q": 273800,
+        "U_on": 109130,
+        "Q_on": 8730
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 75800,
+        "predicted_off_U": 219000,
+        "measured_on_U_minus_Q": 80000,
+        "predicted_on_U_minus_Q": 256800,
+        "U_on": 109589,
+        "Q_on": 29589
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 82600,
+        "predicted_off_U": 202000,
+        "measured_on_U_minus_Q": 90200,
+        "predicted_on_U_minus_Q": 263600,
+        "U_on": 103678,
+        "Q_on": 13478
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 72400,
+        "predicted_off_U": 215600,
+        "measured_on_U_minus_Q": 76600,
+        "predicted_on_U_minus_Q": 253400,
+        "U_on": 94568,
+        "Q_on": 17968
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 65600,
+        "predicted_off_U": 222400,
+        "measured_on_U_minus_Q": 63000,
+        "predicted_on_U_minus_Q": 233000,
+        "U_on": 80769,
+        "Q_on": 17769
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 79200,
+        "predicted_off_U": 232600,
+        "measured_on_U_minus_Q": 93600,
+        "predicted_on_U_minus_Q": 260200,
+        "U_on": 105169,
+        "Q_on": 11569
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 89400,
+        "predicted_off_U": 225800,
+        "measured_on_U_minus_Q": 86800,
+        "predicted_on_U_minus_Q": 270400,
+        "U_on": 125797,
+        "Q_on": 38997
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 86000,
+        "predicted_off_U": 242800,
+        "measured_on_U_minus_Q": 103800,
+        "predicted_on_U_minus_Q": 267000,
+        "U_on": 123571,
+        "Q_on": 19771
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "TREC-COVID",
+    "n": 100,
+    "demand": "LIMIT10",
+    "family": "SW",
+    "off_measured_kh": [
+      5,
+      2
+    ],
+    "off_predicted_kh": [
+      2,
+      1
+    ],
+    "on_measured_kh": [
+      2,
+      2
+    ],
+    "on_predicted_kh": [
+      5,
+      1
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 75000,
+        "predicted_off_U": 208000,
+        "measured_on_U_minus_Q": 70400,
+        "predicted_on_U_minus_Q": 237000,
+        "U_on": 83810,
+        "Q_on": 13410
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 92000,
+        "predicted_off_U": 238600,
+        "measured_on_U_minus_Q": 50000,
+        "predicted_on_U_minus_Q": 254000,
+        "U_on": 54348,
+        "Q_on": 4348
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 78400,
+        "predicted_off_U": 221600,
+        "measured_on_U_minus_Q": 63600,
+        "predicted_on_U_minus_Q": 240400,
+        "U_on": 87123,
+        "Q_on": 23523
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 95400,
+        "predicted_off_U": 235200,
+        "measured_on_U_minus_Q": 77200,
+        "predicted_on_U_minus_Q": 257400,
+        "U_on": 88736,
+        "Q_on": 11536
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 81800,
+        "predicted_off_U": 245400,
+        "measured_on_U_minus_Q": 87400,
+        "predicted_on_U_minus_Q": 243800,
+        "U_on": 107901,
+        "Q_on": 20501
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 71600,
+        "predicted_off_U": 225000,
+        "measured_on_U_minus_Q": 67000,
+        "predicted_on_U_minus_Q": 233600,
+        "U_on": 85897,
+        "Q_on": 18897
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 85200,
+        "predicted_off_U": 242000,
+        "measured_on_U_minus_Q": 84000,
+        "predicted_on_U_minus_Q": 220000,
+        "U_on": 94382,
+        "Q_on": 10382
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 58000,
+        "predicted_off_U": 231800,
+        "measured_on_U_minus_Q": 73800,
+        "predicted_on_U_minus_Q": 250600,
+        "U_on": 106957,
+        "Q_on": 33157
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "TREC-COVID",
+    "n": 100,
+    "demand": "Full",
+    "family": "LT",
+    "off_measured_kh": [
+      4,
+      3
+    ],
+    "off_predicted_kh": [
+      4,
+      3
+    ],
+    "on_measured_kh": [
+      5,
+      1
+    ],
+    "on_predicted_kh": [
+      2,
+      2
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 89400,
+        "predicted_off_U": 242800,
+        "measured_on_U_minus_Q": 107800,
+        "predicted_on_U_minus_Q": 274400,
+        "U_on": 156232,
+        "Q_on": 48432
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 69000,
+        "predicted_off_U": 225800,
+        "measured_on_U_minus_Q": 90800,
+        "predicted_on_U_minus_Q": 237000,
+        "U_on": 108095,
+        "Q_on": 17295
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 79200,
+        "predicted_off_U": 232600,
+        "measured_on_U_minus_Q": 97600,
+        "predicted_on_U_minus_Q": 264200,
+        "U_on": 106087,
+        "Q_on": 8487
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 65600,
+        "predicted_off_U": 222400,
+        "measured_on_U_minus_Q": 87400,
+        "predicted_on_U_minus_Q": 250600,
+        "U_on": 119726,
+        "Q_on": 32326
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 72400,
+        "predicted_off_U": 215600,
+        "measured_on_U_minus_Q": 80600,
+        "predicted_on_U_minus_Q": 257400,
+        "U_on": 92644,
+        "Q_on": 12044
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 52000,
+        "predicted_off_U": 202000,
+        "measured_on_U_minus_Q": 94200,
+        "predicted_on_U_minus_Q": 267600,
+        "U_on": 116296,
+        "Q_on": 22096
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 75800,
+        "predicted_off_U": 239400,
+        "measured_on_U_minus_Q": 67000,
+        "predicted_on_U_minus_Q": 260800,
+        "U_on": 85897,
+        "Q_on": 18897
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 92800,
+        "predicted_off_U": 236000,
+        "measured_on_U_minus_Q": 101000,
+        "predicted_on_U_minus_Q": 277800,
+        "U_on": 113483,
+        "Q_on": 12483
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  },
+  {
+    "dataset": "TREC-COVID",
+    "n": 100,
+    "demand": "LIMIT10",
+    "family": "LT",
+    "off_measured_kh": [
+      5,
+      2
+    ],
+    "off_predicted_kh": [
+      4,
+      1
+    ],
+    "on_measured_kh": [
+      2,
+      4
+    ],
+    "on_predicted_kh": [
+      5,
+      2
+    ],
+    "points": [
+      {
+        "k": 2,
+        "h": 1,
+        "measured_off_U": 78400,
+        "predicted_off_U": 225000,
+        "measured_on_U_minus_Q": 61000,
+        "predicted_on_U_minus_Q": 234400,
+        "U_on": 68539,
+        "Q_on": 7539
+      },
+      {
+        "k": 2,
+        "h": 2,
+        "measured_off_U": 88600,
+        "predicted_off_U": 242000,
+        "measured_on_U_minus_Q": 78000,
+        "predicted_on_U_minus_Q": 244600,
+        "U_on": 113043,
+        "Q_on": 35043
+      },
+      {
+        "k": 2,
+        "h": 4,
+        "measured_off_U": 71600,
+        "predicted_off_U": 228400,
+        "measured_on_U_minus_Q": 44000,
+        "predicted_on_U_minus_Q": 227600,
+        "U_on": 52381,
+        "Q_on": 8381
+      },
+      {
+        "k": 4,
+        "h": 1,
+        "measured_off_U": 85200,
+        "predicted_off_U": 208000,
+        "measured_on_U_minus_Q": 81400,
+        "predicted_on_U_minus_Q": 241200,
+        "U_on": 88478,
+        "Q_on": 7078
+      },
+      {
+        "k": 4,
+        "h": 2,
+        "measured_off_U": 95400,
+        "predicted_off_U": 231800,
+        "measured_on_U_minus_Q": 67800,
+        "predicted_on_U_minus_Q": 251400,
+        "U_on": 92877,
+        "Q_on": 25077
+      },
+      {
+        "k": 4,
+        "h": 3,
+        "measured_off_U": 75000,
+        "predicted_off_U": 221600,
+        "measured_on_U_minus_Q": 57600,
+        "predicted_on_U_minus_Q": 231000,
+        "U_on": 66207,
+        "Q_on": 8607
+      },
+      {
+        "k": 5,
+        "h": 1,
+        "measured_off_U": 92000,
+        "predicted_off_U": 235200,
+        "measured_on_U_minus_Q": 71200,
+        "predicted_on_U_minus_Q": 248000,
+        "U_on": 87901,
+        "Q_on": 16701
+      },
+      {
+        "k": 5,
+        "h": 2,
+        "measured_off_U": 58000,
+        "predicted_off_U": 238600,
+        "measured_on_U_minus_Q": 74600,
+        "predicted_on_U_minus_Q": 214000,
+        "U_on": 95641,
+        "Q_on": 21041
+      }
+    ],
+    "regenerated_because": "n=100 k=8 is illegal at m=20 (5 runs); (8,1)->(5,1), (8,2)->(5,2)"
+  }
+]

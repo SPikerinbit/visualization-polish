@@ -1,35 +1,14 @@
-% Proposed fragment for the existing single-column figure.
-% Not \input by any paper file in this change.
-% Do not edit pvldb.sty or acmart.cls.
-%
-% Probed from \documentclass[sigconf,nonacm]{acmart} + \usepackage{pvldb}
-% after \maketitle (viz/tex/vendor):
-%   \textwidth   = 506.295pt
-%   \columnwidth = 241.14749pt
-%   figure  \linewidth = 241.14749pt, so 0.95\linewidth = 229.090pt
-%   figure* \linewidth = 506.295pt
-% v1 media box is 482pt wide. v2 media box is 504.96pt wide.
-% v3 notes say 178mm, which is this textwidth, not the single column.
-% The choice of figure versus figure* is not made here.
-%
-% Drop-in that keeps the current environment:
-\begin{figure}[t]
+% Recovery preview only — not wired into the paper source in this PR.
+% Primary width: figure* \\linewidth = 506.295pt (178mm class textwidth).
+\begin{figure*}[t]
   \centering
-  \includegraphics[width=0.95\linewidth]{fig/algo1-exp.pdf}
-  \caption{Example of Algorithm~\ref{alg:semantic_external_merge}: four runs, then two merge passes ($n{=}16$, $m{=}4$).
-    Run lengths, $m$, the measured token profile $(H,L)$, and the demand mode enter the estimate interface.
-    The numeric expectation is not drawn: \texttt{finite.py} was not among the checked sources.
-    The interface returns one plug-in, SW or LT($h$), and the controls $(k,h)$.
-    LT($h$) is one generator; $h{=}1$ is not a second algorithm.
-    The groups drawn here are this example's $k{=}2$; $h$ is not given a number.
-    Full emits $\Pi$. LIMIT $K$ stops at a prefix and is not a larger $K$.}
+  \includegraphics[width=\linewidth]{fig/algo1-exp.pdf}
+  \caption{Layout \textbf{preview} of Algorithm~\ref{alg:semantic_external_merge} on the fixed $n{=}16$ example ($m{=}4$, this trace's $k{=}2$).
+    After Phase~1, run lengths $|R_i|$, capacity $m$, measured profile $(H,L)$, and demand enter the cost model;
+    it returns merge family $f \in \{\mathrm{SW},\mathrm{LT}(h)\}$, fan-in $k$, and segment $h$.
+    Solid arrows are data; dashed teal arrows are control.
+    \texttt{finite.py} was not among the checked sources, so the expectation is not drawn;
+    tie-breaking and the distinction between Full execution and LIMIT~$K$ are stated here, not inside the figure.
+    LT($h$) is one generator ($h{=}1$ included).}
   \label{fig:exp:semantic_external_merge}
-\end{figure}
-
-% Suggestion only. Not applied, and not a change to the template.
-% \begin{figure*}[t]
-%   \centering
-%   \includegraphics[width=\linewidth]{fig/algo1-exp.pdf}
-%   \caption{...same caption...}
-%   \label{fig:exp:semantic_external_merge}
-% \end{figure*}
+\end{figure*}

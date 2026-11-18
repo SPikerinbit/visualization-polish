@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export print-size PDFs and same-width comparisons. No paper files are edited."""
+"""Export 178mm figure* PDF/PNG and same-width v2 comparison."""
 
 from __future__ import annotations
 
@@ -10,13 +10,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 NATIVE = HERE / "algo1-framework.pdf"
-V1 = Path("/tmp/recovery-spec/references/user-originals/fig-F-algo1-v1.pdf")
+V2 = Path("/tmp/recovery-spec/references/user-originals/fig-F-algo1-v2.pdf")
+if not V2.exists():
+    V2 = HERE / "../../"  # fallback unused
 V2 = Path("/tmp/recovery-spec/references/user-originals/fig-F-algo1-v2.pdf")
 
-# Probed sigconf + pvldb, after \maketitle.
+# sigconf textwidth after \\maketitle (178mm nominal).
 TEXTWIDTH_PT = 506.295
-COLUMN_PT = 241.14749
-COLUMN_PRINT_PT = 0.95 * COLUMN_PT  # 229.090pt, figure + 0.95\linewidth
+V2_WIDTH_PT = 504.96
 
 
 def page_pts(pdf: Path) -> tuple[float, float]:
@@ -32,16 +33,23 @@ def render(pdf: Path, width_px: int, dest: Path) -> Image.Image:
     dest.parent.mkdir(parents=True, exist_ok=True)
     stem = dest.with_suffix("")
     subprocess.check_call(
-        ["pdftoppm", "-png", "-r", "72", "-scale-to-x", str(width_px), "-scale-to-y", "-1", str(pdf), str(stem)]
+        [
+            "pdftoppm",
+            "-png",
+            "-r",
+            "72",
+            "-scale-to-x",
+            str(width_px),
+            "-scale-to-y",
+            "-1",
+            str(pdf),
+            str(stem),
+        ]
     )
-    # pdftoppm appends -1 when the pattern has no printf field.
     produced = Path(str(stem) + "-1.png")
-    if not produced.exists():
-        produced = dest
     image = Image.open(produced).convert("RGB")
-    if produced != dest:
-        image.save(dest)
-        produced.unlink()
+    image.save(dest)
+    produced.unlink(missing_ok=True)
     return image
 
 
@@ -66,10 +74,8 @@ def wrap_pdf(src: Path, width_pt: float, dest: Path) -> None:
     )
     (HERE / "_wrap.pdf").replace(dest)
     for suffix in (".aux", ".log", ".out"):
-        junk = HERE / f"_wrap{suffix}"
-        if junk.exists():
-            junk.unlink()
-    tex.unlink()
+        (HERE / f"_wrap{suffix}").unlink(missing_ok=True)
+    tex.unlink(missing_ok=True)
 
 
 def font(size: int) -> ImageFont.ImageFont:
@@ -82,69 +88,51 @@ def font(size: int) -> ImageFont.ImageFont:
     return ImageFont.load_default()
 
 
-def labeled_pair(left: Image.Image, left_caption: str, right: Image.Image, right_caption: str, dest: Path) -> None:
-    gap = 28
-    cap_h = 36
-    width = left.width + gap + right.width
-    height = cap_h + max(left.height, right.height)
-    canvas = Image.new("RGB", (width, height), "white")
+def labeled_pair(left: Image.Image, left_cap: str, right: Image.Image, right_cap: str, dest: Path) -> None:
+    gap = 24
+    cap_h = 34
+    canvas = Image.new(
+        "RGB",
+        (left.width + gap + right.width, cap_h + max(left.height, right.height)),
+        "white",
+    )
     draw = ImageDraw.Draw(canvas)
-    face = font(18)
+    face = font(17)
     canvas.paste(left, (0, cap_h))
     canvas.paste(right, (left.width + gap, cap_h))
-    draw.text((8, 8), left_caption, fill=(20, 20, 20), font=face)
-    draw.text((left.width + gap + 8, 8), right_caption, fill=(20, 20, 20), font=face)
-    dest.parent.mkdir(parents=True, exist_ok=True)
+    draw.text((8, 7), left_cap, fill=(20, 20, 20), font=face)
+    draw.text((left.width + gap + 8, 7), right_cap, fill=(20, 20, 20), font=face)
     canvas.save(dest)
 
 
 def main() -> None:
-    wrap_pdf(NATIVE, COLUMN_PRINT_PT, HERE / "algo1-framework-column.pdf")
-    wrap_pdf(NATIVE, TEXTWIDTH_PT, HERE / "algo1-framework-textwidth.pdf")
+    w, h = page_pts(NATIVE)
+    if not (500 < w < 512):
+        raise SystemExit(f"native width {w}pt is not near 178mm textwidth")
+    if h > 360:  # ~127mm
+        raise SystemExit(f"native height {h}pt exceeds compact target (~125mm)")
 
-    native_w, _ = page_pts(NATIVE)
-    # Native PNG at about 160 dpi.
-    native_px = max(1, round(native_w / 72 * 160))
-    render(NATIVE, native_px, HERE / "algo1-framework.png")
-
-    # Same-width pairs. v1 is 482pt; v2 is 504.96pt.
-    v1_px = 1200
-    new_at_v1 = render(NATIVE, v1_px, HERE / "_new-v1w.png")
-    v1 = render(V1, v1_px, HERE / "_v1.png")
-    labeled_pair(
-        v1,
-        "v1, its own media width (482pt)",
-        new_at_v1,
-        "new framework, scaled to the same 482pt width",
-        HERE / "compare-v1.png",
-    )
+    wrap_pdf(NATIVE, TEXTWIDTH_PT, HERE / "algo1-framework-178mm.pdf")
+    native_px = max(1, round(TEXTWIDTH_PT / 72 * 160))
+    render(HERE / "algo1-framework-178mm.pdf", native_px, HERE / "algo1-framework.png")
+    (HERE / "algo1-framework-178mm.pdf").replace(HERE / "algo1-framework.pdf")
 
     v2_px = 1200
-    new_at_v2 = render(NATIVE, v2_px, HERE / "_new-v2w.png")
-    v2 = render(V2, v2_px, HERE / "_v2.png")
+    new_img = render(HERE / "algo1-framework.pdf", v2_px, HERE / "_new.png")
+    v2_img = render(V2, v2_px, HERE / "_v2.png")
     labeled_pair(
-        v2,
-        "v2, its own media width (505pt)",
-        new_at_v2,
-        "new framework, scaled to the same 505pt width",
+        v2_img,
+        "v2 baseline (505pt media width)",
+        new_img,
+        "new framework at the same width (178mm / figure*)",
         HERE / "compare-v2.png",
     )
+    for t in HERE.glob("_*.png"):
+        t.unlink()
 
-    # Two real template sizes. Template files are not edited.
-    col_px = round(COLUMN_PRINT_PT / 72 * 160)
-    star_px = round(TEXTWIDTH_PT / 72 * 160)
-    col = render(HERE / "algo1-framework-column.pdf", col_px, HERE / "_col.png")
-    star = render(HERE / "algo1-framework-textwidth.pdf", star_px, HERE / "_star.png")
-    labeled_pair(
-        col,
-        "real single-column print: 0.95\\linewidth = 229.09pt",
-        star,
-        "real textwidth print: figure* \\linewidth = 506.30pt",
-        HERE / "compare-sizes.png",
-    )
-
-    for temporary in HERE.glob("_*.png"):
-        temporary.unlink()
+    wmm = TEXTWIDTH_PT / 72 * 25.4
+    hmm = page_pts(HERE / "algo1-framework.pdf")[1] / 72 * 25.4
+    print(f"exported {wmm:.1f}mm x {hmm:.1f}mm")
 
 
 if __name__ == "__main__":

@@ -25,13 +25,13 @@ LT(h): titles, digits, run labels, and the legend 6.5 bp. Four leaves in each of
 
 Pointer: column titles 7 bp; digits, L/R, row labels, and the legend 6.5 bp.
 
-Framework: “ordered runs” 7 pt; merge, Full, LIMIT, cost model, and K 6.5 pt.
+Framework: “ordered runs” 7 pt; merge, Full, LIMIT, cost model, and “stop at K” 6.5 pt.
 
 ## What the pictures say
 
-Framework. Four anonymous runs enter two merges, then one root. The cost box sits between them and the dashed blue lines end on those three merges; they carry `k,h`. Solid arrows run from the root to Full and to LIMIT. The dashed red request starts at LIMIT and ends on the root. The path is broken at `K`.
+Framework. Four anonymous runs enter two merges, then one root. The cost box sits between them and the dashed blue lines end on those three merges; they carry `k,h`. Solid arrows run from the root to Full and to LIMIT. The dashed red request starts at LIMIT and ends on the root. A bar on that path is labeled “stop at K”.
 
-SW and LT keep the three v2 states, the same numbers, and the same pointers. Build sets the pointer to R. This refresh returns it to L. The right subtree pointer stays on R4. The red outline in LT panel (b) encloses only the refreshed root, its left child, and R2.
+SW and LT keep the three v2 states, the same numbers, and the same pointers. In every LT state the right node points at R3. In the updated state the root points at its right child. Build sets the pointer to R. This refresh returns it to L. The red outline in LT panel (b) encloses only the refreshed root, its left child, and R2.
 
 Pointer stays two rows by three columns. Winner and loser are not repeated in the cells; the shared legend carries those words, and the colors match the cells. The red letter under the replay is the side that runs out (`R` on Build, `L` on Refresh). L/R on the trees and on the replay slots stay.
 

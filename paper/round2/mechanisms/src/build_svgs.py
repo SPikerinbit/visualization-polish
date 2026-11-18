@@ -258,7 +258,7 @@ def sw():
 def lt():
     W, H = 240, 124
     svg = Svg(W, H, "Unified LT(h)",
-              "h=2 loser tree. (a) initialized, (b) one path refresh, (c) updated. Right subtree pointer stays on R4.")
+              "h=2 loser tree. (a) initialized, (b) one path refresh, (c) updated. The right node points at R3. The updated root points at its right child.")
     # three panels, leaf capsules drive the width
     # r=4.15, two circles, capsule ~18.2; four leaves + gaps ~76
     panels_x = [0.5, 80.5, 160.5]
@@ -348,19 +348,19 @@ def lt():
          emit=[("1", "emit"), ("2", "emit")],
          root=head("3", "4"), left=head("5", "7"), right=head("8", "9"),
          leaves=[pale("12", "16"), pale("6", "14"), pale("11", "15"), pale("10", "13")],
-         ptr={"root-left", "left-1", "right-1"})
+         ptr={"root-left", "left-1", "right-0"})
     tree(panels_x[1],
          emit=None,
          root=head("3", "4"), left=head("5", "7"), right=pale("8", "9"),
          leaves=[pale("12", "16"), head("6", "14"), pale("11", "15"), pale("10", "13")],
-         ptr={"root-left", "left-1", "right-1"},
+         ptr={"root-left", "left-1", "right-0"},
          rho=[("3", "head"), ("4", "head"), ("5", "head"), ("6", "head"), ("7", "head"), ("14", "head")],
          call=True)
     tree(panels_x[2],
          emit=[("3", "emit"), ("4", "emit")],
          root=head("5", "6"), left=head("7", "14"), right=head("8", "9"),
          leaves=[pale("12", "16"), [], pale("11", "15"), pale("10", "13")],
-         ptr={"root-left", "left-0", "right-1"})
+         ptr={"root-right", "left-0", "right-0"})
 
     # open arrows between panels, in the gap beside the root band
     for x in (75.5, 155.5):
@@ -397,12 +397,9 @@ def pointer():
         else:
             svg.text(px, y - 12, "P", 6.5)
         if parent is None:
-            svg.text(px, y - 9.2, "P", 6.5)
             svg.circ(px, y, 6.2, WHITE, STROKE, 0.7)
             svg.text(px, y + 2.3, "∅", 7, fill=PTXT)
         else:
-            if emit is None:
-                svg.text(px, y - 8.6, "P", 6.5)
             capsule(svg, px, y, parent, r=RD, fs=6.5, gap=0.5)
         svg.line(px - 3, y + 5.5, lx, cy - 5.6, TREE, 0.65)
         svg.line(px + 3, y + 5.5, rx, cy - 5.6, TREE, 0.65)
@@ -410,8 +407,9 @@ def pointer():
             svg.line(px + 3.2, y + 6.2, rx, cy - 6.4, INK, 1.25, marker="dk")
         elif ptr_to == "L":
             svg.line(px - 3.2, y + 6.2, lx, cy - 6.4, INK, 1.25, marker="dk")
-        svg.text(lx, cy - 8.2, "L", 6.5)
-        svg.text(rx, cy - 8.2, "R", 6.5)
+        # outside the arrow head: the tip lands on the inner top of the child
+        svg.text(lx - 8.5, cy - 8.2, "L", 6.5)
+        svg.text(rx + 8.5, cy - 8.2, "R", 6.5)
         capsule(svg, lx, cy, left, r=RD, fs=6.5, gap=0.5)
         if right is None:
             svg.circ(rx, cy, 6.2, WHITE, STROKE, 0.7)

@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-ROOT="$(dirname "$0")"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT/tex"
 ver=$(pdflatex --version | head -n 1)
 printf '%s\n' "$ver"
@@ -24,52 +24,56 @@ else
 fi
 pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
-python3 - << 'PY'
+
+python3 "$ROOT/scripts/label_page_map.py"
+if [ -d "$ROOT/../doc" ]; then
+  cp "$ROOT/doc/label-page-map.md" "$ROOT/../doc/label-page-map.md"
+fi
+
+python3 - << PY
 from pathlib import Path
 import re, subprocess, sys
-root = Path('.')
-pdf = root / 'main.pdf'
-aux = (root / 'main.aux').read_text(errors='replace')
-labels = set(re.findall(r'\\newlabel\{([^}]+)\}', aux))
+
+tex = Path('.').resolve()
+paper = tex.parent
+pdf = tex / 'main.pdf'
+aux = (tex / 'main.aux').read_text(errors='replace')
+labels = set(re.findall(r"\\newlabel\{([^}]+)\}", aux))
 required_labels = {
     'fig:exp2-surface-2x2', 'fig:exp3-scale',
     'fig:exp4a-dl20-n100', 'fig:exp4a-covid-n500', 'fig:exp4b-beta',
-    'fig:exp4c-full', 'fig:exp4c-topk', 'fig:exp5-k-sweep-off',
+    'fig:exp4c-full', 'fig:exp4c-topk',
+    'fig:exp5-k-sweep-off', 'fig:exp5-k-sweep-on',
     'fig:exp:semantic_external_merge', 'fig:eg:sliding_window', 'fig:eg:loser_tree_kway_group_merge',
     'alg:semantic_external_merge', 'alg:sliding_window_kway_group_merge',
     'alg:loser_tree_kway_group_merge', 'alg:replay_segment_node',
     'alg:refresh_loser_tree_path',
 }
-missing_labels = sorted(required_labels - labels)
+missing_labels = sorted(lab for lab in required_labels if lab not in labels)
 for rel in (
     'fig-approved/sw-wide.pdf', 'fig-approved/algo1-framework.pdf',
     'fig-approved/e4a-compact-dl20-n100.pdf',
     'fig-approved/e4a-compact-trec-covid-n500.pdf',
     'fig-approved/e4b-beta.pdf',
-    'fig-approved/exp4c-full-labeled.pdf', 'integration/pseudocode-alg1-only.tex',
+    'fig-approved/exp4c-full-labeled.pdf',
+    'fig-approved/exp4c-topk-labeled.pdf',
+    'fig-approved/e5-limit-sweep-off.pdf',
+    'fig-approved/e5-limit-sweep-on.pdf',
+    'integration/pseudocode-alg1-only.tex',
 ):
-    if not (root / rel).exists():
+    if not (tex / rel).exists():
         missing_labels.append(f'missing-file:{rel}')
 text = subprocess.check_output(['pdftotext', '-layout', str(pdf), '-'], text=True)
-if 'VISUAL LAYOUT PREVIEW' not in text:
+if 'VISUAL LAYOUT PREVIEW' not in text or 'NOT EXPERIMENTAL RESULTS' not in text:
     missing_labels.append('footer')
-if 'VISUAL LAYOUT PREVIEW --- NOT EXPERIMENTAL RESULTS' not in text:
+elif not re.search(
+    r"VISUAL LAYOUT PREVIEW\s+[-\u2010-\u2015—–]+\s+NOT EXPERIMENTAL RESULTS", text
+):
     missing_labels.append('footer-exact')
-pages = text.split('\f')
-page_by_snippet = {}
-for i, page in enumerate(pages, 1):
-    if 'Pointer-guided LT' in page or 'LT(' in page and '16-element' in page:
-        page_by_snippet.setdefault('lt-figure', i)
-    if 'Sliding-window' in page or 'sliding-window' in page:
-        page_by_snippet.setdefault('sw-figure', i)
-map_path = root.parent / 'doc' / 'label-page-map.json'
-import json
-entries = []
-for lab in sorted(required_labels):
-    if lab in labels:
-        entries.append({'label': lab, 'page': 'see aux', 'source': f'integration or framework'})
-map_path.write_text(json.dumps({'labels_ok': len(required_labels)-len(missing_labels), 'pages': len(pages), 'missing': missing_labels, 'hints': page_by_snippet}, indent=2) + '\n')
+map_json = paper / 'doc' / 'label-page-map.json'
+if not map_json.is_file():
+    missing_labels.append('missing-file:paper/doc/label-page-map.json')
 if missing_labels:
     raise SystemExit(f'structure check failed: {missing_labels}')
-print(f'structure ok pages={len(pages)} labels={len(labels)}')
+print(f'structure ok pages={len(text.split(chr(12)))} labels={len(labels)} map={map_json}')
 PY

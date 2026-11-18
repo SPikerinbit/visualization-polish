@@ -66,4 +66,8 @@ out.write_text("".join(lines))
 (json_path := out.with_suffix(".json")).write_text(
     json.dumps({"label_pages": label_pages, "pages": page_count}, indent=2) + "\n"
 )
+repo_doc = out.parent.parent.parent / "doc" / "label-page-map.md"
+if repo_doc.parent.is_dir():
+    repo_doc.write_text(out.read_text())
+    print(f"synced {repo_doc}")
 print(f"wrote {out} and {json_path}")

@@ -33,9 +33,9 @@ ROOT = Path(__file__).resolve().parent
 
 MAIN_LABEL = {
     ("Qwen3.5-9B", "full"): "tab:exp1-full",
-    ("Qwen3.8-27B", "full"): "tab:exp1-full-27b",
+    ("Qwen3.5-27B", "full"): "tab:exp1-full-27b",
     ("Qwen3.5-9B", "limit10"): "tab:exp1-topk",
-    ("Qwen3.8-27B", "limit10"): "tab:exp1-topk-27b",
+    ("Qwen3.5-27B", "limit10"): "tab:exp1-topk-27b",
 }
 
 GENERATED = (
@@ -332,7 +332,7 @@ def emit_wide(sheet, style):
 def emit_compare(full_sheets, full_ranked, sub_sheet, sub_ranked):
     by_model = {sheet["model"]: (sheet, ranked) for sheet, ranked in zip(full_sheets, full_ranked)}
     left_sheet, left_ranked = by_model["Qwen3.5-9B"]
-    right_sheet, right_ranked = by_model["Qwen3.8-27B"]
+    right_sheet, right_ranked = by_model["Qwen3.5-27B"]
     blocks = []
     for demand, sheet in (("full", left_sheet), ("limit10", None)):
         pass
@@ -379,7 +379,7 @@ def _lr_band(left_sheet, left_ranked, right_sheet, right_ranked):
     lines = [
         r"\toprule",
         r"\multicolumn{7}{@{}l}{\emph{" + title + r"}} \\",
-        r"Method & \multicolumn{3}{c}{Qwen3.5-9B} & \multicolumn{3}{c}{Qwen3.8-27B} \\",
+        r"Method & \multicolumn{3}{c}{Qwen3.5-9B} & \multicolumn{3}{c}{Qwen3.5-27B} \\",
         r"\cmidrule(lr){2-4} \cmidrule(lr){5-7}",
         " & ".join(["", quality, tokens, latency, quality, tokens, latency]) + r" \\",
         r"\midrule",
@@ -402,7 +402,7 @@ def _lr_band(left_sheet, left_ranked, right_sheet, right_ranked):
 def emit_compare_file(sheets_by_key):
     def pair(demand):
         left = sheets_by_key[("Qwen3.5-9B", demand)]
-        right = sheets_by_key[("Qwen3.8-27B", demand)]
+        right = sheets_by_key[("Qwen3.5-27B", demand)]
         return left[0], left[1], right[0], right[1]
 
     full = pair("full")

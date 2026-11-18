@@ -1,7 +1,7 @@
 {
   "schema": "sema.exp1.sheet.v1",
   "synthetic": true,
-  "model": "Qwen3.8-27B",
+  "model": "Qwen3.5-27B",
   "demand": "limit10",
   "quality_metric": "ndcg@10",
   "token_unit": "logical_total_input_plus_output",

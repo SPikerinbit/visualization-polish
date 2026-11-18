@@ -166,7 +166,7 @@ class SheetTests(unittest.TestCase):
         self.assertEqual(covered, 5)
 
     def test_illegal_stored_variance_does_not_win(self):
-        sheet = self.sheets[("Qwen3.8-27B", "full")]
+        sheet = self.sheets[("Qwen3.5-27B", "full")]
         ranked = ranking.rank_sheet(sheet)
         self.assertEqual(sheet["cells"]["bubble"]["Q9"]["tokens"]["n_repeats"], 1)
         self.assertEqual(sheet["cells"]["bubble"]["Q9"]["tokens"]["repeat_variance"], 9.0)
@@ -325,9 +325,9 @@ class EmitTests(unittest.TestCase):
         allowed = {
             ("Qwen3.5-9B", "full", "COVID", "tokens", frozenset({"sw", "lt"})),
             ("Qwen3.5-9B", "full", "DL22", "latency", frozenset({"sw", "lt"})),
-            ("Qwen3.8-27B", "full", "Q9", "tokens", frozenset({"bubble", "merge"})),
+            ("Qwen3.5-27B", "full", "Q9", "tokens", frozenset({"bubble", "merge"})),
             ("Qwen3.5-9B", "limit10", "DL20", "latency", frozenset({"bubble", "merge"})),
-            ("Qwen3.8-27B", "limit10", "DL20", "tokens", frozenset({"pointwise", "ext_pointwise"})),
+            ("Qwen3.5-27B", "limit10", "DL20", "tokens", frozenset({"pointwise", "ext_pointwise"})),
         }
         found = set()
         for sheet in self.sheets:

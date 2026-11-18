@@ -1,15 +1,11 @@
+% E5: Off + On-cold on one float page (proportional scale; aspect preserved).
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=178mm]{e5-limit-sweep-off.pdf}
-  \caption{LIMIT $n$ contract, cache Off (synthetic layout; not experimental results).
-  Category axis is equally spaced and not linear in $n$. Full is isolated; LIMIT~500 is the last connected point (not $K{=}510$).}
-  \label{fig:exp5-k-sweep-off}
-\end{figure*}
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=178mm]{e5-limit-sweep-on.pdf}
-  \caption{Same LIMIT $n$ contract, cache On-cold (synthetic layout; not experimental results).
-  Uses the $U{-}Q$ cost scale at $\beta{=}0$; NDCG window matches the Off figure.}
-  \label{fig:exp5-k-sweep-on}
+  \subfigure[Cache Off (\(\beta{=}0\), \(U\) cost scale).]{%
+    \includegraphics[width=\linewidth,height=0.38\textheight,keepaspectratio]{e5-limit-sweep-off.pdf}%
+    \label{fig:exp5-k-sweep-off}}%
+  \subfigure[Cache On-cold (measured \(U{-}Q\) scale).]{%
+    \includegraphics[width=\linewidth,height=0.38\textheight,keepaspectratio]{e5-limit-sweep-on.pdf}%
+    \label{fig:exp5-k-sweep-on}}%
+  \caption{Synthetic layout---not experimental results. LIMIT~$n$ contract: equal category spacing (not linear in $n$); Full isolated; LIMIT~500 is last connected point.}
 \end{figure*}

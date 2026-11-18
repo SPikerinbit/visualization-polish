@@ -1,7 +1,8 @@
 \section{Introduction}
 
 Large Language Models (LLMs) are increasingly used to process unstructured data due to their strong capabilities in semantic understanding and reasoning.
-Modern data platforms have begun to develop LLM-powered semantic operators or User-Defined Functions (UDFs), including commercial systems such as Google BigQuery~\cite{google2026bigqueryai}, Snowflake Cortex AI~\cite{snowflake2026cortexai}, and Alibaba PolarDB for AI~\cite{alibaba2026polardbai}, as well as prototype systems for semantic query processing~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}. This integration poses new problems for physical optimization in database systems. 
+Modern data platforms have begun to develop LLM-powered semantic operators or User-Defined Functions (UDFs), including commercial systems such as Google BigQuery~\cite{google2026bigqueryai}, Snowflake Cortex AI~\cite{snowflake2026cortexai}, and Alibaba PolarDB for AI~\cite{alibaba2026polardbai}, as well as prototype systems for semantic query processing~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}.
+This integration poses new problems for physical optimization in database systems. 
 Unlike classical relational operators, which are CPU- or I/O-centric, LLM-powered semantic operators require LLM invocations over individual records or batches of records. 
 Each invocation incurs substantial latency and monetary token cost. Consequently, the primary optimization objective shifts from minimizing CPU operators or I/O transfer to reducing LLM invocations.  This shift calls for new physical algorithms designed specifically for LLM-based semantic operators.
 

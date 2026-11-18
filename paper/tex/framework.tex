@@ -487,10 +487,14 @@ As $d \geq 1$ implies $d \leq m - 1$, and hence $k \le 2^{m-1}$. There exists an
 \section{Token Cost Model}
 \label{sec:cost}
 
-We derive token cost models w.r.t. fan-in $k$ for sliding-window merge and LT($h$). Production fan-in selection uses implementation-side $\mathrm{Expect}(f,k,h)$; \texttt{finite.py} is not verified in this checkpoint.
+We derive token cost models w.r.t.\ fan-in $k$ for sliding-window merge and LT($h$).
+Production fan-in selection uses implementation-side $\mathrm{Expect}(f,k,h)$;
+\texttt{finite.py} is not verified in this checkpoint.
 We use the number of listwise calls during the merge phase (Phase 2 of Algorithm~\ref{alg:semantic_external_merge}) as a linear proxy of total token cost. Under a fixed prompt template, a fixed batch size $m$, and expected item serialization length, each listwise call consumes a similar amount of input and output tokens.
 
-Let $a \in \{\SD,\LT\}$ denote sliding-window merge (\SD) or LT($h$) with fixed segment length $h$ for the pass. The cost model $\Cost_a(k;n,m)$ measures the number of listwise calls regarding the fan-in $k$, given the item number $n$ and batch size $m$. The optimal $k$ that minimizes token cost can be derived from
+Let $a \in \{\SD,\LT\}$ denote sliding-window merge (\SD) or LT($h$) with fixed segment length $h$ for the pass.
+The cost model $\Cost_a(k;n,m)$ counts listwise calls for fan-in $k$, given $n$ and batch size $m$.
+The optimal $k$ that minimizes token cost can be derived from
 \begin{align}
     k^{\star}_{a}
     =\arg\min_{k\in\mathcal{K}_a}

@@ -14,7 +14,7 @@ DATASET_HEADER = {
     "Robust04": "Robust04",
 }
 BANDS = (DATASETS[:3], DATASETS[3:])
-MODELS = ("Qwen3.5-9B", "Qwen3.8-27B")
+MODELS = ("Qwen3.5-9B", "Qwen3.5-27B")
 DEMANDS = ("full", "limit10")
 METRICS = ("quality", "tokens", "latency")
 

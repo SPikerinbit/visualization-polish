@@ -28,7 +28,7 @@ For \LIMIT~$K$ we report nDCG@$K$ (contract uses $K{=}10$ in the main tables).
 Table cells in this preview are synthetic layout numbers unless a future measured pass replaces them.
 
 \noindent\textbf{Implementation Details.}
-Listwise calls use vLLM with Qwen3.5-9B and Qwen3.8-27B checkpoints (labels per PR14 tables).
+Listwise calls use vLLM with Qwen3.5-9B and Qwen3.5-27B checkpoints (labels per PR14 tables).
 Tensor parallelism, temperature, and per-query repetition protocol are pending the final production configuration; we do not fabricate hardware rows here.
 Fan-in $k$ for full ranking follows the cost model in \cref{sec:cost}; \LIMIT~$K$ runs use the contract's empirical $(k,h)$ choices where specified.
 

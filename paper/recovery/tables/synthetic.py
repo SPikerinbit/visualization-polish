@@ -14,11 +14,11 @@ ALLOWED_EXACT = {
     ("Qwen3.5-9B", "full", "DL20", "quality", frozenset({"sw", "lt"})),
     ("Qwen3.5-9B", "full", "DBpedia", "quality", frozenset({"lotus", "tournament"})),
     ("Qwen3.5-9B", "full", "COVID", "tokens", frozenset({"sw", "lt"})),
-    ("Qwen3.8-27B", "full", "DL22", "quality", frozenset({"sw", "lt"})),
-    ("Qwen3.8-27B", "full", "Q9", "tokens", frozenset({"bubble", "merge"})),
+    ("Qwen3.5-27B", "full", "DL22", "quality", frozenset({"sw", "lt"})),
+    ("Qwen3.5-27B", "full", "Q9", "tokens", frozenset({"bubble", "merge"})),
     ("Qwen3.5-9B", "limit10", "DBpedia", "quality", frozenset({"sw", "lt"})),
-    ("Qwen3.8-27B", "limit10", "COVID", "quality", frozenset({"lotus", "setwise"})),
-    ("Qwen3.8-27B", "limit10", "DL20", "tokens", frozenset({"pointwise", "ext_pointwise"})),
+    ("Qwen3.5-27B", "limit10", "COVID", "quality", frozenset({"lotus", "setwise"})),
+    ("Qwen3.5-27B", "limit10", "DL20", "tokens", frozenset({"pointwise", "ext_pointwise"})),
 }
 
 
@@ -149,7 +149,7 @@ def build_sheet(model, demand):
         sheet["cells"]["sw"]["DL22"]["latency"] = _cost(2.24)
         sheet["cells"]["lt"]["DL22"]["latency"] = _cost(2.16)
         sheet["cells"]["setwise"]["Robust04"]["quality"] = _quality(None, None)
-    elif model == "Qwen3.8-27B" and demand == "full":
+    elif model == "Qwen3.5-27B" and demand == "full":
         column = _descending(0.450)
         column["sw"] = (0.510, 0.025)
         column["lt"] = (0.510, 0.025)
@@ -170,7 +170,7 @@ def build_sheet(model, demand):
         sheet["cells"]["merge"]["DL20"]["latency"] = _cost(4.24)
         sheet["cells"]["bubble"]["DL20"]["latency"] = _cost(4.16)
         sheet["cells"]["setwise"]["Q9"]["tokens"] = _cost(None)
-    elif model == "Qwen3.8-27B" and demand == "limit10":
+    elif model == "Qwen3.5-27B" and demand == "limit10":
         column = _descending(0.490)
         column["lotus"] = (0.530, 0.020)
         column["setwise"] = (0.530, 0.020)

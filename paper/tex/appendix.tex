@@ -85,12 +85,12 @@ For each of the $G_t$ merge groups, tree initialization ranks the $k$ representa
 Here, $n$ denotes the total number of items and typically exceeds 100, whereas the initialization term $G_t\bigl(\Cost_{\SD}(2;k,m)+\lceil k/m\rceil\bigr)$ contributes only a small number of listwise calls. Hence, $n\gg G_t\bigl(\Cost_{\SD}(2;k,m)+\lceil k/m\rceil\bigr)$, and the selector in Section~\ref{sec:cost} uses the approximation $\Pcost_{\LT}(t,k;n,m)=n$. The total cost is therefore approximately $n\Pass_{\LT}(k)$, which is linear in the number of merge passes with slope $n$. It is minimized when $\Pass_{\LT}(k)=1$, so all runs are merged in a single pass using one loser tree.
 
 \subsection{LT($h$) derivations (withheld)}
-\noindent\textit{Preview.} Legacy $\Pcost_{\SLT}$ derivations are in \texttt{tex/legacy/cost-slt-appendix.tex} until \texttt{finite.py} is verified.\par
+\noindent\textit{Preview.} Legacy $\Pcost_{\SLT}$ derivations are archived off-line until \texttt{finite.py} is verified.\par
 
 \section{Algorithm Details}
 \label{sec:appendix-algorithms}
 
-\noindent\textit{Preview.} Legacy Init/Refresh/segmented algorithms are in \texttt{tex/legacy/appendix-algorithms-old.tex}; the PDF renders only the current five algorithms from PR10.
+\noindent\textit{Preview.} Legacy Init/Refresh algorithms are archived off-line; this PDF renders only the five PR10 algorithms.
 
 \subsection{Replay and refresh}
 \input{integration/pseudocode-alg4-5.tex}
@@ -204,7 +204,7 @@ $\mathit{delivered}(M)\gets\mathit{delivered}(M)+|X|$\;
 
 \section{Global orderedness of LT($h$) refresh batches}
 \label{sec:appendix-segment-correctness}
-\noindent\textit{Pending.} The former standalone proof block for pointer-guided segment refresh has been archived in \texttt{tex/legacy/appendix-segmented-proof-legacy.tex}. It was written against legacy algorithm numbering and is omitted from this layout preview until re-checked under the unified LT($h$) specification (\(h{=}1\) is the classical single-item tree).
+\noindent\textit{Pending.} The legacy global-order proof for pointer-guided segment refresh is archived off-line and omitted from this preview until re-checked under unified LT($h$) (\(h{=}1\) is the classical single-item tree).
 
 \section{Complete Parameter Reference}
 \label{sec:parameter-reference}

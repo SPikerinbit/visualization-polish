@@ -1,0 +1,199 @@
+\newcommand{\nthesection}{\arabic{section}}
+
+\newcounter{remark}[section]
+\renewcommand{\theremark}{\nthesection.\arabic{remark}}
+\newenvironment{remark}{\begin{em}
+        \refstepcounter{remark}
+        {\vspace{1ex}\noindent\bf Remark \theremark:}}{
+        \end{em}\vspace{1ex}} %\hspace*{\fill}\vspace*{1ex}}
+        
+
+
+
+% \newcounter{definition}[section]
+% \renewcommand{\thedefinition}{\nthesection.\arabic{definition}}
+% \newenvironment{definition}{
+%      \refstepcounter{definition}
+%      {\vspace{1ex} \noindent\bf  Definition  \thedefinition:}}{
+%      \vspace{1ex}} %\hspace*{\fill}\vspace*{1ex}}
+
+
+% set a new counter named theorem ( can be the same name with the environment )
+
+     
+\newcommand{\proofsketch}{\noindent{\bf Proof Sketch: }}
+\newcommand{\myproof}{\noindent{\bf Proof: }}
+%\newcommand{\proof}{\noindent{\em Proof: }}
+
+%\newcommand{\nthesection}{\arabic{section}}
+% \newcommand{\thetheorem}{\thesection.\arabic{theorem}}
+
+
+% End of proof
+\newcommand{\eop}{\hspace*{\fill}\mbox{$\Box$}\vspace*{1ex}}
+% \newcommand{\eop}{\hspace*{\fill}\mbox{$\Box$}}
+% \renewcommand{\eop}{\hspace*{\fill}\mbox{$\Box$}\vspace*{1ex}}
+% \newtheorem{definition}{Definition}[section]
+%\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{example}{Example}[section]
+% Small Title
+\newcommand{\stitle}[1]{\vspace{1ex} \noindent{\bf #1}}
+\newcommand{\etitle}[1]{\vspace{1ex}\noindent{\underline{\em #1}}}
+\newcommand{\kw}[1]{{\ensuremath {\mathsf{#1}}}\xspace}
+
+\newcommand{\algocomment}[1]{{\footnotesize $\rhd$ \emph{#1}}}
+
+% \newcommand{\ltt}{\kw{LTT}}
+% \newcommand{\arr}{\kw{arrive}}
+% \newcommand{\dep}{\kw{depart}}
+
+% \newcommand{\ie}{{I\!E}}
+% \newcommand{\ee}{{E\!E}}
+% \newcommand{\Ae}{{A\!E}}
+% \newcommand{\inout}{{I\!O}}
+
+
+\newcommand{\mat}[2]{{\begin{tabbing}\hspace{#1}\=\+\kill #2\end{tabbing}}}
+\newcommand{\m}{\hspace{0.05in}}
+\newcommand{\ls}{\hspace{0.1in}}
+\newcommand{\beqn}{\begin{eqnarray*}}
+\newcommand{\eeqn}{\end{eqnarray*}}
+
+\newcounter{ccc}
+\newcommand{\bcc}{\setcounter{ccc}{1}\theccc.}
+\newcommand{\icc}{\addtocounter{ccc}{1}\theccc.}
+
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} 
+
+\newcommand{\kwnospace}[1]{{\ensuremath {\mathsf{#1}}}}
+
+\newcommand{\radd}[1]{\textcolor{red}{#1}}
+\newcommand{\revise}[1]{\textcolor{blue}{#1}}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\newcommand{\bigo}{\ensuremath{\mathcal{O}}}%
+
+% model or algorithms
+\newcommand{\AGM}{\kw{AGM}}
+\newcommand{\GHD}{\kw{GHD}}
+\newcommand{\ALSS}{\kw{ALSS}}
+\newcommand{\LSS}{\kw{LSS}}
+\newcommand{\AL}{\kw{AL}}
+\newcommand{\MLP}{\kw{MLP}}
+\newcommand{\IN}{\kw{IN}}
+\newcommand{\LSSFRE}{{$\texttt{LSS-fre}$}\xspace}
+\newcommand{\LSSEMB}{{$\texttt{LSS-emb}$}\xspace}
+\newcommand{\LSSCON}{{$\texttt{LSS-con}$}\xspace}
+\newcommand{\EmptyHeaded}{{\sl EmptyHeaded}\xspace}
+\newcommand{\Graphflow}{{\sl Graphflow}\xspace}
+\newcommand{\GraphQL}{{\sl GraphQL}\xspace}
+\newcommand{\wordtovec}{{\sl word2vec}\xspace}
+\newcommand{\ProtBert}{{\sl ProtBert}\xspace}
+\newcommand{\DeepWalk}{{\sl DeepWalk}\xspace}
+\newcommand{\prone}{{\sl ProNE}\xspace}
+\newcommand{\GCN}{{\sl GCN}\xspace}
+\newcommand{\GNN}{{\sl GNN}\xspace}
+\newcommand{\GIN}{{\sl GIN}\xspace}
+\newcommand{\GAT}{{\sl GAT}\xspace}
+\newcommand{\SAGE}{{\sl GraphSAGE}\xspace}
+\newcommand{\GCARE}{{\sl G-CARE}\xspace}
+%\newcommand{\CS}{{\sl CS}\xspace}
+%\newcommand{\CSET}{{\sl C-SET}\xspace}
+%\newcommand{\WJ}{{\sl WJ}\xspace}
+%\newcommand{\IMPR}{{\sl IMPR}\xspace}
+%\newcommand{\JSUB}{{\sl JSUB}\xspace}
+%\newcommand{\BS}{{\sl BS}\xspace}
+%\newcommand{\SumRDF}{{\sl SumRDF}\xspace}
+\newcommand{\WJ}{{$\texttt{WJ}$}\xspace}
+\newcommand{\CS}{{$\texttt{CS}$}\xspace}
+\newcommand{\CSET}{{$\texttt{CSET}$}\xspace}
+\newcommand{\IMPR}{{$\texttt{IMPR}$}\xspace}
+\newcommand{\JSUB}{{$\texttt{JSUB}$}\xspace}
+\newcommand{\BS}{{$\texttt{BS}$}\xspace}
+\newcommand{\SumRDF}{{$\texttt{SumRDF}$}\xspace}
+\newcommand{\NRP}{{\sl NRP}\xspace}
+\newcommand{\DeepDB}{{\sl DeepDB}\xspace}
+\newcommand{\Naru}{{\sl Naru}\xspace}
+\newcommand{\DBEst}{{\sl DBEst}\xspace}
+\newcommand{\CONF}{{$\texttt{CON}$}\xspace}
+\newcommand{\MAR}{{$\texttt{MAR}$}\xspace}
+\newcommand{\ENT}{{$\texttt{ENT}$}\xspace}
+\newcommand{\CTC}{{$\texttt{CTC}$}\xspace}
+\newcommand{\RAND}{{$\texttt{RAN}$}\xspace}
+\newcommand{\ENS}{{$\texttt{ENS}$}\xspace}
+\newcommand{\GQL}{{$\texttt{GQL}$}\xspace}
+\newcommand{\ORI}{{$\texttt{ORI}$}\xspace}
+\newcommand{\GFlow}{{$\texttt{GFlow}$}\xspace}
+
+% Datasets
+% Function
+\newcommand{\uncertain}{\varphi}
+\newcommand{\uncertainLC}{\varphi_{\kw{CON}}}
+\newcommand{\uncertainM}{\varphi_{\kw{MAR}}}
+\newcommand{\uncertainH}{\varphi_{\kw{ENT}}}
+\newcommand{\uncertainCT}{\varphi_{\kw{CTC}}}
+\newcommand{\Fagg}{\phi_{{a}}}
+\newcommand{\Fcom}{\phi_{{c}}}
+
+% approaches
+\newcommand{\ordemb}{\kw{OrderEmbedding}}
+\newcommand{\erm}{\kw{ERM}}
+
+
+\newcommand{\loss}{\mathcal{L}}
+\newcommand{\mse}{\mathcal{L}_{mse}}
+\newcommand{\batch}{\mathcal{B}}
+\newcommand{\relu}{\mathsf{ReLU}}
+\newcommand{\softmax}{\mathsf{softmax}}
+\newcommand{\COUNT}{\kw{cnt}}
+\newcommand{\AVG}{\kw{avg}}
+\newcommand{\SUM}{\kw{sum}}
+\newcommand{\MIN}{\kw{min}}
+\newcommand{\MAX}{\kw{max}}
+%atom
+\newcommand{\dsb}{\kw{dsb}}
+
+\newcommand{\AGNews}{{\kw{AGNews}}\xspace}
+\newcommand{\GSM}{{\kw{GSM8K}}\xspace}
+\newcommand{\IMDB}{{\kw{IMDB}}\xspace}
+\newcommand{\MMLU}{{\kw{MMLU}}\xspace}
+\newcommand{\MRPC}{{\kw{MRPC}}\xspace}
+\newcommand{\SNLI}{{\kw{SNLI}}\xspace}
+
+\newcommand{\SST}{{\kwnospace{SST}-\kw{2}}\xspace}
+
+\newcommand{\RoBatch}{{\textsc{RoBatch}}\xspace}
+
+\newcommand{\RouteLLM}{{\text{RouteLLM}}\xspace}
+\newcommand{\FrugalGPT}{\text{FrugalGPT}\xspace}
+\newcommand{\BATCHER}{{\text{BATCHER}}\xspace}
+\newcommand{\OBP}{{\text{OBP}}\xspace}
+
+
+\newcommand{\tbd}{{\color{green}TBD}}
+
+\newcommand{\Model}{\mathcal{M}}
+\newcommand{\Dataset}{\mathcal{Q}}
+\newcommand{\Prob}{\mathcal{P}}
+
+
+\newcommand{\Real}{\mathbb{R}}
+
+
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+% \newcommand{\cmark}{\ding{52}}
+\newcommand{\ccross}{\ding{56}}
+
+
+
+%\newcounter{example}%[section]
+\renewcommand{\theexample}{\arabic{example}}
+
+\newcommand{\score}{\ensuremath{\text{score}}\xspace}
+\newcommand{\SelectFromBatch}{\textit{SelectFromBatch}\xspace}
+
+

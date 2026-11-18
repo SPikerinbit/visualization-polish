@@ -1,0 +1,27 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Comparison of Spearman coefficient ($\rho$) or nDCG@10, \#Tok. ($\times 10^3$), and Lat. (seconds) on full ranking. (The best and second-best values are in \textbf{bold} and \underline{underlined}, respectively. Avg. Rank denotes the algorithms' average rank across datasets)}
+\label{tab:exp1-full}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}lrrrrrrrrrrrrrrrrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{\Movies} & \multicolumn{3}{c}{\DLtwozero} & \multicolumn{3}{c}{\DLtwotwo} & \multicolumn{3}{c}{\COVID} & \multicolumn{3}{c}{\Touche} & \multicolumn{3}{c}{\FiQA} & \multicolumn{3}{c}{Avg. Rank} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13} \cmidrule(lr){14-16} \cmidrule(lr){17-19} \cmidrule(lr){20-22}
+Algorithm & $\rho$ & \#Tok. & Lat. & $\rho$ & \#Tok. & Lat. & $\rho$ & \#Tok. & Lat. & $\rho$ & \#Tok. & Lat. & $\rho$ & \#Tok. & Lat. & nDCG & \#Tok. & Lat. & $\rho$/nDCG & \#Tok. & Lat. \\
+\midrule
+Pointwise & 0.733 & \underline{26.6} & \underline{2.2} & 0.419 & \underline{25.2} & \underline{3.5} & 0.374 & \underline{23.4} & \underline{2.4} & 0.392 & \underline{44.8} & \underline{5.3} & 0.479 & \underline{69.0} & \underline{9.3} & 0.373 & \underline{44.9} & \underline{5.6} & 10 & \underline{2} & \underline{2} \\
+Ext. Pointwise & 0.770 & \textbf{13.0} & \textbf{0.8} & 0.457 & \textbf{14.3} & \textbf{2.6} & 0.363 & \textbf{12.4} & \textbf{1.7} & 0.449 & \textbf{33.4} & \textbf{4.6} & 0.381 & \textbf{57.9} & \textbf{8.9} & 0.378 & \textbf{33.3} & \textbf{4.8} & 9 & \textbf{1} & \textbf{1} \\
+Ext. Bubble & \underline{0.782} & 296.8 & 147.2 & \textbf{0.572} & 278.6 & 142.8 & 0.461 & 238.4 & 103.4 & 0.396 & 504.2 & 137.9 & \textbf{0.537} & 1100.3 & 232.9 & 0.461 & 656.9 & 175.3 & \underline{2} & 10 & 10 \\
+Ext. Merge & 0.777 & 69.8 & 18.8 & 0.528 & 72.7 & 24.3 & 0.423 & 61.3 & 19.2 & 0.480 & 177.0 & 40.1 & 0.410 & 294.8 & 142.8 & 0.455 & 171.9 & 36.0 & 7 & 6 & 6 \\
+\midrule
+LMPQSort & \textbf{0.787} & 78.3 & 19.7 & 0.534 & 80.0 & 23.9 & 0.377 & 60.5 & 15.7 & \textbf{0.522} & 191.0 & 47.9 & 0.438 & 311.1 & 112.8 & 0.447 & 188.2 & 35.8 & 6 & 8 & 5 \\
+Tournament & 0.763 & 72.0 & 26.8 & 0.522 & 68.0 & 27.7 & 0.408 & 61.2 & 21.9 & \underline{0.500} & 134.6 & 51.9 & 0.395 & 202.5 & 40.5 & 0.450 & 131.3 & 32.8 & 8 & 5 & 7 \\
+\midrule
+Quicksort & 0.741 & 297.4 & 19.3 & \underline{0.559} & 244.5 & 21.1 & \textbf{0.480} & 234.4 & 19.1 & 0.454 & 462.3 & 60.5 & 0.442 & 731.8 & 129.5 & 0.453 & 479.1 & 38.3 & 5 & 9 & 8 \\
+\midrule
+Sliding Window & 0.760 & 63.5 & 18.9 & 0.552 & 67.5 & 18.5 & \underline{0.470} & 57.0 & 16.8 & 0.492 & 148.7 & 29.2 & \underline{0.518} & 248.4 & 43.2 & 0.493 & 143.8 & 26.9 & \textbf{1} & 4 & 3 \\
+Loser Tree & 0.771 & 86.7 & 32.6 & 0.544 & 82.9 & 28.5 & 0.462 & 73.6 & 26.4 & 0.462 & 160.0 & 39.4 & 0.411 & 266.6 & 54.3 & \textbf{0.503} & 170.6 & 39.0 & 3 & 7 & 9 \\
+Segmented Loser Tree & 0.771 & 63.9 & 25.3 & 0.542 & 64.8 & 22.1 & 0.452 & 56.9 & 22.1 & 0.452 & 140.5 & 33.6 & 0.445 & 246.9 & 47.6 & \underline{0.497} & 145.7 & 32.4 & 4 & 3 & 4 \\
+\bottomrule
+\end{tabular}
+\end{table*}

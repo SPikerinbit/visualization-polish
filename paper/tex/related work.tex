@@ -1,0 +1,22 @@
+\section{Related Work}
+ \label{sec:relatedwork}
+
+\stitle{LLM-powered Semantic Operators.}
+Integrating Large Language Models (LLMs) as first-class operators inside DBMS has become an important direction in declarative query processing over structured and unstructured data. 
+Lotus~\cite{DBLP:journals/pvldb/PatelJPGAGZ25} introduces a formal abstraction for LLM-powered semantic operators, including semantic filter, join, aggregate, and \textsf{ORDER BY}, and studies optimized algorithms with statistical accuracy guarantees.
+% SEMA further~\cite{DBLP:journals/corr/abs-2603-11622} embeds semantic operators as first-class citizens into DuckDB, with semantic-expression compression, operator fusion, prompt batching, and adaptive query execution to trade off token cost, latency, and result quality.
+%and proposes intra-operator optimizations such as semantic expression compression, operator fusion, and adaptive query execution to seek Pareto-optimal plans balancing token cost and latency. 
+Unify~\cite{DBLP:journals/pvldb/WangLWXL25} demonstrates how unstructured-data analytics can be expressed and optimized as semantic operator pipelines.
+Subsequent work focuses on reducing the LLM invocations of semantic filters by cascading lightweight proxy models~\cite{DBLP:journals/pacmmod/ZeighamiSP25, DBLP:journals/corr/abs-2509-12610, DBLP:journals/corr/abs-2601-05536}.
+However, Semantic \textsf{ORDER BY} manifests a fundamentally different global data access pattern: the placement of an item depends on its relations to other items, while the context limit prevents a single call from processing all items. 
+% Our work tries to fill this gap by designing high-utility algorithms for databases with cost models.
+
+
+
+
+\stitle{Semantic \textsf{ORDER BY}.} LLM-based ranking has been widely studied from the perspectives of information retrieval and NLP.
+Pointwise or score-based methods evaluate each item independently using prompting or generation likelihoods~\cite{DBLP:conf/emnlp/DrozdovZD0RWAIM23, DBLP:conf/emnlp/SachanLJAYPZ22}, which are simple to parallelize but difficult to calibrate relative rankings of items across calls. 
+Pairwise methods request the model to compare two items and aggregate the comparisons via sorting or graph algorithms~\cite{DBLP:conf/acl/LuoCH024, DBLP:conf/naacl/QinJHZWYSLLMWB24}; these methods can provide strong relative judgments but incur large numbers of LLM calls for full ranking.
+Listwise and setwise methods ask the model to rank a slate of candidates in one invocation, reducing LLM calls but introducing context-window and consistency constraints~\cite{DBLP:conf/sigir/ZhuangZKZ24, DBLP:conf/emnlp/0001YMWRCYR23, DBLP:journals/corr/abs-2603-17223, DBLP:journals/corr/abs-2305-02156}. Recent database work brings these methods to semantic \textsf{ORDER BY}.
+ListK~\cite{DBLP:journals/corr/abs-2603-17223} studies semantic \textsf{ORDER BY} and \LIMIT~K with listwise prompting and optimizer choices among listwise tournament and multi-pivot selection/sorting. 
+Zhao et al. propose a two-way external merge~\cite{DBLP:journals/corr/abs-2509-00303} sort algorithm for LLM-based \textsf{ORDER BY}.  Our work is complementary and focuses on the merge phase: we study $k$-way group merging over sorted runs. We adapt classical external merge sort and loser-tree merging~\cite{DBLP:journals/csur/Graefe06} under listwise LLM invocations and deduce principled token cost models on the fan-in $k$. 

@@ -1,0 +1,921 @@
+\section{Supplementary Derivations for the Token Cost Model}
+\label{sec:cost-derivations}
+
+In this section, we provide detailed derivations and proofs for formulas and results used directly in Section~\ref{sec:cost}. As in the main text, the number of listwise calls is used as a linear proxy of total token cost. The total merge-stage token cost is the sum of the per-pass costs in Eq.~\eqref{eq:total-merge-cost}; the following proofs establish the common number of merge passes and the per-pass terms for each algorithm.
+
+\subsection{Number of Merge Passes}
+
+\begin{proposition}[$k$-way Merge Token Cost]
+For $n>m$ and $k\ge2$, all three merge algorithms require
+\begin{align}
+  \Pass_a(k)
+  &=\left\lceil
+    \log_k\left\lceil\frac{n}{m}\right\rceil
+    \right\rceil,
+    \qquad a\in\{\SD,\LT,\SLT\}.
+\end{align}
+\end{proposition}
+
+\begin{proof}
+Let $r_t$ be the number of runs at the beginning of merge pass $t$. Phase~1 produces $r_0=\lceil n/m\rceil$ runs. Since one $k$-way merge pass produces one output run for each group of at most $k$ input runs, $r_{t+1}=\lceil r_t/k\rceil$. For every positive $x$ and integer $k\ge1$, the nested ceiling identity $\lceil\lceil x\rceil/k\rceil=\lceil x/k\rceil$ holds. Applying this identity to the recurrence and inducting on $t$ yields $r_t=\lceil r_0/k^t\rceil$. The merge terminates at the least $t$ for which $r_t\le1$, equivalently $k^t\ge r_0$. This least integer is $\lceil\log_k r_0\rceil$, which proves Eq.~\eqref{eq:number_merge_pass}.
+\end{proof}
+
+\subsection{Per-pass Token Cost for Sliding Window}
+
+For a listwise call in which all $k$ runs are active, each run contributes $h_k=\lfloor m/k\rfloor$ items, giving an actual batch size of $b_k=kh_k\le m$; the feasible range $2\le k\le\lfloor m/2\rfloor$ ensures $h_k\ge2$. We assume uniform random interleaving so that no run is systematically exhausted early; otherwise, premature exhaustion of a particular run's $h_k$ items would shorten the safe prefix and reduce throughput.
+
+\begin{theorem}[$\Pcost_{\SD}$ for sliding window]
+Under uniform random interleaving, the expected safe prefix length of a listwise call is
+\begin{align}
+  \mu_{\SD}(k,m)
+  &=(b_k+1)\prod_{\ell=1}^{k}
+    \frac{\ell h_k}{\ell h_k+1}.
+\end{align}
+\end{theorem}
+
+\begin{proof}
+Assign $h_k$ independent uniform points to each run, and let $M_i$ be the largest point assigned to run $i$. For $x\in[0,1]$, the distribution of a run maximum and the survival function of the first exhaustion threshold $\tau=\min_i M_i$ are
+\begin{align}
+  &\Pr(M_i\le x) = x^{h_k}\\
+  \Pr(\tau>x) &= \prod_{i=1}^{k}\Pr(M_i>x)=(1-x^{h_k})^k
+\end{align}
+Let $Y_k$ be the emitted safe prefix length. The run labels are independent of the ordered point locations, so conditional on $Y_k=j$, the threshold $\tau$ is the $j$th order statistic among $b_k$ uniform points and has mean $j/(b_k+1)$. Therefore,
+\begin{align}
+  &\mathbb E[\tau\mid Y_k] =\frac{Y_k}{b_k+1}\\
+  &\mathbb E[Y_k] =(b_k+1)\mathbb E[\tau]
+\end{align}
+Using the tail integral identity, substituting $u=x^{h_k}$, and applying $\Gamma(z+1)=z\Gamma(z)$ gives
+\begin{align}
+  \mathbb E[Y_k]
+  &=(b_k+1)\int_0^1(1-x^{h_k})^kdx
+  \nonumber\\
+  &=\frac{b_k+1}{h_k}
+    \int_0^1u^{1/h_k-1}(1-u)^kdu
+    \nonumber\\
+  &=\frac{b_k+1}{h_k}
+    B\!\left(\frac1{h_k},k+1\right)
+    \nonumber\\
+  &=(b_k+1)
+    \frac{\Gamma(1+1/h_k)\Gamma(k+1)}
+         {\Gamma(k+1+1/h_k)}
+    \nonumber\\
+  &=(b_k+1)\prod_{\ell=1}^{k}
+    \frac{\ell h_k}{\ell h_k+1}.
+\end{align}
+This is Eq.~\eqref{eq:mu-sw}.
+\end{proof}
+
+\subsection{Per-round Token Cost for Loser Tree}
+
+\begin{proposition}[$\Pcost_{\LT}$ for loser tree]
+The per-round token cost at the t-th merge pass for loser tree merge is
+\begin{align}
+  \Pcost_{\LT}(t,k;n,m)
+  &=n+G_t\left(
+      \Cost_{\SD}(2;k,m)
+      +\left\lceil\frac{k}{m}\right\rceil
+    \right).
+\end{align}
+\end{proposition}
+
+\begin{proof}
+For each of the $G_t$ merge groups, tree initialization ranks the $k$ representatives in $\lceil k/m\rceil$ Phase~1 listwise calls and then uses $\Cost_{\SD}(2;k,m)$ calls for a two-way sliding window merge. Since initialization typically produces two chunks in our setting, this merge uses fan-in two and is not optimized separately; the same setting is used for segmented loser tree initialization. During the merge, each emitted item triggers one \textsc{RefreshPath} call, giving $n$ path refresh calls over all groups. Adding these $n$ refresh calls and the $G_t$ identical initialization costs proves Eq.~\eqref{eq:pcost-lt}.
+\end{proof}
+
+Here, $n$ denotes the total number of items and typically exceeds 100, whereas the initialization term $G_t\bigl(\Cost_{\SD}(2;k,m)+\lceil k/m\rceil\bigr)$ contributes only a small number of listwise calls. Hence, $n\gg G_t\bigl(\Cost_{\SD}(2;k,m)+\lceil k/m\rceil\bigr)$, and the selector in Section~\ref{sec:cost} uses the approximation $\Pcost_{\LT}(t,k;n,m)=n$. The total cost is therefore approximately $n\Pass_{\LT}(k)$, which is linear in the number of merge passes with slope $n$. It is minimized when $\Pass_{\LT}(k)=1$, so all runs are merged in a single pass using one loser tree.
+
+\subsection{Per-round Token Cost for Segmented Loser Tree}
+
+\begin{proposition}[$\Pcost_{\SLT}$ for segmented loser tree]
+The per-round token cost at the t-th merge pass for segmented loser tree merge is
+\begin{align}
+  \Pcost_{\SLT}(t,k;n,m)
+  &=\left\lceil\frac{n}{h}\right\rceil
+    +G_t\left(
+      \Cost_{\SD}(2;kh,m)
+      +\left\lceil\frac{kh}{m}\right\rceil
+    \right).
+\end{align}
+\end{proposition}
+
+\begin{proof}
+For each of the $G_t$ merge groups, tree initialization ranks the $kh$ representatives in $\lceil kh/m\rceil$ Phase~1 listwise calls and then uses $\Cost_{\SD}(2;kh,m)$ calls for the same two-way sliding window merge. Each path refresh processes $h$ items. In the cost model, the item counts of the merge groups are summed before the ceiling is applied, giving $\lceil n/h\rceil$ path refresh calls over the pass. Adding this term to the $G_t$ identical initialization costs proves Eq.~\eqref{eq:pcost-slt}.
+\end{proof}
+
+\section{Algorithm Details}
+\label{sec:appendix-algorithms}
+
+\subsection{Loser Tree Construction and Path Refresh}
+
+Each internal node stores the loser of its most recent match; the root additionally exposs the current winner.  
+
+\begin{algorithm}[t]
+\small
+\caption{\textsc{InitLoserTree}}
+\label{alg:init_loser_tree}
+\KwIn{active run indices $A$, representatives $\{x_i\mid i\in A\}$,
+      instruction $\phi$, batch capacity $m$}
+\KwOut{a binary loser tree $T$}
+
+$Q_{\mathrm{init}}\gets
+  \textsc{FullSlidingWindowMerge}(\{[x_i]\mid i\in A\},\phi,m)$\;
+Construct $\rho$ such that $\rho(x)$ is the position of $x$ in
+$Q_{\mathrm{init}}$\;
+Construct an exact binary tree $T$ with one leaf for every $i\in A$\;
+\ForEach{$i\in A$}{$\textsc{SetWinner}(\textsc{Leaf}(i),i)$\;}
+\ForEach{internal node $v$ in bottom-up order}{
+  $a\gets\textsc{CurrentWinner}(\textsc{LeftChild}(v))$\;
+  $b\gets\textsc{CurrentWinner}(\textsc{RightChild}(v))$\;
+  \uIf{$\rho(x_a)<\rho(x_b)$}{
+    $\textsc{SetWinner}(v,a)$;$\textsc{SetStoredLoser}(v,b)$\;
+  }
+  \Else{
+    $\textsc{SetWinner}(v,b)$;$\textsc{SetStoredLoser}(v,a)$\;
+  }
+}
+$\textsc{SetCurrentWinner}(T,\textsc{CurrentWinner}(\textsc{Root}(T)))$\;
+\Return{$T$}\;
+\end{algorithm}
+
+\begin{algorithm}[t]
+\small
+\caption{\textsc{RefreshPath}}
+\label{alg:refresh_loser_tree_path}
+\KwIn{loser tree $T$, changed run index $u$, active indices $A$,
+      representatives $\{x_i\mid i\in A\}$, instruction $\phi$}
+\KwOut{updated loser tree $T$}
+
+$B\gets[\ ]$\;
+\lIf{$u\in A$}{Append $x_u$ to $B$}
+$z\gets\textsc{Leaf}(u)$\;
+\While{$z\ne\textsc{Root}(T)$}{
+  $p\gets\textsc{Parent}(z)$; $q\gets\textsc{StoredLoser}(p)$\;
+  \lIf{$q\in A$ \textbf{and} $x_q\notin B$}{Append $x_q$ to $B$}
+  $z\gets p$\;
+}
+\If{$B\ne\emptyset$}{
+  $\mathcal O_{\mathrm{path}}\gets\textsc{ListwiseRank}(B,\phi)$\;
+  Construct $\rho_{\mathrm{path}}$ from $\mathcal O_{\mathrm{path}}$\;
+}
+$z\gets\textsc{Leaf}(u)$\;
+$a\gets u$ if $u\in A$, and $a\gets\textsc{null}$ otherwise\;
+\While{$z\ne\textsc{Root}(T)$}{
+  $p\gets\textsc{Parent}(z)$; $q\gets\textsc{StoredLoser}(p)$\;
+  \lIf{$q\notin A$}{$q\gets\textsc{null}$}
+  \uIf{$a=\textsc{null}$ \textbf{or} $q=\textsc{null}$}{
+    $\textsc{SetStoredLoser}(p,\textsc{null})$;
+    $a\gets q$ if $a=\textsc{null}$\;
+  }
+  \uElseIf{$\rho_{\mathrm{path}}(x_a)<\rho_{\mathrm{path}}(x_q)$}{
+    $\textsc{SetStoredLoser}(p,q)$\;
+  }
+  \Else{
+    $\textsc{SetStoredLoser}(p,a)$;$a\gets q$\;
+  }
+  $\textsc{SetWinner}(p,a)$;$z\gets p$\;
+}
+$\textsc{SetCurrentWinner}(T,a)$\;
+\Return{$T$}\;
+\end{algorithm}
+
+
+\subsection{Segmented Loser Tree and Pointer-Guided Path Refresh}
+\label{sec:appendix-segment-algorithm}
+
+The segmented loser tree applies each loser-tree match to $h$-item
+segments.  An internal node $v$ stores only
+$\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$; the winner $tmp$ is a
+transient segment passed to its parent.  For a group of $k$ runs, we set
+\begin{equation}
+  h=\left\lfloor
+    \frac{m}{1+\lceil\log_2 k\rceil}
+  \right\rfloor,
+  \label{eq:segment-length}
+\end{equation}
+so that one replacement segment and the losers on a root-to-leaf path
+fit in a single listwise call.  $\textsc{FillLeaf}(v,h)$ returns the next
+segment from the run associated with leaf $v$.
+
+\begin{algorithm}[t]
+\small
+\caption{Segmented Loser Tree Merge}
+\label{alg:segmented_loser_tree_merge}
+\KwIn{a group of sorted runs $\mathcal G=\{R_1,\ldots,R_k\}$,
+      instruction $\phi$}
+\KwOut{the merged order $\Pi$}
+
+$\Pi\gets[\ ]$\;
+
+Construct a binary segmented loser tree $T$ over $\mathcal G$
+with segment length $h$\;
+
+\algocomment{load and jointly rank the initial leaf segments}\;
+\ForEach{leaf $v$ concurrently}{
+  $S_v\gets\textsc{FillLeaf}(v,h)$\nllabel{line:slt-init}\;
+}
+Rank all $S_v$ with \textsc{FullSlidingWindowMerge}\;
+Let $\rho_0$ be the resulting rank map\;
+
+\algocomment{initialize internal-node states using the shared rank map}\;
+\Fn{\textsc{BuildSubtree}$(v,\rho_0)$}{
+  \If{$v$ is a leaf}{\Return{$S_v$}\;}
+  $L\gets\textsc{BuildSubtree}(\textsc{LeftChild}(v),\rho_0)$\;
+  $R\gets\textsc{BuildSubtree}(\textsc{RightChild}(v),\rho_0)$\;
+  \Return{$\textsc{ReplaySegmentNode}(v,L,R,\rho_0)$}
+    \nllabel{line:slt-build}\;
+}
+
+\algocomment{emit winner segments using pointer-guided path refresh}\;
+$tmp\gets\textsc{BuildSubtree}(\textsc{Root}(T),\rho_0)$\;
+\While{$tmp\ne\emptyset$}{
+  Append $tmp$ to $\Pi$\nllabel{line:slt-emit}\;
+  $tmp\gets\textsc{PointerGuidedPathRefresh}(T,\phi)$
+    \nllabel{line:slt-repair}\;
+}
+\Return{$\Pi$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{Segmented Loser Tree Merge}
+% \label{alg:segmented_loser_tree_merge}
+% \KwIn{a group of sorted runs $\mathcal G=\{R_1,\ldots,R_g\}$,
+%       instruction $\phi$, listwise batch size $m$, optional output limit $K$}
+% \KwOut{the first $K$ items of the merged order $\Pi$; the full order if
+%        $K=\infty$}
+
+% Remove empty runs from $\mathcal G$\;
+% $g\gets|\mathcal G|$\;
+% $\Pi\gets[\ ]$\;
+% \If{$g=0$}{\Return{$\Pi$}\;}
+% \If{$g=1$}{\Return{the first $K$ items of $R_1$}\;}
+% $d\gets\max(1,\lceil\log_2 g\rceil)$\;
+% $h\gets\max(1,\lfloor m/(1+d)\rfloor)$\;
+% Require $(1+d)h\le m$\;
+% Construct a binary tree $T$ with exactly one leaf for every
+% run in $\mathcal G$\;
+% Set $\mathit{done}(i)\gets\textsc{false}$ for every leaf run $i$\;
+% \ForEach{node $v$ in $T$}{
+%   $\mathit{ready}(v)\gets[\ ]$\;
+%   $\mathit{residual}(v)\gets[\ ]$\;
+%   $\mathit{blocked}(v)\gets\textsc{null}$\;
+% }
+% \ForEach{leaf $v$ concurrently}{
+%   $\textsc{FillLeaf}(v,h)$\nllabel{line:slt-init}\;
+% }
+% $Q_0\gets\textsc{FullSlidingWindowMerge}
+%   (\{\mathit{ready}(v)\mid v\text{ is a leaf}\},\phi,m)$\;
+% Construct $\rho_0$ such that $\rho_0(x)$ is the position of $x$ in $Q_0$\;
+% \ForEach{internal node $v$ in bottom-up order}{
+%   $L\gets\textsc{TakeReady}(\textsc{LeftChild}(v),h)$\;
+%   $R\gets\textsc{TakeReady}(\textsc{RightChild}(v),h)$\;
+%   $\textsc{ReplaySegmentNode}(v,L,R,\rho_0,[\ ])$
+%   \nllabel{line:slt-build}\;
+% }
+% $r\gets\textsc{Root}(T)$\;
+% \While{$|\Pi|<K$ \textbf{and} \textsc{HasMore}$(r)$}{
+%   \If{$\mathit{ready}(r)=\emptyset$}{
+%     $ok\gets\textsc{PointerGuidedPathRefresh}(T,\phi,m,h)$
+%     \nllabel{line:slt-repair}\;
+%     \lIf{\textbf{not} $ok$}{\textbf{break}}
+%   }
+%   $E\gets\textsc{TakeReady}(r,\min(h,K-|\Pi|))$\;
+%   Append $E$ to $\Pi$\nllabel{line:slt-emit}\;
+% }
+% \Return{$\Pi$}\;
+% \end{algorithm}
+The rank map $\rho$ defines the order of $L\uplus R$.
+Membership $x\in L$ or $x\in R$ refers to the replay input supplying
+$x$, not merely its value.  Algorithm~\ref{alg:replay_segment_node}
+shows the common case $|L|=|R|=h$; final partial segments are handled
+analogously using their actual lengths.
+\begin{algorithm}[t]
+\small
+\caption{\textsc{ReplaySegmentNode}}
+\label{alg:replay_segment_node}
+\KwIn{node $v$, $h$-item replay segments $L,R$ associated with its
+      left and right child slots, rank map $\rho$}
+\KwOut{winner segment $tmp$; updated
+       $\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$}
+
+$Z\gets\operatorname{Sort}_{\rho}(L\uplus R)$
+  \nllabel{line:replay-merge}\;
+
+$n_L,n_R\gets0,0$\;
+\ForEach{$x\in Z$ in order}{
+  \uIf{$x\in L$}{
+    $n_L\gets n_L+1$\;
+  }
+  \Else{
+    $n_R\gets n_R+1$\;
+  }
+  \lIf{$n_L=h$ \textbf{or} $n_R=h$}{\textbf{break}}
+}
+$\mathit{Pointer}(v)\gets
+  \begin{cases}
+    \textsc{LeftChild}(v),  & n_L=h,\\
+    \textsc{RightChild}(v), & n_R=h
+  \end{cases}$
+  \nllabel{line:replay-split}\;
+
+$tmp\gets Z[1..h]$
+  \nllabel{line:replay-winner}\;
+$\mathit{Loser}(v)\gets Z[h+1..2h]$
+  \nllabel{line:replay-loser}\;
+
+\Return{$tmp$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{\textsc{ReplaySegmentNode}}
+% \label{alg:install_segment_state}
+% \KwIn{internal node $v$, certified left and right child segments $L,R$,
+%       rank map $\rho$, certified prefix $P$ already stored at $v$}
+% \KwOut{$v$ with an updated certified prefix, retained segment, and
+%        blocked-child pointer}
+
+% $\ell\gets\textsc{LeftChild}(v)$\;
+% $r\gets\textsc{RightChild}(v)$\;
+% $more_\ell\gets\textsc{HasMore}(\ell)$\;
+% $more_r\gets\textsc{HasMore}(r)$\;
+% $\mathit{ready}(v)\gets P$\;
+% $\mathit{residual}(v)\gets[\ ]$\;
+% $\mathit{blocked}(v)\gets\textsc{null}$\;
+% \uIf{$L=\emptyset$ \textbf{and} $R=\emptyset$}{
+%   Require $\neg(more_\ell\wedge more_r)$
+%   \nllabel{line:install-empty-start}\;
+%   \uIf{$more_\ell$}{$\mathit{blocked}(v)\gets\ell$}
+%   \ElseIf{$more_r$}{$\mathit{blocked}(v)\gets r$}
+% }
+% \uElseIf{$L=\emptyset$}{
+%   \uIf{$more_\ell$}{
+%     $\mathit{residual}(v)\gets R$\;
+%     $\mathit{blocked}(v)\gets\ell$\;
+%   }
+%   \Else{
+%     Append $R$ to $\mathit{ready}(v)$\;
+%     \lIf{$more_r$}{$\mathit{blocked}(v)\gets r$}
+%   }
+% }
+% \uElseIf{$R=\emptyset$}{
+%   \uIf{$more_r$}{
+%     $\mathit{residual}(v)\gets L$\;
+%     $\mathit{blocked}(v)\gets r$\;
+%   }
+%   \Else{
+%     Append $L$ to $\mathit{ready}(v)$\;
+%     \lIf{$more_\ell$}{$\mathit{blocked}(v)\gets\ell$\nllabel{line:install-empty-end}}
+%   }
+% }
+% \Else{
+%   $Z\gets\textsc{StableMerge}_{\rho}(L,R)$
+%   \nllabel{line:install-merge}\;
+%   \algocomment{preserve the order inside $L$ and $R$} \\
+%   Let $b$ be the first position in $Z$ at which $L$ or $R$ is exhausted\;
+%   Let $e$ be that exhausted child and $o$ the other child\;
+%   \uIf{$\textsc{HasMore}(e)$}{
+%     Append $Z[1..b]$ to $\mathit{ready}(v)$\;
+%     $\mathit{residual}(v)\gets Z[b+1..|Z|]$\;
+%     $\mathit{blocked}(v)\gets e$\nllabel{line:install-barrier}\;
+%   }
+%   \Else{
+%     Append $Z$ to $\mathit{ready}(v)$\;
+%     \lIf{$\textsc{HasMore}(o)$}{$\mathit{blocked}(v)\gets o$\nllabel{line:install-exhausted}}
+%   }
+% }
+% \Return{the updated state of $v$}\;
+% \end{algorithm}
+\noindent\textbf{Initialization.}
+Algorithm~\ref{alg:segmented_loser_tree_merge} jointly ranks the initial
+leaf segments.  \textsc{BuildSubtree} recursively passes each winner
+upward, while every internal node retains only its loser and pointer.
+The winner returned by the root becomes the first output segment.
+
+\noindent\textbf{Pointer-guided refresh.}
+After a root winner is emitted, Algorithm~\ref{alg:repair_segment_path}
+follows the pointers to the affected leaf and jointly ranks
+\[
+  \mathcal B
+  =
+  tmp\uplus\biguplus_{v\in\mathcal P}\mathit{Loser}(v).
+\]
+During bottom-up replay, the old pointer places $tmp$ and the stored loser
+in their replay slots.  \textsc{ReplaySegmentNode} then updates the node
+state and passes the next transient winner toward the root.
+\begin{algorithm}[t]
+\small
+\caption{Pointer-Guided Path Refresh}
+\label{alg:repair_segment_path}
+\KwIn{segmented loser tree $T$, instruction $\phi$}
+\KwOut{the next $h$-item winner segment $tmp$ at the root}
+
+$\mathcal P\gets[\ ]$; $u\gets\textsc{Root}(T)$\;
+
+\algocomment{follow the pointers to the affected leaf}\;
+\While{$u$ is internal}{
+  Append $u$ to $\mathcal P$\;
+  $u\gets\mathit{Pointer}(u)$
+    \nllabel{line:repair-descend}\;
+}
+$tmp\gets\textsc{FillLeaf}(u,h)$\;
+
+\algocomment{jointly rank the segments on the refresh path}\;
+$\mathcal B\gets
+  tmp\uplus\biguplus_{v\in\mathcal P}\mathit{Loser}(v)$\;
+$\mathcal O_{\mathcal B}
+  \gets\textsc{ListwiseRank}(\mathcal B,\phi)$
+  \nllabel{line:repair-rank}\;
+Let $\rho_{\mathcal B}$ be the rank map induced by
+$\mathcal O_{\mathcal B}$\;
+
+\algocomment{replay the winner segment toward the root}\;
+\ForEach{$v\in\mathcal P$ in bottom-up order}{
+  \uIf{$\mathit{Pointer}(v)=\textsc{LeftChild}(v)$}{
+    $L\gets tmp$; $R\gets\mathit{Loser}(v)$\;
+  }
+  \Else{
+    $L\gets\mathit{Loser}(v)$; $R\gets tmp$\;
+  }
+  $tmp\gets
+    \textsc{ReplaySegmentNode}(v,L,R,\rho_{\mathcal B})$
+    \nllabel{line:repair-replay}\;
+}
+
+\Return{$tmp$}\;
+\end{algorithm}
+
+% \begin{algorithm}[t]
+% \small
+% \linespread{0.88}\selectfont
+% \caption{Pointer-Guided Path Refresh}
+% \label{alg:repair_segment_path}
+% \KwIn{segmented loser tree $T$, instruction $\phi$, listwise batch size $m$,
+%        segment length $h$}
+% \KwOut{updated $T$; \textsc{true} iff the root has a nonempty certified prefix}
+
+% $r\gets\textsc{Root}(T)$\;
+% \If{$\mathit{ready}(r)\ne\emptyset$}{\Return{\textsc{true}}\;}
+% $P\gets[\ ]$\;
+% $u\gets r$\;
+% \While{$u$ is not a leaf}{
+%   $b\gets\mathit{blocked}(u)$\;
+%   \If{$b=\textsc{null}$}{\Return{\textsc{false}}\;}
+%   Append $u$ to $P$\;
+%   $u\gets b$\nllabel{line:repair-descend}\;
+%   \If{$u$ is internal \textbf{and} $\mathit{blocked}(u)=\textsc{null}$}{
+%     \textbf{break}\;
+%   }
+% }
+% \ForEach{$v\in P$}{
+%   Save $Q_v\gets\mathit{ready}(v)$,
+%        $Z_v\gets\mathit{residual}(v)$, and
+%        $b_v\gets\mathit{blocked}(v)$\nllabel{line:repair-save}\;
+% }
+% $c\gets\sum_{v\in P}(|Q_v|+|Z_v|)$\;
+% Require $c+h\le m$\;
+% \If{$u$ is a leaf}{\textsc{FillLeaf}$(u,h)$\;}
+% $I\gets\textsc{TakeReady}(u,h)$\;
+% $B\gets I$ followed by all $Q_v$ and $Z_v$ for $v\in P$\;
+% $\mathcal O_B\gets\textsc{ListwiseRank}(B,\phi)$
+% \nllabel{line:repair-rank}\;
+% Construct $\rho_B$ such that $\rho_B(x)$ is the position of $x$ in
+% $\mathcal O_B$\;
+% $through\gets I$\;
+% $child\gets u$\;
+% \ForEach{$v\in P$ in bottom-up order}{
+%   Require $b_v=child$\;
+%   \uIf{$child=\textsc{LeftChild}(v)$}{
+%     $L\gets through$; $R\gets Z_v$\;
+%   }
+%   \Else{
+%     $L\gets Z_v$; $R\gets through$\;
+%   }
+%   $\textsc{ReplaySegmentNode}(v,L,R,\rho_B,Q_v)$
+%   \nllabel{line:repair-replay}\;
+%   $child\gets v$\;
+%   \If{$v\ne r$}{
+%     $through\gets\textsc{TakeReady}(v,h)$
+%     \nllabel{line:repair-propagate}\;
+%   }
+% }
+% \Return{$\mathit{ready}(r)\ne\emptyset$}\;
+% \end{algorithm}
+
+
+\subsection{Pipelined Execution for \texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
+\label{sec:topk-pseudocode}
+
+Every internal merge producer is driven by a bounded background pump.  The default look-ahead queue has capacity one.  Closing the root cancels its pump and recursively closes all upstream producers, so early termination bounds speculative work.
+
+\begin{algorithm}[t]
+\small
+\caption{Pipelined Top-$K$ Merge}
+\label{alg:pipelined_topk_driver}
+\KwIn{Phase-1 runs $\mathcal L=[R_1,\ldots,R_r]$, instruction $\phi$,
+      batch size $m$, fan-in $k$, limit $K$, group-merger type}
+\KwOut{semantic top-$K$ prefix $\Pi_K$}
+
+$S\gets[\textsc{QueueProducer}(R_1),\ldots,
+         \textsc{QueueProducer}(R_r)]$\;
+\While{$|S|>1$}{
+  Partition $S$ into groups $\mathcal G_1,\ldots,\mathcal G_q$ of at most
+  $k$ producers\;
+  $S_{\mathrm{next}}\gets[\ ]$\;
+  \ForEach{$\mathcal G_j$}{
+    \eIf{$|\mathcal G_j|=1$}{
+      Append its only producer to $S_{\mathrm{next}}$\;
+    }{
+      Create a pumped sliding-window, binary loser-tree, or segmented
+      loser-tree producer $M_j$ over $\mathcal G_j$ with budget $K$ and
+      append it to $S_{\mathrm{next}}$\;
+    }
+  }
+  $S\gets S_{\mathrm{next}}$\;
+}
+$M_{\mathrm{root}}\gets S[1]$; $\Pi_K\gets[\ ]$\;
+\While{$|\Pi_K|<K$ \textbf{and} $M_{\mathrm{root}}$ is not exhausted}{
+  $X\gets\textsc{Next}(M_{\mathrm{root}},K-|\Pi_K|)$\;
+  \lIf{$X=\emptyset$}{\textbf{break}}
+  Append $X$ to $\Pi_K$\;
+}
+$\textsc{Close}(M_{\mathrm{root}})$; remove temporary ids from $\Pi_K$\;
+\Return{$\Pi_K$}\;
+\end{algorithm}
+
+\begin{algorithm}[t]
+\small
+\caption{$\textsc{Next}(M,c)$ for a Sliding-Window Producer}
+\label{alg:pipelined_sw_next}
+\KwIn{producer $M$ over children $S_1,\ldots,S_g$, request $c$,
+      batch size $m$, instruction $\phi$, budget $K$}
+\KwOut{up to $c$ next items}
+
+$c\gets\min(c,K-\mathit{delivered}(M))$\;
+\While{$|\mathit{ready}(M)|<c$ \textbf{and} $M$ is not exhausted}{
+  $A\gets$ children with buffered items or remaining upstream supply\;
+  \lIf{$A=\emptyset$}{\textbf{break}}
+  \If{$|A|=1$}{
+    Drain that child's remaining stream into $\mathit{ready}(M)$, up to the
+    remaining budget, then \textbf{break}\;
+  }
+  $h\gets\lfloor m/|A|\rfloor$\;
+  Pull from all children in $A$ concurrently until each contributes up to
+  $h$ items to the sticky window\;
+  $\mathcal O\gets\textsc{ListwiseRank}(\mathit{window}(M),\phi)$\;
+  $E\gets$ the safe prefix ending at the first non-exhausted child window that
+  is depleted\;
+  Move $E$ from the window to $\mathit{ready}(M)$ and retain the uncertified
+  suffix\;
+}
+$X\gets$ up to $c$ items from the front of $\mathit{ready}(M)$\;
+$\mathit{delivered}(M)\gets\mathit{delivered}(M)+|X|$\;
+\Return{$X$}\;
+\end{algorithm}
+
+\begin{algorithm}[t]
+\small
+\caption{$\textsc{Next}(M,c)$ for a Loser-Tree Producer}
+\label{alg:pipelined_lt_next}
+\KwIn{binary or segmented loser-tree producer $M$, request $c$,
+      instruction $\phi$, batch capacity $m$, segment length $h$ when
+      segmented, budget $K$}
+\KwOut{up to $c$ next items}
+
+$c\gets\min(c,K-\mathit{delivered}(M))$; $X\gets[\ ]$\;
+\If{$M$ is uninitialized}{
+  Pull the initial head or segment from every child concurrently and
+  then initialize the corresponding binary or segmented loser tree\;
+}
+\While{$|X|<c$ \textbf{and} $M$ has remaining output}{
+  \uIf{$M$ is binary}{
+    $u\gets$ the root winner; append its representative to $X$\;
+    Pull one replacement from child $u$, then call \textsc{RefreshPath} on its
+    leaf-to-root path\;
+  }
+  \Else{
+    $r\gets\textsc{Root}(M)$\;
+    \If{$\mathit{ready}(r)=\emptyset$}{
+      $ok\gets\textsc{PointerGuidedPathRefresh}(M,\phi,m,h)$\;
+      \lIf{\textbf{not} $ok$}{\textbf{break}}
+    }
+    Append $\textsc{TakeReady}(r,\min(h,c-|X|))$ to $X$\;
+  }
+}
+$\mathit{delivered}(M)\gets\mathit{delivered}(M)+|X|$\;
+\Return{$X$}\;
+\end{algorithm}
+
+```latex
+\section{To be revised:Global Orderedness of Segmented Loser Tree}
+\label{sec:appendix-segment-correctness}
+
+For an ordered sequence $S$, let $\operatorname{Pref}_q(S)$ denote its
+first $\min\{q,|S|\}$ items. We distinguish two properties: every emitted
+segment must be the next prefix of the global order, and every input item
+must be emitted exactly once.
+
+\paragraph{Why path selection matters.}
+A locally ordered replay does not by itself guarantee global order.
+Consider $h=2$, $L=[1,4]$, and $R=[2,6]$. Their replay produces
+\[
+tmp=[1,2],\qquad \mathit{Loser}(v)=[4,6],
+\]
+and the left slot is exhausted first. Suppose its next segment begins
+with $5$, whereas the next right segment is $[7,8]$. If the algorithm
+incorrectly refreshes the right path, replaying $[4,6]$ with $[7,8]$
+would emit $[4,6]$, placing $6$ before the unseen item $5$. The replay
+batch is locally sorted, but it omits a candidate required for global
+order. Hence correctness depends on proving that
+$\mathit{Pointer}(v)$ selects exactly the child whose next segment may
+precede part of $\mathit{Loser}(v)$.
+
+A replay segment is associated with a \emph{logical child slot}.
+This association identifies the child whose continuation is required
+when the segment is exhausted; it does not require every item in the
+segment to originate from that child. After a replay, each internal node
+maintains the following invariant:
+
+\begin{itemize}
+  \item $\mathit{Loser}(v)$ is the ordered segment of exposed items not propagated to the parent;
+  \item if $\mathit{Pointer}(v)=p$, the next segment from $p$ is the only unexposed segment that may precede an item in $\mathit{Loser}(v)$; and
+  \item if $\mathit{Pointer}(v)=\textsc{null}$, the entire loser segment is certified and may be propagated without another ranking call.
+\end{itemize}
+
+\begin{lemma}[First-exhausted replay dependency]
+\label{lem:segment-frontier-barrier}
+Let $L$ and $R$ be valid $h$-item replay segments associated with the two
+logical child slots of $v$, and let
+\[
+  Z=\operatorname{Sort}_{\rho}(L\uplus R)
+\]
+under a rank map consistent with $\prec_\phi$. Let $p$ be the slot whose
+$h$-th item is encountered first when scanning $Z$, and let $o$ be the
+other slot. Then
+\[
+  tmp=Z[1..h],
+  \qquad
+  \mathit{Loser}(v)=Z[h+1..2h],
+  \qquad
+  \mathit{Pointer}(v)=p
+\]
+satisfy the node invariant. In particular, $tmp$ is the next certified
+$h$-item prefix, and refreshing any slot other than $p$ is insufficient
+to certify the next winner in general.
+\end{lemma}
+
+\begin{proof}
+Let $b$ be the position at which $p$ is first exhausted. Since both
+inputs contain $h$ items,
+\[
+  h\le b\le 2h-1.
+\]
+Consequently, every item of $Z[1..h]$ occurs no later than the last
+exposed item of $p$. Any subsequent item from $p$ must follow that last
+item, and therefore cannot precede $Z[1..h]$. The other slot $o$ is not
+exhausted at position $b$; after $b$, all remaining items of $Z$ come
+from $o$. Its unseen continuation therefore follows the final item of
+$Z$. Thus $Z[1..h]$ is certified against both continuations.
+
+In contrast, the next item from $p$ may lie between $Z[b]$ and
+$Z[b+1]$. It may therefore precede part of
+$Z[h+1..2h]$, whereas an unseen item from $o$ cannot. Hence $p$ is the
+unique unresolved dependency and must become $\mathit{Pointer}(v)$.
+
+The loser segment may contain items originating from both subtrees, but
+its suffix following position $b$ consists only of items from $o$ and
+ends with the exposed frontier of $o$. It can therefore occupy the
+logical slot associated with $o$ during the next replay. If the new
+segment from $p$ is exhausted first, $p$ remains the unresolved
+dependency. If the stored loser is exhausted first, the exposed frontier
+of $o$ has been consumed and the dependency switches to $o$. This is
+exactly the pointer update performed by
+Algorithm~\ref{alg:replay_segment_node}.
+\end{proof}
+
+Algorithm~\ref{alg:replay_segment_node} presents the steady-state case
+of two full segments. For a final short segment, its actual length is
+used as the exhaustion threshold. A short segment has no continuation;
+therefore, if it is exhausted first, the pointer moves to the other slot
+when that slot has more output, and becomes \textsc{null} otherwise.
+
+\begin{theorem}[Conditional global orderedness]
+\label{thm:segment-global-order}
+Fix a strict total order $\prec_\phi$ with deterministic tie-breaking.
+Suppose that:
+\begin{itemize}
+  \item[(A1)] every input run is finite and sorted by $\prec_\phi$;
+  \item[(A2)] every rank map produced during initialization or path
+        refresh is the restriction of the same order $\prec_\phi$;
+  \item[(A3)] every unexhausted producer eventually returns its next
+        segment, with only its final segment allowed to contain fewer
+        than $h$ items; and
+  \item[(A4)] the tree depth is at most $d$ and $(d+1)h\le m$.
+\end{itemize}
+Then Algorithm~\ref{alg:segmented_loser_tree_merge} emits exactly the
+sorted merge of its input runs. Any consumer that stops after $K$ items
+receives the first $K$ items of the same global order.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+  \mathcal S=
+  \operatorname{Sort}_{\prec_\phi}
+  (R_1\uplus\cdots\uplus R_k)
+\]
+be the desired global merge.
+
+\paragraph{Initialization.}
+At line~\ref{line:slt-init}, each leaf returns the next prefix of its
+sorted run. By (A1), this segment is a certified prefix of that leaf.
+The shared rank map $\rho_0$ orders all initial leaf segments according
+to $\prec_\phi$ by (A2).
+
+We apply structural induction to \textsc{BuildSubtree}. A leaf returns
+its certified segment directly. At an internal node, the recursive calls
+return the next winner segments of its left and right subtrees. By
+Lemma~\ref{lem:segment-frontier-barrier},
+\textsc{ReplaySegmentNode} returns their next merged prefix and stores a
+loser/pointer pair satisfying the node invariant. Hence the value
+returned by every recursive call is the next certified segment of its
+subtree. In particular, the initial root $tmp$ is the first segment of
+$\mathcal S$. The returned values are transient: only
+$\mathit{Loser}(v)$ and $\mathit{Pointer}(v)$ remain at an internal node.
+
+\paragraph{Pointer-guided refresh.}
+After a root winner is emitted, let
+\[
+  \mathcal P=(u_0,u_1,\ldots,u_t),
+  \qquad u_0=\textsc{Root}(T),
+\]
+be the path followed by Algorithm~\ref{alg:repair_segment_path}.
+At every internal node $u_i$, the node invariant states that the child
+selected by $\mathit{Pointer}(u_i)$ is the only child whose continuation
+may precede part of $\mathit{Loser}(u_i)$. Following any other edge can
+therefore omit a necessary candidate, as illustrated by the preceding
+counterexample. Following the stored pointers reaches exactly the
+unresolved frontier.
+
+If $u_t$ is a leaf, \textsc{FillLeaf} supplies its next certified
+segment. If it is an internal node with a null pointer, its loser is
+already fully certified and can be promoted directly. In either case,
+the terminal node supplies a valid initial $tmp$.
+
+The refresh batch is
+\[
+  B=\{tmp\}\uplus
+    \biguplus_{v\in\mathcal P}\{\mathit{Loser}(v)\}.
+\]
+By (A2), $\rho_B$ gives the order induced by $\prec_\phi$ on every item
+participating in the refresh. Replay then proceeds bottom-up. Assume the
+current $tmp$ is the next certified segment returned by the pointer
+child of a path node $v$. The stored loser occupies the other logical
+slot. Lemma~\ref{lem:segment-frontier-barrier} shows that replay returns
+the next certified segment of $v$ and establishes the new loser/pointer
+invariant at $v$. Induction from $u_t$ to $u_0$ therefore proves that the
+returned root $tmp$ is the next globally certified segment. Nodes
+outside $\mathcal P$ require no update because their continuations cannot
+precede the stored loser at any path node.
+
+\paragraph{Root output.}
+Let $\Pi_s$ be the output after $s$ root segments and let $U_s$ be the
+items not yet emitted. We maintain
+\[
+  \Pi_s=\operatorname{Pref}_{|\Pi_s|}(\mathcal S),
+  \qquad
+  tmp_s=
+  \operatorname{Pref}_{|tmp_s|}
+  \left(\operatorname{Sort}_{\prec_\phi}(U_s)\right).
+  \tag{I}
+\]
+Initialization establishes (I) for $s=0$. If (I) holds, appending
+$tmp_s$ gives
+\[
+  \Pi_{s+1}
+  =\Pi_s\mathbin{\|}tmp_s
+  =\operatorname{Pref}_{|\Pi_s|+|tmp_s|}(\mathcal S).
+\]
+The pointer-guided refresh proved above returns the next prefix of the
+new remainder $U_{s+1}$, reestablishing (I). Thus every emitted segment
+extends the same global sorted prefix.
+
+\paragraph{Conservation, capacity, and termination.}
+A child transfers ownership of every item in its returned $tmp$ to its
+parent. Ranking changes only their order. At a replay node,
+\[
+  tmp\mathbin{\|}\mathit{Loser}(v)
+  =\operatorname{Sort}_{\rho}(L\uplus R),
+\]
+so every replayed occurrence is assigned to exactly one transient winner
+or one persistent loser. Promotion and output transfer ownership without
+copying. Therefore no item is lost or duplicated.
+
+A refresh batch contains at most one $h$-item terminal segment and one
+loser of at most $h$ items from each of at most $d$ path levels. Hence
+\begin{equation}
+  |B|\le (d+1)h\le m.
+  \label{eq:appendix-repair-capacity}
+\end{equation}
+Every nonempty root $tmp$ emits at least one item. By (A3), an
+unexhausted terminal eventually supplies its next segment; when a final
+short segment is consumed, the boundary rule removes its exhausted
+dependency. Because all runs are finite, the process terminates only
+after every source, transient winner, and stored loser is empty.
+Conservation then gives $|\Pi|=|\mathcal S|$, while invariant (I) gives
+$\Pi=\mathcal S$.
+
+A pipelined consumer that stops after $K$ items merely truncates this
+same sequence and therefore receives
+$\operatorname{Pref}_K(\mathcal S)$.
+\end{proof}
+
+The theorem depends on Assumption~(A2): enforcing a valid permutation
+inside each individual ranking call does not by itself guarantee
+consistency between different calls.
+```
+
+\section{Complete Parameter Reference}
+\label{sec:parameter-reference}
+
+\begin{table}[H]
+  \caption{Complete parameters used in the algorithms and cost models.}
+  \label{tab:params-full}
+  \small
+  \centering
+  \begin{tabularx}{\linewidth}{c>{\raggedright\arraybackslash}X}
+    \toprule
+    \textbf{Variable} & \textbf{Definition} \\
+    \midrule
+    $D$ & Input item collection \\
+    $n$ & Input size; $n=|D|$ \\
+    $\phi$ & Natural-language ordering instruction \\
+    $m$ & Listwise batch size; max.\ \#items in one LLM call \\
+    $K$ & Number of items to return under \textsf{LIMIT}~$K$ \\
+    $\Pi$, $\Pi_K$ & Output semantic order and its top-$K$ prefix \\
+    $k$ & Merge fan-in: max.\ \#runs merged per group, chosen by the cost model \\
+    $g$ & Effective fan-in of one group, tree, or producer node ($g \le k$); $g_t=\min(r_t,k)$ in pass $t$, $g_v$ at node $v$ \\
+    $r$ & Number of initial sorted runs; $r=\lceil n/m \rceil$ \\
+    $r_t$ & Number of surviving runs after $t$ merge passes; $r_t=\lceil r/k^t \rceil$ \\
+    $s$, $G_t$ & Numbers of groups in the algorithm and in pass $t$; $G_t=\lceil r_t/k \rceil$ \\
+    $P(k)$ & Number of merge passes; $P(k)=\lceil \log_k r \rceil$ \\
+    $A$ & Set of active (non-exhausted) runs in a merge \\
+    $h$ & Per-run window quota in the sliding-window merge, $\lfloor m/|A| \rfloor$; segment length in the segmented loser tree, $\lfloor m/(1{+}d) \rfloor$ \\
+    $d$ & Loser-tree depth; $d=\max(1,\lceil \log_2 g \rceil)$ \\
+    $\mu_g$ & Expected \#items emitted per listwise call at effective fan-in $g$ \\
+    $C$ & Total \#listwise calls in the full-ranking cost models ($C_{\mathrm{sw}}$, $C_{\mathrm{seg}}$, $C_{\mathrm{bin}}$) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Full Listwise Ranking Prompt Template}
+\label{sec:appendix-listwise-prompt}
+
+We use the following OrderByLLM listwise prompt with vLLM constrained decoding.  Line breaks are added only for typesetting.
+
+\begin{verbatim}
+[SYSTEM]
+You are a helpful agent. Think step by step.
+Output a JSON object.
+[USER]
+You are given a criterion and a list of {items}
+with {item} id at the front.
+Ranking rules:
+1. Use only the Criterion and the provided item
+   content.
+2. Apply hard constraints first: entity, time,
+   location, number, and required attributes.
+3. Prefer direct matches to the Criterion over
+   prerequisite, neighboring, or loosely related
+   topics.
+4. For domain-relevance queries, rank core topics
+   in the target domain above supporting or
+   adjacent fields.
+5. Break close cases by directness, specificity,
+   support, and completeness.
+6. Produce a best-effort total order; do not leave
+   broad ties between close items.
+7. Ignore input order, text length, tone, and
+   formatting.
+Rank the {items} from WORST to BEST according to
+the Criterion.
+Criterion: {criterion}
+{items}:
+{id_prefix}:0
+{item_0}
+...
+{id_prefix}:{num_items_minus_one}
+{item_last}
+Output only {"ranking":[...]} with IDs ordered
+from WORST to BEST. Use every integer from 0 to
+{num_items_minus_one} exactly once.
+\end{verbatim}
+
+For $m$ items, the vLLM processor follows fixed JSON tokens and an ID trie, uses a bit mask to prevent repeated IDs, and assigns $-\infty$ to invalid token logits.  It closes the object after all $m$ IDs appear, producing a permutation of $0,\ldots,m-1$.
+
+\section{Alternative cost-surface layout (integration appendix)}
+\label{sec:appendix-e2-2x3}
+
+\input{integration/fig-e2-appendix}

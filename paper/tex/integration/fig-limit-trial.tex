@@ -1,0 +1,15 @@
+% Approved concept trial: PR7 cursor/recovery-limit-ondemand-trial-a880 (viz/recovery/limit)
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{limit-ondemand.pdf}
+  \caption{\textbf{Optional concept trial (not final).}
+  Demand-driven LIMIT on the shared 16-element runs, $K{=}2$.
+  Not a measured result and not an execution trace.
+  The downstream drain holds \emph{emitted}.
+  A dashed arrow is one request downward; a solid arrow is one yield upward.
+  In (c), \emph{emitted}${=}K$, so the next request is not issued, and the hollow items stay in the runs.
+  The gray dotted arrow is \texttt{finally} \texttt{aclose}, drawn as cleanup.
+  Full is a separate execution mode, not $K{=}\infty$.
+  The user has not yet decided whether to keep this figure in the camera-ready paper.}
+  \label{fig:limit-demand-trial}
+\end{figure*}

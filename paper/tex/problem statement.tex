@@ -1,0 +1,81 @@
+\section{Preliminaries}
+\label{sec:prelim}
+
+\stitle{Semantic \textsf{ORDER BY}.}
+Let $D=\{x_1,\dots,x_n\}$ be a collection of $n$ items, such as documents, passages, or records with unstructured text fields. 
+Let $\phi$ be a natural-language instruction that specifies a desired ordering criterion, e.g., \emph{``order the reviews from most to least helpful for a purchase decision''}. 
+A semantic \textsf{ORDER BY} operator returns a permutation $\Pi = [\pi_1, \cdots, \pi_n]$ of $D$ that is consistent with the order criterion induced by $\phi$. We assume the permutation $\Pi$ is in non-decreasing order throughout this paper. 
+Unlike conventional \textsf{ORDER BY}, where the ordering key is a deterministic attribute value that can be compared directly by database engine, the semantic \textsf{ORDER BY},  defined through natural-language semantics, may depend on implicit notions such as relevance, helpfulness, specificity, sentiment, or evidential support, and therefore cannot be evaluated by a traditional comparator. We use a large language model (LLM) as an ordering oracle for this semantic relation. 
+
+This LLM-based formulation introduces three challenges for physical algorithm design. First, invoking an LLM is expensive in both latency and token cost, with latency dominating conventional in-memory computation. Second, each invocation can inspect only a bounded number of items due to the effective context length limit of LLMs. Third, the intrinsic uncertainty of LLM reasoning can violate antisymmetry and transitivity due to positional bias. 
+In this paper, we focus on designing efficient algorithms that minimize the number of LLM invocations with a principled model of the monetary token cost, while maintaining high ordering accuracy. 
+
+
+
+% This LLM-based semantic ORDER BY manifests three properties regarding algorithm design. First, an invocation is expensive:
+% its token and latency cost dominate conventional
+% query-processing costs, therefore the objective is to compute $\Pi$ with as
+% few invocations as possible. Second, a single invocation can observe
+% only a bounded number of items, so no call can rank $D$ at once and
+% the global order must be assembled from partial rankings, which is
+% precisely the access pattern of external merge sort.
+
+\stitle{Listwise Ranking with LLMs.}
+% Existing studies on LLM-based ranking propose three categorical methods with different LLM prompting. Pointwise methods~\cite{} evaluate each item independently and then sort the items by the resulting scores. The algorithm is easy to parallel, but the scores are difficult to calibrate across independent calls. 
+% Pairwise methods~\cite{} request the model to compare two items at a time and then aggregate the resulting comparisons through sorting or graph-based algorithms. They can provide accurate relative judgments but require $O(n^2)$ invocations to construct a full ranking.
+Listwise methods~\cite{DBLP:conf/sigir/ZhuangZKZ24, DBLP:conf/emnlp/0001YMWRCYR23, DBLP:journals/corr/abs-2603-17223, DBLP:journals/corr/abs-2305-02156} submit a batch of items in a single prompt and ask the model to return their identifiers in sorted order, thereby amortizing one invocation over many comparisons.
+This paper adopts listwise prompting as the only LLM invocation primitive.
+Formally, $\textsc{ListwiseRank}(B,\phi)$ takes a batch $B$ of $m$ items, where $m$ is determined by the LLM's effective context window and item serialization length, and returns an ordered sequence $\mathcal{O}$ to be a permutation of $B$ under instruction $\phi$. Throughout this paper, we assume $m\ge 4$, the minimum listwise batch capacity required by our loser-tree construction.
+We use the total number of listwise invocations as the primary cost metric. Under a fixed prompt template and expected per-item serialization length, every listwise invocation accommodates at most $m$ items and outputs a permutation with a fixed token cost. 
+Therefore, different listwise calls have comparable token footprints, and call count serves as a linear proxy for the total monetary token cost. 
+
+% \paragraph{Serialization and output repair}
+% Figure~\ref{fig:prompt} shows the prompt template. Each item is
+% serialized under a temporary identifier
+% $[1],\dots,[|B|]$, and the model is instructed to output only the
+% identifier sequence. The identifiers make the call auditable: an LLM
+% may drop, duplicate, or fabricate items in its output, and the merger
+% detects these defects by comparing the returned identifiers against
+% the submitted ones. Identifiers missing from the response are
+% appended in their input order, duplicates after the first occurrence
+% are discarded, and identifiers that were never submitted are ignored,
+% so every call returns a true permutation of its input batch.
+% %
+% Every listwise call submits at most $m$ items together with a fixed
+% instruction, so calls carry a comparable token volume. The number of
+% listwise calls is therefore a linear proxy for token cost and
+% end-to-end latency, and all cost models in this paper
+% (\cref{sec:sw-cost} and~\cref{sec:lt-cost}) minimize this count.
+
+% ---------------------------------------------------------------------
+% Prompt figure (requires \usepackage{listings})
+% ---------------------------------------------------------------------
+% \begin{figure}[t]
+% \lstset{
+%   basicstyle=\ttfamily\footnotesize,
+%   frame=single,
+%   breaklines=true,
+%   breakindent=0pt,
+%   columns=fullflexible,
+%   keepspaces=true,
+%   escapeinside={(*}{*)}
+% }
+% \begin{lstlisting}
+% SYSTEM: You are an expert ranking assistant. Follow the instruction exactly and output only the requested format.
+
+% USER: Rank the following (*$|B|$*) items by the criterion below. Criterion: (*$\phi$*)
+
+% [1] (*item $x_1$*)
+% [2] (*item $x_2$*)
+% ...
+% [(*$|B|$*)] (*item $x_{|B|}$*)
+
+% Rank ALL (*$|B|$*) items from the one that best satisfies the criterion to the one that satisfies it least. Output only the identifiers in the format: [3] > [1] > ... > [7].
+% Do not add, drop, or repeat any identifier. Do not output any explanation.
+% \end{lstlisting}
+% \caption{Prompt template of
+% $\textsc{ListwiseRank}(B,\phi)$.}
+% \label{fig:prompt}
+% \end{figure}
+
+

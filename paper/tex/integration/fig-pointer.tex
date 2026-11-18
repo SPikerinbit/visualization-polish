@@ -1,0 +1,15 @@
+% Approved: PR6 cursor/pointer-local-figure-1615 scheme A
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{pointer-scheme-a.pdf}
+  \caption{Local pointer rule on one internal node ($h=2$).
+    Child 0 is run $R_1$ and child 1 is run $R_2$.
+    Slot 0 and slot 1 are replay arguments, not child names.
+    Build assigns pointer $=$ child 1.
+    The next refresh follows that child.
+    Refresh returns pointer $=$ child 0; the previous value was child 1.
+    A returned pointer may name the same child.
+    That case is not in the trace and is not drawn.
+    \emph{Integration note:} synthetic layout placeholder for type-setting review.}
+  \label{fig:eg:pointer-rule}
+\end{figure}

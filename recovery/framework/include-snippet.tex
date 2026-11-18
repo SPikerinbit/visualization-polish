@@ -1,0 +1,14 @@
+% Recovery preview only — not wired into the paper source in this PR.
+% Primary width: figure* \\linewidth = 506.295pt (178mm class textwidth).
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig/algo1-exp.pdf}
+  \caption{Layout \textbf{preview} of Algorithm~\ref{alg:semantic_external_merge} on the fixed $n{=}16$ example ($m{=}4$, this trace's $k{=}2$).
+    After Phase~1, run lengths $|R_i|$, capacity $m$, measured profile $(H,L)$, and demand enter the cost model;
+    it returns merge family $f \in \{\mathrm{SW},\mathrm{LT}(h)\}$, fan-in $k$, and segment $h$.
+    Solid arrows are data; dashed teal arrows are control.
+    \texttt{finite.py} was not among the checked sources, so the expectation is not drawn;
+    tie-breaking and the distinction between Full execution and LIMIT~$K$ are stated here, not inside the figure.
+    LT($h$) is one generator ($h{=}1$ included).}
+  \label{fig:exp:semantic_external_merge}
+\end{figure*}

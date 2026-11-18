@@ -46,6 +46,11 @@ HEIGHT_MM_TARGET = 98.0  # compact A sheets: aim 90--105 mm
 HEIGHT_IN = HEIGHT_MM_TARGET / 25.4
 PNG_DPI = 160
 MIN_TEXT_PT = 7.0
+COMPACT_TOP = 0.947
+COMPACT_BOTTOM = 0.15
+COMPACT_HSPACE = 0.30
+LOWER_ROW_TITLE_PAD = 15.5  # points; clears k-group labels above LT/SW titles
+MIN_ROW_GAP_MM = 3.0
 
 OFF = "#1F4E79"
 ON = "#C46B2C"
@@ -495,7 +500,7 @@ def add_compact_legend(fig) -> None:
     fig.legend(
         handles=handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.995),
+        bbox_to_anchor=(0.5, 0.988),
         ncol=7,
         frameon=False,
         fontsize=MIN_TEXT_PT,
@@ -505,6 +510,25 @@ def add_compact_legend(fig) -> None:
         handlelength=1.6,
         handler_map={handles[-1]: CoincideHandler()},
     )
+
+
+def _assert_compact_row_gap(fig, axes) -> None:
+    """k-group labels on the upper row must clear lower-row panel titles (>=3 mm)."""
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    k_top = max(
+        text.get_window_extent(renderer).transformed(fig.transFigure.inverted()).y1
+        for ax in axes[0].flat
+        for text in ax.texts
+        if text.get_text().startswith("k=")
+    )
+    title_bottom = min(
+        ax.title.get_window_extent(renderer).transformed(fig.transFigure.inverted()).y0
+        for ax in axes[1].flat
+    )
+    gap_mm = (title_bottom - k_top) * fig.get_figheight() * 25.4
+    if gap_mm < MIN_ROW_GAP_MM:
+        raise RuntimeError(f"inter-row gap {gap_mm:.2f} mm < {MIN_ROW_GAP_MM} mm")
 
 
 def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, float]) -> list[dict]:
@@ -521,11 +545,20 @@ def draw_compact_figure(path: Path, grid: list[list[dict]], ylim: tuple[float, f
             ax.plot(xs, off, color=OFF, lw=1.2, solid_capstyle="round", zorder=2)
             ax.plot(xs, on, color=ON, lw=1.2, solid_capstyle="round", zorder=2)
             draw_markers(ax, panel, records)
-            ax.set_title(panel_title(panel, "compact"), pad=2.5, color=INK, fontsize=8)
+            title_pad = LOWER_ROW_TITLE_PAD if r == 1 else 2.5
+            ax.set_title(panel_title(panel, "compact"), pad=title_pad, color=INK, fontsize=8)
             if c == 0:
                 ax.set_ylabel("tokens ×10³", labelpad=2)
     add_compact_legend(fig)
-    fig.subplots_adjust(left=0.10, right=0.992, top=0.84, bottom=0.16, hspace=0.42, wspace=0.11)
+    fig.subplots_adjust(
+        left=0.10,
+        right=0.992,
+        top=COMPACT_TOP,
+        bottom=COMPACT_BOTTOM,
+        hspace=COMPACT_HSPACE,
+        wspace=0.11,
+    )
+    _assert_compact_row_gap(fig, axes)
     fig.savefig(path.with_suffix(".pdf"))
     fig.savefig(path.with_suffix(".png"), dpi=PNG_DPI)
     plt.close(fig)

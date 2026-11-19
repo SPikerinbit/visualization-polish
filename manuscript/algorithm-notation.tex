@@ -1,0 +1,13 @@
+% Paper abstraction: default no-evidence/no-shuffle path; no execution change.
+{\footnotesize\raggedright
+\noindent\textit{Conventions.}
+$\Rank_\phi(X)$ orders real rows best first; $|X|\le1$ needs no call.
+$\operatorname{take}_q$ reads the next $q$ rows or stops at exhaustion ($q=\infty$: drain).
+$\Vert$ concatenates in order; $B_u$ is run $u$'s subsequence in $B$.
+$\operatorname{unread}(u)$ means unread supply remains.
+$\mathcal L(X)$ ranks $X$ once to order the active heads ($\rho$).
+$[\bot_a]^r$ means $r$ virtual entries tagged $a$; $\operatorname{real}$ removes them.
+$\MergeGroup$ forwards singletons; Full materializes each pass, LIMIT pulls and truncates only the root.
+$\mathcal F$ is the feasible set; estimates use run lengths, token profile, mode and $K$.
+\textsc{HalvingTree} rounds the left size up; \textsc{Cut} takes maximal subtrees within the frontier bound.\par}
+

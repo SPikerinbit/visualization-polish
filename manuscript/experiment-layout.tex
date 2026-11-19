@@ -1,0 +1,18 @@
+% Keep the figure with its caption in this results scaffold. Once prose is
+% available, the normal floats can be reinstated by omitting these wrappers.
+\makeatletter
+\newsavebox{\manuscriptfigure}
+\newcommand{\placeexperimentfigures}{%
+  \renewenvironment{figure}[1][]{%
+    \par\setbox\manuscriptfigure=\vbox\bgroup
+      \hsize=\columnwidth
+      \linewidth=\columnwidth
+      \captionsetup{type=figure}%
+      \centering
+  }{%
+    \egroup
+    \Needspace{\dimexpr\ht\manuscriptfigure+\dp\manuscriptfigure+6pt\relax}%
+    \noindent\usebox\manuscriptfigure\par\smallskip
+  }%
+}
+\makeatother

@@ -1,0 +1,15 @@
+\section{Related Work}
+\label{sec:relatedwork}
+
+\stitle{Semantic query processing.}
+LOTUS exposes semantic operators in a dataframe interface and develops execution strategies for operators such as filtering, joins, and top-$K$ ranking~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}.
+Unify organizes analytics over unstructured data as pipelines of semantic operators~\cite{DBLP:journals/pvldb/WangLWXL25}.
+Other systems use inexpensive proxy models to reduce the number of LLM calls needed to evaluate semantic predicates~\cite{DBLP:journals/pacmmod/ZeighamiSP25,DBLP:journals/corr/abs-2509-12610,DBLP:journals/corr/abs-2601-05536}.
+In semantic \textsf{ORDER BY}, the placement of a row also depends on the other rows. A bounded prompt therefore determines not only how many rows an operator can inspect, but also which relative orders it can establish together.
+
+\stitle{LLM ranking and external merge.}
+Pointwise ranking scores items independently~\cite{DBLP:conf/emnlp/DrozdovZD0RWAIM23,DBLP:conf/emnlp/SachanLJAYPZ22}, while pairwise methods aggregate comparisons between items~\cite{DBLP:conf/acl/LuoCH024,DBLP:conf/naacl/QinJHZWYSLLMWB24}.
+Listwise ranking compares a slate in a single prompt, and setwise ranking can select a preferred item from a set~\cite{DBLP:conf/sigir/ZhuangZKZ24,DBLP:conf/emnlp/0001YMWRCYR23,DBLP:journals/corr/abs-2305-02156}.
+ListK uses listwise tournament and multi-pivot operators for selection and sorting~\cite{DBLP:journals/corr/abs-2603-17223}.
+Zhao et al. generate sorted runs and combine them by two-way external merge~\cite{DBLP:journals/corr/abs-2509-00303}.
+We build on the external sorting abstraction~\cite{DBLP:journals/csur/Graefe06} and study what happens inside and between merge groups. A group can reuse a ranked window or refresh a single tree path, and the choice of fan-in and buffer capacity changes both the prompt contents and the amount of work needed to meet the requested output.

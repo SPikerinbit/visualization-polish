@@ -1,0 +1,51 @@
+% Root entry for the supplied ZIP template (ACM sigconf review).
+\pdfminorversion=7
+\pdfmapfile{+symbols.map}
+\pdfmapfile{+cm.map}
+\pdfmapfile{+cmextra.map}
+\documentclass[sigconf,review,nonacm]{acmart}
+\setcopyright{none}
+\settopmatter{printacmref=false,printfolios=true}
+\usepackage{booktabs,multirow,array,makecell}
+\let\Bbbk\relax
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,subfigure}
+\usepackage{needspace,placeins,pifont,xspace,xstring}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\setlength{\subfigcapskip}{1pt}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
+\renewcommand{\dblfloatpagefraction}{0.60}
+\newcommand{\LIMIT}{\textsf{LIMIT}\xspace}
+\newcommand{\qpm}[2]{#1\,{\scriptsize$\pm$#2}}
+\newcommand{\stitle}[1]{\vspace{1ex}\noindent\textbf{#1}}
+\newcommand{\cmark}{\ding{51}}
+\input{manuscript/algorithm-format}
+\input{manuscript/experiment-layout}
+\begin{document}
+\title{Cost-effective Multi-way Merge Semantic ORDER BY}
+\author{Anonymous Author(s)}
+\renewcommand{\shortauthors}{Anonymous}
+\begin{abstract}
+Semantic \textsf{ORDER BY} uses natural-language criteria to rank items. A listwise language model can order a batch of items in one call, but a large input must be sorted in batches and merged across calls. We adapt external $k$-way merge to this setting and develop two group-merging algorithms. Sliding-window merge reuses the uncommitted portion of a ranked window, while segmented loser-tree merge refreshes only the path that supplies the next segment. Full ranking materializes each merge layer; a \LIMIT~$K$ query pulls only the work needed to emit its requested prefix. A cost model estimates calls and item appearances for each execution mode and selects a feasible merge plan by its expected input tokens.
+\end{abstract}
+\maketitle
+{\emergencystretch=1em\relax\input{inrto}\par}
+{\emergencystretch=2em\relax\input{problem statement}\par}
+\input{framework}
+\input{manuscript/cost}
+\FloatBarrier
+\input{exp}
+\input{related work}
+\input{manuscript/conclusion}
+\FloatBarrier
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{ref}
+\clearpage
+\appendix
+\input{appendix}
+\end{document}

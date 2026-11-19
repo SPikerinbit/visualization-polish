@@ -1,0 +1,30 @@
+% E5. Full-width 4 by 2. The panel interior is the previously accepted
+% composition: equal LIMIT slots, Full on a broken-off axis, not joined.
+% Not inserted into the paper. Graphic path: figures/e5/
+\begin{figure*}[t]
+  \centering
+  \setlength{\subfigcapskip}{1pt}
+  \setlength{\subfigtopskip}{0pt}
+  \setlength{\subfigbottomskip}{0pt}
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-off-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-on-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-off-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-on-cost.pdf}}%
+  \par
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-off-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-on-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-off-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-on-quality.pdf}}%
+  \par\includegraphics[width=\textwidth]{e5-legend.pdf}
+  \caption{Synthetic placeholder, not experimental evidence.
+  LIMIT $K$ sweep and Full ranking at fixed $n=500$.
+  Off/On-cold are robustness conditions for assessing whether the
+  SW-for-Full / LT-for-LIMIT conclusion persists with prefix caching;
+  these placeholder values do not establish that conclusion.
+  Top: equivalent input cost, $U$ (Off) or $U-Q$ (On-cold, $\beta=0$), in $10^3$ tokens.
+  Bottom: NDCG@10 for every endpoint.
+  Full is a separate execution mode, not joined to LIMIT 500.
+  LIMIT slots are equally spaced categories, not linear in $K$;
+  Off and On-cold retain distinct cost scales.}
+  \label{fig:e5-limit-sweep}
+\end{figure*}

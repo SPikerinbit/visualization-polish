@@ -1,0 +1,18 @@
+{
+  "numeric_values_exact_each_variant": 64,
+  "A_mm": [
+    84.75365,
+    83
+  ],
+  "B_mm": [
+    84.75365,
+    70
+  ],
+  "pdf_font_sizes": [
+    5.978,
+    6.974,
+    7.97
+  ],
+  "full_template_pages": 9,
+  "baseline_modified": false
+}

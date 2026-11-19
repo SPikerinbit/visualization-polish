@@ -1,0 +1,26 @@
+% Standalone legend and 8 independently included panels; no composite image.
+% Called in single-column flow, NOT a twocolumn banner or figure*.
+\begin{figure}[t]
+\centering
+\begingroup
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1}
+\includegraphics[width=\columnwidth]{joined-legend.pdf}\par\vspace{1pt}
+{\fontsize{7}{8}\selectfont Equivalent input tokens $\times10^3$}\par\vspace{2pt}
+\begin{tabular}{@{}c@{\hspace{0.0176\columnwidth}}c@{}}
+\makebox[0.4912\columnwidth]{$n=100$}&\makebox[0.4912\columnwidth]{$n=500$}\\[2pt]
+{\fontsize{6}{7}\selectfont\makebox[0.2456\columnwidth]{DL20}\makebox[0.2456\columnwidth]{TREC-COVID}}&{\fontsize{6}{7}\selectfont\makebox[0.2456\columnwidth]{DL20}\makebox[0.2456\columnwidth]{TREC-COVID}}\\[2pt]
+\multicolumn{2}{c}{\fontsize{7}{8}\selectfont\bfseries SW Full}\\
+\includegraphics[width=0.4912\columnwidth]{n100-r1.pdf}&\includegraphics[width=0.4912\columnwidth]{n500-r1.pdf}\\[2pt]
+\multicolumn{2}{c}{\fontsize{7}{8}\selectfont\bfseries SW LIMIT 10}\\
+\includegraphics[width=0.4912\columnwidth]{n100-r2.pdf}&\includegraphics[width=0.4912\columnwidth]{n500-r2.pdf}\\[2pt]
+\multicolumn{2}{c}{\fontsize{7}{8}\selectfont\bfseries LT Full}\\
+\includegraphics[width=0.4912\columnwidth]{n100-r3.pdf}&\includegraphics[width=0.4912\columnwidth]{n500-r3.pdf}\\[2pt]
+\multicolumn{2}{c}{\fontsize{7}{8}\selectfont\bfseries LT LIMIT 10}\\
+\includegraphics[width=0.4912\columnwidth]{n100-r4.pdf}&\includegraphics[width=0.4912\columnwidth]{n500-r4.pdf}\\[2pt]
+\end{tabular}\par
+{\fontsize{6.5}{7}\selectfont Configuration $(k,h)$ within each dataset segment}\par
+\endgroup
+\caption{Prefix-cache sensitivity ($\beta=0$, $m=20$). $U$ is total logical input including cache hits $Q$; $\beta$ weights hits relative to non-hits. Columns distinguish $n$; rows distinguish family/mode. Each panel concatenates DL20 and TREC-COVID as independent categories; no curve crosses the divider. Off shows $U_{\mathrm{off}}$; On-cold shows $U_{\mathrm{on}}-Q_{\mathrm{on}}$ from separate executions. Stars mark displayed minima; diamonds mark model-selected configurations at their displayed cost. Ranges are shared within $n$, not between $n$. Minima are over displayed configurations only.}
+\label{fig:e4a-c2}
+\end{figure}

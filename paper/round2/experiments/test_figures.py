@@ -36,7 +36,7 @@ class FigureContractTest(unittest.TestCase):
         self.assertEqual(kinds[4:], ["measured"] * 4)
         width, height = media_box(ROOT / "figures" / "e3" / "e3-sw-full-measured.pdf")
         self.assertAlmostEqual(width, printed(133.2, 0.25), delta=0.8)
-        self.assertAlmostEqual(height, printed(133.2, 0.25), delta=0.8)
+        self.assertAlmostEqual(height, 62.0, delta=0.01)  # intentional E3 compact redesign
         assert_has_width(ROOT / "figures" / "e3" / "e3-sw-full-measured.pdf", facts["line_pt"])
         self.assertTrue(facts["supplements_not_drawn"])
 

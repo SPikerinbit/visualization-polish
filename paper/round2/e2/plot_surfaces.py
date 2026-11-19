@@ -289,7 +289,7 @@ def draw_series(
     if series.coincide:
         ax.scatter(
             [best.k], [best.h], [best.u], s=size["diamond"] * 1.2, marker="D",
-            c=ORANGE, edgecolors="white", linewidths=size["mark_lw"], depthshade=False, zorder=8,
+            facecolors="none", edgecolors=ORANGE, linewidths=size["mark_lw"]*1.6, depthshade=False, zorder=8,
         )
         ax.scatter(
             [best.k], [best.h], [best.u], s=size["star"], marker="*",
@@ -302,7 +302,7 @@ def draw_series(
         )
         ax.scatter(
             [selected.k], [selected.h], [selected.u], s=size["diamond"], marker="D",
-            c=ORANGE, edgecolors="white", linewidths=size["mark_lw"], depthshade=False, zorder=9,
+            facecolors="none", edgecolors=ORANGE, linewidths=size["mark_lw"]*1.6, depthshade=False, zorder=9,
         )
 
     ax.set_xlim(*frame["xlim"])

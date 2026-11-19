@@ -1,0 +1,42 @@
+{
+  "panel_count": 16,
+  "all_records_unchanged": true,
+  "source_data_sha256": "5187823411724c4dcef97d9745340469db7661d6b8e4ddc29632e440976c9e61",
+  "legend_independent": true,
+  "condition_columns": [
+    [
+      "DL20",
+      100
+    ],
+    [
+      "TREC-COVID",
+      100
+    ],
+    [
+      "DL20",
+      500
+    ],
+    [
+      "TREC-COVID",
+      500
+    ]
+  ],
+  "role_rows": [
+    [
+      "SW",
+      "Full"
+    ],
+    [
+      "SW",
+      "LIMIT10"
+    ],
+    [
+      "LT",
+      "Full"
+    ],
+    [
+      "LT",
+      "LIMIT10"
+    ]
+  ]
+}

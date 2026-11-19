@@ -1,6 +1,6 @@
 """E3 scale sample: single-column 4 by 2, prediction split from measured.
 
-Panel PDFs are square at Fig. 8's printed size, ``0.25\\columnwidth``.
+Panel PDFs are 0.25 actual column wide and 62 PDF bp high.
 SW / LT / Full / LIMIT labels are not drawn inside the panels; ``tex/fig-e3.tex``
 sets them, following ``fig:exp4-topk`` in the original ``exp.tex``.
 
@@ -30,25 +30,27 @@ from style import (
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT.parents[1] / "recovery" / "e3" / "e3_layout_data.json"
 
-PANEL_PT = printed(133.2, 0.25)  # 60.286875, Fig. 8 include box
-LINE_PT = printed(1.6, 0.25)
-MARKER_PT = printed(4.8, 0.25)
-EDGE_PT = printed(1.0, 0.25)
-GRID_PT = printed(0.765, 0.25)
-SPINE_PT = printed(1.36, 0.25)
-TICK_PT = printed(0.8, 0.25)
-TICK_LEN = printed(2.2, 0.25)
+PANEL_PT = (241.14749 / 72.27 * 72) / 4  # exact TeX pt to PDF bp conversion
+LINE_PT = 0.72
+MARKER_PT = 2.9
+EDGE_PT = 0.5
+GRID_PT = 0.25
+SPINE_PT = 0.4
+TICK_PT = 0.4
+TICK_LEN = 1.2
 TICK_FONT = printed(9.0, 0.25)
 LABEL_FONT = printed(11.05, 0.25)
 
+# Low-saturation colors; shape is the within-panel identity in grayscale.
+TABLEAU = ("#396B85", "#B16B48", "#4E8476", "#95647F", "#8A7A3D",
+           "#655786", "#A06A75", "#427D87", "#6C7948", "#77675C")
 MARKERS = ("o", "s", "^", "D", "v")
 X = (1000, 5000, 10000)
 XLABELS = ("1k", "5k", "10k")
 
-# Printed Fig. 8 type is about 4 pt. A 0.4 pt lift keeps the three labels
-# distinguishable on the contact sheet without leaving the original scale.
-TICK_FONT_USE = max(TICK_FONT, 4.6)
-LABEL_FONT_USE = max(LABEL_FONT, 5.0)
+# Enlarged axis type at the actual four-panels-per-column print geometry.
+TICK_FONT_USE = 5.5
+LABEL_FONT_USE = 5.5
 
 
 def load() -> dict:
@@ -67,10 +69,10 @@ def _style_ax(ax, ylim) -> None:
     ax.set_xticklabels(list(XLABELS))
     ax.set_yticks([20, 35, 50, 65])
     ax.set_axisbelow(True)
-    ax.grid(True, color=GRID_RGB, linewidth=GRID_PT, zorder=0)
+    ax.grid(axis="y", color="#DDDDDD", linewidth=GRID_PT, zorder=0)
     ax.set_facecolor("white")
     for spine in ax.spines.values():
-        spine.set_color("black")
+        spine.set_color("#888888")
         spine.set_linewidth(SPINE_PT)
     ax.tick_params(
         length=TICK_LEN,
@@ -81,7 +83,7 @@ def _style_ax(ax, ylim) -> None:
     )
     # labelpad is measured from the spine. 0.6pt put $n$ on top of "5k"
     # at the Fig.~8 box (seen in the sigconf preview).
-    ax.set_xlabel(r"$n$", fontsize=LABEL_FONT_USE, labelpad=8.0)
+    ax.set_xlabel(r"$n$", fontsize=LABEL_FONT_USE, labelpad=0.8)
 
 
 def _series_handles(payload) -> list[Line2D]:
@@ -96,12 +98,12 @@ def _series_handles(payload) -> list[Line2D]:
                     [0],
                     color=TABLEAU[len(handles)],
                     marker=MARKERS[index],
-                    markersize=max(MARKER_PT, 3.2),
+                    markersize=2.9,
                     markerfacecolor=TABLEAU[len(handles)],
                     markeredgecolor=TABLEAU[len(handles)],
                     markeredgewidth=0.4,
-                    linewidth=max(LINE_PT, 0.85),
-                    label=f"{series['k']},{series['h']}",
+                    linewidth=0.72,
+                    label=(f"{panel['family']}: " if index == 0 else "") + f"{series['k']},{series['h']}",
                 )
             )
     if len(handles) != 10:
@@ -121,10 +123,9 @@ def _ylim(payload) -> tuple[float, float]:
 
 
 def draw_panel(panel: dict, kind: str, ylim, color_offset: int) -> plt.Figure:
-    fig = plt.figure(figsize=(pt_to_in(PANEL_PT), pt_to_in(PANEL_PT)))
-    # Bottom band clears the tick labels, $n$, and the paper's -7pt
-    # subfigcapskip, which otherwise covers the last line of the panel.
-    ax = fig.add_axes([0.23, 0.38, 0.73, 0.56])
+    fig = plt.figure(figsize=(pt_to_in(PANEL_PT), pt_to_in(62)))
+    # Compact x-label band; external TeX enforces subfigcapskip=1pt.
+    ax = fig.add_axes([0.205, 0.235, 0.755, 0.725])
     _style_ax(ax, ylim)
     key = "predicted" if kind == "predicted" else "measured"
     for index, series in enumerate(panel["series"]):
@@ -135,10 +136,11 @@ def draw_panel(panel: dict, kind: str, ylim, color_offset: int) -> plt.Figure:
             color=color,
             marker=MARKERS[index],
             markersize=MARKER_PT,
-            markerfacecolor=color,
+            markerfacecolor="white" if kind == "predicted" else color,
             markeredgecolor=color,
             markeredgewidth=EDGE_PT,
             linewidth=LINE_PT,
+            linestyle=(0, (2.5, 1.6)) if kind == "predicted" else "-",
             solid_capstyle="round",
             zorder=3,
         )
@@ -150,16 +152,16 @@ def draw_panel(panel: dict, kind: str, ylim, color_offset: int) -> plt.Figure:
 
 def draw_legend(payload) -> plt.Figure:
     handles = _series_handles(payload)
-    fig = plt.figure(figsize=(pt_to_in(COLUMN_PT), pt_to_in(16.5)))
+    fig = plt.figure(figsize=(pt_to_in(241.14749 / 72.27 * 72), pt_to_in(13)))
     legend = fig.legend(
         handles=handles,
         loc="center",
         ncol=10,
         frameon=False,
-        fontsize=5.0,
-        handlelength=1.35,
+        fontsize=6.0,
+        handlelength=0.65,
         handletextpad=0.25,
-        columnspacing=0.45,
+        columnspacing=0.2,
         borderaxespad=0.0,
         labelspacing=0.2,
     )
@@ -198,6 +200,7 @@ def build(out: Path) -> dict:
             path = out / name
             fig.savefig(path)
             fig.savefig(out / (path.stem + ".png"), dpi=300)
+            fig.savefig(out / (path.stem + ".svg"))
             plt.close(fig)
             order.append(
                 {
@@ -212,6 +215,7 @@ def build(out: Path) -> dict:
     legend = draw_legend(payload)
     legend.savefig(out / "e3-legend.pdf")
     legend.savefig(out / "e3-legend.png", dpi=300)
+    legend.savefig(out / "e3-legend.svg")
     plt.close(legend)
     note = {
         "source": str(SOURCE),
@@ -225,6 +229,12 @@ def build(out: Path) -> dict:
         ],
         "panels": order,
         "line_pt": LINE_PT,
+        "predicted_linestyle": "dashed (2.5,1.6)",
+        "measured_linestyle": "solid",
+        "marker_fill": "predicted hollow; measured filled",
+        "data_kind": payload["kind"],
+        "column_tex_pt": 241.14749,
+        "panel_height_bp": 62,
         "marker_pt": MARKER_PT,
         "panel_pt": PANEL_PT,
         "tick_font_pt": TICK_FONT_USE,

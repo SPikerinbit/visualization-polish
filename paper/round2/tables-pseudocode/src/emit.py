@@ -130,7 +130,7 @@ def _model_header(metric_name: str) -> str:
 
 def _model_names() -> str:
     return " & ".join(
-        rf"\multicolumn{{13}}{{c}}{{\textbf{{{model}}}}}" for model in MODELS
+        rf"\multicolumn{{13}}{{c}}{{\fontsize{{7}}{{8}}\selectfont\textbf{{{model}}}}}" for model in ["Qwen3.5-9B", "Qwen3.8-27B"]
     )
 
 
@@ -166,6 +166,13 @@ def _rules_blocks() -> str:
     )
 
 
+def _emphasis(value, values, rendered, *, higher=False):
+    # Competition place on exact displayed-column source values, never std.
+    place = 1 + sum(v > value if higher else v < value for v in values)
+    return (r"\textbf{" + rendered + "}" if place == 1 else
+            r"\underline{" + rendered + "}" if place == 2 else rendered)
+
+
 def _body(audit_demand, demand: str) -> str:
     lines = []
     methods = audit_demand[MODELS[0]]["rows"]
@@ -173,17 +180,20 @@ def _body(audit_demand, demand: str) -> str:
     for row in methods:
         if row["method"] in BREAK_BEFORE:
             lines.append(r"\midrule")
-        cells = [row_label(row["method"], demand)]
+        label = row_label(row["method"], demand).replace(r"\ ", " ")
+        label = " ".join(label.replace("\\", "").split())
+        cells = [label]
         for model in MODELS:
             source = row if model == MODELS[0] else other[row["method"]]
-            for item in source["quality"]:
-                cells.append(_qpm(item["mean"], item["permutation_std"]))
+            peers = audit_demand[model]["rows"]
+            for i, item in enumerate(source["quality"]):
+                cells.append(_emphasis(Decimal(item["mean"]), [Decimal(r["quality"][i]["mean"]) for r in peers], _qpm(item["mean"], item["permutation_std"]), higher=True))
             for name in ("Q9", "TREC", "BEIR"):
-                cells.append(_thousands(Decimal(source["token_group_sums"][name])))
-            cells.append(_exact(source["latency_six_mean"], 2))
+                cells.append(_emphasis(Decimal(source["token_group_sums"][name]), [Decimal(r["token_group_sums"][name]) for r in peers], _thousands(Decimal(source["token_group_sums"][name]))))
+            cells.append(_emphasis(Decimal(source["latency_six_mean"]), [Decimal(r["latency_six_mean"]) for r in peers], _exact(source["latency_six_mean"], 2)))
             for metric in ("quality", "tokens", "latency"):
                 place = source["integer"][metric]
-                cells.append("---" if place is None else str(place))
+                cells.append("---" if place is None else (r"\textbf{1}" if place == 1 else r"\underline{2}" if place == 2 else str(place)))
         lines.append(" & ".join(cells) + r" \\")
     return "\n".join(lines)
 
@@ -194,15 +204,21 @@ def full_tex(audit) -> str:
 % Synthetic layout, not experimental results.
 \begin{{table*}}[t]
 \centering
-\caption{{Full ranking. \examplelabel; not a measurement.
-Each cell is a mean; $\pm$ is a synthetic permutation std, not significance.
-$Q$, $T$, $L$ are competition places. The ranking protocol is in \texttt{{STATS.md}}.}}
+\caption{{Full ranking (Spearman $\rho$). Synthetic layout fixture, not measurements.
+Quality is mean $\pm$ permutation std, not significance.
+Tokens denote logical end-to-end Total (input + output), not the framework's merge-input-only objective;
+columns sum dataset means: Q9; TREC = DL20 + DL22; BEIR = COVID + DBP + R04.
+Latency is the equal-weight mean over six datasets, in seconds.
+$Q,T,L$ are six-dataset competition places (\texttt{{STATS.md}}).
+Bold/underline mark first/second competition place within each displayed column; ties share emphasis.
+Model labels are requested labels; deployment manifests remain unverified.}}
 \label{{tab:exp1-full}}
 \begingroup
-\footnotesize
-\setlength{{\tabcolsep}}{{1.6pt}}
-\renewcommand{{\arraystretch}}{{0.96}}
-\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l*{{26}}{{c}}@{{}}}}
+\fontsize{{6.4}}{{8.2}}\fontfamily{{qhv}}\fontseries{{c}}\selectfont
+\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.8}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
+\setlength{{\tabcolsep}}{{0.4pt}}
+\renewcommand{{\arraystretch}}{{1.18}}
+\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l!{{\hspace{{1.5pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}!{{\hspace{{3pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}@{{}}}}
 \toprule
 & {_model_names()} \\
 {_rules_models()}
@@ -224,20 +240,25 @@ def limit_tex(audit) -> str:
 % Synthetic layout, not experimental results.
 \begin{{table*}}[t]
 \centering
-\caption{{\examplelabel; not a measurement. LIMIT $K{{=}}10$.
-Quality is nDCG@10, kept in $[0,1]$.
-$\pm$ is a synthetic permutation std, not significance.
-The ListK row is ListK Select.}}
+\caption{{LIMIT $K{{=}}10$ (nDCG@10). Synthetic layout fixture, not measurements.
+Quality is mean $\pm$ permutation std, not significance.
+Tokens denote logical end-to-end Total (input + output), not the framework's merge-input-only objective;
+columns sum dataset means: Q9; TREC = DL20 + DL22; BEIR = COVID + DBP + R04.
+Latency is the equal-weight mean over six datasets, in seconds.
+$Q,T,L$ are six-dataset competition places (\texttt{{STATS.md}}).
+Bold/underline mark first/second competition place within each displayed column; ties share emphasis.
+Model labels are requested labels; deployment manifests remain unverified. The ListK row is ListK Select.}}
 \label{{tab:exp1-limit}}
 \begingroup
-\footnotesize
-\setlength{{\tabcolsep}}{{1.6pt}}
-\renewcommand{{\arraystretch}}{{0.96}}
-\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l*{{26}}{{c}}@{{}}}}
+\fontsize{{6.4}}{{8.2}}\fontfamily{{qhv}}\fontseries{{c}}\selectfont
+\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.8}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
+\setlength{{\tabcolsep}}{{0.4pt}}
+\renewcommand{{\arraystretch}}{{1.18}}
+\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l!{{\hspace{{1.5pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}!{{\hspace{{3pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}@{{}}}}
 \toprule
 & {_model_names()} \\
 {_rules_models()}
-Method {_model_header("nDCG")} {_model_header("nDCG")} \\
+Method {_model_header("nDCG@10")} {_model_header("nDCG@10")} \\
 {_rules_blocks()}
 {_subheads()} \\
 \midrule

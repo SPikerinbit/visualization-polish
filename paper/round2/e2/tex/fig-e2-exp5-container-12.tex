@@ -1,60 +1,23 @@
-% Structure follows unpacked-paper/exp.tex fig:exp5-m (417--472):
-% 0.8\linewidth legend, \vspace{-2ex}, 0.33\columnwidth cells, \hspace{-2.5ex},
-% a blank line between the two rows. Image paths and short titles differ.
-% Not the missing 3D k-sweep float. Heights are synthetic.
+% E2. Twelve independent PDFs + single-row shared legend. Full width: 504.4bp.
+% Six at 83.15bp leave room for regular flexible gutters; no negative overlap.
+\newcommand{\eTwoDiamond}{\makebox[3.48bp][c]{\raisebox{0.2bp}{\includegraphics[width=4.2bp]{e2-role-diamond.pdf}}}}
+\newcommand{\eTwoAnnotated}[2]{\begin{minipage}{83.15bp}\centering\includegraphics[width=\linewidth]{#1}\par\vspace{-5bp}{\fontsize{6.8bp}{7.4bp}\selectfont #2\par}\end{minipage}}
 \begin{figure*}[t]
-  \centering
-
-  \includegraphics[width=0.8\linewidth]{e2-legend.pdf}
-
-  \vspace{-2ex}
-
-  \subfigure[Syn-A, LT, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p01.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-B, LT, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p02.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-C, LT, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p03.pdf}
-  }
-  \subfigure[Syn-D, LT, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p04.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-E, LT, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p05.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-F, LT, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p06.pdf}
-  }
-
-  \subfigure[Syn-G, SW, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p07.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-H, SW, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p08.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-I, SW, Full]{
-      \includegraphics[width=0.33\columnwidth]{panels/p09.pdf}
-  }
-  \subfigure[Syn-J, SW, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p10.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-K, SW, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p11.pdf}
-  }
-  \hspace{-2.5ex}
-  \subfigure[Syn-L, SW, LIMIT10]{
-      \includegraphics[width=0.33\columnwidth]{panels/p12.pdf}
-  }
-
-  \caption{Front axis $k$ (fan-in), depth axis $h$ (segment length); vertical tokens $\times 10^{3}$. Synthetic, not experimental results.}
-  \label{fig:e2-surface-exp5-12}
+\centering
+\setlength{\subfigtopskip}{1pt}\setlength{\subfigcapskip}{1pt}\setlength{\subfigbottomskip}{1pt}
+\includegraphics[width=0.8\linewidth]{e2-legend.pdf}\par
+\subfigure[Syn-A, LT, Full]{\eTwoAnnotated{panels/p01.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (13,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (22,1)}}\hfill%
+\subfigure[Syn-B, LT, Full]{\eTwoAnnotated{panels/p02.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (15,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (6,1)}}\hfill%
+\subfigure[Syn-C, LT, Full]{\eTwoAnnotated{panels/p03.pdf}{\textcolor[HTML]{087F9B}{\ding{72}}\kern0.9bp\textcolor[HTML]{DA821E}{\eTwoDiamond} (8,1)}}\hfill%
+\subfigure[Syn-D, LT, LIMIT10]{\eTwoAnnotated{panels/p04.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
+\subfigure[Syn-E, LT, LIMIT10]{\eTwoAnnotated{panels/p05.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (7,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (13,1)}}\hfill%
+\subfigure[Syn-F, LT, LIMIT10]{\eTwoAnnotated{panels/p06.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (19,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (14,2)}}\par
+\subfigure[Syn-G, SW, Full]{\eTwoAnnotated{panels/p07.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (6,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (11,1)}}\hfill%
+\subfigure[Syn-H, SW, Full]{\eTwoAnnotated{panels/p08.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (11,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (6,2)}}\hfill%
+\subfigure[Syn-I, SW, Full]{\eTwoAnnotated{panels/p09.pdf}{\textcolor[HTML]{087F9B}{\ding{72}}\kern0.9bp\textcolor[HTML]{DA821E}{\eTwoDiamond} (9,1)}}\hfill%
+\subfigure[Syn-J, SW, LIMIT10]{\eTwoAnnotated{panels/p10.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (9,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
+\subfigure[Syn-K, SW, LIMIT10]{\eTwoAnnotated{panels/p11.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (20,1)}}\hfill%
+\subfigure[Syn-L, SW, LIMIT10]{\eTwoAnnotated{panels/p12.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (18,1)\quad \textcolor[HTML]{DA821E}{\eTwoDiamond} (14,1)}}\par
+\caption{Front axis $k$ (fan-in), depth axis $h$ (SW per-run quota; LT segment length); vertical merge input tokens $\times 10^{3}$. Vertical ranges adapt per panel; compare numeric ticks, not apparent heights across panels. Stars mark observed-role minima over shown configurations; hollow diamonds mark model-selected configurations at their observed-role cost.}
+\label{fig:e2-surface-exp5-12}
 \end{figure*}

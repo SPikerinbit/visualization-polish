@@ -1,0 +1,9 @@
+{
+  "equal_means": 40,
+  "equal_fronts": 4,
+  "source_sha256": "8957ad7da71652b63384ff51ca1ef3874607e2e47083721ca045a0633925f38a",
+  "text_outside_canvas": [],
+  "baseline_assets_height_bp": 195,
+  "candidate_assets_height_bp": 179,
+  "notes": "Only summed 27+2*84 vs25+72+82 asset heights, excluding unchanged TeX gaps/captions. Same x and per-metric y limits as baseline."
+}

@@ -1,0 +1,23 @@
+% 16 independent panel PDFs plus independent legend; TeX owns all arrangement.
+\begin{figure*}[t]
+\centering
+{\fontsize{7}{9}\selectfont\bfseries Synthetic layout example; not measured.}\par
+\begingroup
+\setlength{\subfigtopskip}{0pt}\setlength{\subfigbottomskip}{0pt}
+\setlength{\subfigcapskip}{0pt}\setlength{\tabcolsep}{1.5bp}
+\includegraphics[width=\textwidth]{legend.pdf}\par
+{\fontsize{7}{8}\selectfont Equivalent input tokens $\times10^3$}\par\vspace{3pt}
+\newcommand{\eacell}[1]{\subfigure{\includegraphics[width=114bp]{panels/#1.pdf}}}
+\newcommand{\earow}[2]{\parbox[c]{29bp}{\centering\fontsize{7}{8}\selectfont #1\\#2}}
+\begin{tabular}{@{}c@{}cccc@{}}
+& {\fontsize{7.6}{9}\selectfont\bfseries DL20, $n=100$}&{\fontsize{7.6}{9}\selectfont\bfseries TREC-COVID, $n=100$}&{\fontsize{7.6}{9}\selectfont\bfseries DL20, $n=500$}&{\fontsize{7.6}{9}\selectfont\bfseries TREC-COVID, $n=500$}\\[2pt]
+\raisebox{24bp}{\earow{SW}{Full}}&\eacell{r1c1}&\eacell{r1c2}&\eacell{r1c3}&\eacell{r1c4}\\
+\raisebox{24bp}{\earow{SW}{LIMIT 10}}&\eacell{r2c1}&\eacell{r2c2}&\eacell{r2c3}&\eacell{r2c4}\\
+\raisebox{24bp}{\earow{LT}{Full}}&\eacell{r3c1}&\eacell{r3c2}&\eacell{r3c3}&\eacell{r3c4}\\
+\raisebox{43bp}{\earow{LT}{LIMIT 10}}&\eacell{r4c1}&\eacell{r4c2}&\eacell{r4c3}&\eacell{r4c4}\\
+\end{tabular}\par
+{\fontsize{6.8}{8}\selectfont Configuration $(k,h)$}
+\endgroup
+\caption{Prefix cache sensitivity across dataset and input size ($\beta=0,m=20$). Columns identify conditions; rows identify family and mode. Off shows $U$, On-cold shows $U-Q$. Stars mark displayed-curve minima and diamonds model-selected configurations, both at the corresponding curve height. Full $(k,h)$ categories are shared vertically within each column; lines are visual guides. Displayed minima do not certify full-domain optima.}
+\label{fig:e4a-group}
+\end{figure*}

@@ -23,19 +23,20 @@ from style import COLUMN_PT, GRID_RGB, pt_to_in, printed
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT.parents[1] / "recovery" / "e4a" / "data" / "e4a_synthetic.json"
 
-LINE_PT = printed(1.6, 0.33)
-MARKER_LINE_PT = printed(4.8, 0.33)
+LINE_PT = 1.1
+MARKER_LINE_PT = 2.8
 EDGE_PT = printed(1.0, 0.33)
-GRID_PT = printed(0.765, 0.33)
-SPINE_PT = printed(1.36, 0.33)
+GRID_PT = 0.35
+GRID_RGB = "#D6D6D6"
+SPINE_PT = 0.65
 TICK_W = printed(0.8, 0.33)
 TICK_LEN = max(printed(2.2, 0.33), 2.0)
-STAR_PT = printed(10.2, 0.33)
-DIAMOND_PT = printed(9.49, 0.33)
+STAR_PT = 5.5
+DIAMOND_PT = 9.0
 # Column-width category labels need to stay at the original printed
 # label size, not the native 11 pt canvas size.
-TICK_FONT = max(printed(9.0, 0.33), 6.0)
-LABEL_FONT = max(printed(11.05, 0.33), 7.0)
+TICK_FONT = 7.2
+LABEL_FONT = 7.4
 
 OFF = "#1F77B4"
 ON = "#FF7F0E"
@@ -236,11 +237,11 @@ def _style(ax, labels, ylim, show_x: bool) -> None:
     for spine in ax.spines.values():
         spine.set_linewidth(SPINE_PT)
     ax.tick_params(length=TICK_LEN, width=TICK_W, labelsize=TICK_FONT, pad=1.4)
-    ax.tick_params(axis="x", labelsize=6.2)
+    ax.tick_params(axis="x", labelsize=7.2)
 
 
 def _mark(ax, x, y, color, role: str) -> None:
-    if role == "predicted":
+    if role == "measured":
         ax.plot(
             [x],
             [y],
@@ -252,16 +253,16 @@ def _mark(ax, x, y, color, role: str) -> None:
             markeredgewidth=0.45,
             zorder=5,
         )
-    elif role == "measured":
+    elif role == "predicted":
         ax.plot(
             [x],
             [y],
             linestyle="none",
             marker="D",
             markersize=DIAMOND_PT * 0.72,
-            markerfacecolor=color,
-            markeredgecolor="black",
-            markeredgewidth=0.45,
+            markerfacecolor="none",
+            markeredgecolor=color,
+            markeredgewidth=0.8,
             zorder=4,
         )
     else:
@@ -278,40 +279,40 @@ def draw_figure(panels: list[dict]) -> plt.Figure:
     pad = 0.08 * (high - low)
     ylim = (low - pad, high + pad)
     width = pt_to_in(COLUMN_PT)
-    height = pt_to_in(340)
+    height = pt_to_in(300)
     fig = plt.figure(figsize=(width, height))
     legend_handles = [
-        Line2D([0], [0], color=OFF, lw=LINE_PT, marker="o", markersize=MARKER_LINE_PT, label="Prefix cache off"),
-        Line2D([0], [0], color=ON, lw=LINE_PT, ls="--", marker="o", markersize=MARKER_LINE_PT, label="Prefix cache on"),
-        Line2D([0], [0], color="black", lw=0, marker="*", markersize=7.2, label="Predicted"),
-        Line2D([0], [0], color="black", lw=0, marker="D", markersize=4.6, label="Measured"),
+        Line2D([0], [0], color=OFF, lw=LINE_PT, marker="o", markersize=MARKER_LINE_PT, label="Off"),
+        Line2D([0], [0], color=ON, lw=LINE_PT, ls="--", marker="o", markersize=MARKER_LINE_PT, label="On-cold"),
+        Line2D([0], [0], color="black", lw=0, marker="*", markersize=5.5, label="Min."),
+        Line2D([0], [0], color="black", lw=0, marker="D", markersize=6.5, markerfacecolor="none", label="Pred."),
     ]
     fig.legend(
         handles=legend_handles,
         loc="upper center",
-        bbox_to_anchor=(0.54, 0.992),
+        bbox_to_anchor=(0.54, 0.995),
         ncol=4,
         frameon=False,
-        fontsize=6.2,
+        fontsize=7.2,
         handlelength=1.45,
-        columnspacing=0.7,
+        columnspacing=0.9,
         borderaxespad=0.0,
     )
     # Top to bottom: SW Full, SW LIMIT, LT Full, LT LIMIT.
     order = (("SW", "Full"), ("SW", "LIMIT10"), ("LT", "Full"), ("LT", "LIMIT10"))
     by_key = {(p["family"], p["demand"]): p for p in panels}
-    tops = (0.748, 0.548, 0.348, 0.138)
+    tops = (0.754, 0.544, 0.334, 0.124)
     for (family, demand), top in zip(order, tops):
         panel = by_key[(family, demand)]
-        ax = fig.add_axes([0.175, top, 0.79, 0.162])
+        ax = fig.add_axes([0.165, top, 0.81, 0.165])
         show_x = demand == "LIMIT10" and family == "LT"
         _style(ax, labels, ylim, show_x=show_x)
         if show_x:
             ax.set_xlabel(r"configuration $(k,h)$", fontsize=LABEL_FONT, labelpad=1.5)
-        ax.set_ylabel(r"tokens $\times 10^{3}$", fontsize=LABEL_FONT, labelpad=1.2)
+        
         title = "SW" if family == "SW" else "LT"
         mode = "Full" if demand == "Full" else "LIMIT 10"
-        ax.set_title(f"{title}, {mode}", loc="left", fontsize=7.0, pad=1.2, color="black")
+        ax.set_title(f"{title}, {mode}", loc="left", fontsize=7.4, pad=1.2, color="black")
         xs = np.arange(len(labels))
         off = np.array([p["measured_off_U"] for p in panel["points"]]) / 1000.0
         on = np.array([p["measured_on_U_minus_Q"] for p in panel["points"]]) / 1000.0
@@ -333,6 +334,8 @@ def draw_figure(panels: list[dict]) -> plt.Figure:
             else:
                 _mark(ax, pred_i, series[pred_i], color, "predicted")
                 _mark(ax, meas_i, series[meas_i], color, "measured")
+    fig.text(0.025, 0.53, r"Equivalent input tokens $\times 10^{3}$", rotation=90, ha="center", va="center", fontsize=7.4)
+    fig.text(0.55, 0.018, "Synthetic layout sample; not measured", ha="center", fontsize=7.2, color="#555555")
     problems = overflow_labels(fig) + overlapping_tick_labels(fig)
     if problems:
         raise RuntimeError(f"E4a labels: {problems}")

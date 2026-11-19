@@ -1,0 +1,272 @@
+{
+  "synthetic": true,
+  "panels": [
+    {
+      "id": "p01",
+      "configurations": 96,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 120,
+      "ordinary_markers": 192,
+      "pred_selected": [
+        22,
+        1,
+        157.9960219302628
+      ],
+      "actual_min": [
+        13,
+        1,
+        146.26822377003978
+      ]
+    },
+    {
+      "id": "p02",
+      "configurations": 101,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 151,
+      "ordinary_markers": 202,
+      "pred_selected": [
+        6,
+        1,
+        161.19122819311272
+      ],
+      "actual_min": [
+        15,
+        1,
+        147.2027133287762
+      ]
+    },
+    {
+      "id": "p03",
+      "configurations": 101,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 125,
+      "ordinary_markers": 202,
+      "pred_selected": [
+        8,
+        1,
+        150.63671764749967
+      ],
+      "actual_min": [
+        8,
+        1,
+        150.63671764749967
+      ]
+    },
+    {
+      "id": "p04",
+      "configurations": 101,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 143,
+      "ordinary_markers": 202,
+      "pred_selected": [
+        2,
+        10,
+        220.45789830838956
+      ],
+      "actual_min": [
+        12,
+        1,
+        147.06760845254908
+      ]
+    },
+    {
+      "id": "p05",
+      "configurations": 101,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 144,
+      "ordinary_markers": 202,
+      "pred_selected": [
+        13,
+        1,
+        154.15154924215693
+      ],
+      "actual_min": [
+        7,
+        1,
+        145.60809563356847
+      ]
+    },
+    {
+      "id": "p06",
+      "configurations": 96,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 131,
+      "ordinary_markers": 192,
+      "pred_selected": [
+        14,
+        2,
+        154.05634289795904
+      ],
+      "actual_min": [
+        19,
+        1,
+        150.14350791048332
+      ]
+    },
+    {
+      "id": "p07",
+      "configurations": 43,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 36,
+      "ordinary_markers": 86,
+      "pred_selected": [
+        11,
+        1,
+        150.94536534291362
+      ],
+      "actual_min": [
+        6,
+        1,
+        147.5621863429605
+      ]
+    },
+    {
+      "id": "p08",
+      "configurations": 46,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 49,
+      "ordinary_markers": 92,
+      "pred_selected": [
+        6,
+        2,
+        153.57513639696612
+      ],
+      "actual_min": [
+        11,
+        1,
+        147.13934664702677
+      ]
+    },
+    {
+      "id": "p09",
+      "configurations": 46,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 28,
+      "ordinary_markers": 92,
+      "pred_selected": [
+        9,
+        1,
+        146.6089431211512
+      ],
+      "actual_min": [
+        9,
+        1,
+        146.6089431211512
+      ]
+    },
+    {
+      "id": "p10",
+      "configurations": 46,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 49,
+      "ordinary_markers": 92,
+      "pred_selected": [
+        2,
+        10,
+        221.1870577050053
+      ],
+      "actual_min": [
+        9,
+        1,
+        145.36735081601927
+      ]
+    },
+    {
+      "id": "p11",
+      "configurations": 46,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 32,
+      "ordinary_markers": 92,
+      "pred_selected": [
+        20,
+        1,
+        154.63953003599087
+      ],
+      "actual_min": [
+        12,
+        1,
+        145.27349733343763
+      ]
+    },
+    {
+      "id": "p12",
+      "configurations": 46,
+      "all_values_equal": true,
+      "topology_equal": true,
+      "camera": {
+        "elev": 26,
+        "azim": -54
+      },
+      "projected_potential_overlap": 44,
+      "ordinary_markers": 92,
+      "pred_selected": [
+        14,
+        1,
+        148.17393095444916
+      ],
+      "actual_min": [
+        18,
+        1,
+        147.12244022709362
+      ]
+    }
+  ],
+  "all_data_unchanged": true,
+  "marker_diameter_print_pt": 1.4737691350739077,
+  "baseline_source_sha256": "fa11b8dc3b79743c9c912eae30c31630af4e0d166fccec743343bc2cbe33bcf6"
+}

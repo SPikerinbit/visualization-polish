@@ -3,11 +3,29 @@
 % Not inserted into the paper. Graphic path: figures/e5/
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{e5-limit-sweep.pdf}
-  \caption{Synthetic placeholder, not a measured advantage.
-  Full is a separate mode and is not joined to LIMIT~500, and it is not $K{=}510$.
-  Off is equivalent input $U$; On-cold is $U{-}Q$ at $\beta{=}0$.
-  The two cache states do not share a cost scale.
-  Slots are equally spaced contract positions, not linear in $n$.}
+  \setlength{\subfigcapskip}{1pt}
+  \setlength{\subfigtopskip}{0pt}
+  \setlength{\subfigbottomskip}{0pt}
+  \includegraphics[width=\textwidth]{e5-legend.pdf}\par
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-off-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-on-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-off-cost.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-on-cost.pdf}}%
+  \par
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-off-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-dl20-on-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-off-quality.pdf}}%
+  \subfigure{\includegraphics[width=0.25\textwidth]{e5-covid-on-quality.pdf}}%
+  \caption{LIMIT $K$ sweep and Full ranking at fixed $n=500$.
+  Off/On-cold are robustness conditions for assessing relative performance
+  under prefix caching. SW-for-Full / LT-for-LIMIT is a working hypothesis,
+  not a conclusion established by these placeholder values.
+  Top: equivalent input cost, $U$ (Off) or $U-Q$ (On-cold, $\beta=0$), in $10^3$ tokens.
+  Bottom: NDCG@10 for every endpoint.
+  Full is a separate execution mode, not joined to LIMIT 500.
+  The planned protocol selects $(k,h)$ by the model separately for each query, family, cache state, and requested $K$ or Full.
+  Connecting segments guide the eye through synthetic placeholders, not a fixed-configuration trajectory.
+  LIMIT slots are equally spaced categories, not linear in $K$;
+  Off and On-cold retain distinct cost scales.}
   \label{fig:e5-limit-sweep}
 \end{figure*}

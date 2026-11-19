@@ -5,7 +5,7 @@ dataset-level placeholders. Those placeholders already stand in for a
 3-query mean; query rows were never stored, so this is not a 6-query
 recompute. No per-query cloud.
 
-The red dashed guide is the non-dominated set of those means
+The charcoal dashed guide is the non-dominated set of those means
 (lower equivalent tokens, higher quality). Vertices are exactly those
 means. ListK Fig. 4's caption calls its red dotted curve a Pareto
 frontier, and that curve also runs off toward the axis; we do not add
@@ -30,11 +30,11 @@ GRID_PT = printed(0.765, 0.33)
 SPINE_PT = printed(1.36, 0.33)
 TICK_W = printed(0.8, 0.33)
 TICK_LEN = max(printed(2.2, 0.33), 2.0)
-LINE_PT = printed(1.6, 0.33)
+LINE_PT = 0.8
 MARKER_PT = 5.0
-TICK_FONT = 6.2
-LABEL_FONT = 7.0
-RED = SW_RGB  # the paper's red, drawn dashed so it is not the SW series
+TICK_FONT = 6.8
+LABEL_FONT = 7.4
+RED = "#59616A"  # neutral guide, never an algorithm color
 
 # Tableau hues already used as fills in the original panels, with SW and LT
 # locked to the original circle / triangle pair. Other methods are one
@@ -145,37 +145,36 @@ def _limits(values: list[float], pad: float = 0.10) -> tuple[float, float]:
 
 
 def draw(means: list[dict], fronts: dict) -> plt.Figure:
-    fig = plt.figure(figsize=(pt_to_in(COLUMN_PT), pt_to_in(310)))
+    fig = plt.figure(figsize=(pt_to_in(COLUMN_PT), pt_to_in(235)))
     xs = [p["x"] / 1000.0 for p in means]
     xlim = _limits(xs, 0.08)
     full_y = _limits([p["y"] for p in means if p["metric"] == "full"])
     topk_y = _limits([p["y"] for p in means if p["metric"] == "topk"])
     slots = {
-        ("full", "Off"): (0.14, 0.50, "Full, Off", full_y, True, False),
-        ("full", "On-cold"): (0.57, 0.50, "Full, On", full_y, False, False),
-        ("topk", "Off"): (0.14, 0.14, "LIMIT 10, Off", topk_y, True, True),
-        ("topk", "On-cold"): (0.57, 0.14, "LIMIT 10, On", topk_y, False, True),
+        ("full", "Off"): (0.14, 0.51, "(a) Full, Off", full_y, True, False),
+        ("full", "On-cold"): (0.56, 0.51, "(b) Full, On", full_y, False, False),
+        ("topk", "Off"): (0.14, 0.12, "(c) LIMIT 10, Off", topk_y, True, True),
+        ("topk", "On-cold"): (0.56, 0.12, "(d) LIMIT 10, On", topk_y, False, True),
     }
     by_method = {m["id"]: m for m in METHODS}
     for (metric, state), (left, bottom, title, ylim, show_y, show_x) in slots.items():
-        ax = fig.add_axes([left, bottom, 0.36, 0.30])
+        ax = fig.add_axes([left, bottom, 0.37, 0.31])
         ax.set_xlim(*xlim)
         ax.set_ylim(*ylim)
         ax.set_xticks(_inner_ticks(xlim, 10))
         ax.set_yticks(_inner_ticks(ylim, 0.1 if ylim[1] - ylim[0] > 0.2 else 0.05))
         ax.tick_params(labelleft=show_y, labelbottom=show_x)
         ax.set_axisbelow(True)
-        ax.grid(True, color=GRID_RGB, linewidth=GRID_PT, zorder=0)
+        ax.grid(axis="y", color="#E0E4E6", linewidth=0.35, zorder=0)
         ax.set_facecolor("white")
         for spine in ax.spines.values():
-            spine.set_linewidth(SPINE_PT)
+            spine.set_linewidth(0.45)
+            spine.set_color("#92999F")
         ax.tick_params(length=TICK_LEN, width=TICK_W, labelsize=TICK_FONT, pad=1.2)
-        ax.set_title(title, fontsize=7.0, pad=1.5)
+        ax.set_title(title, fontsize=7.4, pad=2.0)
         if show_y:
             ylabel = "Spearman" if metric == "full" else "NDCG@10"
             ax.set_ylabel(ylabel, fontsize=LABEL_FONT)
-        if show_x:
-            ax.set_xlabel(r"tokens $\times 10^{3}$", fontsize=LABEL_FONT)
         front = fronts[(metric, state)]
         if len(front) >= 2:
             ax.plot(
@@ -197,8 +196,8 @@ def draw(means: list[dict], fronts: dict) -> plt.Figure:
                 marker=spec["marker"],
                 markersize=MARKER_PT if spec["marker"] != "*" else MARKER_PT + 1.4,
                 markerfacecolor=spec["color"],
-                markeredgecolor="black",
-                markeredgewidth=0.35,
+                markeredgecolor="#343A40",
+                markeredgewidth=0.4,
                 zorder=3,
             )
     handles = [
@@ -210,26 +209,24 @@ def draw(means: list[dict], fronts: dict) -> plt.Figure:
             marker=m["marker"],
             markersize=4.6 if m["marker"] != "*" else 6.0,
             markerfacecolor=m["color"],
-            markeredgecolor="black",
+            markeredgecolor="#343A40",
             markeredgewidth=0.3,
             label=m["legend"],
         )
         for m in METHODS
     ]
-    handles.append(
-        Line2D([0], [0], color=RED, lw=LINE_PT, ls="--", label="Non-dominated")
-    )
     fig.legend(
         handles=handles,
         loc="upper center",
-        bbox_to_anchor=(0.50, 0.988),
-        ncol=4,
+        bbox_to_anchor=(0.50, 0.995),
+        ncol=5,
         frameon=False,
-        fontsize=5.5,
-        handlelength=1.2,
-        columnspacing=0.65,
+        fontsize=6.7,
+        handlelength=0.9,
+        columnspacing=0.6,
         borderaxespad=0.0,
     )
+    fig.text(0.535, 0.012, r"Equivalent total tokens $\times 10^3$", ha="center", va="bottom", fontsize=7.4)
     problems = overflow_labels(fig) + overlapping_tick_labels(fig)
     if problems:
         raise RuntimeError(f"E4c labels: {problems}")
@@ -262,6 +259,9 @@ def build(out: Path) -> dict:
     fig = draw(means, fronts)
     fig.savefig(out / "e4c-quality-cost.pdf")
     fig.savefig(out / "e4c-quality-cost.png", dpi=300)
+    fig.savefig(out / "e4c-quality-cost.svg")
+    fig.text(.5, -.018, "Synthetic layout sample — not measured", ha="center", fontsize=6.7, color="#59616A")
+    fig.savefig(out / "e4c-quality-cost-standalone.pdf", bbox_inches="tight", pad_inches=.03)
     plt.close(fig)
     facts = {
         "source": str(SOURCE),

@@ -1,12 +1,19 @@
-% E4c. Single-column 2 by 2. Not inserted into the paper.
+% E4c. Single-column 2 by 2, included by integration/main.tex.
 % Graphic path: figures/e4c/
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\columnwidth]{e4c-quality-cost.pdf}
-  \caption{Synthetic layout sample, not an experimental result.
-  Each point is one method mean.
-  Red dashed segments join only non-dominated means and stop at those means.
-  They are a descriptive set, not a fit and not a significance claim.
-  A panel with one non-dominated mean draws no segment.}
+  {\setlength{\subfigcapskip}{1pt}\setlength{\subfigtopskip}{0pt}\setlength{\subfigbottomskip}{0pt}
+  \includegraphics[width=\columnwidth]{e4c-legend.pdf}\\[-1pt]
+  \subfigure[Full, Off]{\includegraphics[width=.49\columnwidth]{panels/e4c-full-off.pdf}}\hfill
+  \subfigure[Full, On-cold]{\includegraphics[width=.49\columnwidth]{panels/e4c-full-on-cold.pdf}}\\[-2pt]
+  \subfigure[LIMIT 10, Off]{\includegraphics[width=.49\columnwidth]{panels/e4c-topk-off.pdf}}\hfill
+  \subfigure[LIMIT 10, On-cold]{\includegraphics[width=.49\columnwidth]{panels/e4c-topk-on-cold.pdf}}\\[1pt]
+  {\fontsize{7.4}{8}\selectfont Equivalent total tokens $\times 10^3$}}
+
+  \caption{Quality and cost each equally average the DL20 and COVID dataset means.
+  Prefix cache On uses the On-cold fixture.
+  Fixture equivalent total cost: $U-(1-\beta)Q+O$ ($\beta=0$); $O$ denotes output tokens, weighted by one, not a monetary charge.
+  Thin rings identify non-dominated means. Dashes join them only when there is more than one: no extrapolation, fit, or significance claim.
+  Fill highlights SW and LT; all symbols are method means.}
   \label{fig:e4c-quality-cost}
 \end{figure}

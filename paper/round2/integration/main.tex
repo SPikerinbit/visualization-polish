@@ -1,3 +1,6 @@
+\pdfmapfile{+symbols.map}
+\pdfmapfile{+cm.map}
+\pdfmapfile{+cmextra.map}
 % Round-2 integration shell. No article body, no title page, no per-figure clearpage.
 % Admitted: mechanisms (PR16 c959d22, not bed819cd), tables (PR18 b12cd371),
 % E2 main 12-cell (PR15 05f921f2), E3--E5 (PR17 22b432ca).
@@ -20,7 +23,7 @@
 \usepackage{placeins}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \graphicspath{{../e2/out/}}
-\DeclareRobustCommand{\examplelabel}{Synthetic fixture for tie-break coverage}
+\DeclareRobustCommand{\examplelabel}{Tie-break coverage}
 \SetKwProg{Fn}{procedure}{:}{}
 \SetAlgoNlRelativeSize{-1}
 \newcommand{\qpm}[2]{%
@@ -67,16 +70,19 @@
   }%
 }
 \makeatother
+\usepackage{pifont}
 \begin{document}
 \pagestyle{plain}
 % Framework is full width and flat. The banner keeps it, and its caption,
 % on page 1. A figure* would be deferred.
 \twocolumn[{%
+  \noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{\textbf{REVIEW COPY: ALL EXPERIMENTAL VALUES ARE SYNTHETIC PLACEHOLDERS.} No measurement, statistical significance, or scientific validation is claimed. Mechanism traces are illustrative. This is a recovered integration review, with reconstructed Framework and Fig. 8 assets; compilation uses TeX Live 2025/dev (not 2026).}}\par\vspace{5pt}
   \noindent\begin{minipage}{\textwidth}
     \centering
     \captionsetup{type=figure}%
     \includegraphics[width=\textwidth]{../mechanisms/framework.pdf}\par
-    \captionof{figure}{Framework, full text width.}
+    \captionof{figure}{Cost-guided merge execution. NL Query supplies ordering; capacity $m$ and requested output are given inputs. After run generation, per-request selection minimizes estimated merge input tokens, excluding generation/output. $H$ is fitted call overhead; $L$ average tokens/item; work totals include initialization, refresh and finite-run effects. Auto chooses SW/LT; explicit families stay fixed. $k$ is maximum group fan-in; $h$ per-run SW quota or LT segment capacity. Full Ranking materializes each layer; its groups may run concurrently. Under strict demand, initialized LIMIT pulls without prefetch until $K$ or root exhaustion; SW may refill multiple deficits. For fixed-$h$ SW and LT, $b(k)h\le m$ ($b(k)=k$ for SW and $k+1$ for LT) is a necessary capacity condition, not all feasibility constraints. Plan IDs and cost bars illustrate a non-exhaustive set; counts and dependencies are schematic.}
+    \label{fig:framework}
   \end{minipage}\par
   \vskip 0.4em
 }]
@@ -85,19 +91,26 @@
 \typeout{TEXTWIDTH=\the\textwidth}
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\columnwidth]{../mechanisms/sw.pdf}
-  \caption{SW, one column.}
+  % SVG physical metrics target this measured VLDB column width.
+  \includegraphics[width=\linewidth]{../mechanisms/sw.pdf}
+  \caption{Sliding-window merge ($m=8$), emitting $5+5+6$ items. A prefix ends when a run with unread rows empties its window: $R_2$ at 5, then $R_4$ at 10. With nothing unread, round 3 drains the buffer. Retained items stay buffered without reordering; windows are grouped by run for display.}
+  \label{fig:sw-mechanism}
 \end{figure}
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\columnwidth]{../mechanisms/lt.pdf}
-  \caption{LT(h), one column.}
+  \includegraphics[width=\linewidth]{../mechanisms/lt.pdf}
+  \caption{Segmented loser-tree merge ($h=2$). Warm nodes and the highlighted path show the current local refresh; stored segments remain hollow and forwarded winners are gray. The three stages retain the validated rank-map example, not a measured LLM run.}
+  \label{fig:lt-mechanism}
 \end{figure}
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\columnwidth]{../mechanisms/pointer.pdf}
-  \caption{Pointer, one column.}
+  \includegraphics[width=\linewidth]{../mechanisms/pointer.pdf}
+  \caption{Pointer assignment for $h=2$. Scan ranked replay slots until one contributes its second item (double outline). Build exhausts slot R at 5. During Refresh, retained parent P occupies slot L and the incoming right segment occupies slot R; L exhausts at 7. Slot labels are replay positions, not original run identities. Gray winners are forwarded upward; remaining items are stored at P.}
+  \label{fig:pointer-mechanism}
 \end{figure}
+\begin{figure}\centering\includegraphics[width=\columnwidth]{../mechanisms/alg1-trace/alg1-trace.pdf}\caption{Algorithm 1, Full trace ($n=16$, $m=4$, fixed $k=2$). Four listwise calls generate runs; two merge passes reduce $4\to2\to1$ runs. MergeGroup uses SW or LT($h$) and may make multiple calls.}\label{fig:alg1-full-trace}\end{figure}
+\FloatBarrier
+
 \begin{table*}[t]
   \begin{minipage}[t]{0.48\textwidth}
     \input{../tables-pseudocode/tex/tab-datasets.tex}
@@ -120,10 +133,8 @@
   \input{../tables-pseudocode/tex/generated/exp1-limit.tex}%
   \endgroup
 }]
-% Place algorithm 4 at the top of the other column. Otherwise 3, 4, and 5
-% stack in the left column and the right column stays empty.
+% Let the five measured algorithm boxes flow through the two columns.
 \makeatletter
-\newcount\algplaced
 \let\savednewcommand\newcommand
 \let\newcommand\providecommand
 \providecommand{\algcolstart}{%
@@ -136,12 +147,8 @@
   \end{minipage}%
   \end{lrbox}%
   \setbox\algcolbox=\hbox{\raise\dp\algcolbox\box\algcolbox}%
-  \ifnum\algplaced=3
-    \newpage
-  \fi
   \Needspace{\dimexpr\ht\algcolbox+\dp\algcolbox+6pt\relax}%
   \noindent\usebox{\algcolbox}\par\smallskip
-  \global\advance\algplaced by 1
 }
 \makeatother
 \input{../tables-pseudocode/tex/algorithms.tex}
@@ -170,22 +177,14 @@
 \installcolfigure
 {\graphicspath{{../experiments/figures/e3/}}%
 \input{../experiments/tex/fig-e3.tex}}
-{\graphicspath{{../experiments/figures/e4a/}}%
-\input{../experiments/tex/fig-e4a.tex}}
+{\graphicspath{{../experiments/figures/e4a-c2/}}%
+\input{../experiments/tex/fig-e4a-C2.tex}}
 {\graphicspath{{../experiments/figures/e4b/}}%
 \input{../experiments/tex/fig-e4b.tex}}
 {\graphicspath{{../experiments/figures/e4c/}}%
 \input{../experiments/tex/fig-e4c.tex}}
 \twocolumn[{%
   \graphicspath{{../experiments/figures/e5/}}%
-  \begin{figure*}
-    \includegraphics[width=\textwidth]{e5-limit-sweep.pdf}
-    \caption{Synthetic placeholder, not a measured advantage.
-    Full is a separate mode and is not joined to LIMIT~500, and it is not $K{=}510$.
-    Off is equivalent input $U$; On-cold is $U{-}Q$ at $\beta{=}0$.
-    The two cache states do not share a cost scale.
-    Slots are equally spaced contract positions, not linear in $n$.}
-    \label{fig:e5-limit-sweep}
-  \end{figure*}
+  \input{../experiments/tex/fig-e5.tex}%
 }]
 \end{document}

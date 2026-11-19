@@ -22,7 +22,7 @@ from style import COLUMN_PT, GRID_RGB, TABLEAU, pt_to_in, printed
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT.parents[1] / "recovery" / "e4b" / "e4b_beta.json"
 
-LINE_PT = printed(1.6, 0.33)
+LINE_PT = 1.0
 GRID_PT = printed(0.765, 0.33)
 SPINE_PT = printed(1.36, 0.33)
 TICK_W = printed(0.8, 0.33)
@@ -68,77 +68,33 @@ def costs(payload) -> dict[float, np.ndarray]:
 
 
 def draw(payload, series: dict[float, np.ndarray]) -> plt.Figure:
-    labels = [(c["k"], c["h"]) for c in payload["configs"]]
-    values = np.concatenate(list(series.values()))
-    pad = 0.08 * (values.max() - values.min())
-    ylim = (values.min() - pad, values.max() + pad)
-    fig = plt.figure(figsize=(pt_to_in(COLUMN_PT), pt_to_in(168)))
-    ax = fig.add_axes([0.16, 0.20, 0.80, 0.62])
-    ax.set_xlim(-0.4, len(labels) - 0.6)
-    ax.set_ylim(*ylim)
-    ax.set_xticks(range(len(labels)))
-    ax.set_xticklabels([f"({k},{h})" for k, h in labels])
-    ax.set_axisbelow(True)
-    ax.grid(True, color=GRID_RGB, linewidth=GRID_PT, zorder=0)
-    ax.set_facecolor("white")
-    for spine in ax.spines.values():
-        spine.set_linewidth(SPINE_PT)
-    ax.tick_params(length=TICK_LEN, width=TICK_W, labelsize=TICK_FONT, pad=1.5)
-    ax.set_xlabel(r"configuration $(k,h)$", fontsize=LABEL_FONT)
-    ax.set_ylabel(r"synthetic $U-(1-\beta)Q$", fontsize=LABEL_FONT)
-    handles = []
-    for beta, color, linestyle in zip(BETAS, TABLEAU, LINESTYLES):
-        y = series[beta]
-        ax.plot(
-            range(len(labels)),
-            y,
-            color=color,
-            linestyle=linestyle,
-            linewidth=LINE_PT,
-            zorder=3,
-        )
-        key = str(beta).rstrip("0").rstrip(".") if beta not in (0.0, 1.0) else str(int(beta) if beta == 1.0 else 0)
-        # JSON keys are "0", "0.25", "0.5", "0.75", "1".
-        json_key = {0.0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1.0: "1"}[beta]
-        pred = payload["predicted"][json_key]
-        meas = payload["expected_measured"][json_key]
-        pred_i = labels.index((pred["k"], pred["h"]))
-        meas_i = labels.index((meas["k"], meas["h"]))
-        if pred_i == meas_i:
-            ax.plot([meas_i], [y[meas_i]], ls="none", marker="D", markersize=DIAMOND_PT * 0.62,
-                    markerfacecolor=color, markeredgecolor="black", markeredgewidth=0.4, zorder=4)
-            ax.plot([pred_i], [y[pred_i]], ls="none", marker="*", markersize=STAR_PT,
-                    markerfacecolor=color, markeredgecolor="black", markeredgewidth=0.4, zorder=5)
-        else:
-            ax.plot([pred_i], [y[pred_i]], ls="none", marker="*", markersize=STAR_PT,
-                    markerfacecolor=color, markeredgecolor="black", markeredgewidth=0.4, zorder=5)
-            ax.plot([meas_i], [y[meas_i]], ls="none", marker="D", markersize=DIAMOND_PT * 0.62,
-                    markerfacecolor=color, markeredgecolor="black", markeredgewidth=0.4, zorder=4)
-        handles.append(
-            Line2D([0], [0], color=color, lw=LINE_PT, ls=linestyle, label=rf"$\beta={json_key}$")
-        )
-    handles.extend(
-        [
-            Line2D([0], [0], color="black", lw=0, marker="*", markersize=7.0, label="Predicted"),
-            Line2D([0], [0], color="black", lw=0, marker="D", markersize=4.4, label="Measured"),
-        ]
-    )
-    fig.legend(
-        handles=handles,
-        loc="upper center",
-        bbox_to_anchor=(0.55, 0.985),
-        ncol=4,
-        frameon=False,
-        fontsize=6.5,
-        handlelength=1.8,
-        columnspacing=0.8,
-        borderaxespad=0.0,
-    )
-    if len(fig.axes) != 1:
-        raise RuntimeError("E4b drew an extra axes (inset or band axis)")
-    problems = overflow_labels(fig) + overlapping_tick_labels(fig)
-    if problems:
-        raise RuntimeError(f"E4b labels: {problems}")
+    colors=['#648D9B','#507F90','#3E7185','#2D6077','#204D65']
+    marks=['o','s','^','v','+']
+    fig=plt.figure(figsize=(pt_to_in(COLUMN_PT),pt_to_in(168)))
+    ax=fig.add_axes([.155,.19,.815,.57]);x=np.arange(7)
+    labels=[(r['k'],r['h']) for r in payload['configs']]
+    vals=np.concatenate(list(series.values()));pad=.08*np.ptp(vals)
+    ax.set_ylim(vals.min()-pad,vals.max()+pad);ax.set_xlim(-.4,6.4)
+    ax.set_yticks([60,80,100,120,140,160]);ax.set_xticks(x,[f'({k},{h})' for k,h in labels]);ax.tick_params(labelsize=7,width=.5,length=2,pad=2,color='#62727C')
+    ax.set_xlabel(r'configuration $(k,h)$',fontsize=7.5,labelpad=4)
+    ax.set_ylabel('Synthetic cost (layout units)',fontsize=7.5,labelpad=4)
+    ax.set_axisbelow(True);ax.grid(axis='y',color='#E0E4E6',lw=.35)
+    for side,s in ax.spines.items():s.set_color('#A1ADB5');s.set_linewidth(.45)
+    handles=[];roles=[]
+    for beta,c,ls,m in zip(BETAS,colors,LINESTYLES,marks):
+     y=series[beta];key=f'{beta:g}'
+     ax.plot(x,y,color=c,ls=ls,lw=.9,marker=m,ms=3.0,mfc='white',mec=c,mew=.6,zorder=3)
+     pred=payload['predicted'][key];meas=payload['expected_measured'][key]
+     pi=labels.index((pred['k'],pred['h']));mi=labels.index((meas['k'],meas['h']))
+     # Large open diamond stays visible around the star when both roles coincide.
+     ax.plot(pi,y[pi],marker='D',ms=6.2,ls='',mfc='white',mec=c,mew=.85,zorder=5)
+     ax.plot(mi,y[mi],marker='*',ms=6,ls='',mfc=c,mec='white',mew=.3,zorder=6)
+     handles.append(Line2D([],[],color=c,ls=ls,lw=.9,marker=m,ms=3.0,mfc='white',label=rf'$\beta={key}$'))
+     roles.append(dict(beta=beta,predicted_index=pi,minimum_index=mi,predicted_height=float(y[pi]),minimum_height=float(y[mi])))
+    fig.legend(handles=handles,loc='upper center',bbox_to_anchor=(.55,.995),ncol=5,fontsize=6.3,frameon=False,handlelength=1.45,columnspacing=.75,handletextpad=.35)
+    fig.legend(handles=[Line2D([],[],color='#24495D',marker='D',ms=4,mfc='white',lw=0,label='Predicted config. (placeholder)'),Line2D([],[],color='#24495D',marker='*',ms=6,lw=0,label='Curve minimum')],loc='upper center',bbox_to_anchor=(.55,.90),ncol=2,fontsize=6.1,frameon=False,columnspacing=1.1,handletextpad=.4)
+    problems=overflow_labels(fig)+overlapping_tick_labels(fig)
+    assert not problems,problems
     return fig
 
 
@@ -150,6 +106,9 @@ def build(out: Path) -> dict:
     fig = draw(payload, series)
     fig.savefig(out / "e4b-beta.pdf")
     fig.savefig(out / "e4b-beta.png", dpi=300)
+    fig.savefig(out / "e4b-beta.svg")
+    fig.text(.5, -.018, "Synthetic layout sample — not measured", ha="center", fontsize=6.7, color="#59616A")
+    fig.savefig(out / "e4b-beta-standalone.pdf", bbox_inches="tight", pad_inches=.03)
     plt.close(fig)
     facts = {
         "source": str(SOURCE),

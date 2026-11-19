@@ -1,0 +1,53 @@
+{
+  "all_35_values_unchanged": true,
+  "beta": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "data_sha256": "e83d7d2e30fa61ef4d5fecd25f3b6c5964000cefd759202874f2d906a7e29993",
+  "roles": [
+    {
+      "beta": 0.0,
+      "predicted_index": 1,
+      "minimum_index": 2,
+      "predicted_height": 105.0,
+      "minimum_height": 60.0
+    },
+    {
+      "beta": 0.25,
+      "predicted_index": 3,
+      "minimum_index": 3,
+      "predicted_height": 79.0,
+      "minimum_height": 79.0
+    },
+    {
+      "beta": 0.5,
+      "predicted_index": 6,
+      "minimum_index": 4,
+      "predicted_height": 97.0,
+      "minimum_height": 93.0
+    },
+    {
+      "beta": 0.75,
+      "predicted_index": 0,
+      "minimum_index": 5,
+      "predicted_height": 160.0,
+      "minimum_height": 103.0
+    },
+    {
+      "beta": 1.0,
+      "predicted_index": 6,
+      "minimum_index": 6,
+      "predicted_height": 111.0,
+      "minimum_height": 111.0
+    }
+  ],
+  "inset": false,
+  "color_bands": false,
+  "axes_count": 1,
+  "label_check": [],
+  "synthetic": true
+}

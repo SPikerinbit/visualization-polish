@@ -1,0 +1,35 @@
+% Results table layout; numeric cells will be populated from measurements.
+\begin{table*}[t]
+\centering
+\caption{\LIMIT~$K{=}10$ (nDCG@10). The numeric cells are reserved for the end-to-end evaluation.}
+\label{tab:exp1-limit}
+\begingroup
+\fontsize{6.4}{8.2}\fontfamily{qhv}\fontseries{c}\selectfont
+\renewcommand{\qpm}[2]{\mbox{\IfBeginWith{#1}{0.}{\StrGobbleLeft{#1}{1}}{#1}{\fontsize{5.1}{6.5}\selectfont\textpm\IfBeginWith{#2}{0.}{\StrGobbleLeft{#2}{1}}{#2}}}}
+\setlength{\tabcolsep}{0.4pt}
+\renewcommand{\arraystretch}{0.90}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l!{\hspace{1.5pt}}c*{5}{!{\hspace{2.4pt}}c}!{\hspace{2pt}}c*{4}{!{\hspace{1.2pt}}c}*{2}{@{\hspace{1.75pt}}c}!{\hspace{3pt}}c*{5}{!{\hspace{2.4pt}}c}!{\hspace{2pt}}c*{4}{!{\hspace{1.2pt}}c}*{2}{@{\hspace{1.75pt}}c}@{}}
+\toprule
+& \multicolumn{13}{c}{\fontsize{7}{8}\selectfont\textbf{Qwen3.5-9B}} & \multicolumn{13}{c}{\fontsize{7}{8}\selectfont\textbf{Qwen3.8-27B}} \\
+\cmidrule(lr){2-14}\cmidrule(lr){15-27}
+Method & \multicolumn{6}{c}{nDCG@10} & \multicolumn{3}{c}{Tokens $\times 10^{3}$} & Lat. & \multicolumn{3}{c}{Place} & \multicolumn{6}{c}{nDCG@10} & \multicolumn{3}{c}{Tokens $\times 10^{3}$} & Lat. & \multicolumn{3}{c}{Place} \\
+\cmidrule(lr){2-7}\cmidrule(lr){8-10}\cmidrule(lr){12-14}\cmidrule(lr){15-20}\cmidrule(lr){21-23}\cmidrule(lr){25-27}
+& Q9 & DL20 & DL22 & COVID & DBP & R04 & Q9 & TREC & BEIR & s & $Q$ & $T$ & $L$ & Q9 & DL20 & DL22 & COVID & DBP & R04 & Q9 & TREC & BEIR & s & $Q$ & $T$ & $L$ \\
+\midrule
+Pointwise  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+Ext. Pointwise  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+Ext. Bubble  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+Ext. Merge  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\midrule
+Tournament  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\midrule
+Lotus Quick  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\midrule
+Setwise Heap  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\midrule
+SW  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+LT($h$)  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\bottomrule
+\end{tabular*}
+\endgroup
+\end{table*}

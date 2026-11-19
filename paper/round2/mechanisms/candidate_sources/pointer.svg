@@ -1,112 +1,224 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="84.7536494534385mm" height="39.551703078271295mm" viewBox="0 0 720 336"><title>First-exhausted replay slot determines pointer</title><desc>Build and Refresh side by side, h=2. Slot labels describe replay positions, not original run identities. Build exhausts R at 5; Refresh places old loser in L and incoming right segment in R, then exhausts L at 7.</desc><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#E07B00" /></marker><marker id="gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#777" /></marker></defs><rect width="720" height="336" fill="white" /><g font-family="Liberation Serif, Times New Roman, serif" fill="#222">
-<g id="build" transform="translate(0 0)">
-<text x="180" y="22" text-anchor="middle" font-size="24" font-weight="bold">(a) Build</text>
-<text x="94" y="34" text-anchor="middle" font-size="21">L</text>
-<text x="266" y="34" text-anchor="middle" font-size="21">R</text>
-<rect x="47.5" y="40" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="72.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="72.5" y="71" text-anchor="middle" font-size="21">3</text>
-<circle cx="115.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="115.5" y="71" text-anchor="middle" font-size="21">7</text>
-<rect x="219.5" y="40" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="244.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="244.5" y="71" text-anchor="middle" font-size="21">1</text>
-<circle cx="287.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="287.5" y="71" text-anchor="middle" font-size="21">5</text>
-<path d="M 94 91 V 94 H 266 V 91" fill="none" stroke="none" stroke-width="1.5" />
-<path d="M180 89 V109" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#gray)" />
-<text x="75" y="112" text-anchor="middle" font-size="21">R</text>
-<circle cx="75" cy="142" r="14.984605479410133" fill="#D6D6D6" stroke="#888888" stroke-width="1.348614493146912" />
-<text x="75" y="149" text-anchor="middle" font-size="21" fill="#222222">1</text>
-<text x="145" y="112" text-anchor="middle" font-size="21">L</text>
-<circle cx="145" cy="142" r="14.984605479410133" fill="#D6D6D6" stroke="#888888" stroke-width="1.348614493146912" />
-<text x="145" y="149" text-anchor="middle" font-size="21" fill="#222222">3</text>
-<text x="215" y="112" text-anchor="middle" font-size="21" fill="#A85700" font-weight="bold">R</text>
-<circle cx="215" cy="142" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="215" y="149" text-anchor="middle" font-size="21">5</text>
-<circle cx="215" cy="142" r="19.984605479410135" fill="none" stroke="#E07B00" stroke-width="3" />
-<text x="285" y="112" text-anchor="middle" font-size="21">L</text>
-<circle cx="285" cy="142" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="285" y="149" text-anchor="middle" font-size="21">7</text>
-<path d="M 48 160 V 163 H 170 V 160" fill="none" stroke="#888" stroke-width="1.5" />
-<text x="80" y="183" text-anchor="middle" font-size="21">winner ↑</text>
-<text x="278" y="197" text-anchor="middle" font-size="21" fill="#A85700">R: 2/2</text>
-<path d="M215 168 H278 V171" fill="none" stroke="#E07B00" stroke-width="2" />
-<path d="M260 210 L232 193" fill="none" stroke="#E07B00" stroke-width="2" marker-end="url(#arr)" />
-<rect x="133.5" y="171" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="158.5" cy="195" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="158.5" y="202" text-anchor="middle" font-size="21">5</text>
-<circle cx="201.5" cy="195" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="201.5" y="202" text-anchor="middle" font-size="21">7</text>
-<text x="123" y="202" text-anchor="middle" font-size="21">P</text>
-<path d="M180 220 L114 254" fill="none" stroke="#BBB" stroke-width="1.5" />
-<path d="M180 220 L246 254" fill="none" stroke="#BBB" stroke-width="1.5" />
-<path d="M180 220 L246 254" fill="none" stroke="#E07B00" stroke-width="3" marker-end="url(#arr)" />
-<text x="86.0" y="254" text-anchor="middle" font-size="21">L</text>
-<text x="274.0" y="254" text-anchor="middle" font-size="21">R</text>
-<rect x="67.5" y="260" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="92.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="92.5" y="291" text-anchor="middle" font-size="21" fill="#222222">12</text>
-<circle cx="135.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="135.5" y="291" text-anchor="middle" font-size="21" fill="#222222">16</text>
-<rect x="199.5" y="260" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="224.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="224.5" y="291" text-anchor="middle" font-size="21" fill="#222222">6</text>
-<circle cx="267.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="267.5" y="291" text-anchor="middle" font-size="21" fill="#222222">14</text>
-</g>
-<g id="refresh" transform="translate(360 0)">
-<text x="180" y="22" text-anchor="middle" font-size="24" font-weight="bold">(b) Refresh</text>
-<text x="72" y="34" text-anchor="middle" font-size="21">P → slot L</text>
-<text x="288" y="34" text-anchor="middle" font-size="21">R → slot R</text>
-<rect x="47.5" y="40" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="72.5" cy="64" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="72.5" y="71" text-anchor="middle" font-size="21">5</text>
-<circle cx="115.5" cy="64" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="115.5" y="71" text-anchor="middle" font-size="21">7</text>
-<rect x="219.5" y="40" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="244.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="244.5" y="71" text-anchor="middle" font-size="21">6</text>
-<circle cx="287.5" cy="64" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="287.5" y="71" text-anchor="middle" font-size="21">14</text>
-<path d="M 94 91 V 94 H 266 V 91" fill="none" stroke="none" stroke-width="1.5" />
-<path d="M180 89 V109" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#gray)" />
-<text x="75" y="112" text-anchor="middle" font-size="21">L</text>
-<circle cx="75" cy="142" r="14.984605479410133" fill="#D6D6D6" stroke="#888888" stroke-width="1.348614493146912" />
-<text x="75" y="149" text-anchor="middle" font-size="21" fill="#222222">5</text>
-<text x="145" y="112" text-anchor="middle" font-size="21">R</text>
-<circle cx="145" cy="142" r="14.984605479410133" fill="#D6D6D6" stroke="#888888" stroke-width="1.348614493146912" />
-<text x="145" y="149" text-anchor="middle" font-size="21" fill="#222222">6</text>
-<text x="215" y="112" text-anchor="middle" font-size="21" fill="#A85700" font-weight="bold">L</text>
-<circle cx="215" cy="142" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="215" y="149" text-anchor="middle" font-size="21">7</text>
-<circle cx="215" cy="142" r="19.984605479410135" fill="none" stroke="#E07B00" stroke-width="3" />
-<text x="285" y="112" text-anchor="middle" font-size="21">R</text>
-<circle cx="285" cy="142" r="14.984605479410133" fill="#FDE7CE" stroke="#E07B00" stroke-width="1.348614493146912" />
-<text x="285" y="149" text-anchor="middle" font-size="21">14</text>
-<path d="M 48 160 V 163 H 170 V 160" fill="none" stroke="#888" stroke-width="1.5" />
-<text x="80" y="183" text-anchor="middle" font-size="21">winner ↑</text>
-<text x="278" y="197" text-anchor="middle" font-size="21" fill="#A85700">L: 2/2</text>
-<path d="M215 168 H278 V171" fill="none" stroke="#E07B00" stroke-width="2" />
-<path d="M260 210 L232 193" fill="none" stroke="#E07B00" stroke-width="2" marker-end="url(#arr)" />
-<rect x="133.5" y="171" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="158.5" cy="195" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="158.5" y="202" text-anchor="middle" font-size="21">7</text>
-<circle cx="201.5" cy="195" r="14.984605479410133" fill="white" stroke="#555" stroke-width="1.348614493146912" />
-<text x="201.5" y="202" text-anchor="middle" font-size="21">14</text>
-<text x="123" y="202" text-anchor="middle" font-size="21">P</text>
-<path d="M180 220 L114 254" fill="none" stroke="#BBB" stroke-width="1.5" />
-<path d="M180 220 L246 254" fill="none" stroke="#BBB" stroke-width="1.5" />
-<path d="M180 220 L114 254" fill="none" stroke="#E07B00" stroke-width="3" marker-end="url(#arr)" />
-<text x="86.0" y="254" text-anchor="middle" font-size="21">L</text>
-<text x="274.0" y="254" text-anchor="middle" font-size="21">R</text>
-<rect x="67.5" y="260" width="93" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<circle cx="92.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="92.5" y="291" text-anchor="middle" font-size="21" fill="#222222">12</text>
-<circle cx="135.5" cy="284" r="14.984605479410133" fill="#FFFFFF" stroke="#666666" stroke-width="1.348614493146912" stroke-dasharray="3.4464592602643305 2.24769082191152" />
-<text x="135.5" y="291" text-anchor="middle" font-size="21" fill="#222222">16</text>
-<rect x="221.0" y="260" width="50" height="48" rx="24" fill="white" stroke="#BBB" stroke-width="1.2" />
-<text x="246.0" y="291" text-anchor="middle" font-size="21">∅</text>
-</g>
-<path d="M 360 27 V 308" fill="none" stroke="#DDD" stroke-width="1" />
-</g><g id="legend-physical-bp" font-family="Liberation Serif, Times New Roman, serif" fill="#222222" transform="translate(0 303.0338660407369) scale(2.9969212690239173)"><g transform="translate(3 1)"><circle cx="3.475" cy="5" r="3.25" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" /><text x="9.95" y="7.3" font-size="7">Winner</text></g><g transform="translate(62.75584983369955 1)"><circle cx="3.475" cy="5" r="3.25" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" /><text x="9.95" y="7.3" font-size="7">Unread</text></g><g transform="translate(122.3997030167033 1)"><circle cx="3.475" cy="5" r="3.25" fill="none" stroke="#E07B00" stroke-width="0.45" /><circle cx="3.475" cy="5" r="1.9" fill="none" stroke="#E07B00" stroke-width="0.45" /><text x="9.95" y="7.3" font-size="7">First exhausted</text></g><g transform="translate(204.02355955664063 1)"><path d="M0 5H7.2" fill="none" stroke="#E07B00" stroke-width="0.6" /><path d="M6.8 3.5L10 5L6.8 6.5Z" fill="#E07B00" /><text x="13" y="7.3" font-size="7">Pointer</text></g></g></svg>
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240.24655pt" height="112.1pt" viewBox="0 0 240.24655 112.1">
+  <title>First-exhausted replay slot determines the child pointer</title>
+  <desc>Each panel shows the same node before and after replay, with the ranked slots read from top to bottom at right. Gray marks the two winners; a double ring marks the first exhausted slot. Construction assigns the right child. Refresh replays the stored parent as slot L and the incoming right child as slot R, then points left. Gray lines are tree edges. Each dashed orange frame encloses a ranked excerpt of the call output.</desc>
+  <rect width="240.24655" height="112.1" fill="white" />
+  <g font-family="Liberation Serif, Times New Roman, serif" fill="#222222">
+    <path d="M120.123275 3 V95.1" fill="none" stroke="#D4D4D4" stroke-width="0.41" />
+    <g id="build" transform="translate(0.0 0)">
+      <text x="60.0616375" y="8.25" font-size="8" text-anchor="middle" font-weight="bold">(a) Tree construction</text>
+      <text x="60.0616375" y="19.5" font-size="7" text-anchor="middle">Slot L: child L · Slot R: child R</text>
+      <path d="M4 23.4 H68.4" fill="none" stroke="#DFDFDF" stroke-width="0.37" />
+      <rect id="build-ranked-excerpt" x="71.75" y="23.05" width="44.45" height="77.705" rx="2.6" fill="none" stroke="#E07B00" stroke-width="0.55" stroke-dasharray="1.5 1.15" />
+      <text x="21.8" y="40.2" font-size="7" text-anchor="end" font-style="italic">Before</text>
+      <text x="92.5" y="30.6" font-size="7" text-anchor="middle" font-style="italic">Ranked slots</text>
+      <g id="build-before">
+        <path d="M37.0 43.75 L18.9 52.75" fill="none" stroke="#A9A9A9" stroke-width="0.52" />
+        <path d="M37.0 43.75 L55.1 52.75" fill="none" stroke="#A9A9A9" stroke-width="0.52" />
+        <rect x="30.85" y="32.25" width="12.3" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <text x="37.0" y="40.15" font-size="7" text-anchor="middle" fill="#555555">∅</text>
+        <text x="45.6" y="40.2" font-size="6.9" text-anchor="start">P</text>
+        <rect x="7.699999999999999" y="52.75" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="3" data-role="active">
+          <circle cx="13.749999999999998" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="13.749999999999998" y="60.69" font-size="6.8" text-anchor="middle">3</text>
+        </g>
+        <g data-value="7" data-role="active">
+          <circle cx="24.049999999999997" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="24.049999999999997" y="60.69" font-size="6.8" text-anchor="middle">7</text>
+        </g>
+        <text x="11.099999999999998" y="50.7" font-size="6.75" text-anchor="middle" fill="#414141">L</text>
+        <rect x="43.900000000000006" y="52.75" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="1" data-role="active">
+          <circle cx="49.95" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="49.95" y="60.69" font-size="6.8" text-anchor="middle">1</text>
+        </g>
+        <g data-value="5" data-role="active">
+          <circle cx="60.25" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="60.25" y="60.69" font-size="6.8" text-anchor="middle">5</text>
+        </g>
+        <text x="62.9" y="50.7" font-size="6.75" text-anchor="middle" fill="#414141">R</text>
+      </g>
+      <text x="21.8" y="76.8" font-size="7" text-anchor="end" font-style="italic">After</text>
+      <g id="build-after">
+        <path d="M37.0 80.35 L18.9 89.35" fill="none" stroke="#A9A9A9" stroke-width="0.52" />
+        <g data-pointer="R">
+          <path d="M37.0 80.35 L51.3840301975267 87.50228020871494" fill="none" stroke="#E07B00" stroke-width="0.83" />
+          <path d="M53.84641982567166 88.72667284149419 L50.48267933816354 88.41659231534226 L51.56904952870223 86.23178115437 Z" fill="#E07B00" />
+        </g>
+        <rect x="25.8" y="68.85" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="5" data-role="stored">
+          <circle cx="31.85" cy="74.6" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="31.85" y="76.78999999999999" font-size="6.8" text-anchor="middle">5</text>
+        </g>
+        <g data-value="7" data-role="stored">
+          <circle cx="42.15" cy="74.6" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="42.15" y="76.78999999999999" font-size="6.8" text-anchor="middle">7</text>
+        </g>
+        <text x="50.7" y="76.8" font-size="6.9" text-anchor="start">P</text>
+        <rect x="7.699999999999999" y="89.35" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="12" data-role="unread">
+          <circle cx="13.749999999999998" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="13.749999999999998" y="97.28999999999999" font-size="6.8" text-anchor="middle" transform="translate(13.749999999999998 0) scale(.86 1) translate(-13.749999999999998 0)">12</text>
+        </g>
+        <g data-value="16" data-role="unread">
+          <circle cx="24.049999999999997" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="24.049999999999997" y="97.28999999999999" font-size="6.8" text-anchor="middle" transform="translate(24.049999999999997 0) scale(.86 1) translate(-24.049999999999997 0)">16</text>
+        </g>
+        <text x="11.099999999999998" y="87.3" font-size="6.75" text-anchor="middle" fill="#414141">L</text>
+        <rect x="43.900000000000006" y="89.35" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="6" data-role="unread">
+          <circle cx="49.95" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="49.95" y="97.28999999999999" font-size="6.8" text-anchor="middle">6</text>
+        </g>
+        <g data-value="14" data-role="unread">
+          <circle cx="60.25" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="60.25" y="97.28999999999999" font-size="6.8" text-anchor="middle" transform="translate(60.25 0) scale(.86 1) translate(-60.25 0)">14</text>
+        </g>
+        <text x="62.9" y="87.3" font-size="6.75" text-anchor="middle" fill="#414141">R</text>
+      </g>
+      <g data-value="1" data-role="winner">
+        <circle cx="84.4" cy="39.5" r="4.05" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" />
+        <text x="84.4" y="41.69" font-size="6.8" text-anchor="middle">1</text>
+      </g>
+      <text x="94" y="41.65" font-size="6.95" text-anchor="start" fill="#333333">R</text>
+      <g data-value="3" data-role="winner">
+        <circle cx="84.4" cy="56.0" r="4.05" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" />
+        <text x="84.4" y="58.19" font-size="6.8" text-anchor="middle">3</text>
+      </g>
+      <text x="94" y="58.15" font-size="6.95" text-anchor="start" fill="#333333">L</text>
+      <g data-value="5" data-role="active">
+        <circle cx="84.4" cy="72.5" r="5.5" fill="none" stroke="#E07B00" stroke-width="0.65" />
+        <circle cx="84.4" cy="72.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+        <text x="84.4" y="74.69" font-size="6.8" text-anchor="middle">5</text>
+      </g>
+      <text x="94" y="74.65" font-size="6.95" text-anchor="start" fill="#925000" font-weight="bold">R: 2/2</text>
+      <g data-value="7" data-role="active">
+        <circle cx="84.4" cy="89.0" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+        <text x="84.4" y="91.19" font-size="6.8" text-anchor="middle">7</text>
+      </g>
+      <text x="94" y="91.15" font-size="6.95" text-anchor="start" fill="#333333">L</text>
+    </g>
+    <g id="refresh" transform="translate(120.123275 0)">
+      <text x="60.0616375" y="8.25" font-size="8" text-anchor="middle" font-weight="bold">(b) Path refresh</text>
+      <text x="60.0616375" y="19.5" font-size="7" text-anchor="middle">Slot L: parent P · Slot R: child R</text>
+      <path d="M4 23.4 H68.4" fill="none" stroke="#DFDFDF" stroke-width="0.37" />
+      <rect id="refresh-ranked-excerpt" x="71.75" y="23.05" width="44.45" height="77.705" rx="2.6" fill="none" stroke="#E07B00" stroke-width="0.55" stroke-dasharray="1.5 1.15" />
+      <text x="21.8" y="40.2" font-size="7" text-anchor="end" font-style="italic">Before</text>
+      <text x="92.5" y="30.6" font-size="7" text-anchor="middle" font-style="italic">Ranked slots</text>
+      <g id="refresh-before">
+        <path d="M37.0 43.75 L18.9 52.75" fill="none" stroke="#A9A9A9" stroke-width="0.52" />
+        <g data-pointer="R">
+          <path d="M37.0 43.75 L51.3840301975267 50.90228020871493" fill="none" stroke="#E07B00" stroke-width="0.83" />
+          <path d="M53.84641982567166 52.12667284149419 L50.48267933816354 51.816592315342255 L51.56904952870223 49.631781154369996 Z" fill="#E07B00" />
+        </g>
+        <rect x="25.8" y="32.25" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="5" data-role="stored">
+          <circle cx="31.85" cy="38.0" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="31.85" y="40.19" font-size="6.8" text-anchor="middle">5</text>
+        </g>
+        <g data-value="7" data-role="stored">
+          <circle cx="42.15" cy="38.0" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="42.15" y="40.19" font-size="6.8" text-anchor="middle">7</text>
+        </g>
+        <text x="50.7" y="40.2" font-size="6.9" text-anchor="start">P</text>
+        <rect x="7.699999999999999" y="52.75" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="12" data-role="unread">
+          <circle cx="13.749999999999998" cy="58.5" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="13.749999999999998" y="60.69" font-size="6.8" text-anchor="middle" transform="translate(13.749999999999998 0) scale(.86 1) translate(-13.749999999999998 0)">12</text>
+        </g>
+        <g data-value="16" data-role="unread">
+          <circle cx="24.049999999999997" cy="58.5" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="24.049999999999997" y="60.69" font-size="6.8" text-anchor="middle" transform="translate(24.049999999999997 0) scale(.86 1) translate(-24.049999999999997 0)">16</text>
+        </g>
+        <text x="11.099999999999998" y="50.7" font-size="6.75" text-anchor="middle" fill="#414141">L</text>
+        <rect x="43.900000000000006" y="52.75" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="6" data-role="active">
+          <circle cx="49.95" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="49.95" y="60.69" font-size="6.8" text-anchor="middle">6</text>
+        </g>
+        <g data-value="14" data-role="active">
+          <circle cx="60.25" cy="58.5" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+          <text x="60.25" y="60.69" font-size="6.8" text-anchor="middle" transform="translate(60.25 0) scale(.86 1) translate(-60.25 0)">14</text>
+        </g>
+        <text x="62.9" y="50.7" font-size="6.75" text-anchor="middle" fill="#414141">R</text>
+      </g>
+      <text x="21.8" y="76.8" font-size="7" text-anchor="end" font-style="italic">After</text>
+      <g id="refresh-after">
+        <g data-pointer="L">
+          <path d="M37.0 80.35 L22.6159698024733 87.50228020871494" fill="none" stroke="#E07B00" stroke-width="0.83" />
+          <path d="M20.15358017432834 88.72667284149419 L22.430950471297766 86.23178115437 L23.517320661836454 88.41659231534226 Z" fill="#E07B00" />
+        </g>
+        <path d="M37.0 80.35 L55.1 89.35" fill="none" stroke="#A9A9A9" stroke-width="0.52" />
+        <rect x="25.8" y="68.85" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="7" data-role="stored">
+          <circle cx="31.85" cy="74.6" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="31.85" y="76.78999999999999" font-size="6.8" text-anchor="middle">7</text>
+        </g>
+        <g data-value="14" data-role="stored">
+          <circle cx="42.15" cy="74.6" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+          <text x="42.15" y="76.78999999999999" font-size="6.8" text-anchor="middle" transform="translate(42.15 0) scale(.86 1) translate(-42.15 0)">14</text>
+        </g>
+        <text x="50.7" y="76.8" font-size="6.9" text-anchor="start">P</text>
+        <rect x="7.699999999999999" y="89.35" width="22.4" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <g data-value="12" data-role="unread">
+          <circle cx="13.749999999999998" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="13.749999999999998" y="97.28999999999999" font-size="6.8" text-anchor="middle" transform="translate(13.749999999999998 0) scale(.86 1) translate(-13.749999999999998 0)">12</text>
+        </g>
+        <g data-value="16" data-role="unread">
+          <circle cx="24.049999999999997" cy="95.1" r="4.05" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+          <text x="24.049999999999997" y="97.28999999999999" font-size="6.8" text-anchor="middle" transform="translate(24.049999999999997 0) scale(.86 1) translate(-24.049999999999997 0)">16</text>
+        </g>
+        <text x="11.099999999999998" y="87.3" font-size="6.75" text-anchor="middle" fill="#414141">L</text>
+        <rect x="48.95" y="89.35" width="12.3" height="11.5" rx="5.75" fill="white" stroke="#B5B5B5" stroke-width=".36" />
+        <text x="55.1" y="97.25" font-size="7" text-anchor="middle" fill="#555555">∅</text>
+        <text x="62.9" y="87.3" font-size="6.75" text-anchor="middle" fill="#414141">R</text>
+      </g>
+      <g data-value="5" data-role="winner">
+        <circle cx="84.4" cy="39.5" r="4.05" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" />
+        <text x="84.4" y="41.69" font-size="6.8" text-anchor="middle">5</text>
+      </g>
+      <text x="94" y="41.65" font-size="6.95" text-anchor="start" fill="#333333">L</text>
+      <g data-value="6" data-role="winner">
+        <circle cx="84.4" cy="56.0" r="4.05" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" />
+        <text x="84.4" y="58.19" font-size="6.8" text-anchor="middle">6</text>
+      </g>
+      <text x="94" y="58.15" font-size="6.95" text-anchor="start" fill="#333333">R</text>
+      <g data-value="7" data-role="stored">
+        <circle cx="84.4" cy="72.5" r="5.5" fill="none" stroke="#E07B00" stroke-width="0.65" />
+        <circle cx="84.4" cy="72.5" r="4.05" fill="white" stroke="#555555" stroke-width="0.45" />
+        <text x="84.4" y="74.69" font-size="6.8" text-anchor="middle">7</text>
+      </g>
+      <text x="94" y="74.65" font-size="6.95" text-anchor="start" fill="#925000" font-weight="bold">L: 2/2</text>
+      <g data-value="14" data-role="active">
+        <circle cx="84.4" cy="89.0" r="4.05" fill="#FDE7CE" stroke="#E07B00" stroke-width="0.45" />
+        <text x="84.4" y="91.19" font-size="6.8" text-anchor="middle" transform="translate(84.4 0) scale(.86 1) translate(-84.4 0)">14</text>
+      </g>
+      <text x="94" y="91.15" font-size="6.95" text-anchor="start" fill="#333333">R</text>
+    </g>
+    <g id="legend-physical-bp" transform="translate(0 102.1)">
+      <g transform="translate(3.0 0)">
+        <circle cx="3.475" cy="5" r="3.25" fill="#D6D6D6" stroke="#888888" stroke-width="0.45" />
+        <text x="9.95" y="7.3" font-size="7" text-anchor="start">Winner</text>
+      </g>
+      <g transform="translate(37.97913750000001 0)">
+        <circle cx="3.475" cy="5" r="3.25" fill="white" stroke="#666666" stroke-width="0.45" stroke-dasharray="1.15 .75" />
+        <text x="9.95" y="7.3" font-size="7" text-anchor="start">Unread</text>
+      </g>
+      <g transform="translate(72.846275 0)">
+        <circle cx="3.475" cy="5" r="3.25" fill="none" stroke="#E07B00" stroke-width="0.45" />
+        <circle cx="3.475" cy="5" r="1.9" fill="none" stroke="#E07B00" stroke-width="0.45" />
+        <text x="9.95" y="7.3" font-size="7" text-anchor="start">First exhausted</text>
+      </g>
+      <g transform="translate(129.69341250000002 0)">
+        <path d="M0 5H7.2" fill="none" stroke="#E07B00" stroke-width="0.6" />
+        <path d="M6.8 3.5L10 5L6.8 6.5Z" fill="#E07B00" />
+        <text x="13" y="7.3" font-size="7" text-anchor="start">Pointer</text>
+      </g>
+      <g transform="translate(167.23255000000003 0)">
+        <rect x="0.275" y="1.75" width="8.15" height="6.5" rx="1.4" fill="none" stroke="#E07B00" stroke-width="0.55" stroke-dasharray="1.5 1.15" />
+        <text x="11.7" y="7.3" font-size="7" text-anchor="start">Call output (excerpt)</text>
+      </g>
+    </g>
+  </g>
+</svg>

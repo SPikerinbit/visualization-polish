@@ -1,35 +1,4 @@
 \section{Experimental Study}
 \label{sec:exp}
-We investigate five experiment blocks under a shared setup (\cref{sec:exp:setup}):
-\textbf{RQ1.} How do baselines compare on ranking quality and efficiency for full ranking and \LIMIT~$K$ (\cref{sec:exp:full,sec:exp:topk})?
-\textbf{RQ2.} Do predicted and measured token-cost surfaces agree as fan-in and $(k,h)$ vary (\cref{sec:exp:e2})?
-\textbf{RQ3.} How do fixed SW/LT $(k,h)$ pairs scale with input size (\cref{sec:exp:scale})?
-\textbf{RQ4.} Do cost models guide cache-off/on-cold fan-in selection, $\beta$ sensitivity, and quality--cost trade-offs (\cref{sec:exp:cost})?
-\textbf{RQ5.} How does output length under \LIMIT~$n$ affect cost and quality (\cref{sec:exp:limit-sweep})?
-
-\subsection{Experimental Setup}
-\label{sec:exp:setup}
-
-\input{tables/generated/tab-datasets}
-
-\stitle{Datasets.}
-\Cref{tab:datasets} lists the six evaluation collections in the integration contract: Q9 (single query), TREC DL20/DL22, and BEIR TREC-COVID, DBpedia-Entity, and Robust04 (30 queries each unless noted). Corpus cardinalities $|D|$ and any collection-specific preprocessing gaps are left open until measured runs complete.
-
-\noindent\textbf{Baselines.}
-We compare ten methods spanning pointwise, listwise, setwise (placeholder row), and our SW/LT merge variants.
-\input{tables/generated/tab-ranking-algorithms}
-\footnotetext{For Tournament, $b_m=(n-1)/(m-1)$ and $\ell_m=\log(n/m)$.
-For ListK Sort/Select, pivot count $p$, $\kappa=K/n$, $\chi_p=(m-p)\log(p+1)$, and
-$\psi_p(\kappa)=(m-p)[p-1+\kappa^{p+1}+(1-\kappa)^{p+1}]$. For merge variants, $r=\lceil n/m\rceil$.}
-
-\noindent\textbf{Evaluation Metrics.}
-For full ranking we report Spearman's $\rho$ between predicted and reference orders.
-For \LIMIT~$K$ we report nDCG@$K$ (contract uses $K{=}10$ in the main tables).
-Table cells in this preview are synthetic layout numbers unless a future measured pass replaces them.
-
-\noindent\textbf{Implementation Details.}
-Listwise calls use vLLM with Qwen3.5-9B and Qwen3.5-27B checkpoints (labels per PR14 tables).
-Tensor parallelism, temperature, and per-query repetition protocol are pending the final production configuration; we do not fabricate hardware rows here.
-Fan-in $k$ for full ranking follows the cost model in \cref{sec:cost}; \LIMIT~$K$ runs use the contract's empirical $(k,h)$ choices where specified.
-
-\input{exp-body.tex}
+\input{manuscript/experiment-setup}
+\input{exp-body}

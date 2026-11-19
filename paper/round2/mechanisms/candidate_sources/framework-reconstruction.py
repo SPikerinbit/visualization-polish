@@ -3,7 +3,7 @@ from html import escape
 D=Path(__file__).resolve().parents[1];a=[]
 W,H=1600,474
 ink='#262626';gray='#666666';gold='#E07B00';pale='#FFE5A3';sage='#DDEBDD';green='#52775C';blue='#E5EDF3';steel='#647E91'
-a.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="178mm" height="{178*H/W}mm" viewBox="0 0 {W} {H}"><title>Cost-guided semantic merge execution</title><desc>Abstract sorted runs inform a cost model. Feasible merge structures are evaluated for the requested mode, and the selected parameters configure either full materialization or demand-driven LIMIT execution. Solid arrows carry results downstream. Dashed reverse arrows request data upstream; no further requests after K outputs.</desc><defs>')
+a.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="178mm" height="{178*H/W}mm" viewBox="0 0 {W} {H}"><title>Cost-guided semantic merge execution</title><desc>Abstract sorted runs inform a cost model. Feasible merge structures are evaluated for the requested mode, and the selected parameters configure either full materialization or demand-driven LIMIT execution. Solid push arrows return requested results downstream. Dashed pull arrows request data upstream; requests stop at K outputs or end of input.</desc><defs>')
 for name,c in [('steel',steel),('gray',gray),('pull',gold),('green',green)]:a.append(f'<marker id="{name}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="{c}"/></marker>')
 a.append('</defs><rect width="1600" height="474" fill="white"/><g font-family="Liberation Serif,Times New Roman,serif" fill="#262626">')
 def text(x,y,s,size=24,anchor='middle',weight='normal',color=ink):a.append(f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-size="{size}" font-weight="{weight}" fill="{color}">{escape(s)}</text>')
@@ -14,106 +14,166 @@ def run(x,y,w=69,filled=True,color=sage):
  for i in range(1,5):path(f'M{x+i*w/5} {y+2} V{y+14}',color='#A8B5AA',arrow=False,sw=1)
 def merge(x,y,active=True):rect(x-14,y-12,28,24,pale if active else 'white',gold if active else '#BBBBBB',4)
 # Four stages use the same element palette; requests/configuration are not document-derived.
-for x,s,end,c in [(12,'Inputs for planning',420,green),(470,'Cost-effective plan',1135,steel),(1175,'Execute the selected plan',1590,gold)]:
+for x,s,end,c in [(12,'Planning inputs',414,green),(465,'Cost-effective plan',1134,steel),(1175,'Execute the selected plan',1590,gold)]:
  text(x,28,s,27,'start','bold');path(f'M{x} 40 H{end}',color=c,arrow=False,sw=3)
 for x in [447,1145]:path(f'M{x} 50 V{H-40}',color='#DDDDDD',arrow=False,sw=1)
 # Document and request sources are distinct from derived sizes and configuration.
 for x,y in [(18,99),(24,93),(30,87)]:rect(x,y,54,64,'white',green,3)
-for y in [102,116,130]:path(f'M38 {y} H74',color=green,arrow=False)
+# Front document: folded corner, hierarchy and ragged text, not a generic rectangle.
+path('M72 87 V99 H84',color=green,arrow=False,sw=1.2)
+rect(38,100,20,4,sage,'none',1,0)
+for yy,ww in [(113,36),(123,30),(133,35),(142,22)]:
+ path(f'M38 {yy} H{38+ww}',color=green,arrow=False,sw=1.3)
 text(57,180,'Documents',23)
 # Natural-language query is an entity, distinct from runtime configuration.
 a.append('<g transform="translate(0,60)">')
 for xx,yy in [(19,226),(25,220),(31,214)]:rect(xx,yy,54,61,'white',gold,3)
 rect(31,214,54,14,pale,gold,3,1)
-for yy,ww in [(237,35),(248,28),(259,33)]:path(f'M39 {yy} H{39+ww}',gold,arrow=False)
+# Query keeps the document-stack family but uses quotation marks and phrase rhythm.
+path('M40 235 h-3 v5 h4 M47 235 h-3 v5 h4',gold,arrow=False,sw=1.4)
+for yy,xx,ww in [(238,53,22),(249,39,34),(259,39,27)]:
+ path(f'M{xx} {yy} H{xx+ww}',gold,arrow=False,sw=1.3)
 text(62,313,'NL Query',23)
 a.append('</g>')
 # m and requested output are given inputs: no arrow falsely derives them from query.
-path('M84 121 H120',arrow=False);path('M120 95 V352',arrow=False)
-path('M85 317 H120',arrow=False)
-for yy in [95,352]:path(f'M120 {yy} H154')
-rect(154,63,263,65,'white','#BBCBBB',5)
-text(285,86,'Items per sorted run',24)
-for yy,ww in [(95,100),(107,64),(119,84)]:
- rect(175,yy,ww,5,sage,green,1,1)
-path('M286 95 H391',arrow=False,sw=1)
-path('M286 107 H353',arrow=False,sw=1)
-path('M286 119 H373',arrow=False,sw=1)
-rect(154,143,263,65,'white','#BBCBBB',5)
-text(285,167,'m: max items per call',24)
-for q in range(7):rect(178+q*29,180,20,16,'white',steel,2,1)
-path('M173 177 V201 H404 V177',color=steel,arrow=False)
-rect(154,223,263,65,'white','#BBCBBB',5)
-text(285,246,'Requested output',24)
-# Full grid and shorter prefix are mode identities, not observed counts.
-rect(167,253,36,25,'white',green,2,1)
-for yy in [258,266]:
- for q in range(5):rect(171+q*5.5,yy,4,5,sage,green,0,0.6)
-text(235,273,'Full /',23)
-rect(276,255,35,22,'white',gold,2,1)
-for q in range(3):rect(280+q*9,259,6,13,pale,gold,1,.7)
-text(364,273,'LIMIT K',23)
-rect(154,303,263,98,'white','#BBCBBB',5)
-rect(166,315,239,33,'#DDD2E7','#82718E',3,1)
-text(285,337,'System prompt',24)
-text(182,378,'+',25)
-for xx,hh in [(205,32),(232,26),(259,36)]:
- rect(xx,353,21,hh,sage,green,2,1)
- for dy in [8,16]:path(f'M{xx+4} {353+dy} H{xx+17}',color=green,arrow=False,sw=1)
-text(346,378,'Documents',23)
+# Two independent source inlets join one four-card input bundle.
+# Neutral, undirected port branches denote grouping, NOT derivation of m/options.
+a.append('<g id="planning-input-bundle"><desc>Documents and NL Query enter a shared planning-input bundle. Four hollow ports associate all four cards with this bundle; undirected branches do not imply that capacity or requested mode are computed from document text.</desc>')
+path('M124 95 V352',color='#9BA6AB',arrow=False,sw=1.4)
+for yy in [95,175,255,352]:
+ path(f'M124 {yy} H147',color='#9BA6AB',arrow=False,sw=1.4)
+ a.append(f'<circle cx="150" cy="{yy}" r="3" fill="white" stroke="#9BA6AB" stroke-width="1.4"/>')
+path('M84 121 H124',color=green)
+path('M85 317 H124',color=gold)
+a.append('</g>')
+# Four input cards keep the same connection ports. Icon rows explain rather than decorate.
+def card(x,y,w,h,title):
+ rect(x,y,w,h,'white','#AFBFB5',6,1.55)
+ rect(x+1,y+1,w-2,29,'#F0F5F1','none',5,0)
+ text(x+w/2,y+22,title,23)
+card(154,63,263,65,'Items per sorted run')
+# Bound each strip as a run; segment count varies with run length.
+for yy,n in [(97,8),(107,5),(117,7)]:
+ width=n*26-3
+ rect(182,yy-2,width+10,9,'#F5F8F5','#A4B9AA',3,.85)
+ for i in range(n):
+  rect(187+i*26,yy,23,5,sage if i%2==0 else '#EFF5EE',green,1,.8)
+
+card(154,143,263,65,'Max items per listwise call')
+rect(162,174,86,28,'#F3F6F9','#C3CED6',4,1.1)
+# Compact vector brain: circuit hemisphere + organic hemisphere, inspired by supplied reference.
+a.append('<g id="llm-brain" transform="translate(169,175) scale(.35)" stroke-linecap="round" stroke-linejoin="round">')
+path('M36 6 C24 -2 9 3 9 15 C-1 18 -1 29 5 33 C-3 40 0 51 7 54 C1 65 13 77 25 72 C30 76 35 73 36 69 Z',color=steel,arrow=False,sw=3.4)
+path('M44 6 C55 -2 70 3 70 15 C81 18 81 29 75 33 C83 40 80 51 73 54 C79 65 67 77 55 72 C50 76 45 73 44 69 Z',color=steel,arrow=False,sw=3.4)
+path('M40 7 V70',color=steel,dash=True,arrow=False,sw=2.4)
+path('M22 16 V36 H12 M22 36 V51 H31 V64 H20 M6 58 H17 V48 H9',color=steel,arrow=False,sw=3.4)
+for xx,yy in [(22,16),(12,36),(20,64),(9,48)]:
+ a.append(f'<circle cx="{xx}" cy="{yy}" r="3.6" fill="{blue}" stroke="{steel}" stroke-width="2.6"/>')
+path('M56 10 C65 19 47 20 50 29 C53 36 65 29 67 38 C69 46 56 44 56 53 C53 61 63 64 60 70 M73 26 C63 20 58 30 60 34 M72 53 C65 47 65 60 70 62',color=gold,arrow=False,sw=3.4)
+a.append('</g>')
+text(222,194,'LLM',20,color=steel)
+# Slot rack and a bounded maximum; the empty slots show capacity, not occupancy.
+for q in range(6):
+ rect(266+q*18,180,15,14,'#F5F8FB',steel,2,1)
+path('M260 177 v22 h116 v-22',steel,arrow=False,sw=1.4)
+text(393,194,'m',22,weight='bold',color=steel)
+
+card(154,223,263,65,'Requested output')
+rect(164,254,116,27,'#EFF5EE','#BBCDBD',4,1.1)
+rect(290,254,117,27,'#FFFAED','#E6C78B',4,1.1)
+for yy in [260,268]:
+ for q in range(5):rect(172+q*5.5,yy,4,5,sage,green,.6,.6)
+text(237,274,'Full',22,color=green)
+path('M296 259 h-2 v16 h2 M320 259 h2 v16 h-2',gold,arrow=False,sw=1)
+for q in range(3):rect(298+q*7,261,6,12,pale,gold,1,.7)
+text(367,274,'LIMIT K',21,color='#8F4C00')
+
+card(154,303,263,98,'Input token profile')
+# Separate overhead and per-item cues with identical module geometry.
+rect(163,338,119,53,'#F6F0F8','#C9B8D1',4,1.1)
+rect(289,338,119,53,'#F1F6F0','#B7CBB9',4,1.1)
+text(178,360,'H',22,weight='bold',color='#756080')
+text(302,360,'L',22,weight='bold',color=green)
+rect(209,343,31,19,'white','#82718E',3,1.2)
+path('M217 350 l-3 3 3 3 M232 350 l3 3 -3 3 M226 348 l-3 10',color='#82718E',arrow=False,sw=1)
+for xx,dy in [(330,2),(344,0),(358,3)]:
+ rect(xx,343+dy,12,17,sage,green,1,1)
+ path(f'M{xx+3} {348+dy} h6 M{xx+3} {352+dy} h5',green,arrow=False,sw=.9)
+text(222.5,383,'System prompt',18.5,color='#684F73')
+text(348.5,383,'Documents',20,color=green)
+
 # Output of feature/configuration preparation enters the cost model.
 for yy in [95,175,255,352]:path(f'M417 {yy} H430',arrow=False)
 path('M430 95 V352',arrow=False)
 path('M430 123 H475')
-# Expanded, visually separated valid-family objects and per-candidate input estimate.
+# The planner's three operations read as check capacity → estimate tokens → choose.
+violet='#7E608F'
+purple='#E9DAF0'
+darkamber='#8F4C00'
 text(800,65,'Merge-input cost model',25,weight='bold')
-rect(475,79,650,213,'white',steel,6)
-for xx in [725,976]:path(f'M{xx} 88 V252',color='#D4DEE4',arrow=False,sw=1)
-text(600,104,'Valid plans',24)
-text(600,131,'b(k) h ≤ m',23,color=steel)
-text(540,153,'SW',23)
-text(665,153,'LT',23)
-# SW: k separate run windows, each with h slots. Neither k nor h is a depth.
-for xx in [504,529,554]:
- rect(xx,163,19,32,'white',gold,2,1)
- rect(xx+2,166,15,11,pale,gold,1,1)
- rect(xx+2,181,15,11,pale,gold,1,1)
-path('M504 202 V207 H573 V202',gold,arrow=False,sw=1)
-text(539,230,'k',23)
-path('M578 163 H583 V195 H578',color=steel,arrow=False,sw=1)
-text(596,187,'h',23,color=steel)
-# LT: binary internal organization, segment capacity carried by slots.
-for xx,yy in [(665,171),(638,210),(692,210)]:
- rect(xx-13,yy-8,26,16,'white',steel,1,1)
- path(f'M{xx} {yy-8} V{yy+8}',color=steel,arrow=False,sw=1)
-path('M638 202 L665 179');path('M692 202 L665 179')
-text(697,178,'h',23,color=steel)
-path('M625 225 V230 H705 V225',color=steel,arrow=False,sw=1)
-text(665,253,'k',23)
+rect(475,78,650,213,'white',steel,8,1.8)
+for x,w,caption,fill in [(482,218,'Valid plans','#EAF0F6'),(720,221,'Estimate tokens','#F3EEF6'),(961,145,'Select min','#FBF2E1')]:
+ rect(x,86,w,30,fill,'none',4,0)
+ text(x+w/2,108,caption,24,weight='bold')
+for xx in [711,951]:path(f'M{xx} 123 V247',color='#D4DEE4',arrow=False,sw=1.15)
+for xx in [703,943]:path(f'M{xx} 102 h14',steel,sw=1.5)
 
-text(850,104,'Input tokens',24)
-rect(739,115,223,81,'white',steel,3,1)
-rect(744,121,213,28,'#DDD2E7','#82718E',2,1)
-text(850,143,'H: call overhead',23)
-for xx,hh in [(752,28),(801,23),(850,33),(899,25)]:
- rect(xx,156,29,hh,sage,green,2,1)
- for dy in [8,16]:path(f'M{xx+5} {156+dy} H{xx+24}',color=green,arrow=False,sw=1)
-text(850,220,'L: avg item tokens',23)
-text(1051,104,'Select min',24)
-# Persistent A/B/C badges connect example plan objects and their estimated costs.
-for j,(yy,ww,hh,chosen) in enumerate([(122,72,22,False),(162,35,14,True),(202,55,19,False)]):
- rect(987,yy-5,29,29,pale if chosen else 'white',gold if chosen else steel,5,1.3)
- text(1001.5,yy+16,'ABC'[j],23,color='#8F4C00' if chosen else steel)
- rect(1022,yy,ww,16,'white',gold if chosen else steel,2,2 if chosen else 1)
- rect(1024,yy+2,hh-2,12,'#DDD2E7','none',0,0)
- rect(1022+hh,yy+2,ww-hh-2,12,sage,'none',0,0)
- if chosen:
-  path(f'M{1022+ww} {yy+8} H1103 V292',gold,arrow=False,sw=2)
-  text(1103,158,'✓',23,color=green)
-text(1051,250,'…',23,color=steel)
-path('M714 112 H736',sw=1.5);path('M963 112 H987',sw=1.5)
-# Color identities persist from input profile into the actual estimate.
-a.append('<text x="800" y="280" font-size="23" font-weight="bold" text-anchor="middle" xml:space="preserve"><tspan fill="#756080">H × calls</tspan><tspan fill="#262626"> + </tspan><tspan fill="#52775C">L × item appearances</tspan></text>')
+# Two distinct live-buffer structures; diagrams represent slots, not observed items.
+text(539,140,'SW',23,color=darkamber)
+text(647,140,'LT',23,color=steel)
+for xx in [505,531,557]:
+ rect(xx,150,18,42,'#FFF8E7',gold,2,1.3)
+ for yy in [154,166,178]:rect(xx+3,yy,12,9,pale,gold,1,.65)
+path('M505 198 v4 h70 v-4',gold,arrow=False,sw=1)
+text(540,225,'k',22,color=darkamber)
+path('M501 151 h-4 v41 h4',gold,arrow=False,sw=1)
+text(490,178,'h',20,color=darkamber)
+# A binary bracket feeds a highlighted path; ghost bins are not charged as live slots.
+path('M620 191 L635 171 L652 153 M649 191 L635 171 M681 188 L669 171 L652 153',steel,arrow=False,sw=1.25)
+for xx,yy,active in [(652,153,True),(635,171,True),(669,171,False),(620,191,True),(649,191,False),(681,191,False)]:
+ rect(xx-10,yy-5,20,10,blue if active else 'white',steel if active else '#C0CAD1',2,1)
+ for dx in [-3,3]:path(f'M{xx+dx} {yy-4} v8',steel if active else '#C0CAD1',arrow=False,sw=.7)
+path('M608 198 v4 h85 v-4',steel,arrow=False,sw=1)
+text(650,225,'k',22,color=steel)
+text(678,158,'h',20,color=steel)
+text(591,248,'b(k) h ≤ m',23,color=steel)
+
+# One schematic sequence, not a second rendering of the pricing equation.
+# Violet caps denote estimated call boundaries. Dark green repeats are the
+# same item across successive example calls, not cached tokens or measured counts.
+text(830,140,'Expected merge work',23,color=steel)
+for x,n,highlight in [(738,3,1),(806,2,0),(874,3,0)]:
+ rect(x,156,50,45,'white',violet,3,1.25)
+ rect(x+1,157,48,10,purple,'none',2,0)
+ path(f'M{x+7} 162 h13',violet,arrow=False,sw=1.15)
+ for c in range(n):
+  xx=x+6+c*13
+  active=c==highlight
+  rect(xx,175,11,17,green if active else sage,green,1,1)
+  path(f'M{xx+3} 181 h5 M{xx+3} 185 h4',
+       'white' if active else green,arrow=False,sw=.9)
+ if x<874:
+  path(f'M{x+52} 178 h13',steel,sw=1.3)
+# Dotted identity guide connects the repeated item across calls, not execution edges.
+xs=[762.5,817.5,885.5]
+path(f'M{xs[0]} 194 v23 H{xs[-1]} v-23 M{xs[1]} 194 v23',
+     green,True,False,1.1)
+text(830,243,'Same item can reappear',21,color=green)
+
+# Split cost bars carry the two equation colors; A/B/C denote schematic candidates.
+for j,(yy,w,overhead,selected) in enumerate([(135,83,27,False),(173,49,19,True),(211,68,23,False)]):
+ if selected:rect(961,yy-16,145,32,'#FFF8E7',gold,4,1.2)
+ rect(969,yy-11,23,22,pale if selected else 'white',gold if selected else steel,4,1)
+ text(980.5,yy+7,'ABC'[j],20,color=darkamber if selected else steel)
+ rect(1000,yy-8,w,16,'white',gold if selected else steel,2,1.25)
+ rect(1001,yy-7,overhead,14,purple,'none',1,0)
+ rect(1001+overhead,yy-7,w-overhead-2,14,sage,'none',1,0)
+ if selected:
+  a.append(f'<circle cx="1066" cy="{yy}" r="9" fill="{sage}" stroke="{green}" stroke-width="1.1"/>')
+  path(f'M1062 {yy} l3 3 5 -6',green,arrow=False,sw=1.7)
+text(1034,248,'…',23,color=steel)
+rect(500,259,600,25,'#F8FAFB','none',5,0)
+a.append('<text x="800" y="279" font-size="23" font-weight="bold" text-anchor="middle" xml:space="preserve"><tspan fill="#756080">H × calls</tspan><tspan fill="#262626"> + </tspan><tspan fill="#52775C">L × item appearances</tspan></text>')
 # Candidate cards are unchanged semantically from v9.
 a.append('<g transform="translate(220,150)">')
 for j,x in enumerate([250,490,730]):
@@ -131,7 +191,7 @@ for j,x in enumerate([250,490,730]):
   rect(xx-total/2,yy-8,total,16,'white',steel,1,1.8)
   for q in range(1,n):path(f'M{xx-total/2+q*cell} {yy-8} V{yy+8}',color=steel,arrow=False,sw=1.2)
  if j==0:
-  for xx in [x+20,x+62,x+106,x+148]:
+  for xx in [x+12,x+48,x+84,x+120,x+156]:
    payload(xx,279,27);path(f'M{xx} 271 L{root[0]} 215')
  else:
   for idx,xx in enumerate([x+20,x+62,x+106,x+148]):
@@ -144,15 +204,16 @@ for j,x in enumerate([250,490,730]):
 
 a.append('</g>')
 text(1128,390,'…',23,color=steel)
-path('M1103 292 V300 H794 V308',gold,sw=2)
+path('M1082 173 H1120 V299 H794 V308',gold,sw=2)
 path('M794 447 V459 H1158 V89 H1236 V120 H1250',color=steel)
-text(1175,252,'or',23,'start',color=steel)
 path('M1158 459 V288 H1236 V318 H1250',color=steel)
-# Compact execution lanes free width for the candidate-plan visual comparison.
-text(1175,76,'Full Ranking',25,'start','bold',green)
-text(1201,134,'layer i',23);text(1201,215,'i+1',23)
+# R6 execution-zone fragment. Uses the parent generator's a/text/rect/path and palette.
+# Selected-plan inputs retain x1250,y120 (Full) and x1250,y318 (LIMIT).
+text(1382.5,76,'Full Ranking',25,'middle','bold',green)
+text(1201,134,'layer i',23)
+text(1201,219,'i+1',23)
+# The three producers materialize into a continuous, visibly complete layer buffer.
 rect(1250,96,238,77,'#EFF5EE',green,5,1.8)
-rect(1250,189,238,40,'white','#C6CBC8',5,1)
 for xx in [1288,1369,1450]:
  rect(xx-24,106,48,28,sage,green,14,1.5)
  for q in range(3):rect(xx-15+q*10,115,7,10,pale,gold,1,1)
@@ -161,19 +222,25 @@ for xx in [1288,1369,1450]:
  for q in range(4):
   rect(xx-23+q*12,150,9,10,sage,green,1,1)
   path(f'M{xx-21+q*12} 154 H{xx-16+q*12}',color=green,arrow=False,sw=.7)
- rect(xx-24,196,48,26,'white','#C6CBC8',13,1)
- path(f'M{xx} 164 V189',color=green)
-# Short barrier ends inside the stage width; completion mark does not extend it.
-path('M1258 181 H1480',color=green,arrow=False,sw=3)
-text(1500,183,'✓',24,color=green)
-path('M1488 209 H1510')
-rect(1510,191,76,40,sage,green,4,1.6)
-for yy in [198,208,218]:
+# One completed layer is the transfer unit; no implied group-to-group edge.
+rect(1258,165,222,8,sage,green,2,1.2)
+a.append('<path id="materialized-layer-transfer" d="M1355 173 H1383 V183 H1399 L1369 196 L1339 183 H1355 Z" fill="#63846A" stroke="#52775C" stroke-width="1.15" stroke-linejoin="round"/>')
+text(1540,161,'all groups',22,color=green)
+text(1540,187,'ready',22,color=green)
+rect(1250,197,238,40,'white','#C6CBC8',5,1)
+for xx in [1288,1369,1450]:
+ rect(xx-24,204,48,26,'white',green,13,1.2)
+path('M1488 217 H1510',color=green)
+rect(1510,199,76,40,sage,green,4,1.6)
+for yy in [206,216,226]:
  for q in range(5):rect(1518+q*12,yy,9,5,'white',green,1,1)
-text(1548,253,'all results',23)
-text(1175,274,'LIMIT K',25,'start','bold','#8F4C00')
-text(1201,327,'layer i',23);text(1201,395,'i+1',23)
-for yy in [297,365]:
+text(1548,260,'all results',23)
+text(1382.5,285,'LIMIT K',25,'middle','bold','#8F4C00')
+text(1201,327,'layer i',23)
+text(1201,411,'i+1',23)
+# The unbroken pale corridor is restricted to the active path, not a layer barrier.
+rect(1339,319,60,88,'#FFF8E7','none',12,0)
+for yy in [297,381]:
  rect(1250,yy,238,43,'white','#D4D7D5',5,1)
  for xx in [1288,1369,1450]:
   active=xx==1369
@@ -182,12 +249,16 @@ for yy in [297,365]:
    for q in range(3):
     rect(xx-15+q*11,yy+16,8,10,pale if q==0 else 'white',gold,1,1)
     if q==0:path(f'M{xx-13+q*11} {yy+20} H{xx-9+q*11}',color=gold,arrow=False,sw=.7)
-path('M1358 332 V373');path('M1380 373 V332',gold,True)
-path('M1393 386 H1410 V426 H1498 V388 H1510')
-rect(1510,368,76,40,pale,gold,5);text(1548,397,'K',24)
-path('M1548 408 V437 H1369 V400',gold,True)
-path('M1455 433 V444',gold,False,False,3)
-text(1180,466,'results',23,'start');path('M1254 458 H1288')
-path('M1357 458 H1323',gold,True);text(1365,466,'pull',23,'start',color='#8F4C00')
-text(1497,466,'stop: K or EOF',23,color='#8F4C00')
+# Actual transfer arrows: push down / demand pull up. Labels sit on opposite sides.
+path('M1358 332 V389',color=gray,sw=2)
+path('M1380 389 V332',gold,True,sw=2)
+text(1318,369,'push',23,color=gray)
+text(1424,369,'pull',23,color='#8F4C00')
+# A direct emitted prefix sits below the active producer: no loop around inactive nodes.
+path('M1369 416 V434',color=gray,sw=2)
+rect(1331,434,76,30,pale,gold,5)
+path('M1338 440 H1343 M1338 440 V458 H1343 M1400 440 H1395 M1400 440 V458 H1395',color=gold,arrow=False,sw=1.2)
+text(1369,457,'K',24)
+text(1498,455,'stop: K or EOF',22,color='#8F4C00')
+
 a.append('</g></svg>');(D/'framework.svg').write_text('\n'.join(a))

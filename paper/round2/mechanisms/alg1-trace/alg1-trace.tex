@@ -1,111 +1,116 @@
 \pdfmapfile{+cm.map}
 \pdfmapfile{+cmextra.map}
-\documentclass{article}\usepackage[paperwidth=84.75365mm,paperheight=70mm,margin=0pt]{geometry}
+\pdfmapfile{+qtm-rm.map}
+\RequirePackage{fix-cm}
+\documentclass{article}\usepackage[paperwidth=84.75365mm,paperheight=57mm,margin=0pt]{geometry}
 \usepackage{tikz}\usepackage{amsmath}\usetikzlibrary{arrows.meta}
 \pagestyle{empty}\setlength{\parindent}{0pt}
 \definecolor{warm}{HTML}{FDE7CE}\definecolor{edge}{HTML}{E07B00}\definecolor{ink}{HTML}{333333}
-\begin{document}\noindent\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={inner sep=0pt,outer sep=0pt,text=ink,font=\fontsize{8}{9}\selectfont},
- item/.style={circle,draw=ink,fill=white,line width=.45pt,minimum size=3.8mm},
- call/.style={rounded corners=.65mm,draw=edge,fill=warm,line width=.65pt,minimum width=19.2mm,minimum height=5mm,font=\fontsize{8}{9}\selectfont},
- merge/.style={call,fill=white,dashed,minimum width=22mm},
+% Use the Times-family design of the other mechanism numbers, with the
+% same circle box and centered inline glyphs. Only two-digit glyphs narrow.
+\newcommand{\TraceNumber}[1]{\ifnum#1>9\relax\scalebox{0.86}[1]{#1}\else#1\fi}
+\begin{document}\noindent\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={inner sep=0pt,outer sep=0pt,text=ink,font=\fontsize{7}{8}\selectfont},
+ item/.style={circle,draw=ink,fill=white,line width=.45pt,minimum size=8.1bp,font=\fontsize{6.8}{7.4}\selectfont},
+ call/.style={rounded corners=.65mm,draw=edge,fill=warm,line width=.65pt,minimum width=18.2mm,minimum height=4.2mm,font=\fontsize{7}{8}\selectfont},
+ merge/.style={call,fill=white,dashed,minimum width=20mm},
  group/.style={rounded corners=.7mm,draw=ink,dashed,line width=.45pt},
  arr/.style={-{Stealth[length=1.1mm]},line width=.55pt,draw=ink}]
-\useasboundingbox (0,0) rectangle (84.75365,70);
+\useasboundingbox (0,0) rectangle (84.7536,57);
 
-\node at (11.5,68) {$C_1$};
-\node[item] (C00) at (4.8999999999999995,63) {12};
-\node[item] (C01) at (9.3,63) {3};
-\node[item] (C02) at (13.7,63) {16};
-\node[item] (C03) at (18.1,63) {7};
-\draw[dotted,line width=.5pt] (2.1999999999999993,60.3) rectangle (20.8,65.7);
-\node[call] (call0) at (11.5,55) {ListwiseRank};\draw[arr] (11.5,60.3) -- (call0.north);
-\node at (11.5,47) {$R_1$};
-\node[item] (R00) at (4.8999999999999995,43) {3};
-\node[item] (R01) at (9.3,43) {7};
-\node[item] (R02) at (13.7,43) {12};
-\node[item] (R03) at (18.1,43) {16};
-\draw[arr] (call0.south) -- (11.5,49);
-\node at (32,68) {$C_2$};
-\node[item] (C10) at (25.4,63) {5};
-\node[item] (C11) at (29.799999999999997,63) {14};
-\node[item] (C12) at (34.2,63) {1};
-\node[item] (C13) at (38.6,63) {6};
-\draw[dotted,line width=.5pt] (22.7,60.3) rectangle (41.3,65.7);
-\node[call] (call1) at (32,55) {ListwiseRank};\draw[arr] (32,60.3) -- (call1.north);
-\node at (32,47) {$R_2$};
-\node[item] (R10) at (25.4,43) {1};
-\node[item] (R11) at (29.799999999999997,43) {5};
-\node[item] (R12) at (34.2,43) {6};
-\node[item] (R13) at (38.6,43) {14};
-\draw[arr] (call1.south) -- (32,49);
-\node at (52.5,68) {$C_3$};
-\node[item] (C20) at (45.9,63) {11};
-\node[item] (C21) at (50.3,63) {2};
-\node[item] (C22) at (54.7,63) {15};
-\node[item] (C23) at (59.1,63) {8};
-\draw[dotted,line width=.5pt] (43.2,60.3) rectangle (61.8,65.7);
-\node[call] (call2) at (52.5,55) {ListwiseRank};\draw[arr] (52.5,60.3) -- (call2.north);
-\node at (52.5,47) {$R_3$};
-\node[item] (R20) at (45.9,43) {2};
-\node[item] (R21) at (50.3,43) {8};
-\node[item] (R22) at (54.7,43) {11};
-\node[item] (R23) at (59.1,43) {15};
-\draw[arr] (call2.south) -- (52.5,49);
-\node at (73,68) {$C_4$};
-\node[item] (C30) at (66.4,63) {9};
-\node[item] (C31) at (70.80000000000001,63) {13};
-\node[item] (C32) at (75.2,63) {4};
-\node[item] (C33) at (79.60000000000001,63) {10};
-\draw[dotted,line width=.5pt] (63.7,60.3) rectangle (82.3,65.7);
-\node[call] (call3) at (73,55) {ListwiseRank};\draw[arr] (73,60.3) -- (call3.north);
-\node at (73,47) {$R_4$};
-\node[item] (R30) at (66.4,43) {4};
-\node[item] (R31) at (70.80000000000001,43) {9};
-\node[item] (R32) at (75.2,43) {10};
-\node[item] (R33) at (79.60000000000001,43) {13};
-\draw[arr] (call3.south) -- (73,49);
-\draw[group] (2.4499999999999993,40.2) rectangle (41.05,48.8);
-\node[merge] (m0) at (21.75,34) {MergeGroup};\draw[arr] (21.75,40.2) -- (m0.north);
-\node at (21.75,27) {$Q_1$};
-\node[item] (Q00) at (6.349999999999998,23) {1};
-\node[item] (Q01) at (10.749999999999998,23) {3};
-\node[item] (Q02) at (15.149999999999999,23) {5};
-\node[item] (Q03) at (19.549999999999997,23) {6};
-\node[item] (Q04) at (23.95,23) {7};
-\node[item] (Q05) at (28.349999999999998,23) {12};
-\node[item] (Q06) at (32.75,23) {14};
-\node[item] (Q07) at (37.150000000000006,23) {16};
-\draw[arr] (m0.south) -- (21.75,29.5);
-\draw[group] (43.45,40.2) rectangle (82.05,48.8);
-\node[merge] (m1) at (62.75,34) {MergeGroup};\draw[arr] (62.75,40.2) -- (m1.north);
-\node at (62.75,27) {$Q_2$};
-\node[item] (Q10) at (47.349999999999994,23) {2};
-\node[item] (Q11) at (51.74999999999999,23) {4};
-\node[item] (Q12) at (56.14999999999999,23) {8};
-\node[item] (Q13) at (60.55,23) {9};
-\node[item] (Q14) at (64.94999999999999,23) {10};
-\node[item] (Q15) at (69.35,23) {11};
-\node[item] (Q16) at (73.75,23) {13};
-\node[item] (Q17) at (78.15,23) {15};
-\draw[arr] (m1.south) -- (62.75,29.5);
-\node[text=black!72] at (42.25,34) {Pass 1};\node[text=black!72,anchor=east] at (29,14) {Pass 2};
-\draw[group] (3,20.2) rectangle (81.5,29.5);\node[merge] (final) at (42.25,14) {MergeGroup};\draw[arr] (42.25,20.2) -- (final.north);
-\node[item] (P0) at (13.0,6.5) {1};
-\node[item] (P1) at (17.4,6.5) {2};
-\node[item] (P2) at (21.8,6.5) {3};
-\node[item] (P3) at (26.200000000000003,6.5) {4};
-\node[item] (P4) at (30.6,6.5) {5};
-\node[item] (P5) at (35.0,6.5) {6};
-\node[item] (P6) at (39.400000000000006,6.5) {7};
-\node[item] (P7) at (43.800000000000004,6.5) {8};
-\node[item] (P8) at (48.2,6.5) {9};
-\node[item] (P9) at (52.6,6.5) {10};
-\node[item] (P10) at (57.0,6.5) {11};
-\node[item] (P11) at (61.400000000000006,6.5) {12};
-\node[item] (P12) at (65.80000000000001,6.5) {13};
-\node[item] (P13) at (70.2,6.5) {14};
-\node[item] (P14) at (74.60000000000001,6.5) {15};
-\node[item] (P15) at (79.0,6.5) {16};
-\node at (5,6.5) {$\Pi=$};\draw[line width=.45pt] (10.8,9.1) -- (10.8,9.5) -- (81.2,9.5) -- (81.2,9.1);\draw[arr] (final.south) -- (42.25,9.5);
+\node at (11.5,55) {$C_1$};
+\node[item] (C00) at (5.95,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C00.center) {\TraceNumber{12}};
+\node[item] (C01) at (9.65,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C01.center) {\TraceNumber{3}};
+\node[item] (C02) at (13.35,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C02.center) {\TraceNumber{16}};
+\node[item] (C03) at (17.05,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C03.center) {\TraceNumber{7}};
+\draw[dotted,line width=.5pt] (2.2,48.7) rectangle (20.8,53.3);
+\node[call] (call0) at (11.5,45) {ListwiseRank};\draw[arr] (11.5,48.7) -- (call0.north);
+\node at (11.5,39) {$R_1$};
+\node[item] (R00) at (5.95,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R00.center) {\TraceNumber{3}};
+\node[item] (R01) at (9.65,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R01.center) {\TraceNumber{7}};
+\node[item] (R02) at (13.35,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R02.center) {\TraceNumber{12}};
+\node[item] (R03) at (17.05,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R03.center) {\TraceNumber{16}};
+\draw[arr] (call0.south) -- (11.5,41);
+\node at (32,55) {$C_2$};
+\node[item] (C10) at (26.45,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C10.center) {\TraceNumber{5}};
+\node[item] (C11) at (30.15,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C11.center) {\TraceNumber{14}};
+\node[item] (C12) at (33.85,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C12.center) {\TraceNumber{1}};
+\node[item] (C13) at (37.55,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C13.center) {\TraceNumber{6}};
+\draw[dotted,line width=.5pt] (22.7,48.7) rectangle (41.3,53.3);
+\node[call] (call1) at (32,45) {ListwiseRank};\draw[arr] (32,48.7) -- (call1.north);
+\node at (32,39) {$R_2$};
+\node[item] (R10) at (26.45,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R10.center) {\TraceNumber{1}};
+\node[item] (R11) at (30.15,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R11.center) {\TraceNumber{5}};
+\node[item] (R12) at (33.85,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R12.center) {\TraceNumber{6}};
+\node[item] (R13) at (37.55,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R13.center) {\TraceNumber{14}};
+\draw[arr] (call1.south) -- (32,41);
+\node at (52.5,55) {$C_3$};
+\node[item] (C20) at (46.95,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C20.center) {\TraceNumber{11}};
+\node[item] (C21) at (50.65,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C21.center) {\TraceNumber{2}};
+\node[item] (C22) at (54.35,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C22.center) {\TraceNumber{15}};
+\node[item] (C23) at (58.05,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C23.center) {\TraceNumber{8}};
+\draw[dotted,line width=.5pt] (43.2,48.7) rectangle (61.8,53.3);
+\node[call] (call2) at (52.5,45) {ListwiseRank};\draw[arr] (52.5,48.7) -- (call2.north);
+\node at (52.5,39) {$R_3$};
+\node[item] (R20) at (46.95,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R20.center) {\TraceNumber{2}};
+\node[item] (R21) at (50.65,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R21.center) {\TraceNumber{8}};
+\node[item] (R22) at (54.35,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R22.center) {\TraceNumber{11}};
+\node[item] (R23) at (58.05,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R23.center) {\TraceNumber{15}};
+\draw[arr] (call2.south) -- (52.5,41);
+\node at (73,55) {$C_4$};
+\node[item] (C30) at (67.45,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C30.center) {\TraceNumber{9}};
+\node[item] (C31) at (71.15,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C31.center) {\TraceNumber{13}};
+\node[item] (C32) at (74.85,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C32.center) {\TraceNumber{4}};
+\node[item] (C33) at (78.55,51) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (C33.center) {\TraceNumber{10}};
+\draw[dotted,line width=.5pt] (63.7,48.7) rectangle (82.3,53.3);
+\node[call] (call3) at (73,45) {ListwiseRank};\draw[arr] (73,48.7) -- (call3.north);
+\node at (73,39) {$R_4$};
+\node[item] (R30) at (67.45,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R30.center) {\TraceNumber{4}};
+\node[item] (R31) at (71.15,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R31.center) {\TraceNumber{9}};
+\node[item] (R32) at (74.85,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R32.center) {\TraceNumber{10}};
+\node[item] (R33) at (78.55,35) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (R33.center) {\TraceNumber{13}};
+\draw[arr] (call3.south) -- (73,41);
+\draw[group] (2.45,32.5) rectangle (41.05,41);
+\node[merge] (m0) at (21.75,28) {MergeGroup};\draw[arr] (21.75,32.5) -- (m0.north);
+\node at (21.75,22) {$Q_1$};
+\node[item] (Q00) at (8.8,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q00.center) {\TraceNumber{1}};
+\node[item] (Q01) at (12.5,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q01.center) {\TraceNumber{3}};
+\node[item] (Q02) at (16.2,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q02.center) {\TraceNumber{5}};
+\node[item] (Q03) at (19.9,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q03.center) {\TraceNumber{6}};
+\node[item] (Q04) at (23.6,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q04.center) {\TraceNumber{7}};
+\node[item] (Q05) at (27.3,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q05.center) {\TraceNumber{12}};
+\node[item] (Q06) at (31,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q06.center) {\TraceNumber{14}};
+\node[item] (Q07) at (34.7,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q07.center) {\TraceNumber{16}};
+\draw[arr] (m0.south) -- (21.75,24);
+\draw[group] (43.45,32.5) rectangle (82.05,41);
+\node[merge] (m1) at (62.75,28) {MergeGroup};\draw[arr] (62.75,32.5) -- (m1.north);
+\node at (62.75,22) {$Q_2$};
+\node[item] (Q10) at (49.8,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q10.center) {\TraceNumber{2}};
+\node[item] (Q11) at (53.5,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q11.center) {\TraceNumber{4}};
+\node[item] (Q12) at (57.2,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q12.center) {\TraceNumber{8}};
+\node[item] (Q13) at (60.9,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q13.center) {\TraceNumber{9}};
+\node[item] (Q14) at (64.6,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q14.center) {\TraceNumber{10}};
+\node[item] (Q15) at (68.3,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q15.center) {\TraceNumber{11}};
+\node[item] (Q16) at (72,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q16.center) {\TraceNumber{13}};
+\node[item] (Q17) at (75.7,18.5) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (Q17.center) {\TraceNumber{15}};
+\draw[arr] (m1.south) -- (62.75,24);
+\node[text=black!72,anchor=west] at (.5,28) {Pass 1};\node[text=black!72,anchor=west] at (.5,12.8) {Pass 2};
+\draw[group] (3,16) rectangle (81.5,24);\node[merge] (final) at (42.25,12.8) {MergeGroup};\draw[arr] (42.25,16) -- (final.north);
+\node[item] (P0) at (18.25,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P0.center) {\TraceNumber{1}};
+\node[item] (P1) at (21.95,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P1.center) {\TraceNumber{2}};
+\node[item] (P2) at (25.65,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P2.center) {\TraceNumber{3}};
+\node[item] (P3) at (29.35,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P3.center) {\TraceNumber{4}};
+\node[item] (P4) at (33.05,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P4.center) {\TraceNumber{5}};
+\node[item] (P5) at (36.75,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P5.center) {\TraceNumber{6}};
+\node[item] (P6) at (40.45,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P6.center) {\TraceNumber{7}};
+\node[item] (P7) at (44.15,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P7.center) {\TraceNumber{8}};
+\node[item] (P8) at (47.85,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P8.center) {\TraceNumber{9}};
+\node[item] (P9) at (51.55,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P9.center) {\TraceNumber{10}};
+\node[item] (P10) at (55.25,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P10.center) {\TraceNumber{11}};
+\node[item] (P11) at (58.95,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P11.center) {\TraceNumber{12}};
+\node[item] (P12) at (62.65,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P12.center) {\TraceNumber{13}};
+\node[item] (P13) at (66.35,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P13.center) {\TraceNumber{14}};
+\node[item] (P14) at (70.05,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P14.center) {\TraceNumber{15}};
+\node[item] (P15) at (73.75,6.7) {};\node[font=\fontfamily{qtm}\fontsize{6.8}{7.4}\selectfont] at (P15.center) {\TraceNumber{16}};
+\node at (9.3,6.7) {$\Pi=$};\draw[line width=.45pt] (16.3,8.9) -- (16.3,9.3) -- (75.7,9.3) -- (75.7,8.9);\draw[arr] (final.south) -- (42.25,9.3);
 \node[anchor=south west,inner sep=0pt,outer sep=0pt] at (0,0) {\includegraphics[width=240.2465515bp]{alg1-legend.pdf}};
 \end{tikzpicture}\end{document}

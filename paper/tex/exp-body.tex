@@ -1,56 +1,48 @@
-% Experiment body: approved layout figures and PR14 tables only.
-
-\subsection{Overall Performance of Full Ranking}
-\label{sec:exp:full}
-\Cref{tab:exp1-full,tab:exp1-full-27b} give the approved Full-ranking table layouts for 9B and 27B respectively.
-
-\input{tables/generated/exp1-full}
-
-\subsection{Overall Performance under \LIMIT~$K$}
-\label{sec:exp:topk}
-\Cref{tab:exp1-topk,tab:exp1-topk-27b} mirror the same structure for LIMIT~10.
-
-\input{tables/generated/exp1-limit10}
-
-\subsection{Predicted vs.\ measured cost surfaces}
-\label{sec:exp:e2}
-\Cref{fig:exp2-surface-2x2} contrasts predicted and measured token-cost surfaces over fan-in and $(k,h)$ (synthetic layout).
-
-\input{integration/fig-e2-main}
-
-\subsection{Scale sensitivity with fixed $(k,h)$}
-\label{sec:exp:scale}
-
-Fixed SW/LT configuration pairs are evaluated at $n\in\{1\text{k},5\text{k},10\text{k}\}$ under Full ranking and LIMIT~10 (\cref{fig:exp3-scale}).
-
-\input{integration/fig-e3-scale}
-
-\subsection{Cost model validation}
-\label{sec:exp:cost}
-
-\subsubsection{Off/On-cold cost shapes (E4a)}
-\Cref{fig:exp4a-dl20-n100,fig:exp4a-covid-n500} show compact 2$\times$2 layouts for DL20 at $n{=}100$ and TREC-COVID at $n{=}500$.
-Two additional query--$n$ combinations appear in Appendix~\ref{sec:appendix-e4a-layout} as layout representatives only.
-
-\input{integration/fig-e4a-main}
-
-\subsubsection{Cache warmup and $\beta$ (E4b)}
-\input{integration/fig-e4b}
-
-\noindent\textbf{Cost-model validation skeleton.}
-\Cref{tab:exp4-validation} reserves rows for measured $k_{\mathrm{cm}}$ vs.\ $k^{*}$ checks after production runs; cells are intentionally empty in this preview.
-
-\input{tables/generated/tab-exp4-validation}
-
-\subsubsection{Quality vs.\ token cost (E4c)}
-The Full and LIMIT~10 scatter layouts share marker semantics with experiment~5.
-
-\input{integration/fig-e4c}
-
+% E1 through E5: results prose intentionally empty.
+% This draft puts the wide placeholders on a shared page to keep their
+% headings next to the visuals while the experimental prose is empty.
 \FloatBarrier
-\subsection{\LIMIT $n$ sensitivity}
+\twocolumn[{%
+  \begingroup
+  \renewenvironment{table*}[1][]{%
+    \noindent\begin{minipage}{\textwidth}\captionsetup{type=table}\centering
+  }{\end{minipage}\par\vskip1pt}%
+  \renewenvironment{figure*}[1][]{%
+    \noindent\begin{minipage}{\textwidth}\captionsetup{type=figure}\centering
+  }{\end{minipage}\par\vskip1pt}%
+\subsection{End-to-End Ranking}
+\label{sec:exp:e1}
+\input{manuscript/exp1-full}
+\input{manuscript/exp1-limit}
+
+\subsection{Cost Model}
+\label{sec:exp:e2}
+{\graphicspath{{../round2/e2/out/}}%
+\input{manuscript/fig-e2-exp5-container-12}}
+
+  \endgroup
+  \par\vspace{0pt}%
+}]
+\begingroup
+\placeexperimentfigures
+\Needspace{105pt}
+\subsection{Large-Scale Ranking}
+\label{sec:exp:scale}
+{\graphicspath{{../round2/experiments/figures/e3-one-row/}}%
+\input{../round2/experiments/tex/fig-e3.tex}}
+
+\Needspace{440pt}
+\subsection{Prefix Cache}
+\label{sec:exp:cache}
+{\graphicspath{{../round2/experiments/figures/e4a-c2/}}%
+\input{manuscript/fig-e4a-C2}}
+{\graphicspath{{../round2/experiments/figures/e4b/}}%
+\input{manuscript/fig-e4b}}
+{\graphicspath{{../round2/experiments/figures/e4c/}}%
+\input{manuscript/fig-e4c}}
+
+\Needspace{160pt}
+\subsection{Varying the Limit and Full Ranking}
 \label{sec:exp:limit-sweep}
-
-\Cref{fig:exp5-k-sweep-off,fig:exp5-k-sweep-on} sweep requested output length under cache Off and On-cold (synthetic layout).
-
-\input{integration/fig-e5-sweep}
+\input{manuscript/fig-e5}
+\endgroup

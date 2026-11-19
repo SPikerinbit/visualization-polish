@@ -18,6 +18,13 @@ for spec in b.SPECS_12:
  s=b.build_series(spec);frozen=[(r.k,r.h,r.u,r.p) for r in s.rows];tri=s.tri.copy()
  fig=plt.figure(figsize=(b.PANEL_IN,b.PANEL_IN),facecolor='white');ax=fig.add_axes([.06,.11,.74,.85],projection='3d',computed_zorder=False)
  b.draw_series(ax,s,'panel',b._frames([s])[0],dict(x_ticks=True,x_label=True,y_ticks=True,y_label=True,z_ticks=True,z_label=False));fig.canvas.draw()
+ # Axis-attached unit name; cost values remain in thousands, as the caption states.
+ # Place just above the actual top z-tick ink with a fixed 4.5bp gap in native panel.
+ renderer=fig.canvas.get_renderer()
+ boxes=[t.get_window_extent(renderer) for t in ax.get_zticklabels() if t.get_visible() and t.get_text()]
+ right=min(max(bb.x1 for bb in boxes),fig.bbox.width-1.5*fig.dpi/72)
+ top=max(max(bb.y1 for bb in boxes),ax.zaxis.line.get_window_extent(renderer).y1)+4.5*fig.dpi/72
+ fig.text(right/fig.bbox.width,top/fig.bbox.height,'Tokens',ha='right',va='bottom',fontsize=8.5,color=b.INK)
  points=np.array([(r.k,r.h,z) for r in s.rows for z in [r.u,r.p]])
  x,y,z=proj3d.proj_transform(*points.T,ax.get_proj());xy=ax.transData.transform(np.column_stack([x,y]))*72/fig.dpi*(79.28136488/133.2)
  dist=np.linalg.norm(xy[:,None,:]-xy[None,:,:],axis=2);np.fill_diagonal(dist,np.inf);diameter=(5**.5+.24)*79.28136488/133.2
@@ -31,6 +38,9 @@ for spec in b.SPECS_12:
 with (ROOT/'unchanged-points.csv').open('w') as f:
  w=csv.writer(f);w.writerow(['panel','k','h','synthetic_actual','synthetic_predicted']);w.writerows(rows)
 (ROOT/'validation.json').write_text(json.dumps(dict(synthetic=True,panels=reports,all_data_unchanged=True,marker_diameter_print_pt=diameter,baseline_source_sha256=hashlib.sha256((HERE/'plot_surfaces.py').read_bytes()).hexdigest()),indent=2))
+# --panels-only preserves the already-reviewed independent legend byte-for-byte.
+import sys
+if "--panels-only" in sys.argv: raise SystemExit(0)
 # One row, shared legend. Synthetic disclosure belongs to manuscript opening.
 from matplotlib.lines import Line2D
 fig=plt.figure(figsize=(5.6,.23),facecolor='white')

@@ -1,0 +1,45 @@
+\subsection{Experimental Setup}
+\label{sec:exp:setup}
+
+\stitle{Datasets.}
+The revised end-to-end protocol targets 151 queries from six collections (Table~\ref{tab:datasets}).
+SemBench Q9~\cite{lao2026sembench} orders 128 movie reviews by sentiment, using the original ratings as relevance grades.
+The other five collections contribute 30 queries each: the TREC Deep Learning passage tasks DL20~\cite{arxiv21trecdl20} and DL22~\cite{arxiv25trecdl22}, and TREC-COVID, DBpedia-Entity, and Robust04 from BEIR~\cite{arxiv21BEIR}.
+For these five tasks, we sample queries by candidate count and the fraction of candidates with the most common grade.
+Each query has more than 100 judged candidates and at least two grades. When a pool exceeds 500 candidates, we sample within grades in proportion to their original frequencies. For DL22, we first collapse official document-equivalence classes.
+The mechanism studies use DL20 and TREC-COVID. From each collection we select one query in each of three strata defined by average candidate text length. These studies use BM25 candidates except where noted below.
+
+\stitle{Methods and inference.}
+We compare SW and LT($h$) with Pointwise, External Pointwise, External Bubble, and External Merge from OrderByLLM~\cite{DBLP:journals/corr/abs-2509-00303}; ListK Sort and Tournament from ListK~\cite{DBLP:journals/corr/abs-2603-17223}; LOTUS Quicksort~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}; and Setwise Heap~\cite{DBLP:conf/sigir/ZhuangZKZ24}.
+ListK Sort is evaluated only for Full. Its \textsf{LIMIT} counterpart, ListK Select, returns an unordered set. Table~\ref{tab:ranking-algorithms} therefore lists ten Full methods and nine ordered-prefix methods.
+The two Qwen deployments use vLLM~\cite{kwon2023efficient}: Qwen3.5-9B uses tensor parallelism of two and listwise capacity $m=20$; Qwen3.8-27B uses four and $m=22$. These capacities apply to SW and LT. OrderByLLM and ListK retain their native window of 20; Setwise Heap compares a parent with two children using one candidate ordering per comparison.
+Each fixed condition uses temperature zero, generation seed zero, and one execution. Full materializes each merge pass; \textsf{LIMIT} pulls without prefetching.
+
+\stitle{End-to-end comparison (E1).}
+Full ranking uses Spearman's $\rho$ against the relevance grades, assigning tied grades their average rank. \textsf{LIMIT}~10 uses nDCG@10 with gain $2^{g}-1$ for grade $g$ and an ideal ranking drawn from the query's candidate pool.
+All methods and both models receive the same ten initial permutations (seeds 0 through 9).
+For each permutation we first average quality across queries within a dataset; the reported mean and standard deviation are over the ten resulting values.
+The quality and cost batch permits ten concurrent queries and counts all input and output tokens, including initial run generation.
+A separate batch measures latency for permutation zero, with one active query and up to 256 concurrent model requests. The timer includes profiling, planning, run generation, and merging up to result return.
+The token columns sum the dataset means within Q9, TREC (DL20 and DL22), and BEIR (TREC-COVID, DBpedia-Entity, and Robust04). Latency is the mean of the six dataset means. The $Q$, $T$, and $L$ columns summarize quality, tokens, and latency by averaging within-dataset ranks before assigning each method its competition place.
+
+\stitle{Cost prediction (E2) and scale (E3).}
+E2 compares predicted and observed \emph{merge input tokens} across legal $(k,h)$ pairs. Both estimators are scored against the same fixed-parameter observations. The ordinary workloads use 500 candidates, with DL20 query 1109707 on 9B and TREC-COVID query 38 on 27B. Both cover SW and LT under Full and \textsf{LIMIT}~10.
+Two further workloads vary the fixed prompt overhead on the same DL20 query: 9B uses 641 candidates and Full; 27B uses 500 candidates and \textsf{LIMIT}~2. Padding the instructions changes the cost of another call while keeping the candidate texts unchanged within each workload.
+E3 holds five configurations per family fixed across $n\in\{1{,}000,5{,}000,10{,}000\}$ on the 9B DL20 workload. Each larger input retains the original BM25 top 1,000 and adds a nested sample of documents. The scale comparison counts input tokens for both run generation and merging. Four additional high-fan-in LT configurations at the two larger sizes are evaluated separately.
+
+\stitle{Prefix reuse (E4) and requested output (E5).}
+E4 and E5 use the 9B deployment. Let $U$, $Q$, and $O$ denote input tokens, cached input tokens, and output tokens. At a relative price $\beta$ for a cache hit, equivalent input cost is $C_\beta=U-(1-\beta)Q$.
+With caching off, $C_\beta=U$. With caching on, every complete sort starts with an empty cache namespace. The analysis counts eligible hits in the shared prompt prefix before the first candidate.
+E4a compares the two settings at $n=100$ and $500$ on the middle-length query from each collection. Each comparison uses eight configurations sampled at evenly spaced indices of the legal $(k,h)$ pairs in lexicographic order; minima refer to those eight configurations.
+E4b reprices seven of the eight points for DL20, $n=500$, LT Full at $\beta\in\{0,.1,.25,.5,.75,.9,1\}$ using the same cache-on executions.
+E4c returns to the fully judged E1 pools for all six mechanism queries, comparing ranking quality with equivalent total cost $C_0+O$ under each cache setting.
+
+E5 fixes $n=500$ on the six BM25 pools and varies $K$ over $10,20,50,100,200,300,400,490,500$, with Full as a separate endpoint.
+Each family selects $(k,h)$ for the query, output demand, and cache setting. The evaluation tracks $C_0$ and nDCG@10, with zero gain for unjudged items; the sweep figure shows the cost panels. At $K=n$, the pull-based operator returns every item; Full returns the same number through materialized passes.
+
+\input{manuscript/tab-datasets}
+\input{manuscript/tab-algorithms}
+
+\noindent\textit{Draft figures.} The experiment plots contain synthetic values for layout only.
+

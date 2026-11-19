@@ -1,0 +1,65 @@
+\section{Token Cost Model}
+\label{sec:cost}
+
+\subsection{Full Ranking}
+\label{sec:cost-full}
+
+A larger fan-in $k$ reduces the number of merge passes, but it also changes what each listwise call ranks. A sliding window resubmits items that remain in the window; a loser tree resubmits the segments retained along one path. The call-count proxy in Section~\ref{sec:prelim} treats prompts as having comparable footprints. The optimizer relaxes that approximation because merge prompts differ in width: it counts both calls and item appearances. Run generation is common to all plans, so only the merge cost enters plan selection.
+
+\stitle{Pricing a request.}
+For a fixed instruction and prompt template, we serialize sampled input items at several batch widths and count the input tokens in each request. We fit the token count for a request of width $b$ as $H+Lb$, where $H$ is the fixed overhead per request and $L$ is the estimated incremental length per item. For a merge plan $\theta=(f,k,h)$ with family $f$, let $A$ denote the number of listwise calls and $S=\sum_{j=1}^{A}b_j$ the number of item appearances, counting an item each time it is submitted. The resulting estimate is
+\begin{equation}
+  \widehat C(\theta)=H\widehat{\mathbb E}[A]+L\widehat{\mathbb E}[S].
+  \label{eq:merge-cost-model}
+\end{equation}
+The ratio $H/L$ gives the trade-off in units of items: saving one call offsets up to $H/L$ additional item appearances.
+
+\stitle{Estimating full-merge work.}
+Let $\boldsymbol{\ell}=(\ell_1,\ldots,\ell_r)$ be the lengths of the initial runs, with $\sum_i\ell_i=n$. These lengths determine the merge groups, but not when a window must refill or which path a tree must refresh. To model this uncertainty, we distribute the ranks $1,\ldots,n$ uniformly among runs of the specified lengths and sort each run internally. This models interleaving without replacement and preserves the exact size of the last run.
+
+On one sampled assignment $\pi$, we replay the materialized passes using integer ranks for comparisons. If $\mathcal G_t$ is the set of non-singleton groups in pass $t$ and $(A_g,S_g)$ are the counts for group $g$, then
+\begin{equation}
+  (A,S)_{\mathrm{full}}(\pi)=
+  \sum_{t=1}^{\lceil\log_k r\rceil}
+  \sum_{g\in\mathcal G_t}(A_g(\pi),S_g(\pi)).
+  \label{eq:total-merge-cost}
+\end{equation}
+For a window, each ranked batch contributes one call and its actual occupancy; once only one run remains, it drains for free. For a loser tree, the counts include the packed initialization calls and the actual width of each path refresh, including partially filled segments. Groups in later passes receive the merged ranks from the same assignment. We average the counts over Monte Carlo assignments and cache them by plan and run lengths for each execution mode and demand. The cached counts do not depend on $H$ or $L$, so a new token profile can price the same plans without rerunning the simulation or invoking the ranker.
+
+\stitle{Selecting a plan.}
+We enumerate integer $2\leq k\leq r$ and $1\leq h\leq h_{\max}(f,k)$, where
+\begin{equation}
+ h_{\max}(f,k)=
+ \begin{cases}
+   \lfloor m/k\rfloor, & f=\mathrm{SW},\\
+   \lfloor m/(1+\lceil\log_2 k\rceil)\rfloor, & f=\mathrm{LT}.
+ \end{cases}
+ \label{eq:merge-capacity}
+\end{equation}
+The first bound fits the $k$ per-run buffers in a single window; the second fits a replacement segment and the retained segments on the longest refresh path. We select the plan with the smallest estimate in Eq.~\eqref{eq:merge-cost-model}, searching within the requested family or across both families when the choice is open. If there is at most one initial run, no merge is needed.
+
+\stitle{Position-aware pricing.}
+Eq.~\eqref{eq:merge-cost-model} prices every appearance at the same mean length $L$. A long item near the head of a run can, however, appear in more prompts than a long item near its tail. We therefore distinguish the mean-length model (v5) from a position-aware variant (v6). In the same simulations, let $W_b$ be the mean number of calls of width $b$, and $E_{ip}$ the mean number of appearances of position $p$ in initial run $i$. After run generation, let $s_{ip}$ be the token length of the actual item at that position and $B_b$ the template and formatting cost for width $b$. The position-aware estimate is
+\begin{equation}
+  \widehat C_{\mathrm{pos}}(\theta)=
+  \sum_{b=2}^{m}W_b B_b+
+  \sum_{i=1}^{r}\sum_{p=1}^{\ell_i}E_{ip}s_{ip}.
+  \label{eq:cost-position-aware}
+\end{equation}
+The widths and exposure counts are precomputed; the planner maps the measured item lengths to their observed run positions before choosing $(k,h)$.
+
+\subsection{\texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
+\label{sec:cost-limit}
+
+For a strict prefix, multiplying the full cost by $K/n$ would prorate initialization as well as refreshes. Yet the first output already requires candidates from every input run. Subsequent outputs can draw repeatedly on one subtree while another subtree continues to serve items it has buffered. Thus the cost at a child depends on which items its parent consumes.
+
+We use the same rank assignments and token profile, but replay the producer tree under strict demand. Starting at the root, the simulation pulls only the items needed by the current window or segment. A child serves buffered output directly and requests more input when its merge state requires it. We stop when the root has returned $K$ items, charging the full width of any call that supplied them even when some of its output remains buffered. The resulting $(A_K,S_K)$ replace $(A,S)$ in Eq.~\eqref{eq:merge-cost-model}; position-aware pricing likewise uses the widths and exposures recorded up to this stopping point. For $0<K<n$, the planner searches $1\leq h\leq\min\{K,h_{\max}(f,k)\}$; a zero demand incurs no merge work.
+
+\stitle{An exact prefix case.}
+For a loser tree with $h=1$ and $1\leq K\leq\min_i\ell_i$, every replacement needed before termination is available from its source run. Initialization yields the first item. Each of the remaining $K-1$ outputs requires refreshing the path of the preceding output. Let $(a_i,d_i)$ count the calls and item appearances on that path if the preceding item came from initial run $i$, including every merge group between that run and the root. Under the finite interleaving model, each global position belongs to run $i$ with probability $\ell_i/n$. With initialization counts $(A_0,S_0)$, linearity of expectation gives
+\begin{equation}
+ (\mathbb E[A_K],\mathbb E[S_K])=(A_0,S_0)
+  +(K-1)\sum_{i=1}^{r}\frac{\ell_i}{n}(a_i,d_i).
+ \label{eq:cost-limit-single}
+\end{equation}
+This shortcut gives exact call and appearance means for Eq.~\eqref{eq:merge-cost-model}. The general prefix estimator and the position-specific weights in Eq.~\eqref{eq:cost-position-aware} use finite-tree simulation.

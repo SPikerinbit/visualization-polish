@@ -1,0 +1,7 @@
+\begin{figure}[t]
+  \centering
+  % SVG physical metrics target this measured VLDB column width.
+  \includegraphics[width=\linewidth]{../round2/mechanisms/sw.pdf}
+  \caption{Sliding-window merge ($m=8$), emitting $5+5+6$ items. A prefix ends when a run with unread rows empties its window: $R_2$ at 5, then $R_4$ at 10. With nothing unread, round 3 drains the buffer. Retained items stay buffered without reordering; windows are grouped by run for display.}
+  \label{fig:sw-mechanism}
+\end{figure}

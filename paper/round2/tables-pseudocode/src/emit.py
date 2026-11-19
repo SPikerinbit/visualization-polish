@@ -215,7 +215,7 @@ Model labels are requested labels; deployment manifests remain unverified.}}
 \label{{tab:exp1-full}}
 \begingroup
 \fontsize{{6.4}}{{8.2}}\fontfamily{{qhv}}\fontseries{{c}}\selectfont
-\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.8}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
+\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.1}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
 \setlength{{\tabcolsep}}{{0.4pt}}
 \renewcommand{{\arraystretch}}{{1.18}}
 \begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l!{{\hspace{{1.5pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}!{{\hspace{{3pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}@{{}}}}
@@ -251,7 +251,7 @@ Model labels are requested labels; deployment manifests remain unverified. The L
 \label{{tab:exp1-limit}}
 \begingroup
 \fontsize{{6.4}}{{8.2}}\fontfamily{{qhv}}\fontseries{{c}}\selectfont
-\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.8}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
+\renewcommand{{\qpm}}[2]{{\mbox{{\IfBeginWith{{#1}}{{0.}}{{\StrGobbleLeft{{#1}}{{1}}}}{{#1}}{{\fontsize{{5.1}}{{6.5}}\selectfont\textpm\IfBeginWith{{#2}}{{0.}}{{\StrGobbleLeft{{#2}}{{1}}}}{{#2}}}}}}}}
 \setlength{{\tabcolsep}}{{0.4pt}}
 \renewcommand{{\arraystretch}}{{1.18}}
 \begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}}l!{{\hspace{{1.5pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}!{{\hspace{{3pt}}}}c*{{5}}{{!{{\hspace{{2.4pt}}}}c}}!{{\hspace{{2pt}}}}c*{{4}}{{!{{\hspace{{1.2pt}}}}c}}*{{2}}{{@{{\hspace{{1.75pt}}}}c}}@{{}}}}

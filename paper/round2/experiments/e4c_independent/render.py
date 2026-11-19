@@ -16,24 +16,26 @@ record={'means':means,'fronts':{},'limits':{},'source_sha256':hashlib.sha256(e4c
 for metric in ['full','topk']:
  ylim=e4c._limits([p['y'] for p in means if p['metric']==metric])
  for state in ['Off','On-cold']:
-  f,ax=plt.subplots(figsize=(pt_to_in(COLUMN_PT*.49),pt_to_in(72 if metric=='full' else 82)))
-  f.subplots_adjust(left=.22,right=.98,bottom=.04 if metric=='full' else .16,top=.98)
+  # Compact physical geometry; typography and method marks retain their sizes.
+  panel_height=64
+  f,ax=plt.subplots(figsize=(pt_to_in(COLUMN_PT*.49),pt_to_in(panel_height)))
+  f.subplots_adjust(left=.22,right=.98,bottom=24/panel_height,top=1-3/panel_height)
   ax.set_xlim(*xlim);ax.set_ylim(*ylim)
   ax.set_xticks(e4c._inner_ticks(xlim,10));ax.set_yticks(e4c._inner_ticks(ylim,.1 if ylim[1]-ylim[0]>.2 else .05))
-  ax.tick_params(labelbottom=(metric!='full'),labelsize=6.8,length=2,width=.45,pad=1.2,color='#737C82')
+  ax.tick_params(labelbottom=True,labelsize=6.8,length=2,width=.45,pad=1.2,color='#737C82')
+  ax.set_xlabel('Equivalent total tokens (×10³)',fontsize=7.4,labelpad=4)
   ax.grid(axis='y',color='#E5E8EA',lw=.3);ax.set_axisbelow(True)
   for side in ['top','right']:ax.spines[side].set_visible(False)
   for side in ['bottom','left']:ax.spines[side].set_color('#858D93');ax.spines[side].set_linewidth(.45)
+  # Two-point axis standoff preserves full boundary glyphs without altering data limits.
+  ax.spines['bottom'].set_position(('outward',2))
   if state=='Off':ax.set_ylabel('Spearman' if metric=='full' else 'NDCG@10',fontsize=7.4,labelpad=1)
   points=[p for p in means if p['metric']==metric and p['state']==state];front=e4c.nondominated(points)
   if len(front)>1:ax.plot([p['x']/1000 for p in front],[p['y'] for p in front],color='#737B80',lw=.65,ls=(0,(3,2)),zorder=2)
   # Singleton and multivertex frontiers use the same unfilled membership cue.
-  for v in front:ax.plot(v['x']/1000,v['y'],marker='o',ms=8.0,ls='',mfc='none',mec='#596168',mew=.5,zorder=2.8)
-  for p in points:ax.plot(p['x']/1000,p['y'],**mark(methods[p['method']]),zorder=3)
+  for v in front:ax.plot(v['x']/1000,v['y'],marker='o',ms=8.0,ls='',mfc='none',mec='#596168',mew=.5,zorder=2.8,clip_on=False)
+  for p in points:ax.plot(p['x']/1000,p['y'],**mark(methods[p['method']]),zorder=3,clip_on=False)
   stem=f'e4c-{metric}-{state.lower()}';f.savefig(out/f'{stem}.pdf');f.savefig(out/f'{stem}.svg')
-  if metric=='full':
-   f.set_size_inches(pt_to_in(COLUMN_PT*.49),pt_to_in(82));f.subplots_adjust(bottom=.16);ax.tick_params(labelbottom=True)
-   (R/'standalone-raw').mkdir(exist_ok=True);f.savefig(R/'standalone-raw'/f'{stem}.pdf')
   plt.close(f)
   record['fronts'][stem]=front;record['limits'][stem]={'x':xlim,'y':ylim}
 f=plt.figure(figsize=(pt_to_in(COLUMN_PT),pt_to_in(25)))

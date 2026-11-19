@@ -12,7 +12,7 @@ roles=[('SW','Full'),('SW','LIMIT10'),('LT','Full'),('LT','LIMIT10')];audit=[]
 for n in [100,500]:
  vals=[q[k]/1000 for p in ps if p['n']==n for q in p['points'] for k in ['measured_off_U','measured_on_U_minus_Q']];pad=.08*np.ptp(vals);ylim=(min(vals)-pad,max(vals)+pad)
  for row,(family,mode) in enumerate(roles):
-  last=row==3;H=60 if last else 40;fig=plt.figure(figsize=(118/72,H/72),facecolor='white');ax=fig.add_axes([16/118,(23 if last else 3)/H,100/118,34/H]);ax.set_xlim(-.45,16.45);ax.set_ylim(ylim);ax.set_yticks([50,75,100] if n==100 else [150,250,350]);ax.set_axisbelow(True);ax.grid(axis='y',color='#DEE4E8',lw=.35)
+  last=row==3;H=60 if last else 40;fig=plt.figure(figsize=(118/72,H/72),facecolor='white');ax=fig.add_axes([19/118,(23 if last else 3)/H,97/118,34/H]);ax.set_xlim(-.45,16.45);ax.set_ylim(ylim);ax.set_yticks([50,75,100] if n==100 else [150,250,350]);ax.set_axisbelow(True);ax.grid(axis='y',color='#DEE4E8',lw=.35)
   ax.axvline(8,color='#C5CBD0',lw=.5,ls=(0,(2,2)),zorder=1)
   xticks=[];labels=[];entry={'n':n,'family':family,'mode':mode,'ylim':list(ylim),'yticks':list(ax.get_yticks()),'segments':[]}
   for dataset,offset in [('DL20',0),('TREC-COVID',9)]:
@@ -26,16 +26,17 @@ for n in [100,500]:
   if last:
    for x,label in zip(xticks,labels):
     compact=label
-    ax.annotate(compact,(x,0),xycoords=ax.get_xaxis_transform(),xytext=(0,-3),textcoords='offset points',fontsize=6.2,rotation=90,ha='center',va='top',annotation_clip=False)
-   fig.canvas.draw()
+    ax.annotate(compact,(x,0),xycoords=ax.get_xaxis_transform(),xytext=(0,-3),textcoords='offset points',fontsize=6.0,rotation=90,ha='center',va='top',annotation_clip=False)
+   fig.set_dpi(576);fig.canvas.draw()
    bb=[t.get_window_extent() for t in ax.texts]
    gaps=[(bb[i+1].x0-bb[i].x1)*72/fig.dpi for i in range(len(bb)-1)]
    assert min(gaps)>0, gaps
    entry['tick_texts']=[t.get_text() for t in ax.texts];entry['min_label_gap_bp']=min(gaps)
+  fig.text(3.3/118,((23 if last else 3)+17)/H,'Tok. ×10³',rotation=90,fontsize=5.0,ha='center',va='center')
   for sp in ax.spines.values():sp.set_color('#8F9CA6');sp.set_linewidth(.45)
   curves=[l for l in ax.lines if len(l.get_xdata())==8];assert len(curves)==4
   assert all(max(l.get_xdata())<8 or min(l.get_xdata())>8 for l in curves)
-  entry['plot_size_bp']=[100,34];entry['separate_curve_count']=4;audit.append(entry)
+  entry['plot_size_bp']=[97,34];entry['separate_curve_count']=4;audit.append(entry)
   for ext in ['pdf','svg']:fig.savefig(OUT/f'n{n}-r{row+1}.{ext}')
   plt.close(fig)
 fig=plt.figure(figsize=(240.24655/72,14/72));hs=[Line2D([],[],color=b.OFF,marker='o',ms=2.7,lw=.95,label='Cache Off'),Line2D([],[],color=b.ON,ls='--',marker='s',ms=2.7,mfc='white',lw=.95,label='On-cold'),Line2D([],[],color='black',marker='*',ms=5,lw=0,label='Min.'),Line2D([],[],color='black',marker='D',ms=5,mfc='white',lw=0,label='Model-selected')];fig.legend(handles=hs,loc='center',ncol=4,fontsize=6.3,frameon=False,handlelength=1.1,columnspacing=0.8);fig.savefig(O/'joined-legend.pdf');plt.close(fig)

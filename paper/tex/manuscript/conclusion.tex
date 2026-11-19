@@ -1,0 +1,3 @@
+\section{Conclusion}
+\label{sec:conclusion}
+Semantic \textsf{ORDER BY} must assemble a global ranking from listwise calls that can see only part of the input. Our framework organizes these calls as external $k$-way merge. Sliding windows carry uncommitted items between calls, and segmented loser trees replace one segment along the path that next needs input. The same merge groups support full ranking through layer materialization and \LIMIT~$K$ through demand-driven execution. By accounting for both calls and repeated item appearances, the planner can choose the merge family, fan-in, and capacity for the requested output.

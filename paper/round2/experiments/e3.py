@@ -158,7 +158,7 @@ def draw_legend(payload) -> plt.Figure:
         loc="center",
         ncol=10,
         frameon=False,
-        fontsize=6.0,
+        fontsize=6.3,
         handlelength=0.65,
         handletextpad=0.25,
         columnspacing=0.2,

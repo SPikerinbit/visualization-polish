@@ -1,0 +1,60 @@
+{
+  "source_sha256": "bfe8387df38b2b7a0b1e26fb313891eaa2a3444fb2a8c0f709147af898f1bc14",
+  "kind": "synthetic_layout_only",
+  "panels": [
+    {
+      "panel": "overlay-sw-full",
+      "xlim": [
+        400.0,
+        10600.0
+      ],
+      "ylim": [
+        11.1,
+        66.2
+      ],
+      "points": 30,
+      "data_exact": true
+    },
+    {
+      "panel": "overlay-lt-full",
+      "xlim": [
+        400.0,
+        10600.0
+      ],
+      "ylim": [
+        11.1,
+        66.2
+      ],
+      "points": 30,
+      "data_exact": true
+    },
+    {
+      "panel": "overlay-sw-limit10",
+      "xlim": [
+        400.0,
+        10600.0
+      ],
+      "ylim": [
+        11.1,
+        66.2
+      ],
+      "points": 30,
+      "data_exact": true
+    },
+    {
+      "panel": "overlay-lt-limit10",
+      "xlim": [
+        400.0,
+        10600.0
+      ],
+      "ylim": [
+        11.1,
+        66.2
+      ],
+      "points": 30,
+      "data_exact": true
+    }
+  ],
+  "data_points": 120,
+  "limits_shared_and_unchanged": true
+}

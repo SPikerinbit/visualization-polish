@@ -31,7 +31,7 @@
 \author{Anonymous Author(s)}
 \renewcommand{\shortauthors}{Anonymous}
 \begin{abstract}
-Semantic \textsf{ORDER BY} uses natural-language criteria to rank items. A listwise language model can order a batch of items in one call, but a large input must be sorted in batches and merged across calls. We adapt external $k$-way merge to this setting and develop two group-merging algorithms. Sliding-window merge reuses the uncommitted portion of a ranked window, while segmented loser-tree merge refreshes only the path that supplies the next segment. Full ranking materializes each merge layer; a \LIMIT~$K$ query pulls only the work needed to emit its requested prefix. A cost model estimates calls and item appearances for each execution mode and selects a feasible merge plan by its expected input tokens.
+A listwise language model can rank a batch of rows by a natural-language criterion. When a semantic \textsf{ORDER BY} query exceeds the batch capacity, the operator must merge the resulting runs without spending a model call on every output row. We use external $k$-way merge with two group mergers. Sliding-window merge ranks the heads and nearby rows of several runs, then carries the unreturned rows into the next window. Segmented loser-tree merge keeps the losers at internal nodes and refreshes only one path at a time. Full ranking materializes each merge layer; \LIMIT~$K$ pulls rows from its input groups as needed. The planner estimates the number of calls and the number of rows submitted across those calls, then selects the feasible plan with the lowest estimated input token cost.
 \end{abstract}
 \maketitle
 {\emergencystretch=1em\relax\input{inrto}\par}

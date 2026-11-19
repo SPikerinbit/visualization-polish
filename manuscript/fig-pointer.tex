@@ -1,6 +1,6 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig/mechanisms/pointer.pdf}
-  \caption{Pointer assignment for $h=2$. Scan ranked replay slots until one contributes its second item (double outline). Tree construction exhausts slot R at 5. During path refresh, retained parent P occupies slot L and the incoming right segment occupies slot R; L exhausts at 7. Slot labels are replay positions, not original run identities. Gray winners are forwarded upward; remaining items are stored at P.}
+  \caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R are slot labels, not the original run identities.}
   \label{fig:pointer-mechanism}
 \end{figure}

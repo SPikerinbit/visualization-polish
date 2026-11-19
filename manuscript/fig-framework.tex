@@ -1,6 +1,6 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{fig/mechanisms/framework.pdf}
-  \caption{Cost-guided semantic \textsf{ORDER BY}. The planner compares feasible merge plans using estimated input tokens. Full ranking materializes layers; \LIMIT~$K$ requests input at group granularity. The candidate plans and token bars are schematic.}
+  \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner estimates the input tokens of feasible plans and selects the cheapest one. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
   \label{fig:framework}
 \end{figure*}

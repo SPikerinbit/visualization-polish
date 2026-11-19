@@ -1,6 +1,6 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig/mechanisms/lt.pdf}
-  \caption{Segmented loser-tree merge ($h=2$). Warm nodes and the highlighted path show the current local refresh; stored segments remain hollow and forwarded winners are gray. The three stages retain the validated rank-map example, not a measured LLM run.}
+  \caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. Replaying the two matches yields $[3,4]$.}
   \label{fig:lt-mechanism}
 \end{figure}

@@ -36,10 +36,9 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 
 \noindent\textit{Draft figures.} The experiment plots use synthetic values to illustrate the layouts; they do not report measurements.
 % E1 through E5: results prose intentionally empty.
-% This draft puts the wide placeholders on a shared page to keep their
-% headings next to the visuals while the experimental prose is empty.
+% Group the E1/E2 draft assets on one dedicated full-width float page.
 \FloatBarrier
-\twocolumn[{%
+\begin{figure*}[p]
   \begingroup
   \renewenvironment{table*}[1][]{%
     \noindent\begin{minipage}{\textwidth}\captionsetup{type=table}\centering
@@ -58,8 +57,8 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 \input{manuscript/fig-e2-exp5-container-12}}
 
   \endgroup
-  \par\vspace{0pt}%
-}]
+\end{figure*}
+\clearpage
 \begingroup
 \placeexperimentfigures
 \Needspace{105pt}
@@ -68,7 +67,7 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 {\graphicspath{{fig/experiments/figures/e3-one-row/}}%
 \input{manuscript/fig-e3.tex}}
 
-\Needspace{440pt}
+\Needspace{398pt}
 \subsection{Prefix Cache}
 \label{sec:exp:cache}
 {\graphicspath{{fig/experiments/figures/e4a-c2/}}%
@@ -78,7 +77,7 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 {\graphicspath{{fig/experiments/figures/e4c/}}%
 \input{manuscript/fig-e4c}}
 
-\Needspace{160pt}
+\Needspace{327pt}
 \subsection{Varying the Limit and Full Ranking}
 \label{sec:exp:limit-sweep}
 \input{manuscript/fig-e5}

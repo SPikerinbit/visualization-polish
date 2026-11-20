@@ -1,11 +1,14 @@
-% Root entry for the supplied ZIP template (ACM sigconf review).
-\pdfminorversion=7
-\pdfmapfile{+symbols.map}
-\pdfmapfile{+cm.map}
-\pdfmapfile{+cmextra.map}
-\documentclass[sigconf,review,nonacm]{acmart}
-\setcopyright{none}
-\settopmatter{printacmref=false,printfolios=true}
+% PVLDB Volume 20 / VLDB 2027.
+% The bundled acmart.cls, pvldb.sty and BST come from the official template.
+\documentclass[sigconf, nonacm]{acmart}
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\usepackage{pvldb}
+%%% VLDB block end %%%
+\renewcommand\vldbdoi{XX.XX/XXX.XX}
+\renewcommand\vldbpages{XXX-XXX}
+% Replace the empty value with the verified public artifact URL when available.
+\renewcommand\vldbavailabilityurl{}
 \usepackage{booktabs,multirow,array,makecell}
 \let\Bbbk\relax
 \usepackage{amsmath,amssymb}
@@ -28,12 +31,20 @@
 \input{manuscript/experiment-layout}
 \begin{document}
 \title{Cost-effective Multi-way Merge Semantic ORDER BY}
-\author{Anonymous Author(s)}
-\renewcommand{\shortauthors}{Anonymous}
+% The author list and affiliations were not present in the source archive.
+% Replace this draft label with the confirmed author blocks before submission.
+\author{Author information pending}
+\renewcommand{\shortauthors}{Author information pending}
 \begin{abstract}
 A listwise language model can rank a batch of rows by a natural-language criterion. When a semantic \textsf{ORDER BY} query exceeds the batch capacity, the operator must merge the resulting runs without spending a model call on every output row. We use external $k$-way merge with two group mergers. Sliding-window merge ranks the heads and nearby rows of several runs, then carries the unreturned rows into the next window. Segmented loser-tree merge keeps the losers at internal nodes and refreshes only one path at a time. Full ranking materializes each merge layer; \LIMIT~$K$ pulls rows from its input groups as needed. The planner estimates the number of calls and the number of rows submitted across those calls, then selects the feasible plan with the lowest estimated input token cost.
 \end{abstract}
 \maketitle
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\vldbtopmatter
+%%% VLDB block end %%%
+% Queue the full-width overview for the top of page 2.
+\input{manuscript/fig-framework}
 {\emergencystretch=1em\relax\input{inrto}\par}
 {\emergencystretch=2em\relax\input{problem statement}\par}
 \input{framework}
@@ -43,9 +54,9 @@ A listwise language model can rank a batch of rows by a natural-language criteri
 \input{related work}
 \input{manuscript/conclusion}
 \FloatBarrier
-\bibliographystyle{ACM-Reference-Format}
-\bibliography{ref}
-\clearpage
 \appendix
 \input{appendix}
+\clearpage % Only references may extend beyond page 12.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{ref}
 \end{document}

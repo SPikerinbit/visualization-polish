@@ -3,8 +3,7 @@
 %%%  @BibTeX-style-file{
 %%%     author          = "Nelson H. F. Beebe, Boris Veytsman and Gerald Murray",
 %%%     version         = "2.1",
-%%%     acmart-version  = "1.90",
-%%%     date            = "Mar 26 2023",
+%%%     date            = "14 June 2017",
 %%%     filename        = "ACM-Reference-Format.bst",
 %%%     email           = "borisv@lk.net, boris@varphi.com",
 %%%     codetable       = "ISO/ASCII",
@@ -64,7 +63,6 @@ ENTRY
         isbn-13       % UTAH
         issn          % UTAH
         lccn          % UTAH
-	distinctURL   % whether to print url if doi is present
   }
   {}
   { label.year extra.label sort.year sort.label basic.label.year}
@@ -150,16 +148,6 @@ FUNCTION { empty.or.unknown }
     { #1 #2 substring$ "??" = }
   if$
 }
-
-FUNCTION { empty.or.zero }
-{
-  %% Examine the top entry and push 1 if it is empty, or is zero
-  duplicate$ empty$
-    { pop$ #1 }
-    { "0" = }
-  if$
-}
-
 
 FUNCTION { writeln }
 {
@@ -501,15 +489,10 @@ FUNCTION { format.articleno }
 FUNCTION { format.year }
 { % push year string or "[n.\,d.]" onto output stack
   %% Because year is a mandatory field, we always force SOMETHING
-  %% to be output.  If we do not know year but know date, we push  date
-  %% as the last resort
+  %% to be output
   "\bibinfo{year}{"
   year empty.or.unknown
-    { date empty.or.unknown
-        { "[n.\,d.]" }
-	{ date #1 #4 substring$ }
-      if$
-    }
+    { "[n.\,d.]" }
     { year }
   if$
   *  "}" *
@@ -635,8 +618,11 @@ FUNCTION { output.doi } % UTAH
   doi empty.or.unknown
     { }
     {
-      "\href{https://doi.org/" strip.doi * "}{doi:\nolinkurl{" *
-      strip.doi  * "}}" * writeln
+      %% Use \urldef here for the same reason it is used in output.url,
+      %% see output.url for further discussion.
+      "\urldef\tempurl%" writeln
+      "\url{https://doi.org/" strip.doi * "}" * writeln
+      "\showDOI{\tempurl}" writeln
     }
   if$
 }
@@ -706,7 +692,7 @@ FUNCTION { output.note } % UTAH
 { % return with stack empty
   note empty.or.unknown
     { }
-    { "\shownote{" note * "}" add.period$ * writeln }
+    { "\shownote{" note add.period$ * "}" * writeln }
   if$
 }
 
@@ -714,7 +700,7 @@ FUNCTION { output.note.check } % UTAH
 { % return with stack empty
   note empty.or.unknown
     { "empty note in " cite$ * warning$ }
-    { "\shownote{" note * "}" add.period$ * writeln }
+    { "\shownote{" note add.period$ * "}" * writeln }
   if$
 }
 
@@ -750,14 +736,10 @@ FUNCTION { output.eprint } %
 % Changes by BV 2011/04/15.  Do not output
 % url if doi is defined
 %
-%
-% Changes by BV 2021/11/26.  Output url even if doi is defined
-% if distinctURL is not zero.
-%
 FUNCTION { output.url } % UTAH
 { % return with stack untouched
   % output URL and associated lastaccessed fields
-  doi empty.or.unknown distinctURL empty.or.zero not or
+  doi empty.or.unknown
   {
     url empty.or.unknown
       { }
@@ -787,22 +769,10 @@ FUNCTION { output.year.check }
 { % warn if year empty, output top string and leave " YEAR<label>" on stack in mid-sentence
   year empty.or.unknown
      { "empty year in " cite$ * warning$
-       date empty.or.unknown
-       {
-          "using n.d. in " cite$ * warning$
-          write$
-          " \bibinfo{year}{[n.\,d.]}"
-          "\natexlab{" extra.label * "}" * *
-          mid.sentence 'output.state :=
-       }
-       {
-          "using date in " cite$ * warning$
-          write$
-          " \bibinfo{year}{" date #1 #4 substring$ * "}" *
-          "\natexlab{" extra.label * "}" * *
-          mid.sentence 'output.state :=
-        }
-	if$
+       write$
+       " \bibinfo{year}{[n.d.]}"
+       "\natexlab{" extra.label * "}" * *
+       mid.sentence 'output.state :=
      }
      { write$
        " \bibinfo{year}{" year * "}"  *
@@ -1388,19 +1358,7 @@ FUNCTION { format.series }
 {
   series empty.or.unknown
     {""}
-    {" \emph{(\bibinfo{series}{" * series "}" *
-     volume empty.or.unknown
-       {
-         number empty.or.unknown
-            {")}" *}
-            {", \bibinfo{number}{" number "})}" * * *}
-          if$
-       }
-       {", Vol.~\bibinfo{volume}{" volume "})}" * * *
-        "volume and number" number either.or.check
-       }
-     if$
-    }
+    {" \emph{(\bibinfo{series}{" * series "})}" *}
   if$
 }
 
@@ -1484,12 +1442,7 @@ FUNCTION { format.pages.check.without.articleno }
   articleno empty.or.unknown eid empty.or.unknown and
     {
       pages missing$
-        {
-	   numpages empty.or.unknown
-	     {""}
-             { "\bibinfo{numpages}{" numpages * "}~pages" * }
-	  if$
-	}
+        { numpages }
         { format.pages }
       if$
     }
@@ -2019,11 +1972,7 @@ FUNCTION { calc.basic.label }
   if$
   duplicate$
   year empty.or.unknown
-    { date empty.or.unknown
-        { "{[n.\,d.]}" }
-	{ date field.or.null purify$ #1 #4 substring$}
-      if$
-    }
+    { "[n.d.]" }
     { year field.or.null purify$ #-1 #4 substring$}
   if$
   *
@@ -2071,11 +2020,7 @@ FUNCTION { calc.label }
   % save the year for sort processing afterwards (adding a, b, c, etc.)
   %
   year empty.or.unknown
-    { date empty.or.unknown
-        { "{[n.\,d.]}" }
-	{ date field.or.null purify$ #1 #4 substring$}
-      if$
-    }
+    { "[n.d.]" }
     { year field.or.null purify$ #-1 #4 substring$}
   if$
   'label.year :=
@@ -2085,12 +2030,10 @@ FUNCTION { calc.label }
 FUNCTION { output.bibitem }
 {
   newline$
-  "\bibitem[" write$
-  calc.basic.label write$
-  "(" write$
+  "\bibitem[\protect\citeauthoryear{" write$
+  calc.label write$
   sort.year write$
-  ")" write$
-  "]%" writeln
+  "}]%" writeln
   "        {" write$
   cite$ write$
   "}" writeln
@@ -2347,10 +2290,7 @@ FUNCTION { inproceedings }
         { format.in.emphasize.booktitle format.city "booktitle"  output.check.dot.space
           format.series output.removenospace
           format.editors.fml output % BV 2011/09/27 Moved dot to comma
-          series empty.or.unknown
-              { format.bvolume.noseries output }
-              {}
-          if$
+          format.bvolume.noseries output
           new.sentence
           organization output
           publisher "publisher" bibinfo.output.check % jtb: require publisher (?)
@@ -2441,6 +2381,7 @@ FUNCTION { misc }
     { }
     { "\bibinfo{howpublished}{" howpublished "}" * * output }
   if$
+  "" output.nonnull.dot.space
   calc.format.page.count output
   fin.block
   output.issue.doi.coden.isxn.lccn.url.eprint.note
@@ -2468,7 +2409,7 @@ FUNCTION { phdthesis }
   new.block
   format.title emphasize "title" output.check  % NB: ACM style requires emphasized thesis title
   new.block
-  "\bibinfo{thesistype}{Ph.\,D. Dissertation}" format.thesis.type output
+  "\bibinfo{thesistype}{Ph.D. Dissertation}" format.thesis.type output
   new.sentence
   school "school" bibinfo.output.check
   address empty.or.unknown
@@ -2650,99 +2591,6 @@ MACRO {oct}             {"Oct."}
 MACRO {nov}             {"Nov."}
 
 MACRO {dec}             {"Dec."}
-
-%%% ACM journal names
-
-MACRO {cie}  {"ACM Computers in Entertainment"}
-MACRO {csur}  {"ACM Computing Surveys"}
-MACRO {dgov}  {"Digital Government: Research and Practice"}
-MACRO {dtrap}  {"Digital Threats: Research and Practice"}
-MACRO {health}  {"ACM Transactions on Computing for Healthcare"}
-MACRO {imwut}  {"PACM on Interactive, Mobile, Wearable and Ubiquitous Technologies"}
-MACRO {jacm}  {"Journal of the ACM"}
-MACRO {jdiq}  {"ACM Journal of Data and Information Quality"}
-MACRO {jea}  {"ACM Journal of Experimental Algorithmics"}
-MACRO {jeric}  {"ACM Journal of Educational Resources in Computing"}
-MACRO {jetc}  {"ACM Journal on Emerging Technologies in Computing Systems"}
-MACRO {jocch}  {"ACM Journal on Computing and Cultural Heritage"}
-MACRO {pacmcgit}  {"Proceedings of the ACM on Computer Graphics and Interactive Techniques"}
-MACRO {pacmhci}  {"PACM on Human-Computer Interaction"}
-MACRO {pacmpl}  {"PACM on Programming Languages"}
-MACRO {pomacs}  {"PACM on Measurement and Analysis of Computing Systems"}
-MACRO {taas}  {"ACM Transactions on Autonomous and Adaptive Systems"}
-MACRO {taccess}  {"ACM Transactions on Accessible Computing"}
-MACRO {taco}  {"ACM Transactions on Architecture and Code Optimization"}
-MACRO {talg}  {"ACM Transactions on Algorithms"}
-MACRO {tallip}  {"ACM Transactions on Asian and Low-Resource Language Information Processing"}
-MACRO {tap}  {"ACM Transactions on Applied Perception"}
-MACRO {tcps}  {"ACM Transactions on Cyber-Physical Systems"}
-MACRO {tds}  {"ACM/IMS Transactions on Data Science"}
-MACRO {teac}  {"ACM Transactions on Economics and Computation"}
-MACRO {tecs}  {"ACM Transactions on Embedded Computing Systems"}
-MACRO {telo}  {"ACM Transactions on Evolutionary Learning"}
-MACRO {thri}  {"ACM Transactions on Human-Robot Interaction"}
-MACRO {tiis}  {"ACM Transactions on Interactive Intelligent Systems"}
-MACRO {tiot}  {"ACM Transactions on Internet of Things"}
-MACRO {tissec}  {"ACM Transactions on Information and System Security"}
-MACRO {tist}  {"ACM Transactions on Intelligent Systems and Technology"}
-MACRO {tkdd}  {"ACM Transactions on Knowledge Discovery from Data"}
-MACRO {tmis}  {"ACM Transactions on Management Information Systems"}
-MACRO {toce}  {"ACM Transactions on Computing Education"}
-MACRO {tochi}  {"ACM Transactions on Computer-Human Interaction"}
-MACRO {tocl}  {"ACM Transactions on Computational Logic"}
-MACRO {tocs}  {"ACM Transactions on Computer Systems"}
-MACRO {toct}  {"ACM Transactions on Computation Theory"}
-MACRO {todaes}  {"ACM Transactions on Design Automation of Electronic Systems"}
-MACRO {tods}  {"ACM Transactions on Database Systems"}
-MACRO {tog}  {"ACM Transactions on Graphics"}
-MACRO {tois}  {"ACM Transactions on Information Systems"}
-MACRO {toit}  {"ACM Transactions on Internet Technology"}
-MACRO {tomacs}  {"ACM Transactions on Modeling and Computer Simulation"}
-MACRO {tomm}   {"ACM Transactions on Multimedia Computing, Communications and Applications"}
-MACRO {tompecs}  {"ACM Transactions on Modeling and Performance Evaluation of Computing Systems"}
-MACRO {toms}  {"ACM Transactions on Mathematical Software"}
-MACRO {topc}  {"ACM Transactions on Parallel Computing"}
-MACRO {toplas}  {"ACM Transactions on Programming Languages and Systems"}
-MACRO {tops}  {"ACM Transactions on Privacy and Security"}
-MACRO {tos}  {"ACM Transactions on Storage"}
-MACRO {tosem}  {"ACM Transactions on Software Engineering and Methodology"}
-MACRO {tosn}  {"ACM Transactions on Sensor Networks"}
-MACRO {tqc}  {"ACM Transactions on Quantum Computing"}
-MACRO {trets}  {"ACM Transactions on Reconfigurable Technology and Systems"}
-MACRO {tsas}  {"ACM Transactions on Spatial Algorithms and Systems"}
-MACRO {tsc}  {"ACM Transactions on Social Computing"}
-MACRO {tslp}  {"ACM Transactions on Speech and Language Processing"}
-MACRO {tweb}  {"ACM Transactions on the Web"}
-
-%%% Some traditional macros
-MACRO {acmcs} {"ACM Computing Surveys"}
-
-MACRO {acta} {"Acta Informatica"}
-
-MACRO {cacm} {"Communications of the ACM"}
-
-MACRO {ibmjrd} {"IBM Journal of Research and Development"}
-
-MACRO {ibmsj} {"IBM Systems Journal"}
-
-MACRO {ieeese} {"IEEE Transactions on Software Engineering"}
-
-MACRO {ieeetc} {"IEEE Transactions on Computers"}
-
-MACRO {ieeetcad}
- {"IEEE Transactions on Computer-Aided Design of Integrated Circuits"}
-
-MACRO {ipl} {"Information Processing Letters"}
-
-MACRO {jcss} {"Journal of Computer and System Sciences"}
-
-MACRO {scp} {"Science of Computer Programming"}
-
-MACRO {sicomp} {"SIAM Journal on Computing"}
-
-MACRO {toois} {"ACM Transactions on Office Information Systems"}
-
-MACRO {tcs} {"Theoretical Computer Science"}
 
 
 
@@ -3037,16 +2885,16 @@ FUNCTION { begin.bib }
   "%%% NOTE TO THE USER: you can override these defaults by providing"       writeln
   "%%% customized versions of any of these macros before the \bibliography"  writeln
   "%%% command.  Each of them MUST provide its own final punctuation,"       writeln
-  "%%% except for \shownote{} and \showURL{}.  The latter two"  writeln
+  "%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two"  writeln
   "%%% do not use final punctuation, in order to avoid confusing it with"    writeln
   "%%% the Web address."                                                     writeln
   "%%%"                                                                      writeln
   "%%% To suppress output of a particular field, define its macro to expand" writeln
   "%%% to an empty string, or better, \unskip, like this:"                   writeln
   "%%%"                                                                      writeln
-  "%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax"                   writeln
+  "%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax"                   writeln
   "%%%"                                                                      writeln
-  "%%% \def \showURL #1{\unskip}           % plain TeX syntax"               writeln
+  "%%% \def \showDOI #1{\unskip}           % plain TeX syntax"               writeln
   "%%%"                                                                      writeln
   "%%% ====================================================================" writeln
   ""                                                                         writeln
@@ -3068,6 +2916,7 @@ FUNCTION { begin.bib }
   %%         \newcommand{\showLCCN}[1]{LCCN #1.}
 
   "\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi" writeln
+  "\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi" writeln
   % ACM styles omit ISBNs, but they can be included by suitable definitions of
   % \showISBNx and \showISBNxiii before the .bbl file is read
   "\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi" writeln

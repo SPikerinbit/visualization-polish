@@ -5,8 +5,6 @@ A listwise call ranks at most $m$ rows under instruction $\phi$. If $n>m$, the o
 
 The planner in Figure~\ref{fig:framework} uses the run lengths, call capacity $m$, requested output (Full or \LIMIT~$K$), and token profile. It chooses a plan $(f,k,h)$: the merge family $f$, the maximum fan-in $k$, and the per-run quota or segment length $h$. Sliding-window merge (SW) ranks a window across the active runs; segmented loser-tree merge (LT($h$)) ranks the rows needed to refresh one tree path at a time. The planner chooses the feasible plan with the lowest estimated merge input cost, either within a specified family or across both families (Section~\ref{sec:cost}).
 
-\input{manuscript/fig-framework}
-
 \subsection{Run Generation and Group Merge}
 \label{sec:external-merge}
 Algorithm~\ref{alg:semantic_external_merge} divides $D$ into $r=\lceil n/m\rceil$ disjoint chunks and ranks each under the same instruction $\phi$. The calls are independent and produce the initial runs $R_1,\ldots,R_r$. If there is only one run, the operator returns it in Full mode or takes its first $K$ rows for a prefix.
@@ -60,7 +58,7 @@ Figure~\ref{fig:lt-mechanism} traces one refresh on the same four runs as SW, wi
 \paragraph{The single-item case.}
 With $h=1$, each match keeps one loser and forwards one winner, and the pointer follows the winner's source. Replacing that head and replaying its path is the classical loser-tree update~\cite{DBLP:journals/csur/Graefe06}. When a comparison is needed, one listwise call orders the replacement and its path opponents, and the binary matches read their ranks. The same replay rule with $h>1$ can forward several rows at once.
 
-\subsection{Demand-Driven Execution for \textsf{LIMIT}~$K$}
+\subsection{Demand-Driven Execution for \texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:topk}\label{sec:topk-exec}
 A prefix query may never read the tails of intermediate runs. We generate the initial runs as before, but each merge group now serves as a producer. A request consumes any pending output before advancing the merger. There is no background prefetch. SW requests rows from each child whose window is short. LT initially requests one segment per child, then refills only the leaf selected by its pointer path. A request for one row may still require a full batch from children. The limit counts rows returned by the root.
 

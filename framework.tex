@@ -1,6 +1,5 @@
-% Section 3, with Figure 1 and its page-top algorithm/figure pairs.
-% In each pair, edit the algorithm or the figure directly in its minipage.
-% The outer figure* uses [t]; the enclosed algorithm must use [H].
+% Section 3: Figure 1 and the single-column algorithm and mechanism floats.
+% Mechanism diagrams and pseudocode are independent single-column floats.
 % Default path: evidence off, no input shuffle.
 % The objective is estimated merge input tokens; no unverified cost formula is used.
 % Full materializes each pass. LIMIT pulls the same groups and stops at K.
@@ -13,8 +12,8 @@
 \newcommand{\Expect}{\ensuremath{\mathrm{Expect}}}
 \SetKwProg{Fn}{procedure}{:}{}
 \SetAlgoNlRelativeSize{-1}
-\SetAlFnt{\footnotesize}
-\SetAlCapFnt{\footnotesize}
+\SetAlFnt{\normalsize}
+\SetAlCapFnt{\normalsize}
 \SetAlgoSkip{}
 \SetAlgoInsideSkip{}
 
@@ -26,57 +25,26 @@
   \label{fig:framework}
 \end{figure*}
 
-% Keep the existing introduction and preliminaries unchanged. Their placement
-% here gives the first paired float a page-2 anchor for the top of page 3.
 {\emergencystretch=1em\relax\input{inrto}\par}
 
-% Page 3 top: Alg. 1 and merge trace.
-\begin{figure*}[t]
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    % [H] keeps this algorithm inside the paired top-of-page figure.
-    \makeatletter\@twocolumnfalse\makeatother
-    \begin{algorithm}[H]
-    \caption{External Merge Group via $k$-Way Merge}
-    \label{alg:semantic_external_merge}
-    \KwIn{rows $D$, instruction $\phi$, capacity $m$, mode Full or LIMIT, bound $K$ (default $\infty$)}
-    \lIf{$D=\varnothing$ or $K=0$}{\Return $[\,]$}
-    $\mathcal R\leftarrow[\Rank_\phi(C):C\in\operatorname{Chunks}_m(D)]$\;
-    \lIf{$|\mathcal R|=1$}{\Return $\operatorname{take}_K(\mathcal R_1)$}
-    $(f,k,h)\leftarrow\arg\min_{(f,k,h)\in\mathcal F}\widehat C_{\rm merge}(f,k,h)$\;
-    \While{$|\mathcal R|>1$}{
-      $\mathcal G\leftarrow\operatorname{Chunks}_k(\mathcal R)$\;
-      $\mathcal R'\leftarrow[\MergeGroup_{f,h}(G):G\in\mathcal G]$\;
-      \lIf{Full}{$\mathcal R'\leftarrow[\operatorname{materialize}(S):S\in\mathcal R']$}
-      $\mathcal R\leftarrow\mathcal R'$\;
-    }
-    \Return $\operatorname{take}_K(\mathcal R_1)$\;
-    \end{algorithm}
-
-    \smallskip
-    % Paper abstraction: default no-evidence/no-shuffle path; no execution change.
-    {\footnotesize\raggedright
-    \noindent\textit{Conventions.}
-    $\Rank_\phi(X)$ orders real rows best first; $|X|\le1$ needs no call.
-    $\operatorname{take}_q$ reads the next $q$ rows or stops at exhaustion ($q=\infty$: drain).
-    $\Vert$ concatenates in order; $B_u$ is run $u$'s subsequence in $B$.
-    $\operatorname{unread}(u)$ means unread supply remains.
-    $\mathcal L(X)$ ranks $X$ once to order the active heads ($\rho$).
-    $[\bot_a]^r$ means $r$ virtual entries tagged $a$; $\operatorname{real}$ removes them.
-    $\MergeGroup$ forwards singletons; Full materializes each pass, LIMIT pulls and truncates only the root.
-    $\mathcal F$ is the feasible set; estimates use run lengths, token profile, mode and $K$.
-    \textsc{HalvingTree} rounds the left size up; \textsc{Cut} takes maximal subtrees within the frontier bound.\par}
-  \end{minipage}\hfill
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    \centering
-    \includegraphics[width=\linewidth]{fig/mechanisms/alg1-trace/alg1-trace.pdf}
-    \caption{Algorithm 1, Full trace ($n=16$, $m=4$, fixed $k=2$). Four listwise calls generate runs; two merge passes reduce $4\to2\to1$ runs. MergeGroup uses SW or LT($h$) and may make multiple calls.}
-    \label{fig:alg1-full-trace}
-  \end{minipage}
-\end{figure*}
-
 {\emergencystretch=2em\relax\input{problem statement}\par}
+
+\begin{algorithm}[t]
+\caption{External Merge Group via $k$-Way Merge}
+\label{alg:semantic_external_merge}
+\KwIn{rows $D$, instruction $\phi$, capacity $m$, mode Full or LIMIT, bound $K$ (default $\infty$)}
+\lIf{$D=\varnothing$ or $K=0$}{\Return $[\,]$}
+$\mathcal R\leftarrow[\Rank_\phi(C):C\in\operatorname{Chunks}_m(D)]$\;
+\lIf{$|\mathcal R|=1$}{\Return $\operatorname{take}_K(\mathcal R_1)$}
+$(f,k,h)\leftarrow\arg\min_{(f,k,h)\in\mathcal F}\widehat C_{\rm merge}(f,k,h)$\;
+\While{$|\mathcal R|>1$}{
+  $\mathcal G\leftarrow\operatorname{Chunks}_k(\mathcal R)$\;
+  $\mathcal R'\leftarrow[\MergeGroup_{f,h}(G):G\in\mathcal G]$\;
+  \lIf{Full}{$\mathcal R'\leftarrow[\operatorname{materialize}(S):S\in\mathcal R']$}
+  $\mathcal R\leftarrow\mathcal R'$\;
+}
+\Return $\operatorname{take}_K(\mathcal R_1)$\;
+\end{algorithm}
 
 \section{Multi-way Merge Semantic \textsf{ORDER BY}}
 \label{sec:framework}
@@ -85,47 +53,30 @@ A listwise call ranks at most $m$ rows under instruction $\phi$. If $n>m$, the o
 
 The planner in Figure~\ref{fig:framework} uses the run lengths, call capacity $m$, requested output (Full or \LIMIT~$K$), and token profile. It chooses a plan $(f,k,h)$: the merge family $f$, the maximum fan-in $k$, and the per-run quota or segment length $h$. Sliding-window merge (SW) ranks a window across the active runs; segmented loser-tree merge (LT($h$)) ranks the rows needed to refresh one tree path at a time. The planner chooses the feasible plan with the lowest estimated merge input cost, either within a specified family or across both families (Section~\ref{sec:cost}).
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/mechanisms/alg1-trace/alg1-trace.pdf}
+\caption{Algorithm 1, Full trace ($n=16$, $m=4$, fixed $k=2$). Four listwise calls generate runs; two merge passes reduce $4\to2\to1$ runs. MergeGroup uses SW or LT($h$) and may make multiple calls.}
+\label{fig:alg1-full-trace}
+\end{figure}
+
 \subsection{Run Generation and Group Merge}
 \label{sec:external-merge}
 Algorithm~\ref{alg:semantic_external_merge} divides $D$ into $r=\lceil n/m\rceil$ disjoint chunks and ranks each under the same instruction $\phi$. The calls are independent and produce the initial runs $R_1,\ldots,R_r$. If there is only one run, the operator returns it in Full mode or takes its first $K$ rows for a prefix.
 
-The operator selects the merge plan once. In each pass, it partitions the current runs into consecutive groups of at most $k$ and merges each group into a single run. A group with one run passes through unchanged. In Full mode, groups in the same pass can run in parallel, and the next pass waits for their materialized outputs. In Figure~\ref{fig:alg1-full-trace}, four calls form four runs from $n=16$ rows with $m=4$. With $k=2$, the first pass merges $(R_1,R_2)$ and $(R_3,R_4)$, and the second pass merges their outputs.
+{\footnotesize\raggedright
+\noindent\textit{Conventions.}
+$\Rank_\phi(X)$ orders real rows best first; $|X|\le1$ needs no call.
+$\operatorname{take}_q$ reads the next $q$ rows or stops at exhaustion ($q=\infty$: drain).
+$\Vert$ concatenates in order; $B_u$ is run $u$'s subsequence in $B$.
+$\operatorname{unread}(u)$ means unread supply remains.
+$\mathcal L(X)$ ranks $X$ once to order the active heads ($\rho$).
+$[\bot_a]^r$ means $r$ virtual entries tagged $a$; $\operatorname{real}$ removes them.
+$\MergeGroup$ forwards singletons; Full materializes each pass, LIMIT pulls and truncates only the root.
+$\mathcal F$ is the feasible set; estimates use run lengths, token profile, mode and $K$.
+\textsc{HalvingTree} rounds the left size up; \textsc{Cut} takes maximal subtrees within the frontier bound.\par}
 
-% Page 4 top: Alg. 2 and sliding window.
-\begin{figure*}[t]
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    % [H] keeps this algorithm inside the paired top-of-page figure.
-    \makeatletter\@twocolumnfalse\makeatother
-    \begin{algorithm}[H]
-    \caption{Sliding-Window Semantic $k$-Way Merge}
-    \label{alg:sliding_window_kway_group_merge}
-    \KwIn{$2\le g\le m$ runs; quota $1\le h\le\lfloor m/g\rfloor$}
-    $B\leftarrow[\,]$\;
-    \While{$B\ne[\,]$ or some run is unread}{
-      $A\leftarrow\{u:|B_u|>0\ \lor\ \operatorname{unread}(u)\}$\;
-      \ForEach{$u\in A$ in run order}{
-        $B\leftarrow B\Vert\operatorname{take}_{\max(0,h-|B_u|)}(R_u)$\;
-      }
-      \lIf{$B=[\,]$}{stop}
-      $A\leftarrow\{u:|B_u|>0\ \lor\ \operatorname{unread}(u)\}$\;
-      \lIf{$A=\{u\}$}{yield $B_u$ then stream $R_u$ on demand; stop}
-      $O\leftarrow\Rank_\phi(B)$\;
-      $J\leftarrow\{j:\exists u,\ \operatorname{unread}(u),\ |B_u|>0,$\;
-      \Indp $\qquad |(O_{1:j})_u|=|B_u|\}$\;\Indm
-      $t\leftarrow\min(J\cup\{|O|\})$\;
-      yield $O_{1:t}$; $B\leftarrow\operatorname{stableRemove}(B,O_{1:t})$\;
-    }
-    \end{algorithm}
-  \end{minipage}\hfill
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    \centering
-    \includegraphics[width=\linewidth]{fig/mechanisms/sw.pdf}
-    \caption{Sliding-window merge ($m=8$, $h=2$). Round 1 emits through row 5, where $R_2$ needs a refill; round 2 emits through row 10, where $R_4$ needs one. Round 3 emits the remaining six rows. The diagram groups buffered rows by run.}
-    \label{fig:sw-mechanism}
-  \end{minipage}
-\end{figure*}
+The operator selects the merge plan once. In each pass, it partitions the current runs into consecutive groups of at most $k$ and merges each group into a single run. A group with one run passes through unchanged. In Full mode, groups in the same pass can run in parallel, and the next pass waits for their materialized outputs. In Figure~\ref{fig:alg1-full-trace}, four calls form four runs from $n=16$ rows with $m=4$. With $k=2$, the first pass merges $(R_1,R_2)$ and $(R_3,R_4)$, and the second pass merges their outputs.
 
 \subsection{Sliding-Window Merge}
 \label{sec:sw}
@@ -134,83 +85,44 @@ SW submits the first few remaining rows of each active run in one call. Algorith
 \paragraph{Where to stop.}
 SW scans the ranked buffer $O$. It emits through the first position that consumes the last buffered row of a run with more rows to read. The next row from that run was not in the prompt and may come before the rest of $O$. A run that is fully buffered imposes no boundary; if none imposes a boundary, SW emits all of $O$. When the runs and the call agree on one order, every emitted row precedes all unread rows (Appendix~\ref{app:proof-sw}). SW removes the emitted rows and keeps the survivors in their existing buffer order.
 
+\begin{algorithm}[t]
+\caption{Sliding-Window Semantic $k$-Way Merge}
+\label{alg:sliding_window_kway_group_merge}
+\KwIn{$2\le g\le m$ runs; quota $1\le h\le\lfloor m/g\rfloor$}
+$B\leftarrow[\,]$\;
+\While{$B\ne[\,]$ or some run is unread}{
+  $A\leftarrow\{u:|B_u|>0\ \lor\ \operatorname{unread}(u)\}$\;
+  \ForEach{$u\in A$ in run order}{
+    $B\leftarrow B\Vert\operatorname{take}_{\max(0,h-|B_u|)}(R_u)$\;
+  }
+  \lIf{$B=[\,]$}{stop}
+  $A\leftarrow\{u:|B_u|>0\ \lor\ \operatorname{unread}(u)\}$\;
+  \lIf{$A=\{u\}$}{yield $B_u$ then stream $R_u$ on demand; stop}
+  $O\leftarrow\Rank_\phi(B)$\;
+  $J\leftarrow\{j:\exists u,\ \operatorname{unread}(u),\ |B_u|>0,$\;
+  \Indp $\qquad |(O_{1:j})_u|=|B_u|\}$\;\Indm
+  $t\leftarrow\min(J\cup\{|O|\})$\;
+  yield $O_{1:t}$; $B\leftarrow\operatorname{stableRemove}(B,O_{1:t})$\;
+}
+\end{algorithm}
+
 In Figure~\ref{fig:sw-mechanism}, four runs contribute two items each to a window of size eight. The first call places $1,2,3,4,5$ first. Item~5 consumes the last buffered item of $R_2$, but $R_2$ still holds~6. Emitting~7 from the same ranking would therefore skip~6. The second call includes~6 and emits through~10, where $R_4$ must be refilled. In the third call no run has unread input, so the remaining six items are all emitted.
 
 \subsection{Segmented Loser-Tree Merge}
 \label{sec:lt}
 One depleted run makes SW resubmit survivors from the entire window. LT($h$) instead refreshes one path in a binary tree with one leaf per input run. At each internal node, a match forwards a winner segment and keeps a loser segment of at most $h$ rows, together with a pointer to the child that will next supply rows. The root winner becomes the output. The only match state needed between refreshes is the stored loser and pointer at each node.
 
+% Do not stack this figure above the algorithm in the current column.
+\suppressfloats[t]
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/mechanisms/sw.pdf}
+\caption{Sliding-window merge ($m=8$, $h=2$). Round 1 emits through row 5, where $R_2$ needs a refill; round 2 emits through row 10, where $R_4$ needs one. Round 3 emits the remaining six rows. The diagram groups buffered rows by run.}
+\label{fig:sw-mechanism}
+\end{figure}
+
 \paragraph{Building the tree.}
 Algorithm~\ref{alg:loser_tree_kway_group_merge} splits the $g$ runs recursively in half, giving the extra run to the left child for odd counts. The tree has $g$ leaves and depth $d=\lceil\log_2 g\rceil$. Each leaf supplies up to $h$ rows. If $gh\le m$, a single ranking suffices to build the tree bottom-up. Otherwise, the algorithm groups the current frontier into maximal subtrees of at most $\lfloor m/h\rfloor$ frontier segments, ranks each group, and replays its matches using that ranking. The winners become the new frontier. The process stops at the root. When building a rank map $\rho$ from a call, LT takes the highest-ranked available run head at each step. This preserves the order already established within each input run.
-
-% Page 5 top: Alg. 3 and loser tree, with node replay, path refresh, and the pointer diagram below.
-\begin{figure*}[t]
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    % [H] keeps this algorithm inside the paired top-of-page figure.
-    \makeatletter\@twocolumnfalse\makeatother
-    \begin{algorithm}[H]
-    \caption{Loser-Tree Semantic $k$-Way Merge}
-    \label{alg:loser_tree_kway_group_merge}
-    \KwIn{$g\ge2$ runs, $h\ge1$, $(1+\lceil\log_2 g\rceil)h\le m$}
-    $T\leftarrow\operatorname{HalvingTree}(R_1,\ldots,R_g)$; $F\leftarrow\operatorname{leaves}(T)$\;
-    \ForEach{$u\in F$}{$S_u\leftarrow\operatorname{take}_h(R_u)$}
-    \While{$F\ne\{\mathrm{root}\}$}{
-      $\mathcal B\leftarrow\operatorname{Cut}(T,F,\lfloor m/h\rfloor)$\;
-      \ForEach{$b\in\mathcal B$ with more than one frontier leaf}{
-        $X\leftarrow\mathop{\Vert}_{u\in F\cap b}^{\rm left\ to\ right}S_u$;
-        $\rho\leftarrow\mathcal L(X)$\;
-        \ForEach{new internal $v$ of $b$, bottom-up}{
-          $(S_v,\ell_v,p_v)\leftarrow\Replay(v,S_{v_L},S_{v_R},\rho)$\;
-        }
-      }
-      $F\leftarrow\{\operatorname{root}(b):b\in\mathcal B\}$\;
-    }
-    \While{$S_{\rm root}\ne[\,]$}{yield $S_{\rm root}$; $S_{\rm root}\leftarrow\Refresh(T)$}
-    \end{algorithm}
-
-    \medskip
-    \begin{algorithm}[H]
-    \caption{Node Replay}
-    \label{alg:replay_segment_node}
-    \KwIn{node $v$, slots $s_L,s_R$ with $|s_L|,|s_R|\le h$, rank map $\rho$}
-    $Z\leftarrow\operatorname{sort}_\rho(s_L\Vert s_R)$, retaining slot tags\;
-    $Z\leftarrow Z\Vert[\bot_L]^{h-|s_L|}\Vert[\bot_R]^{h-|s_R|}$\;
-    $j^*\leftarrow\min\{j:\max_{a\in\{L,R\}}|(Z_{1:j})_a|=h\}$\;
-    $p\leftarrow v_{\operatorname{slot}(Z_{j^*})}$\;
-    \Return $(\operatorname{real}(Z_{1:h}),\operatorname{real}(Z_{h+1:}),p)$\;
-    \end{algorithm}
-
-    \medskip
-    \begin{algorithm}[H]
-    \caption{Path Refresh}
-    \label{alg:refresh_loser_tree_path}
-    \KwIn{LT($h$) $T$ after root emission; losers $\ell_v$ and child pointers $p_v$ at internal nodes}
-    $P\leftarrow[\,]$; $u\leftarrow\operatorname{root}(T)$\;
-    \While{$u$ is internal}{$P\leftarrow P\Vert[u]$; $u\leftarrow p_u$}
-    $S\leftarrow\operatorname{take}_h(R_u)$\;
-    $X\leftarrow S\Vert\mathop{\Vert}_{v\in P}\ell_v$; $\rho\leftarrow\mathcal L(X)$\;
-    \ForEach{$v\in\operatorname{reverse}(P)$}{
-      $(s_L,s_R)\leftarrow(S,\ell_v)$ if $p_v=v_L$, else $(\ell_v,S)$\;
-      $(S,\ell_v,p_v)\leftarrow\Replay(v,s_L,s_R,\rho)$\;
-    }
-    \Return $S$\;
-    \end{algorithm}
-  \end{minipage}\hfill
-  \begin{minipage}[t]{\columnwidth}
-    \vspace{0pt}
-    \centering
-    \includegraphics[width=\linewidth]{fig/mechanisms/lt.pdf}
-    \caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. Replaying the two matches yields $[3,4]$.}
-    \label{fig:lt-mechanism}
-
-    \medskip
-    \centering
-    \includegraphics[width=\linewidth]{fig/mechanisms/pointer.pdf}
-    \caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R are slot labels, not the original run identities.}
-    \label{fig:pointer-mechanism}
-  \end{minipage}
-\end{figure*}
 
 \paragraph{Choosing the next child.}
 The last row in a winner segment need not come from the child that should refill. In Algorithm~\ref{alg:replay_segment_node}, the two input segments occupy slots L and R. Node Replay merges them under $\rho$, forwards the first $h$ positions, and stores the remainder. The pointer goes to the child whose slot reaches its $h$-th entry first in the full replay order, including entries beyond the winner. A short segment is padded after the real rows for this count; the virtual entries never appear in calls or outputs.
@@ -219,6 +131,28 @@ Figure~\ref{fig:pointer-mechanism}(a) illustrates the distinction for $h=2$. The
 
 \paragraph{Refreshing one path.}
 After emitting the root winner, Algorithm~\ref{alg:refresh_loser_tree_path} follows the pointers to one leaf. It pulls that run's next segment and ranks it together with the losers stored on the path, using one call when there are at least two real rows. At most $d$ stored segments and one replacement segment enter the prompt, giving the capacity condition $(d+1)h\le m$. On the way back up, each match puts the incoming winner in the slot named by the old pointer and the stored loser in the other slot. It forwards a new winner and updates the loser and pointer. All other nodes keep their state. Even when calls disagree, the output restricted to any input run is a prefix of that run (Appendix~\ref{app:proof-inconsistent}).
+
+% Queue the LT algorithm for the next column instead of stacking it above SW.
+\suppressfloats[t]
+\begin{algorithm}[t]
+\caption{Loser-Tree Semantic $k$-Way Merge}
+\label{alg:loser_tree_kway_group_merge}
+\KwIn{$g\ge2$ runs, $h\ge1$, $(1+\lceil\log_2 g\rceil)h\le m$}
+$T\leftarrow\operatorname{HalvingTree}(R_1,\ldots,R_g)$; $F\leftarrow\operatorname{leaves}(T)$\;
+\ForEach{$u\in F$}{$S_u\leftarrow\operatorname{take}_h(R_u)$}
+\While{$F\ne\{\mathrm{root}\}$}{
+  $\mathcal B\leftarrow\operatorname{Cut}(T,F,\lfloor m/h\rfloor)$\;
+  \ForEach{$b\in\mathcal B$ with more than one frontier leaf}{
+    $X\leftarrow\mathop{\Vert}_{u\in F\cap b}^{\rm left\ to\ right}S_u$;
+    $\rho\leftarrow\mathcal L(X)$\;
+    \ForEach{new internal $v$ of $b$, bottom-up}{
+      $(S_v,\ell_v,p_v)\leftarrow\Replay(v,S_{v_L},S_{v_R},\rho)$\;
+    }
+  }
+  $F\leftarrow\{\operatorname{root}(b):b\in\mathcal B\}$\;
+}
+\While{$S_{\rm root}\ne[\,]$}{yield $S_{\rm root}$; $S_{\rm root}\leftarrow\Refresh(T)$}
+\end{algorithm}
 
 Figure~\ref{fig:lt-mechanism} traces one refresh on the same four runs as SW, with $h=2$. After the root emits $[1,2]$, the pointers lead to $R_2$. Its new segment $[6,14]$ joins $[5,7]$ and $[3,4]$, the two stored losers on the path. The repaired rank map orders these six rows as $[3,4,5,6,7,14]$. Two local replays produce the next root segment $[3,4]$ without another model call. The right subtree, which retains $[8,9]$, contributes no rows to this prompt.
 
@@ -231,6 +165,32 @@ A prefix query may never read the tails of intermediate runs. We generate the in
 
 The root stops at $K$ rows or when it runs out of input. For $K=3$ in Figure~\ref{fig:lt-mechanism}, it returns $[1,2]$ and only the first row of the next segment $[3,4]$, without another refresh. For a fixed plan and identical responses to corresponding listwise calls, this is the same prefix as in the materialized execution: each group consumes the same sequence from each child up to the point where demand stops (Appendix~\ref{app:proof-limit}). The cost model counts the calls actually reached by this execution.
 
+\begin{algorithm}[t]
+\caption{Node Replay}
+\label{alg:replay_segment_node}
+\KwIn{node $v$, slots $s_L,s_R$ with $|s_L|,|s_R|\le h$, rank map $\rho$}
+$Z\leftarrow\operatorname{sort}_\rho(s_L\Vert s_R)$, retaining slot tags\;
+$Z\leftarrow Z\Vert[\bot_L]^{h-|s_L|}\Vert[\bot_R]^{h-|s_R|}$\;
+$j^*\leftarrow\min\{j:\max_{a\in\{L,R\}}|(Z_{1:j})_a|=h\}$\;
+$p\leftarrow v_{\operatorname{slot}(Z_{j^*})}$\;
+\Return $(\operatorname{real}(Z_{1:h}),\operatorname{real}(Z_{h+1:}),p)$\;
+\end{algorithm}
+
+\begin{algorithm}[!t]
+\caption{Path Refresh}
+\label{alg:refresh_loser_tree_path}
+\KwIn{LT($h$) $T$ after root emission; losers $\ell_v$ and child pointers $p_v$ at internal nodes}
+$P\leftarrow[\,]$; $u\leftarrow\operatorname{root}(T)$\;
+\While{$u$ is internal}{$P\leftarrow P\Vert[u]$; $u\leftarrow p_u$}
+$S\leftarrow\operatorname{take}_h(R_u)$\;
+$X\leftarrow S\Vert\mathop{\Vert}_{v\in P}\ell_v$; $\rho\leftarrow\mathcal L(X)$\;
+\ForEach{$v\in\operatorname{reverse}(P)$}{
+  $(s_L,s_R)\leftarrow(S,\ell_v)$ if $p_v=v_L$, else $(\ell_v,S)$\;
+  $(S,\ell_v,p_v)\leftarrow\Replay(v,s_L,s_R,\rho)$\;
+}
+\Return $S$\;
+\end{algorithm}
+
 \section{Token Cost Model}
 \label{sec:cost}
 
@@ -239,6 +199,15 @@ The root stops at $K$ rows or when it runs out of input. For $K=3$ in Figure~\re
 
 A larger fan-in $k$ can save a merge pass, but it also changes the number of items submitted in each call. SW resubmits items left in the window; LT resubmits the segments retained along a refresh path. Two plans with the same call count can therefore consume different numbers of input tokens. We refine the call-count proxy from Section~\ref{sec:prelim} by counting both calls and item appearances. Run generation is common to all plans, so only merge work enters plan selection.
 
+% Queue the tree picture independently for the column beside Alg. 3.
+\suppressfloats[t]
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/mechanisms/lt.pdf}
+\caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. Replaying the two matches yields $[3,4]$.}
+\label{fig:lt-mechanism}
+\end{figure}
+
 \stitle{Pricing a request.}
 Using the query instruction and prompt template, we serialize samples of input items at several batch widths and count their input tokens. For a request containing $b$ items, we fit the count as $H+Lb$: $H$ estimates the fixed request overhead and $L$ the additional tokens per item. For a merge plan $\theta=(f,k,h)$ with family $f$, let $A$ denote the number of listwise calls and $b_j$ the width of call $j$. The total number of item appearances is $S=\sum_{j=1}^{A}b_j$, counting an item again whenever it is resubmitted. We estimate the merge input-token cost as
 \begin{equation}
@@ -246,6 +215,13 @@ Using the query instruction and prompt template, we serialize samples of input i
   \label{eq:merge-cost-model}
 \end{equation}
 At these prices, saving one call offsets up to $H/L$ additional item appearances.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/mechanisms/pointer.pdf}
+\caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R are slot labels, not the original run identities.}
+\label{fig:pointer-mechanism}
+\end{figure}
 
 \stitle{Estimating full-merge work.}
 Let $\boldsymbol{\ell}=(\ell_1,\ldots,\ell_r)$ be the lengths of the initial runs, with $\sum_i\ell_i=n$. For a given $k$, these lengths determine the group sizes. They do not determine when a window must refill or which path a tree must refresh. We model the unknown interleaving by assigning ranks $1,\ldots,n$ uniformly without replacement to runs of the given lengths, then sorting each run internally.

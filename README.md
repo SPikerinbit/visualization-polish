@@ -16,7 +16,7 @@
 
 根目录使用 [VLDB 2027 / PVLDB Volume 20 官方模板](https://github.com/vldbproceedings/VLDB-Template/tree/39c95f5c6fcbe652a83be24e4eff8f2134cd3fbc)，附带的 `acmart.cls`、`pvldb.sty` 和 `ACM-Reference-Format.bst` 与该版本一致。首页的 PVLDB Reference Format 和版权许可由 `\vldbtopmatter` 生成。Framework（Figure 1）安排在第 2 页页首，附录置于参考文献前，以便核查页数。
 
-**投稿前：** 在 `main.tex` 填入确认后的作者及单位，并按[官方投稿指南](https://www.vldb.org/2027/submission-guidelines.html)提供实验复现材料或说明例外。稿件中的 DOI 和页码使用官方占位符。实验数据、正文或署名变动后，重新检查 12 页限制（含附录，不含参考文献）。
+**投稿前：** 核对 `main.tex` 与 CMT 中的作者顺序和单位，并按[官方投稿指南](https://www.vldb.org/2027/submission-guidelines.html)提供实验复现材料或说明例外。稿件中的 DOI 和页码使用官方占位符。实验数据、正文或署名变动后，重新检查 12 页限制（含附录，不含参考文献）。
 
 ## 编译当前稿
 

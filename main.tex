@@ -31,10 +31,14 @@
 \input{manuscript/experiment-layout}
 \begin{document}
 \title{Cost-effective Multi-way Merge Semantic ORDER BY}
-% The author list and affiliations were not present in the source archive.
-% Replace this draft label with the confirmed author blocks before submission.
-\author{Author information pending}
-\renewcommand{\shortauthors}{Author information pending}
+\author{Yuqi Shi}
+\author{Kangkang Qi}
+\author{Kangfei Zhao}
+\affiliation{%
+  \institution{Beijing Institute of Technology}
+  \city{Beijing}
+  \country{China}
+}
 \begin{abstract}
 A listwise language model can rank a batch of rows by a natural-language criterion. When a semantic \textsf{ORDER BY} query exceeds the batch capacity, the operator must merge the resulting runs without spending a model call on every output row. We use external $k$-way merge with two group mergers. Sliding-window merge ranks the heads and nearby rows of several runs, then carries the unreturned rows into the next window. Segmented loser-tree merge keeps the losers at internal nodes and refreshes only one path at a time. Full ranking materializes each merge layer; \LIMIT~$K$ pulls rows from its input groups as needed. The planner estimates the number of calls and the number of rows submitted across those calls, then selects the feasible plan with the lowest estimated input token cost.
 \end{abstract}

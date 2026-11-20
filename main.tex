@@ -27,7 +27,6 @@
 \newcommand{\qpm}[2]{#1\,{\scriptsize$\pm$#2}}
 \newcommand{\stitle}[1]{\vspace{1ex}\noindent\textbf{#1}}
 \newcommand{\cmark}{\ding{51}}
-\input{manuscript/algorithm-format}
 \input{manuscript/experiment-layout}
 \begin{document}
 \title{Cost-effective Multi-way Merge Semantic ORDER BY}
@@ -58,16 +57,12 @@ A listwise language model can rank a batch of rows by a natural-language criteri
 %%% VLDB block start %%%
 \vldbtopmatter
 %%% VLDB block end %%%
-% Queue the full-width overview for the top of page 2.
-\input{manuscript/fig-framework}
-{\emergencystretch=1em\relax\input{inrto}\par}
-{\emergencystretch=2em\relax\input{problem statement}\par}
 \input{framework}
-\input{manuscript/cost}
+\input{cost}
 \FloatBarrier
 \input{exp}
 \input{related work}
-\input{manuscript/conclusion}
+\input{conclusion}
 \FloatBarrier
 \clearpage
 \appendix

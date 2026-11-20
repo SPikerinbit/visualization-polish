@@ -5,9 +5,9 @@
 | 我要做什么 | 从这里开始 |
 | --- | --- |
 | 改引言、问题定义或算法 | [Introduction](inrto.tex) · [Preliminaries](problem%20statement.tex) · [多路归并、SW 与 LT](framework.tex) |
-| 改成本模型或推导 | [Token Cost Model](manuscript/cost.tex) · [附录与证明](appendix.tex) |
+| 改成本模型或推导 | [Token Cost Model](cost.tex) · [附录与证明](appendix.tex) |
 | 改实验设置或填写结果 | [实验章节：Experimental Setup、E1–E5 与图表引用](exp.tex) |
-| 改图注、换图或改表 | [图注与伪代码](manuscript/) · [主稿引用的图件](fig/) · [论文表格](tables/) |
+| 改图注、换图或改表 | [机制图与伪代码](framework.tex) · [实验组图](manuscript/) · [主稿引用的图件](fig/) · [论文表格](tables/) |
 | 找某张图的制图材料或历史版本 | [图表与历史资料索引](doc/README.md) |
 
 **实验状态：** E1 的两张表及实验图中的数值是合成的排版示例，不是实测结果；E1–E5 的结果正文尚未填写。

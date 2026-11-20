@@ -1,21 +1,32 @@
+% Logical ranker calls, not measured requests or token costs.
 \begin{table}[t]
   \centering\small
-  \caption{Ranking methods in the end-to-end evaluation.}
+  \caption{Logical model calls for full and prefix ranking.}
   \label{tab:ranking-algorithms}
-  \begin{tabular}{@{}llcc@{}}
+  \setlength{\tabcolsep}{2.6pt}
+  \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llcc@{}}
     \toprule
-    Method & Primitive & Full & LIMIT \\
+    Method & Prompt & Full & LIMIT $K$ \\
     \midrule
-    Pointwise & Pointwise & \cmark & \cmark \\
-    Ext.\ Pointwise & Pointwise & \cmark & \cmark \\
-    Ext.\ Bubble & Listwise & \cmark & \cmark \\
-    Ext.\ Merge & Listwise & \cmark & \cmark \\
-    ListK Sort & Listwise & \cmark & \\
-    Tournament & Listwise & \cmark & \cmark \\
-    LOTUS Quick & Pairwise & \cmark & \cmark \\
-    Setwise Heap & Setwise & \cmark & \cmark \\
-    SW & Listwise & \cmark & \cmark \\
-    LT($h$) & Listwise & \cmark & \cmark \\
+    Pointwise & Point & $n$ & $n$ \\
+    Ext.\ Pointwise & Point & $r$ & $r$ \\
+    Ext.\ Bubble & List & $O(r^2)$ & $O(r\lceil K/m\rceil)$ \\
+    Ext.\ Merge & List & $O(r[1+\log_2 r])$ & $O(r[1+\log_2^+(K/m)])$ \\
+    \midrule
+    ListK Sort & List & $O(n\log n/\chi_p+n)^{*}$ & Not evaluated \\
+    Tournament & List & $C_{\mathrm{tour}}(n)$ & $C_{\mathrm{tour}}(K)$ \\
+    \midrule
+    LOTUS Quick & Pair & $O(n\log n)^{*}$ & $O(n+K\log K)^{*}$ \\
+    Setwise Heap & Set & $O(n\log n)$ & $O(n+K\log n)$ \\
+    \midrule
+    SW & List & $r+A_{\mathrm{SW}}$ & $r+A_{\mathrm{SW},K}$ \\
+    LT($h$) & List & $r+A_{\mathrm{LT}}$ & $r+A_{\mathrm{LT},K}$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}\par\smallskip
+  {\raggedright\footnotesize
+  $n$ is the input size, $m$ the batch capacity of the method, and $r=\lceil n/m\rceil$.
+  $\log_2^+(x)=\max(0,\log_2 x)$; $\chi_p=(m-p)\log(p+1)$ for $p$ pivots.
+  $C_{\mathrm{tour}}(q)$ counts tournament calls until $q$ outputs.
+  $A_f$ and $A_{f,K}$ count Full and on-demand merge calls, respectively
+  (Section~\ref{sec:cost}). $^{*}$ denotes expected costs under the source pivot models. Counts exclude retries, calibration, and profiling.\par}
 \end{table}

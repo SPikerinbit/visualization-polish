@@ -1,13 +1,12 @@
-% E3: selected 1x4 overlay, with native subfigure captions and vector panels.
-\begin{figure}[t]
-\setlength{\subfigcapskip}{1pt}\setlength{\subfigtopskip}{0pt}\setlength{\subfigbottomskip}{1pt}
+% Four independently rendered vector panels on a full-width float.
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{config-legend.pdf}\par
-\includegraphics[width=\columnwidth]{kind-legend.pdf}\par
-\subfigure[SW, Full]{\includegraphics[width=.274716\columnwidth]{overlay-sw-full.pdf}}%
-\subfigure[SW, LIMIT]{\includegraphics[width=.241761333\columnwidth]{overlay-sw-limit10.pdf}}%
-\subfigure[LT, Full]{\includegraphics[width=.241761333\columnwidth]{overlay-lt-full.pdf}}%
-\subfigure[LT, LIMIT]{\includegraphics[width=.241761333\columnwidth]{overlay-lt-limit10.pdf}}
-\caption{Scale scaffold. Predicted (dashed, hollow) and Reference (solid, filled) share each panel. Colors and marker shapes retain fixed $(k,h)$ configurations; SW first five, LT last five. Shared axes: linear input size $n$ and synthetic layout units, not tokens or time. Full and LIMIT reuse fixture curves; offsets are not prediction error.}
+\setlength{\subfigtopskip}{0pt}\setlength{\subfigcapskip}{1pt}\setlength{\subfigbottomskip}{0pt}
+\includegraphics[width=\textwidth]{fig/experiments/figures/e3-3d-e2-style/legend.pdf}\par
+\subfigure[SW, Full]{\includegraphics[width=.243\textwidth]{fig/experiments/figures/e3-3d-e2-style/sw-full.pdf}}\hfill%
+\subfigure[SW, \textsf{LIMIT}~10]{\includegraphics[width=.243\textwidth]{fig/experiments/figures/e3-3d-e2-style/sw-limit10.pdf}}\hfill%
+\subfigure[LT, Full]{\includegraphics[width=.243\textwidth]{fig/experiments/figures/e3-3d-e2-style/lt-full.pdf}}\hfill%
+\subfigure[LT, \textsf{LIMIT}~10]{\includegraphics[width=.243\textwidth]{fig/experiments/figures/e3-3d-e2-style/lt-limit10.pdf}}\par
+\caption{Synthetic scale layout, not measured results. In each panel, all six meshes share continuous $k$ and $h$ axes. Facets join the five sampled configurations; Full and \textsf{LIMIT} reuse the fixture values. The measured metric is end-to-end input tokens.}
 \label{fig:e3-scale}
-\end{figure}
+\end{figure*}

@@ -58,24 +58,27 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 
   \endgroup
 \end{figure*}
+% Preserve the original E1/E2 float-page break and place the two wide groups together.
+\twocolumn[{%
+\begin{minipage}{\textwidth}
+  \begingroup
+  \renewenvironment{figure*}[1][]{\par\centering\captionsetup{type=figure}}{\par}%
+  \subsection{Large-Scale Ranking}
+  \label{sec:exp:scale}
+  \input{manuscript/fig-e3}
+  \smallskip
+  \subsection{Prefix Cache}
+  \label{sec:exp:cache}
+  \input{manuscript/fig-e4a-domain}
+  \endgroup
+\end{minipage}\par\vspace{4pt}%
+}]
+% The full-width group leaves too little height for the single-column 3D plot.
 \clearpage
 \begingroup
 \placeexperimentfigures
-\Needspace{105pt}
-\subsection{Large-Scale Ranking}
-\label{sec:exp:scale}
-{\graphicspath{{fig/experiments/figures/e3-one-row/}}%
-\input{manuscript/fig-e3.tex}}
-
-\Needspace{398pt}
-\subsection{Prefix Cache}
-\label{sec:exp:cache}
-{\graphicspath{{fig/experiments/figures/e4a-c2/}}%
-\input{manuscript/fig-e4a-C2}}
-{\graphicspath{{fig/experiments/figures/e4b/}}%
-\input{manuscript/fig-e4b}}
-{\graphicspath{{fig/experiments/figures/e4c/}}%
-\input{manuscript/fig-e4c}}
+\input{manuscript/fig-e4b}
+% The E4c scatter is omitted; its source and experimental records are retained.
 
 \Needspace{327pt}
 \subsection{Varying the Limit and Full Ranking}

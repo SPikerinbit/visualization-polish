@@ -2,12 +2,12 @@
 \begin{figure}[t]
 \centering
 \setlength{\subfigcapskip}{-1pt}\setlength{\subfigtopskip}{0pt}\setlength{\subfigbottomskip}{0pt}
-\includegraphics[width=\columnwidth]{fig/experiments/figures/e5-cost-row/e5-cost-legend.pdf}\par
+\includegraphics[width=\columnwidth]{fig/fig10-requested-k-cost-legend.pdf}\par
 \vspace{1pt}
-\subfigure[\fontsize{6.3bp}{7bp}\selectfont DL20, Off]{\includegraphics[width=.5\columnwidth]{fig/experiments/figures/e5-cost-row/e5-cost-dl20-off.pdf}}%
-\subfigure[\fontsize{6.3bp}{7bp}\selectfont DL20, On-cold]{\includegraphics[width=.5\columnwidth]{fig/experiments/figures/e5-cost-row/e5-cost-dl20-on.pdf}}\par\vspace{1pt}
-\subfigure[\fontsize{6.3bp}{7bp}\selectfont COVID, Off]{\includegraphics[width=.5\columnwidth]{fig/experiments/figures/e5-cost-row/e5-cost-covid-off.pdf}}%
-\subfigure[\fontsize{6.3bp}{7bp}\selectfont COVID, On-cold]{\includegraphics[width=.5\columnwidth]{fig/experiments/figures/e5-cost-row/e5-cost-covid-on.pdf}}\par
+\subfigure[\fontsize{6.3bp}{7bp}\selectfont DL20, Off]{\includegraphics[width=.5\columnwidth]{fig/fig10-requested-k-cost-a-dl20-off.pdf}}%
+\subfigure[\fontsize{6.3bp}{7bp}\selectfont DL20, On-cold]{\includegraphics[width=.5\columnwidth]{fig/fig10-requested-k-cost-b-dl20-on-cold.pdf}}\par\vspace{1pt}
+\subfigure[\fontsize{6.3bp}{7bp}\selectfont COVID, Off]{\includegraphics[width=.5\columnwidth]{fig/fig10-requested-k-cost-c-covid-off.pdf}}%
+\subfigure[\fontsize{6.3bp}{7bp}\selectfont COVID, On-cold]{\includegraphics[width=.5\columnwidth]{fig/fig10-requested-k-cost-d-covid-on-cold.pdf}}\par
 {\fontsize{6.3bp}{7bp}\selectfont Requested $K$ (categorical); Full is separate}\par
 \caption{Cost by requested $K$ and Full ranking ($n=500$). Equivalent input cost is $U$ (Off) or $U-Q$ (On-cold, $\beta=0$); scales differ by cache state. The nine LIMIT categories are $10,20,50,100,200,300,400,490,500$; all nine ticks are labeled. Full is not joined to LIMIT 500. The planned protocol selects $(k,h)$ separately for each query, family, cache state, and demand. Lines connect different demands, not a single fixed configuration.}
 \label{fig:e5-limit-sweep}

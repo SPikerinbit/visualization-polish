@@ -21,7 +21,7 @@
 % Queue Figure 1 before the introduction for the top of page 2.
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{fig/mechanisms/framework.pdf}
+  \includegraphics[width=\textwidth]{fig/fig01-framework.pdf}
   \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner uses the expected call and item-appearance counts to price each feasible plan. It selects the lowest estimated merge input cost for the requested output. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
   \label{fig:framework}
 \end{figure*}
@@ -54,7 +54,7 @@ $(k,h)\gets\textsc{MergeCostModel}(\operatorname{lengths}(\mathcal L),m,H,L,f)$\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig/mechanisms/alg1-trace/alg1-trace.pdf}
+\includegraphics[width=\linewidth]{fig/fig02-external-merge-trace.pdf}
 \caption{Algorithm 1, Full trace ($n=16$, $m=4$, fixed $k=2$). Four listwise calls generate runs; two merge passes reduce $4\to2\to1$ runs. MergeGroup uses SW or LT($h$) and may make multiple calls.}
 \label{fig:alg1-full-trace}
 \end{figure}
@@ -145,14 +145,14 @@ In Figure~\ref{fig:sw-mechanism}, four runs contribute two items each to a windo
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig/mechanisms/sw.pdf}
+\includegraphics[width=\linewidth]{fig/fig03-sliding-window-merge.pdf}
 \caption{Sliding-window merge ($m=8$, $h=2$). Round 1 emits through row 5, where $R_2$ needs a refill; round 2 emits through row 10, where $R_4$ needs one. Round 3 emits the remaining six rows. The diagram groups buffered rows by run.}
 \label{fig:sw-mechanism}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig/mechanisms/lt.pdf}
+\includegraphics[width=\linewidth]{fig/fig04-segmented-loser-tree-refresh.pdf}
 \caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. The lower match forwards $[5,6]$; the root then emits $[3,4]$.}
 \label{fig:lt-mechanism}
 \end{figure}
@@ -218,7 +218,7 @@ Figure~\ref{fig:lt-mechanism} traces one refresh on the same four runs as SW, wi
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig/mechanisms/pointer.pdf}
+\includegraphics[width=\linewidth]{fig/fig05-loser-tree-pointer-assignment.pdf}
 \caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R label replay slots, not runs. Dashed rings denote unread rows.}
 \label{fig:pointer-mechanism}
 \end{figure}

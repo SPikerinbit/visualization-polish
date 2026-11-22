@@ -1,0 +1,12 @@
+# Iteration 1: a visible execution distinction
+Rebuild from this directory: `python render.py` (Python stdlib, Inkscape, Poppler pdftocairo; same font fallback as the baseline). framework.pdf is the camera-ready vector; SVG retains editable text and geometry, PNG is a rendered proof.
+
+At manuscript width the previous stage 3 read as two nearly identical arrays of dots. Use identical group outlines for equivalents, change the *geometry of the transfer*: three sources converge on one whole-layer barrier; the lower branch has one active group with counter-directional (solid vs dashed) arrows. Align the all-row and prefix endpoints in one output column. Preserve the inventory and dimensions of the stages, all candidate parameters and example shading; B cannot supply a common fixed plan to both branches. Larger stage-3 labels fix the old competition between the example card and execution.
+
+## Primary figures inspected visually (paths relative to workspace)
+- Liu et al., PVLDB 2025, Figs. 6–7: https://www.vldb.org/pvldb/vol18/p4616-liu.pdf . User image `framework-palette-ref/image(20261121-091922).png`: role-specific fills and directly annotated materialization routes, especially Fig. 7. Kept the color roles without copying its pictograms.
+- Shin et al., ListK, Fig. 1, p. 2: https://arxiv.org/pdf/2603.17223v1 . `sw-work/paper/round2/mechanisms/sw-polish/refs/listk.pdf` and sibling `listk-page2.png`: the separately routed physical alternatives terminate in named artifacts. Adopted direct output labels and separate branch routes rather than more cards.
+- Patel et al., published LOTUS, Fig. 1, p. 4172: https://www.vldb.org/pvldb/vol18/p4171-patel.pdf . `sw-work/paper/round2/mechanisms/sw-polish/refs/lotus.pdf` and sibling `lotus-page2.png`: a compact, syntax-highlighted code example with an explanatory caption, *not* a system architecture. Calibrates restraint, not an architecture template. The Fig. 1 in the currently served arXiv PDF is different.
+- Kwon et al., vLLM, Fig. 4, p. 5: https://arxiv.org/pdf/2309.06180 . Caption and surrounding prose only, not used as visual evidence.
+
+QA: inspected source integrated page 2 and two reduced proofs of the new figure; fixed a mode-title/plan-label near-tangent, checked all row labels and no added panels. Framework is one 504.567 × 148.217 pt page, no embedded rasters (pdfimages -list), four embedded and searchable font subsets (pdffonts).

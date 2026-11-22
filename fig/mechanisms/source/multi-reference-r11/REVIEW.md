@@ -1,0 +1,7 @@
+# R11: provenance plus direction in Fig. 4
+
+Baseline: current GitHub main `fig/mechanisms/lt.pdf`, git blob `269b6e6619f5678e852c051ccbf31cf82bcc06b6`, bytes match the preserved main snapshot. Two independent Astra reviewers tested main, the R10 print, the two-tree challenger and its final correction at the same 240.247 bp width.
+
+External primary comparisons: [FiBA Fig. 2](https://www.vldb.org/pvldb/vol16/p3227-hirzel.pdf#page=5), [MEMIT Fig. 2](https://arxiv.org/pdf/2210.07229#page=4), [FedRoad ICDE 2025 Fig. 6](https://dbgroup.cs.tsinghua.edu.cn/ligl/papers/ICDE25-FedRoad.pdf#page=9), [HOT SIGMOD 2018 Fig. 7](https://15721.courses.cs.cmu.edu/spring2020/papers/07-oltpindexes2/p521-binna.pdf#page=9). The paper examples justify preserving the same nodes and attaching update order directly to affected matches, not transferring another algorithm's steps.
+
+R10 lost call input origin: the ranked list alone does not identify which rows were already stored. Reintroduce both path losers [3,4] and [5,7] and new [6,14] from R2 in one solid call boundary. The right subtree [8,9] remains visible but does not enter the call. Distinguish gold downward pointer traversal from a separately labeled bottom-up replay. The initial draft's floating green numbers read in the wrong order on the page; the retained variant places marker (1) on the lower result and (2) by the root result. No edits to data, prose, other figures or GitHub.

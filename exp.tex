@@ -15,7 +15,7 @@ We serve both models with vLLM~\cite{kwon2023efficient}. For SW and LT, Qwen3.5-
 We run each fixed condition once at temperature zero with generation seed zero. For SW and LT, Full materializes each merge pass, whereas \textsf{LIMIT} pulls rows on demand without prefetching.
 
 \stitle{End-to-end ranking (E1).}
-For Full, we compute Spearman's $\rho$ against the relevance grades, assigning tied grades their average rank. For \textsf{LIMIT}~10, we compute nDCG@10 with gain $2^g-1$ for grade $g$; the ideal order is over the candidates of the same query. All methods and both models use the same ten input permutations (seeds 0 through 9). For each permutation, we average quality over queries within each dataset. The reported mean and standard deviation are taken over these ten dataset means.
+For Full, we compute Spearman's $\rho$ against the relevance grades, assigning tied grades their average rank. For \textsf{LIMIT}~10, we compute nDCG@10 with gain $2^g-1$ for grade $g$; the ideal order is over the candidates of the same query. All methods and both models use the same ten input permutations (seeds 0 through 9). For each permutation, we average quality over queries within each dataset. The table entries report mean $\pm$ standard deviation over these ten dataset means.
 The quality and cost runs allow ten concurrent queries and count all input and output tokens, including run generation. A separate latency run uses permutation seed zero, one active query, and up to 256 concurrent model requests. It measures elapsed time from profiling through planning, run generation, and merging until the result is returned.
 The three token columns sum the dataset means for Q9, TREC (DL20 and DL22), and BEIR (the other three datasets), respectively. Latency is the equally weighted mean of the six dataset means. The $Q$, $T$, and $L$ columns rank methods separately by quality, token use, and latency; the primary ranking criterion is the mean of the six within-dataset ranks.
 
@@ -34,7 +34,7 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 \input{tables/datasets}
 \input{tables/algorithms}
 
-\noindent\textit{Draft figures.} The experiment plots use synthetic values to illustrate the layouts; they do not report measurements.
+\noindent\textit{Layout review copy.} The results tables and plots contain illustrative values, not experimental measurements.
 % E1 through E5: results prose intentionally empty.
 % Group the E1/E2 draft assets on one dedicated full-width float page.
 \FloatBarrier
@@ -58,7 +58,7 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
 
   \endgroup
 \end{figure*}
-% Preserve the original E1/E2 float-page break and place the two wide groups together.
+% E3 is a single row across both columns; E4a and E4b below are single-column figures.
 \twocolumn[{%
 \begin{minipage}{\textwidth}
   \begingroup
@@ -66,17 +66,14 @@ E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$,
   \subsection{Large-Scale Ranking}
   \label{sec:exp:scale}
   \input{manuscript/fig-e3}
-  \smallskip
-  \subsection{Prefix Cache}
-  \label{sec:exp:cache}
-  \input{manuscript/fig-e4a-domain}
   \endgroup
 \end{minipage}\par\vspace{4pt}%
 }]
-% The full-width group leaves too little height for the single-column 3D plot.
-\clearpage
 \begingroup
 \placeexperimentfigures
+\subsection{Prefix Cache}
+\label{sec:exp:cache}
+\input{manuscript/fig-e4a-domain}
 \input{manuscript/fig-e4b}
 % The E4c scatter is omitted; its source and experimental records are retained.
 

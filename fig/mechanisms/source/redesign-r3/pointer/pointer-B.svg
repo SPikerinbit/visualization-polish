@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240.2465515pt" height="108.6pt" viewBox="0 0 240.2465515 108.6">
+<title>Which child is next? Two rank ledgers (h=2)</title><desc>Read left to right. In each of two local replays, the first two ranked rows are the winner, the last two remain in P, and the first slot to hit entry 2/2 determines the next pointer. On refresh the old right pointer admits replacement [6,14] into R while stored loser [5,7] occupies L.</desc>
+<rect x="0.000" y="0.000" width="240.247" height="108.600" rx="0" fill="white" stroke="none" stroke-width="0.45"/>
+<text x="2.000" y="8.300" text-anchor="start" font-family="Liberation Serif" font-size="8.35" font-weight="700" fill="#252421">In rank order, the first slot to supply two rows sets the pointer.</text>
+<text x="3.000" y="18.600" text-anchor="start" font-family="Liberation Serif" font-size="6.65" font-weight="700" fill="#625c54">Replay inputs</text>
+<text x="73.000" y="18.600" text-anchor="start" font-family="Liberation Serif" font-size="6.65" font-weight="700" fill="#625c54">Ranked rows</text>
+<text x="177.000" y="18.600" text-anchor="start" font-family="Liberation Serif" font-size="6.65" font-weight="700" fill="#625c54">Updated node</text>
+<g id="tree-construction">
+<rect x="0.600" y="22.000" width="239.050" height="38.500" rx="3" fill="#faf8f5" stroke="#ded7ce" stroke-width="0.45"/>
+<rect x="68.500" y="22.800" width="102.800" height="36.900" rx="0" fill="white" stroke="none" stroke-width="0.45"/>
+<path d="M 68.600 25.000 L 68.600 57.300" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<path d="M 171.300 25.000 L 171.300 57.300" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<text x="3.350" y="29.900" text-anchor="start" font-family="Liberation Serif" font-size="6.9" font-weight="700" fill="#252421">(a) Tree construction</text>
+<text x="3.350" y="37.000" text-anchor="start" font-family="Liberation Serif" font-size="6.1" fill="#625c54">No stored parent</text>
+<text x="3.350" y="46.000" text-anchor="start" font-family="Liberation Serif" font-size="6.6" font-weight="700" fill="#773701">L</text>
+<text x="11.000" y="46.000" text-anchor="start" font-family="Liberation Serif" font-size="6.5" fill="#252421">Left child</text>
+<text x="65.500" y="46.000" text-anchor="end" font-family="Liberation Serif" font-size="6.8" font-weight="700" fill="#252421">3, 7</text>
+<text x="3.350" y="55.400" text-anchor="start" font-family="Liberation Serif" font-size="6.6" font-weight="700" fill="#773701">R</text>
+<text x="11.000" y="55.400" text-anchor="start" font-family="Liberation Serif" font-size="6.5" fill="#252421">Right child</text>
+<text x="65.500" y="55.400" text-anchor="end" font-family="Liberation Serif" font-size="6.8" font-weight="700" fill="#252421">1, 5</text>
+<text x="91.000" y="30.000" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#252421">Winner</text>
+<text x="148.500" y="30.000" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#252421">Loser</text>
+<path d="M 73.200 32.700 L 113.800 32.700" fill="none" stroke="#625c54" stroke-width="0.44" stroke-linecap="round"/>
+<path d="M 127.600 32.700 L 168.200 32.700" fill="none" stroke="#625c54" stroke-width="0.44" stroke-linecap="round"/>
+<circle cx="79.600" cy="42.050" r="4.3" fill="#ded8d0" stroke="#625c54" stroke-width="0.45"/>
+<text x="79.600" y="44.211" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">1</text>
+<text x="79.600" y="53.250" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">R</text>
+<circle cx="102.300" cy="42.050" r="4.3" fill="#ded8d0" stroke="#625c54" stroke-width="0.45"/>
+<text x="102.300" y="44.211" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">3</text>
+<text x="102.300" y="53.250" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">L</text>
+<circle cx="136.800" cy="42.050" r="4.3" fill="#fff8ef" stroke="#b3540b" stroke-width="0.55"/>
+<circle cx="136.800" cy="42.050" r="5.66" fill="none" stroke="#b3540b" stroke-width="0.49"/>
+<text x="136.800" y="44.211" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" font-weight="700" fill="#773701">5</text>
+<text x="136.800" y="53.250" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#773701">R · 2/2</text>
+<circle cx="159.500" cy="42.050" r="4.3" fill="white" stroke="#625c54" stroke-width="0.45"/>
+<text x="159.500" y="44.211" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">7</text>
+<text x="159.500" y="53.250" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">L</text>
+<rect x="189.900" y="27.200" width="31.000" height="11.400" rx="2.5" fill="#ece9e5" stroke="#c6bfb6" stroke-width="0.45"/>
+<text x="205.400" y="35.045" text-anchor="middle" font-family="Liberation Serif" font-size="6.6" fill="#252421">P: 5, 7</text>
+<path d="M 205.400 38.700 L 188.800 45.000" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<rect x="174.600" y="45.000" width="28.400" height="11.400" rx="2.5" fill="white" stroke="#625c54" stroke-width="0.45" stroke-dasharray="1.3 .9"/>
+<text x="188.800" y="52.666" text-anchor="middle" font-family="Liberation Serif" font-size="6.05" fill="#252421">L: 12, 16</text>
+<path d="M 205.400 38.700 L 221.762 44.023" fill="none" stroke="#b3540b" stroke-width="0.8" stroke-linecap="round"/>
+<polygon points="222.000,44.100 219.055,44.425 219.810,42.105" fill="#b3540b"/>
+<rect x="207.800" y="45.000" width="28.400" height="11.400" rx="2.5" fill="white" stroke="#625c54" stroke-width="0.45" stroke-dasharray="1.3 .9"/>
+<text x="222.000" y="52.666" text-anchor="middle" font-family="Liberation Serif" font-size="6.05" fill="#252421">R: 6, 14</text>
+</g>
+<g id="path-refresh">
+<rect x="0.600" y="61.500" width="239.050" height="38.500" rx="3" fill="#faf8f5" stroke="#ded7ce" stroke-width="0.45"/>
+<rect x="68.500" y="62.300" width="102.800" height="36.900" rx="0" fill="white" stroke="none" stroke-width="0.45"/>
+<path d="M 68.600 64.500 L 68.600 96.800" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<path d="M 171.300 64.500 L 171.300 96.800" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<text x="3.350" y="69.400" text-anchor="start" font-family="Liberation Serif" font-size="6.9" font-weight="700" fill="#252421">(b) Path refresh</text>
+<text x="3.350" y="76.500" text-anchor="start" font-family="Liberation Serif" font-size="6.1" fill="#625c54">Old pointer: R · L unread</text>
+<text x="3.350" y="85.500" text-anchor="start" font-family="Liberation Serif" font-size="6.6" font-weight="700" fill="#773701">L</text>
+<text x="11.000" y="85.500" text-anchor="start" font-family="Liberation Serif" font-size="6.5" fill="#252421">Old parent</text>
+<text x="65.500" y="85.500" text-anchor="end" font-family="Liberation Serif" font-size="6.8" font-weight="700" fill="#252421">5, 7</text>
+<text x="3.350" y="94.900" text-anchor="start" font-family="Liberation Serif" font-size="6.6" font-weight="700" fill="#773701">R</text>
+<text x="11.000" y="94.900" text-anchor="start" font-family="Liberation Serif" font-size="6.5" fill="#252421">Right refill</text>
+<text x="65.500" y="94.900" text-anchor="end" font-family="Liberation Serif" font-size="6.8" font-weight="700" fill="#252421">6, 14</text>
+<text x="91.000" y="69.500" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#252421">Winner</text>
+<text x="148.500" y="69.500" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#252421">Loser</text>
+<path d="M 73.200 72.200 L 113.800 72.200" fill="none" stroke="#625c54" stroke-width="0.44" stroke-linecap="round"/>
+<path d="M 127.600 72.200 L 168.200 72.200" fill="none" stroke="#625c54" stroke-width="0.44" stroke-linecap="round"/>
+<circle cx="79.600" cy="81.550" r="4.3" fill="#ded8d0" stroke="#625c54" stroke-width="0.45"/>
+<text x="79.600" y="83.711" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">5</text>
+<text x="79.600" y="92.750" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">L</text>
+<circle cx="102.300" cy="81.550" r="4.3" fill="#ded8d0" stroke="#625c54" stroke-width="0.45"/>
+<text x="102.300" y="83.711" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">6</text>
+<text x="102.300" y="92.750" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">R</text>
+<circle cx="136.800" cy="81.550" r="4.3" fill="#fff8ef" stroke="#b3540b" stroke-width="0.55"/>
+<circle cx="136.800" cy="81.550" r="5.66" fill="none" stroke="#b3540b" stroke-width="0.49"/>
+<text x="136.800" y="83.711" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" font-weight="700" fill="#773701">7</text>
+<text x="136.800" y="92.750" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#773701">L · 2/2</text>
+<circle cx="159.500" cy="81.550" r="4.3" fill="white" stroke="#625c54" stroke-width="0.45"/>
+<text x="159.500" y="83.711" text-anchor="middle" font-family="Liberation Serif" font-size="6.65" fill="#252421">14</text>
+<text x="159.500" y="92.750" text-anchor="middle" font-family="Liberation Serif" font-size="6.5" font-weight="700" fill="#625c54">R</text>
+<rect x="189.900" y="66.700" width="31.000" height="11.400" rx="2.5" fill="#ece9e5" stroke="#c6bfb6" stroke-width="0.45"/>
+<text x="205.400" y="74.545" text-anchor="middle" font-family="Liberation Serif" font-size="6.6" fill="#252421">P: 7, 14</text>
+<path d="M 205.400 78.200 L 189.038 83.523" fill="none" stroke="#b3540b" stroke-width="0.8" stroke-linecap="round"/>
+<polygon points="188.800,83.600 190.990,81.605 191.745,83.925" fill="#b3540b"/>
+<rect x="174.600" y="84.500" width="28.400" height="11.400" rx="2.5" fill="white" stroke="#625c54" stroke-width="0.45" stroke-dasharray="1.3 .9"/>
+<text x="188.800" y="92.166" text-anchor="middle" font-family="Liberation Serif" font-size="6.05" fill="#252421">L: 12, 16</text>
+<path d="M 205.400 78.200 L 222.000 84.500" fill="none" stroke="#c6bfb6" stroke-width="0.45" stroke-linecap="round"/>
+<rect x="207.800" y="84.500" width="28.400" height="11.400" rx="2.5" fill="white" stroke="#c6bfb6" stroke-width="0.45"/>
+<text x="222.000" y="92.166" text-anchor="middle" font-family="Liberation Serif" font-size="6.05" fill="#252421">R: ∅</text>
+</g>
+<text x="120.123" y="105.800" text-anchor="middle" font-family="Liberation Serif" font-size="6.2" fill="#625c54">P: stored parent segment     ·     Dashed box: unread rows</text>
+</svg>

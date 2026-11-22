@@ -1,31 +1,7 @@
-% Four independent vector tiles with shared axes and one common color scale.
-\begin{figure*}[t]
+% E4a display domain. The experimental collection contract is unchanged.
+\begin{figure}[t]
 \centering
-\begingroup
-\setlength{\tabcolsep}{0pt}
-\newlength{\eFourTile}
-\setlength{\eFourTile}{.4623\textwidth}
-\newcommand{\eFourKCell}[1]{\makebox[\dimexpr\eFourTile/24\relax][c]{#1}}
-\newcommand{\eFourAxisK}{%
-  \hbox{\eFourKCell{2}\eFourKCell{3}\eFourKCell{4}\eFourKCell{5}\eFourKCell{6}\eFourKCell{7}%
-  \eFourKCell{8}\eFourKCell{9}\eFourKCell{10}\eFourKCell{11}\eFourKCell{12}\eFourKCell{13}%
-  \eFourKCell{14}\eFourKCell{15}\eFourKCell{16}\eFourKCell{17}\eFourKCell{18}\eFourKCell{19}%
-  \eFourKCell{20}\eFourKCell{21}\eFourKCell{22}\eFourKCell{23}\eFourKCell{24}\eFourKCell{25}}}
-\newcommand{\eFourHCell}[1]{\vbox to \dimexpr\eFourTile*10/233\relax{\vfil\hbox to 8bp{\hfil #1}\vfil}}
-\newcommand{\eFourAxisH}[1]{%
-  \hbox to .0615\textwidth{%
-    \raisebox{\dimexpr\eFourTile*45/233\relax}{\textbf{#1}}\hfil
-    \vbox{\offinterlineskip\eFourHCell{10}\eFourHCell{9}\eFourHCell{8}\eFourHCell{7}%
-    \eFourHCell{6}\eFourHCell{5}\eFourHCell{4}\eFourHCell{3}\eFourHCell{2}\eFourHCell{1}}%
-    \kern2bp}}
-\newcommand{\eFourTileFig}[1]{\includegraphics[width=\eFourTile]{fig/experiments/figures/e4a-full-domain/panel-#1.pdf}}
-{\fontsize{7bp}{8bp}\selectfont\offinterlineskip
-\hbox to \textwidth{\makebox[.0615\textwidth][l]{$h$}\makebox[\eFourTile]{\textbf{Full}}\hfil\makebox[\eFourTile]{\textbf{LIMIT 10}}}\kern2bp
-\hbox to \textwidth{\eFourAxisH{SW}\eFourTileFig{1}\hfil\eFourTileFig{2}}\kern1bp
-\hbox to \textwidth{\eFourAxisH{LT}\eFourTileFig{3}\hfil\eFourTileFig{4}}\kern1bp
-\hbox to \textwidth{\makebox[.0615\textwidth][r]{$k$\quad}\eFourAxisK\hfil\eFourAxisK}}\par\smallskip
-\includegraphics[width=\textwidth]{fig/experiments/figures/e4a-full-domain/shared-key.pdf}
-\endgroup
-\caption{Cache savings layout ($n=500$, $m=20$, $\beta=0$), pooling DL20 and COVID. Outlines mark frozen targets; gray cells are feasible but have no imported observations.}
+\input{manuscript/e4a-column-6x10}\par
+\caption{Prefix-cache savings relative to pooled Cache Off input tokens (DL20 and COVID; $n=500$, $m=20$, $\beta=0$). Full and \textsf{LIMIT}~10 share the same scale. Hatching denotes infeasible $(k,h)$ configurations.}
 \label{fig:e4a-c2}
-\end{figure*}
+\end{figure}

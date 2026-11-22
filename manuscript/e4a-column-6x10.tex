@@ -1,0 +1,23 @@
+% Four vector plots as numbered subfloats, one shared vertical color key.
+% Shared h labels in the left column and k labels on the bottom row.
+\begingroup
+\setlength{\subfigtopskip}{0pt}
+\setlength{\subfigcapskip}{1pt}
+\setlength{\subfigbottomskip}{0pt}
+% The SW asset has a 13 bp left axis gutter. Keep its footprint while
+% centering its subcaption on the same 98 bp viewport as the LT panel.
+\newcommand{\eFourSWPanel}[1]{\hbox to 98bp{\hss\includegraphics{#1}}}
+\leavevmode\hbox{%
+  \vbox{\offinterlineskip
+    \hbox{%
+      \kern13bp\subfigure[SW, Full]{\eFourSWPanel{fig/experiments/figures/e4a-r17/full-sw.pdf}\label{fig:e4a-sw-full}}%
+      \subfigure[LT, Full]{\includegraphics{fig/experiments/figures/e4a-r17/full-lt.pdf}\label{fig:e4a-lt-full}}}%
+    \kern4.5bp%
+    \hbox{%
+      \addtolength{\subfigcapskip}{1.25bp}%
+      \kern13bp\subfigure[SW, \textsf{LIMIT}~10]{\eFourSWPanel{fig/experiments/figures/e4a-r17/limit-sw.pdf}\label{fig:e4a-sw-topk}}%
+      \subfigure[LT, \textsf{LIMIT}~10]{\includegraphics{fig/experiments/figures/e4a-r17/limit-lt.pdf}\label{fig:e4a-lt-topk}}}%
+  }%
+  \includegraphics{fig/experiments/figures/e4a-r17/key.pdf}%
+}%
+\endgroup

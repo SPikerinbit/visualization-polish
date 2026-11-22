@@ -22,7 +22,7 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{fig/mechanisms/framework.pdf}
-  \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner estimates the input tokens of feasible plans and selects the cheapest one. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
+  \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner selects the lowest estimated input cost for the requested output. Full and LIMIT may select different merge plans. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
   \label{fig:framework}
 \end{figure*}
 
@@ -153,7 +153,7 @@ In Figure~\ref{fig:sw-mechanism}, four runs contribute two items each to a windo
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig/mechanisms/lt.pdf}
-\caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. Replaying the two matches yields $[3,4]$.}
+\caption{A refresh in a segmented loser tree ($h=2$). After the root emits $[1,2]$, the pointers lead to $R_2$. The ranker sees the replacement segment and only the losers on that path. The lower match forwards $[5,6]$; the root then emits $[3,4]$.}
 \label{fig:lt-mechanism}
 \end{figure}
 
@@ -219,7 +219,7 @@ Figure~\ref{fig:lt-mechanism} traces one refresh on the same four runs as SW, wi
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig/mechanisms/pointer.pdf}
-\caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R are slot labels, not the original run identities.}
+\caption{Pointer assignment ($h=2$). The first slot to supply its second entry in the replay order determines the pointer. In (a), R reaches that entry at row 5. In (b), the old parent segment occupies L and reaches its second entry at row 7. L and R label replay slots, not runs. Dashed rings denote unread rows.}
 \label{fig:pointer-mechanism}
 \end{figure}
 

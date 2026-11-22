@@ -8,31 +8,32 @@
   \makebox[0pt][r]{%
     \raisebox{\dimexpr\ht\eTwoPanelGraphic-#1\relax}[0pt][0pt]{%
       \fontsize{6.2bp}{7bp}\selectfont\makebox[22.3bp][l]{#2}}%
-    \kern20bp}}
+    \kern19.96bp}}
 \newcommand{\eTwoAnnotated}[3]{%
   \begin{minipage}{83.15bp}\centering
-    \sbox{\eTwoPanelGraphic}{\includegraphics[width=\linewidth]{#1}}%
+    \sbox{\eTwoPanelGraphic}{\includegraphics[width=\linewidth,trim=4.05bp 2.2bp 1.35bp 3.2bp,clip]{#1}}%
     \usebox{\eTwoPanelGraphic}%
-    \eTwoInteriorRow{27.8bp}{#2}%
-    \eTwoInteriorRow{34.4bp}{#3}%
+    \eTwoInteriorRow{26.89bp}{#2}%
+    \eTwoInteriorRow{33.77bp}{#3}%
   \end{minipage}}
 
 \begin{figure*}[t]
 \centering
 \setlength{\subfigtopskip}{1pt}\setlength{\subfigcapskip}{1pt}\setlength{\subfigbottomskip}{1pt}
-\includegraphics[width=0.59294\linewidth]{e2-legend.pdf}\par
+\includegraphics[width=325bp]{e2-legend.pdf}\par
 \subfigure[Syn-A, LT, Full]{\eTwoAnnotated{panels/p01.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (13,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (22,1)}}\hfill%
 \subfigure[Syn-B, LT, Full]{\eTwoAnnotated{panels/p02.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (15,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (6,1)}}\hfill%
 \subfigure[Syn-C, LT, Full]{\eTwoAnnotated{panels/p03.pdf}{\textcolor[HTML]{087F9B}{\ding{72}}\kern0.9bp\textcolor[HTML]{DA821E}{\eTwoDiamond} (8,1)}{}}\hfill%
-\subfigure[Syn-D, LT, LIMIT10]{\eTwoAnnotated{panels/p04.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
-\subfigure[Syn-E, LT, LIMIT10]{\eTwoAnnotated{panels/p05.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (7,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (13,1)}}\hfill%
-\subfigure[Syn-F, LT, LIMIT10]{\eTwoAnnotated{panels/p06.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (19,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (14,2)}}\par
+\subfigure[Syn-D, LT, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p04.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
+\subfigure[Syn-E, LT, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p05.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (7,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (13,1)}}\hfill%
+\subfigure[Syn-F, LT, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p06.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (19,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (14,2)}}\par
+\vspace{4.5bp}
 \subfigure[Syn-G, SW, Full]{\eTwoAnnotated{panels/p07.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (6,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (11,1)}}\hfill%
 \subfigure[Syn-H, SW, Full]{\eTwoAnnotated{panels/p08.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (11,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (6,2)}}\hfill%
 \subfigure[Syn-I, SW, Full]{\eTwoAnnotated{panels/p09.pdf}{\textcolor[HTML]{087F9B}{\ding{72}}\kern0.9bp\textcolor[HTML]{DA821E}{\eTwoDiamond} (9,1)}{}}\hfill%
-\subfigure[Syn-J, SW, LIMIT10]{\eTwoAnnotated{panels/p10.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (9,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
-\subfigure[Syn-K, SW, LIMIT10]{\eTwoAnnotated{panels/p11.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (20,1)}}\hfill%
-\subfigure[Syn-L, SW, LIMIT10]{\eTwoAnnotated{panels/p12.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (18,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (14,1)}}\par
-\caption{Layout placeholder. Front axis $k$ (fan-in), depth axis $h$ (SW per-run quota; LT segment length); vertical merge input tokens $\times 10^{3}$. Vertical ranges adapt per panel; compare numeric ticks, not apparent heights across panels. Stars mark illustrative minima over shown configurations; hollow diamonds mark model-selected configurations at the illustrative reference cost.}
+\subfigure[Syn-J, SW, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p10.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (9,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (2,10)}}\hfill%
+\subfigure[Syn-K, SW, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p11.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (12,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (20,1)}}\hfill%
+\subfigure[Syn-L, SW, \textsf{LIMIT}~10]{\eTwoAnnotated{panels/p12.pdf}{\textcolor[HTML]{087F9B}{\ding{72}} (18,1)}{\textcolor[HTML]{DA821E}{\eTwoDiamond} (14,1)}}\par
+\caption{Front axis $k$ (fan-in), depth axis $h$ (SW per-run quota; LT segment length); vertical merge input tokens $\times 10^{3}$. Vertical ranges adapt per panel; compare numeric ticks, not apparent heights across panels. Stars mark illustrative minima over shown configurations; hollow diamonds mark model-selected configurations at the illustrative reference cost.}
 \label{fig:e2-surface-exp5-12}
 \end{figure*}

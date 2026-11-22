@@ -1,0 +1,29 @@
+{
+  "r4_scientific_contract_exact": {
+    "fig7": true,
+    "fig9": true
+  },
+  "pdf_dropins": {
+    "e3-liu-palette/lt-full.pdf": [
+      122.80000305175781,
+      98.0
+    ],
+    "e3-liu-palette/lt-limit10.pdf": [
+      122.80000305175781,
+      98.0
+    ],
+    "e3-liu-palette/sw-full.pdf": [
+      122.80000305175781,
+      98.0
+    ],
+    "e3-liu-palette/sw-limit10.pdf": [
+      122.80000305175781,
+      98.0
+    ],
+    "e4b-e2-style/e4b-legend.pdf": [
+      240.24655151367188,
+      15.399999618530273
+    ]
+  },
+  "fig9_inset": "R4 panel not overridden; only legend asset replaced"
+}

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240.24655pt" height="89.5pt" viewBox="0 0 240.24655 89.5">
+  <title>Segmented loser tree: refresh one path</title>
+  <desc>The full tree is shown twice. After prior output [1,2], the amber pointers reach R2. One rank call orders [3,4], [5,7], and [6,14]. The lower replay forwards [5,6] and stores [7,14]. The root replay outputs [3,4] and stores [5,6]. Both replays reuse the same rank map. The next pointers go right at the root and left at the lower match; R2 is exhausted.</desc>
+  <rect x="0" y="0" width="240.24655" height="89.5" rx="0" fill="#FFFFFF"/>
+  <g font-family="Liberation Serif, serif" fill="#292722">
+    <g id="read-path" transform="translate(0 4)">
+      <text x="47.5" y="5.0" font-size="7.2" text-anchor="middle" fill="#292722" font-weight="bold">(a) Collect top-down</text>
+      <line x1="41.767" y1="37.0" x2="34.823" y2="41.5351" stroke="#8B4E08" stroke-width="1.32" stroke-linecap="round"/>
+      <polygon points="32.9627,42.7500 34.6382,40.1715 35.8246,42.3653" fill="#8B4E08"/>
+      <line x1="53.233" y1="37.0" x2="62.0372" y2="42.75" stroke="#A8ADA5" stroke-width="0.44" stroke-linecap="round"/>
+      <line x1="23.84" y1="50.9" x2="18.9488" y2="58.05" stroke="#A8ADA5" stroke-width="0.44" stroke-linecap="round"/>
+      <line x1="30.21" y1="50.9" x2="33.801" y2="56.1492" stroke="#8B4E08" stroke-width="1.32" stroke-linecap="round"/>
+      <polygon points="35.1013,58.0500 32.5874,56.4987 34.4437,54.9652" fill="#8B4E08"/>
+      <line x1="64.79" y1="50.9" x2="60.9301" y2="56.5425" stroke="#79837A" stroke-width="0.64" stroke-linecap="round"/>
+      <polygon points="59.8987,58.0500 60.4203,55.6034 61.8926,56.8196" fill="#79837A"/>
+      <line x1="71.16" y1="50.9" x2="76.0512" y2="58.05" stroke="#A8ADA5" stroke-width="0.44" stroke-linecap="round"/>
+      <circle cx="43.6325" cy="17.1" r="3.7" fill="#E1EDE5" stroke="#285F4D" stroke-width="0.52"/>
+      <text x="43.6325" y="18.87" font-size="6.0" text-anchor="middle" fill="#292722">1</text>
+      <circle cx="51.3675" cy="17.1" r="3.7" fill="#E1EDE5" stroke="#285F4D" stroke-width="0.52"/>
+      <text x="51.3675" y="18.87" font-size="6.0" text-anchor="middle" fill="#292722">2</text>
+      <circle cx="43.6325" cy="33" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="43.6325" y="34.77" font-size="6.0" text-anchor="middle" fill="#292722">3</text>
+      <circle cx="51.3675" cy="33" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="51.3675" y="34.77" font-size="6.0" text-anchor="middle" fill="#292722">4</text>
+      <circle cx="23.1575" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="23.1575" y="48.67" font-size="6.0" text-anchor="middle" fill="#292722">5</text>
+      <circle cx="30.8925" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="30.8925" y="48.67" font-size="6.0" text-anchor="middle" fill="#292722">7</text>
+      <circle cx="64.1075" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52"/>
+      <text x="64.1075" y="48.67" font-size="6.0" text-anchor="middle" fill="#515750">8</text>
+      <circle cx="71.8425" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52"/>
+      <text x="71.8425" y="48.67" font-size="6.0" text-anchor="middle" fill="#515750">9</text>
+      <circle cx="11.7825" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="11.7825" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">12</text>
+      <circle cx="19.5175" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="19.5175" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">16</text>
+      <text x="15.65" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₁</text>
+      <circle cx="34.5325" cy="62.2" r="3.7" fill="#FFE3AF" stroke="#8B4E08" stroke-width="0.52"/>
+      <text x="34.5325" y="63.97" font-size="6.0" text-anchor="middle" fill="#8B4E08" font-weight="bold">6</text>
+      <circle cx="42.2675" cy="62.2" r="3.7" fill="#FFE3AF" stroke="#8B4E08" stroke-width="0.52"/>
+      <text x="42.2675" y="63.97" font-size="6.0" text-anchor="middle" fill="#8B4E08" font-weight="bold">14</text>
+      <text x="38.4" y="70.55" font-size="6.1" text-anchor="middle" fill="#8B4E08" font-weight="bold">R₂</text>
+      <circle cx="52.7325" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="52.7325" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">11</text>
+      <circle cx="60.4675" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="60.4675" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">15</text>
+      <text x="56.6" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₃</text>
+      <circle cx="75.4825" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="75.4825" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">10</text>
+      <circle cx="83.2175" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="83.2175" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">13</text>
+      <text x="79.35" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₄</text>
+    <path d="M33.0583 64.85000000000001 h2.9484000000000004" stroke="#8B4E08" stroke-width=".48"/><path d="M40.7933 64.85000000000001 h2.9484000000000004" stroke="#8B4E08" stroke-width=".48"/><text x="58.056" y="19.1" fill="#285F4D" font-size="6.1" text-anchor="start" font-weight="bold">Prior output</text></g>
+    <g id="after" transform="translate(0 4)">
+      <text x="192.7466" y="5.0" font-size="7.2" text-anchor="middle" fill="#292722" font-weight="bold">(c) Replay bottom-up</text>
+      <line x1="187.0136" y1="37.0" x2="178.2094" y2="42.75" stroke="#285F4D" stroke-width="0.8" stroke-linecap="round"/>
+      <polygon points="187.014,37 185.7272,39.071 184.7999,37.356" fill="#285F4D"/><line x1="198.4796" y1="37.0" x2="205.8085" y2="41.7864" stroke="#292722" stroke-width=".78" stroke-linecap="round"/>
+      <polygon points="207.2839,42.7500 205.014,42.4449 205.9551,40.7050" fill="#292722"/>
+      <line x1="169.0866" y1="50.9" x2="165.2266" y2="56.5425" stroke="#292722" stroke-width=".78" stroke-linecap="round"/>
+      <polygon points="164.1953,58.0500 164.7169,55.6034 166.1891,56.8196" fill="#292722"/>
+      <line x1="175.4566" y1="50.9" x2="180.3478" y2="58.05" stroke="#A8ADA5" stroke-width="0.44" stroke-linecap="round"/>
+      <line x1="210.0366" y1="50.9" x2="206.1766" y2="56.5425" stroke="#79837A" stroke-width="0.64" stroke-linecap="round"/>
+      <polygon points="205.1454,58.0500 205.6669,55.6034 207.1391,56.8196" fill="#79837A"/>
+      <line x1="216.4066" y1="50.9" x2="221.2979" y2="58.05" stroke="#A8ADA5" stroke-width="0.44" stroke-linecap="round"/>
+      <circle cx="188.8791" cy="17.1" r="3.7" fill="#E1EDE5" stroke="#285F4D" stroke-width="0.52"/>
+      <text x="188.8791" y="18.87" font-size="6.0" text-anchor="middle" fill="#292722">3</text>
+      <circle cx="196.6141" cy="17.1" r="3.7" fill="#E1EDE5" stroke="#285F4D" stroke-width="0.52"/>
+      <text x="196.6141" y="18.87" font-size="6.0" text-anchor="middle" fill="#292722">4</text>
+      <line x1="192.7466" y1="28.7" x2="192.7466" y2="23.777" stroke="#285F4D" stroke-width="0.6" stroke-linecap="round"/>
+      <polygon points="192.7466,21.8500 193.6875,24.2000 191.8057,24.2000" fill="#285F4D"/>
+      <circle cx="188.8791" cy="33" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="188.8791" y="34.77" font-size="6.0" text-anchor="middle" fill="#292722">5</text>
+      <circle cx="196.6141" cy="33" r="3.7" fill="#FFE3AF" stroke="#8B4E08" stroke-width="0.52"/>
+      <text x="196.6141" y="34.77" font-size="6.0" text-anchor="middle" fill="#8B4E08" font-weight="bold">6</text>
+      <circle cx="168.4041" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#292722" stroke-width="0.52"/>
+      <text x="168.4041" y="48.67" font-size="6.0" text-anchor="middle" fill="#292722">7</text>
+      <circle cx="176.1391" cy="46.9" r="3.7" fill="#FFE3AF" stroke="#8B4E08" stroke-width="0.52"/>
+      <text x="176.1391" y="48.67" font-size="6.0" text-anchor="middle" fill="#8B4E08" font-weight="bold">14</text>
+      <circle cx="209.3541" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52"/>
+      <text x="209.3541" y="48.67" font-size="6.0" text-anchor="middle" fill="#515750">8</text>
+      <circle cx="217.0891" cy="46.9" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52"/>
+      <text x="217.0891" y="48.67" font-size="6.0" text-anchor="middle" fill="#515750">9</text>
+      <circle cx="157.0291" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="157.0291" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">12</text>
+      <circle cx="164.7641" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="164.7641" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">16</text>
+      <text x="160.8966" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₁</text>
+      <text x="183.6466" y="63.85" font-size="6.0" text-anchor="middle" fill="#57635C">∅</text>
+      <text x="183.6466" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₂</text>
+      <circle cx="197.9791" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="197.9791" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">11</text>
+      <circle cx="205.7141" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="205.7141" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">15</text>
+      <text x="201.8466" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₃</text>
+      <circle cx="220.7291" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="220.7291" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">10</text>
+      <circle cx="228.4641" cy="62.2" r="3.7" fill="#FFFFFF" stroke="#79837A" stroke-width="0.52" stroke-dasharray="1.15 .8"/>
+      <text x="228.4641" y="63.97" font-size="6.0" text-anchor="middle" fill="#292722">13</text>
+      <text x="224.5966" y="70.55" font-size="6.1" text-anchor="middle" fill="#57635C">R₄</text>
+      <path d="M195.1399 35.65 h2.9484000000000004" stroke="#8B4E08" stroke-width=".48"/><path d="M174.6649 49.55 h2.9484000000000004" stroke="#8B4E08" stroke-width=".48"/><text x="203.4422" y="19.1" fill="#285F4D" font-size="6.1" text-anchor="start" font-weight="bold">Next output</text></g>
+    <g id="legend"><path d="M1 78.5 H239" stroke="#DAD8CB" stroke-width=".56"/><circle cx="4" cy="84.6" r="2.3" stroke="#8B4E08" stroke-width=".61" fill="#FFE3AF"/><path d="M2.9 85.7 h2.2" stroke="#8B4E08" stroke-width=".45"/><text x="8.45" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">New from R₂</text><circle cx="51" cy="84.6" r="2.3" stroke="#292722" stroke-width=".61" fill="white"/><text x="55.45" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">Stored</text><circle cx="82" cy="84.6" r="2.3" stroke="#79837A" stroke-width=".61" fill="white" stroke-dasharray="1.25 .8"/><text x="86.45" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">Unread</text><path d="M114 84.75 h5.5" stroke="#8B4E08" stroke-width="1"/><path d="M120.5 84.75 l-2.4 -1.25 v2.5 z" fill="#8B4E08"/><text x="122.28" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">Follow pointer</text><path d="M161 84.75 h5.5" stroke="#292722" stroke-width="0.8"/><path d="M167.5 84.75 l-2.4 -1.25 v2.5 z" fill="#292722"/><text x="169.28" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">Next pointer</text><path d="M202 84.75 h5.5" stroke="#285F4D" stroke-width="0.8"/><path d="M208.5 84.75 l-2.4 -1.25 v2.5 z" fill="#285F4D"/><text x="210.28" y="86.9" fill="#292722" font-size="6.15" text-anchor="start" font-weight="normal">Replay</text></g><g id="one-listwise-call"><text x="120.1233" y="9" fill="#292722" font-size="7.2" text-anchor="middle" font-weight="bold">(b) ListwiseRank</text><rect x="94.55" y="27.55" width="16.25" height="11.7" rx=".75" fill="#ECEFEA"/><rect x="94.0" y="27" width="16.25" height="11.7" rx=".75" fill="#F7F8F7" stroke="#B6BEB8" stroke-width=".42"/><rect x="94.83" y="28.1" width="7.0" height="9.55" fill="#EDF1ED"/><text x="98.33" y="35.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">3</text><rect x="102.53" y="28.1" width="7.0" height="9.55" fill="#EDF1ED"/><text x="106.03" y="35.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">4</text><rect x="112.55" y="27.55" width="16.25" height="11.7" rx=".75" fill="#ECEFEA"/><rect x="112.0" y="27" width="16.25" height="11.7" rx=".75" fill="#F7F8F7" stroke="#B6BEB8" stroke-width=".42"/><rect x="112.83" y="28.1" width="7.0" height="9.55" fill="#EDF1ED"/><text x="116.33" y="35.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">5</text><rect x="120.53" y="28.1" width="7.0" height="9.55" fill="#EDF1ED"/><text x="124.03" y="35.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">7</text><rect x="130.55" y="27.55" width="16.25" height="11.7" rx=".75" fill="#ECEFEA"/><rect x="130.0" y="27" width="16.25" height="11.7" rx=".75" fill="#F7F8F7" stroke="#B6BEB8" stroke-width=".42"/><rect x="130.83" y="28.1" width="7.0" height="9.55" fill="#FFE3AF"/><path d="M131.23000000000002 37.22 h6.2" stroke="#8B4E08" stroke-width=".56"/><text x="134.33" y="35.02" fill="#8B4E08" font-size="6.0" text-anchor="middle" font-weight="bold">6</text><rect x="138.53" y="28.1" width="7.0" height="9.55" fill="#FFE3AF"/><path d="M138.93 37.22 h6.2" stroke="#8B4E08" stroke-width=".56"/><text x="142.03" y="35.02" fill="#8B4E08" font-size="6.0" text-anchor="middle" font-weight="bold">14</text><path d="M120.1 41.5 V47.5 m-1.45 -1.5 1.45 1.5 1.45 -1.5" stroke="#515750" stroke-width=".64" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="94.55" y="50.55" width="52.25" height="11.7" rx=".75" fill="#ECEFEA"/><rect x="94.0" y="50.0" width="52.25" height="11.7" rx=".75" fill="#F7F8F7" stroke="#B6BEB8" stroke-width=".42"/><rect x="95.15" y="51.1" width="7.75" height="9.55" fill="#EDF1ED"/><text x="99.025" y="58.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">3</text><rect x="103.53" y="51.1" width="7.75" height="9.55" fill="#EDF1ED"/><text x="107.405" y="58.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">4</text><rect x="111.91000000000001" y="51.1" width="7.75" height="9.55" fill="#EDF1ED"/><text x="115.78500000000001" y="58.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">5</text><rect x="120.29" y="51.1" width="7.75" height="9.55" fill="#FFE3AF"/><path d="M120.69000000000001 60.22 h6.95" stroke="#8B4E08" stroke-width=".56"/><text x="124.165" y="58.02" fill="#8B4E08" font-size="6.0" text-anchor="middle" font-weight="bold">6</text><rect x="128.67000000000002" y="51.1" width="7.75" height="9.55" fill="#EDF1ED"/><text x="132.54500000000002" y="58.02" fill="#292722" font-size="6.0" text-anchor="middle" font-weight="normal">7</text><rect x="137.05" y="51.1" width="7.75" height="9.55" fill="#FFE3AF"/><path d="M137.45000000000002 60.22 h6.95" stroke="#8B4E08" stroke-width=".56"/><text x="140.925" y="58.02" fill="#8B4E08" font-size="6.0" text-anchor="middle" font-weight="bold">14</text></g></g>
+</svg>

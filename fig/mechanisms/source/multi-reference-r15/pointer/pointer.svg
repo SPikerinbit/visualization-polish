@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240.24655pt" height="94.164pt" viewBox="0 0 240.24655 94.164"><title>Pointer creation and update at a replay node</title><desc>Construction starts with no pointer, then points to its right child. Refresh starts with that right pointer, and then redirects it to the left child. The retained [5,7] at P is the source of refresh slot L. The shallow inset gives replay order; the third token reaches 2/2 and triggers the new pointer.</desc><rect width="240.24655" height="94.164" fill="white"/><g font-family="Nimbus Roman,Liberation Serif,serif">
+<path d="M120.12 1.3 V85.1" fill="none" stroke="#D8DBD7" stroke-width="0.52" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="construction">
+<text x="57.8" y="7.7" text-anchor="middle" font-size="8.7" fill="#292D30" font-weight="bold" font-style="normal">(a) Tree construction</text>
+<text x="57.8" y="15.15" text-anchor="middle" font-size="5.95" fill="#54585A" font-weight="normal" font-style="normal">Slot L: left child  ·  Slot R: right child</text>
+<g data-state="before" data-pointer="∅">
+<text x="5" y="22.55" text-anchor="start" font-size="6.9" fill="#292D30" font-weight="bold" font-style="normal">Before</text>
+<text x="5" y="30.8" text-anchor="start" font-size="6.3" fill="#54585A" font-weight="normal" font-style="normal">No pointer</text>
+<path d="M64.4 25.1 L49.1 30.9" fill="none" stroke="#929995" stroke-width="0.51" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73.6 25.1 L88.9 30.9" fill="none" stroke="#929995" stroke-width="0.51" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="82.4" y="23.51" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">P</text>
+<text x="31.2" y="37.61" text-anchor="end" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">L</text>
+<text x="106.8" y="37.61" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">R</text>
+<circle cx="69" cy="21.55" r="4.55" fill="white" stroke="#A2A8A4" stroke-width="0.53"/>
+<text x="69" y="23.55" text-anchor="middle" font-size="6.2" fill="#54585A" font-weight="normal" font-style="normal">∅</text>
+<rect x="33.9" y="31.049999999999997" width="20.2" height="9.2" rx="4.55" fill="white" stroke="#929995" stroke-width="0.52"/>
+<path d="M44 32.4 v6.5" fill="none" stroke="#929995" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="38.9" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">3</text>
+<text x="49.1" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">7</text>
+<rect x="83.9" y="31.049999999999997" width="20.2" height="9.2" rx="4.55" fill="white" stroke="#929995" stroke-width="0.52"/>
+<path d="M94 32.4 v6.5" fill="none" stroke="#929995" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="88.9" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">1</text>
+<text x="99.1" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">5</text>
+</g>
+<g data-state="after" data-pointer="R">
+<text x="5" y="44.5" text-anchor="start" font-size="6.9" fill="#292D30" font-weight="bold" font-style="normal">After</text>
+<text x="5" y="52.75" text-anchor="start" font-size="6.3" fill="#915807" font-weight="normal" font-style="normal">Pointer: R</text>
+<path d="M64.4 47.05 L49.1 52.85" fill="none" stroke="#929995" stroke-width="0.51" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73.6 47.05 L88.9 52.85" fill="none" stroke="#915807" stroke-width="1.08" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M88.900 52.850 L86.073 52.974 L86.865 50.883 Z" fill="#915807" stroke="#915807" stroke-width="0.23" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="82.4" y="45.46" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">P</text>
+<text x="31.2" y="59.56" text-anchor="end" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">L</text>
+<text x="106.8" y="59.56" text-anchor="start" font-size="6.4" fill="#915807" font-weight="bold" font-style="normal">R</text>
+<rect x="58.9" y="38.9" width="20.2" height="9.2" rx="4.55" fill="#E8F1F3" stroke="#436B7D" stroke-width="0.78"/>
+<path d="M69 40.25 v6.5" fill="none" stroke="#436B7D" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="63.9" y="45.6" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="bold" font-style="normal">5</text>
+<text x="74.1" y="45.6" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="bold" font-style="normal">7</text>
+<circle cx="38.9" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="38.9" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">12</text>
+<circle cx="49.1" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="49.1" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">16</text>
+<circle cx="88.9" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="88.9" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">6</text>
+<circle cx="99.1" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="99.1" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">14</text>
+</g>
+<path d="M44.1 66.95 H4.0 V85.1 H111.6 V66.95 H82.9" fill="none" stroke="#AC8050" stroke-width="0.56" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.85 1.2"/>
+<text x="63.5" y="68.55" text-anchor="middle" font-size="6.35" fill="#54585A" font-weight="bold" font-style="normal">Replay order</text>
+<circle cx="19" cy="74.48" r="3.98" fill="#DCEFEB" stroke="#176A64" stroke-width="0.52"/>
+<text x="19" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">1</text>
+<text x="19" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">R 1/2</text>
+<circle cx="45" cy="74.48" r="3.98" fill="#DCEFEB" stroke="#176A64" stroke-width="0.52"/>
+<text x="45" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">3</text>
+<text x="45" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">L 1/2</text>
+<circle cx="71" cy="74.48" r="4.86" fill="white" stroke="#915807" stroke-width="0.68"/>
+<circle cx="71" cy="74.48" r="3.79" fill="#FFE3AE" stroke="#915807" stroke-width="0.47"/>
+<text x="71" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="bold" font-style="normal">5</text>
+<text x="71" y="83.1" text-anchor="middle" font-size="6.12" fill="#915807" font-weight="bold" font-style="normal">R 2/2</text>
+<circle cx="97" cy="74.48" r="3.98" fill="white" stroke="#176A64" stroke-width="0.52"/>
+<text x="97" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">7</text>
+<text x="97" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">L</text>
+</g>
+<g id="refresh">
+<text x="180.1" y="7.7" text-anchor="middle" font-size="8.7" fill="#292D30" font-weight="bold" font-style="normal">(b) Path refresh</text>
+<text x="180.1" y="15.15" text-anchor="middle" font-size="5.95" fill="#54585A" font-weight="normal" font-style="normal">L: old P [5,7]  ·  R: refill from R</text>
+<g data-state="before" data-pointer="R">
+<text x="127.3" y="22.55" text-anchor="start" font-size="6.9" fill="#292D30" font-weight="bold" font-style="normal">Before</text>
+<text x="127.3" y="30.8" text-anchor="start" font-size="6.3" fill="#915807" font-weight="normal" font-style="normal">Pointer: R</text>
+<path d="M186.70000000000002 25.1 L171.4 30.9" fill="none" stroke="#929995" stroke-width="0.51" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M195.9 25.1 L211.20000000000002 30.9" fill="none" stroke="#915807" stroke-width="1.08" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M211.200 30.900 L208.373 31.024 L209.165 28.933 Z" fill="#915807" stroke="#915807" stroke-width="0.23" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="204.70000000000002" y="23.51" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">P</text>
+<text x="153.5" y="37.61" text-anchor="end" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">L</text>
+<text x="229.10000000000002" y="37.61" text-anchor="start" font-size="6.4" fill="#915807" font-weight="bold" font-style="normal">R</text>
+<rect x="181.20000000000002" y="16.950000000000003" width="20.2" height="9.2" rx="4.55" fill="#E8F1F3" stroke="#436B7D" stroke-width="0.78"/>
+<path d="M191.3 18.3 v6.5" fill="none" stroke="#436B7D" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="186.20000000000002" y="23.650000000000002" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="bold" font-style="normal">5</text>
+<text x="196.4" y="23.650000000000002" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="bold" font-style="normal">7</text>
+<circle cx="161.20000000000002" cy="35.65" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="161.20000000000002" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">12</text>
+<circle cx="171.4" cy="35.65" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="171.4" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">16</text>
+<rect x="206.20000000000002" y="31.049999999999997" width="20.2" height="9.2" rx="4.55" fill="white" stroke="#929995" stroke-width="0.52"/>
+<path d="M216.3 32.4 v6.5" fill="none" stroke="#929995" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="211.20000000000002" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">6</text>
+<text x="221.4" y="37.75" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">14</text>
+</g>
+<g data-state="after" data-pointer="L">
+<text x="127.3" y="44.5" text-anchor="start" font-size="6.9" fill="#292D30" font-weight="bold" font-style="normal">After</text>
+<text x="127.3" y="52.75" text-anchor="start" font-size="6.3" fill="#915807" font-weight="normal" font-style="normal">Pointer: L</text>
+<path d="M186.70000000000002 47.05 L171.4 52.85" fill="none" stroke="#915807" stroke-width="1.08" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M171.400 52.850 L173.435 50.883 L174.227 52.974 Z" fill="#915807" stroke="#915807" stroke-width="0.23" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M195.9 47.05 L211.20000000000002 52.85" fill="none" stroke="#929995" stroke-width="0.51" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="204.70000000000002" y="45.46" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">P</text>
+<text x="153.5" y="59.56" text-anchor="end" font-size="6.4" fill="#915807" font-weight="bold" font-style="normal">L</text>
+<text x="229.10000000000002" y="59.56" text-anchor="start" font-size="6.4" fill="#54585A" font-weight="normal" font-style="normal">R</text>
+<rect x="181.20000000000002" y="38.9" width="20.2" height="9.2" rx="4.55" fill="white" stroke="#929995" stroke-width="0.52"/>
+<path d="M191.3 40.25 v6.5" fill="none" stroke="#929995" stroke-width="0.38" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="186.20000000000002" y="45.6" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">7</text>
+<text x="196.4" y="45.6" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">14</text>
+<circle cx="161.20000000000002" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="161.20000000000002" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">12</text>
+<circle cx="171.4" cy="57.6" r="4.72" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="171.4" y="59.7" text-anchor="middle" font-size="6.45" fill="#292D30" font-weight="normal" font-style="normal">16</text>
+<circle cx="216.3" cy="57.6" r="4.55" fill="white" stroke="#A2A8A4" stroke-width="0.53"/>
+<text x="216.3" y="59.6" text-anchor="middle" font-size="6.2" fill="#54585A" font-weight="normal" font-style="normal">∅</text>
+</g>
+<path d="M166.4 66.95 H126.3 V85.1 H233.89999999999998 V66.95 H205.2" fill="none" stroke="#AC8050" stroke-width="0.56" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.85 1.2"/>
+<text x="185.8" y="68.55" text-anchor="middle" font-size="6.35" fill="#54585A" font-weight="bold" font-style="normal">Replay order</text>
+<circle cx="141.3" cy="74.48" r="3.98" fill="#DCEFEB" stroke="#176A64" stroke-width="0.52"/>
+<text x="141.3" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">5</text>
+<text x="141.3" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">L 1/2</text>
+<circle cx="167.3" cy="74.48" r="3.98" fill="#DCEFEB" stroke="#176A64" stroke-width="0.52"/>
+<text x="167.3" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">6</text>
+<text x="167.3" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">R 1/2</text>
+<circle cx="193.3" cy="74.48" r="4.86" fill="white" stroke="#915807" stroke-width="0.68"/>
+<circle cx="193.3" cy="74.48" r="3.79" fill="#FFE3AE" stroke="#915807" stroke-width="0.47"/>
+<text x="193.3" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="bold" font-style="normal">7</text>
+<text x="193.3" y="83.1" text-anchor="middle" font-size="6.12" fill="#915807" font-weight="bold" font-style="normal">L 2/2</text>
+<circle cx="219.3" cy="74.48" r="3.98" fill="white" stroke="#176A64" stroke-width="0.52"/>
+<text x="219.3" y="76.52000000000001" text-anchor="middle" font-size="6.33" fill="#292D30" font-weight="normal" font-style="normal">14</text>
+<text x="219.3" y="83.1" text-anchor="middle" font-size="6.12" fill="#54585A" font-weight="normal" font-style="normal">R</text>
+</g>
+<circle cx="6" cy="90.65" r="2.58" fill="#DCEFEB" stroke="#176A64" stroke-width="0.53"/>
+<text x="10.3" y="92.66" text-anchor="start" font-size="6.35" fill="#292D30" font-weight="normal" font-style="normal">Winner</text>
+<circle cx="46" cy="90.65" r="2.58" fill="white" stroke="#54585A" stroke-width="0.54" stroke-dasharray="1.24 .87"/>
+<text x="50.2" y="92.66" text-anchor="start" font-size="6.35" fill="#292D30" font-weight="normal" font-style="normal">Unread</text>
+<circle cx="88" cy="90.65" r="2.98" fill="white" stroke="#915807" stroke-width="0.65"/>
+<circle cx="88" cy="90.65" r="1.93" fill="#FFE3AE" stroke="#915807" stroke-width="0.42"/>
+<text x="93.2" y="92.66" text-anchor="start" font-size="6.35" fill="#292D30" font-weight="normal" font-style="normal">First exhausted</text>
+<path d="M145 90.65 H153" fill="none" stroke="#915807" stroke-width="0.91" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M153.000 90.650 L150.900 91.553 L150.900 89.747 Z" fill="#915807" stroke="#915807" stroke-width="0.23" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="156" y="92.66" text-anchor="start" font-size="6.35" fill="#292D30" font-weight="normal" font-style="normal">Pointer</text>
+<path d="M182 88.2 H190 V93.1 H182 Z" fill="none" stroke="#AC8050" stroke-width="0.52" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.85 1.2"/>
+<text x="193" y="92.66" text-anchor="start" font-size="6.05" fill="#292D30" font-weight="normal" font-style="normal">Call-result excerpt</text>
+</g></svg>

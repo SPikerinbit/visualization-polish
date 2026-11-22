@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240.24655pt" height="135.723pt" viewBox="0 0 240.24655 135.723">
+  <title>Four chunks, four initial runs, and two merge passes</title>
+  <desc>ListwiseRank processes each input chunk in one call. Open fan-in lines pair the runs for each merge. The final output is the green sequence at the bottom.</desc>
+  <g font-family="Nimbus Roman, Liberation Serif, serif">
+    <g id="chunk-1">
+      <text x="31.5" y="5.9" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">C<tspan dy="1.2" font-size="4.8" font-style="normal">1</tspan>
+      </text>
+      <g data-value="12">
+        <circle cx="13.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="13.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">12</text>
+      </g>
+      <g data-value="3">
+        <circle cx="25.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="25.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">3</text>
+      </g>
+      <g data-value="16">
+        <circle cx="37.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="37.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">16</text>
+      </g>
+      <g data-value="7">
+        <circle cx="49.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="49.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">7</text>
+      </g>
+      <path d="M31.5 18.45 L31.5 21.7" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M30.45 20.900000000000002L31.5 22.8L32.55 20.900000000000002Z" fill="#69757C"/>
+      <rect x="9.3" y="22.85" width="44.4" height="10.5" rx="1.25" fill="#FFE3AE" stroke="#AC6D0B" stroke-width="0.56"/>
+      <text x="31.5" y="30.1" font-size="5.8" fill="#252B2E" text-anchor="middle">ListwiseRank</text>
+      <path d="M31.5 33.5 L31.5 36.1" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M30.45 35.300000000000004L31.5 37.2L32.55 35.300000000000004Z" fill="#69757C"/>
+      <text x="31.5" y="42.6" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">R<tspan dy="1.2" font-size="4.8" font-style="normal">1</tspan>
+      </text>
+      <g data-value="3">
+        <circle cx="13.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="13.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">3</text>
+      </g>
+      <g data-value="7">
+        <circle cx="25.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="25.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">7</text>
+      </g>
+      <g data-value="12">
+        <circle cx="37.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="37.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">12</text>
+      </g>
+      <g data-value="16">
+        <circle cx="49.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="49.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">16</text>
+      </g>
+    </g>
+    <g id="chunk-2">
+      <text x="90.5" y="5.9" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">C<tspan dy="1.2" font-size="4.8" font-style="normal">2</tspan>
+      </text>
+      <g data-value="5">
+        <circle cx="72.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="72.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">5</text>
+      </g>
+      <g data-value="14">
+        <circle cx="84.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="84.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">14</text>
+      </g>
+      <g data-value="1">
+        <circle cx="96.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="96.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">1</text>
+      </g>
+      <g data-value="6">
+        <circle cx="108.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="108.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">6</text>
+      </g>
+      <path d="M90.5 18.45 L90.5 21.7" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M89.45 20.900000000000002L90.5 22.8L91.55 20.900000000000002Z" fill="#69757C"/>
+      <rect x="68.3" y="22.85" width="44.4" height="10.5" rx="1.25" fill="#FFE3AE" stroke="#AC6D0B" stroke-width="0.56"/>
+      <text x="90.5" y="30.1" font-size="5.8" fill="#252B2E" text-anchor="middle">ListwiseRank</text>
+      <path d="M90.5 33.5 L90.5 36.1" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M89.45 35.300000000000004L90.5 37.2L91.55 35.300000000000004Z" fill="#69757C"/>
+      <text x="90.5" y="42.6" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">R<tspan dy="1.2" font-size="4.8" font-style="normal">2</tspan>
+      </text>
+      <g data-value="1">
+        <circle cx="72.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="72.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">1</text>
+      </g>
+      <g data-value="5">
+        <circle cx="84.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="84.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">5</text>
+      </g>
+      <g data-value="6">
+        <circle cx="96.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="96.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">6</text>
+      </g>
+      <g data-value="14">
+        <circle cx="108.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="108.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">14</text>
+      </g>
+    </g>
+    <g id="chunk-3">
+      <text x="149.5" y="5.9" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">C<tspan dy="1.2" font-size="4.8" font-style="normal">3</tspan>
+      </text>
+      <g data-value="11">
+        <circle cx="131.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="131.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">11</text>
+      </g>
+      <g data-value="2">
+        <circle cx="143.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="143.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">2</text>
+      </g>
+      <g data-value="15">
+        <circle cx="155.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="155.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">15</text>
+      </g>
+      <g data-value="8">
+        <circle cx="167.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="167.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">8</text>
+      </g>
+      <path d="M149.5 18.45 L149.5 21.7" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M148.45 20.900000000000002L149.5 22.8L150.55 20.900000000000002Z" fill="#69757C"/>
+      <rect x="127.3" y="22.85" width="44.4" height="10.5" rx="1.25" fill="#FFE3AE" stroke="#AC6D0B" stroke-width="0.56"/>
+      <text x="149.5" y="30.1" font-size="5.8" fill="#252B2E" text-anchor="middle">ListwiseRank</text>
+      <path d="M149.5 33.5 L149.5 36.1" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M148.45 35.300000000000004L149.5 37.2L150.55 35.300000000000004Z" fill="#69757C"/>
+      <text x="149.5" y="42.6" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">R<tspan dy="1.2" font-size="4.8" font-style="normal">3</tspan>
+      </text>
+      <g data-value="2">
+        <circle cx="131.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="131.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">2</text>
+      </g>
+      <g data-value="8">
+        <circle cx="143.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="143.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">8</text>
+      </g>
+      <g data-value="11">
+        <circle cx="155.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="155.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">11</text>
+      </g>
+      <g data-value="15">
+        <circle cx="167.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="167.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">15</text>
+      </g>
+    </g>
+    <g id="chunk-4">
+      <text x="208.5" y="5.9" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">C<tspan dy="1.2" font-size="4.8" font-style="normal">4</tspan>
+      </text>
+      <g data-value="9">
+        <circle cx="190.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="190.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">9</text>
+      </g>
+      <g data-value="13">
+        <circle cx="202.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="202.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">13</text>
+      </g>
+      <g data-value="4">
+        <circle cx="214.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="214.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">4</text>
+      </g>
+      <g data-value="10">
+        <circle cx="226.5" cy="13.5" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="226.5" y="15.47" font-size="5.7" fill="#252B2E" text-anchor="middle">10</text>
+      </g>
+      <path d="M208.5 18.45 L208.5 21.7" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M207.45 20.900000000000002L208.5 22.8L209.55 20.900000000000002Z" fill="#69757C"/>
+      <rect x="186.3" y="22.85" width="44.4" height="10.5" rx="1.25" fill="#FFE3AE" stroke="#AC6D0B" stroke-width="0.56"/>
+      <text x="208.5" y="30.1" font-size="5.8" fill="#252B2E" text-anchor="middle">ListwiseRank</text>
+      <path d="M208.5 33.5 L208.5 36.1" stroke="#69757C" stroke-width="0.55" fill="none"/>
+      <path d="M207.45 35.300000000000004L208.5 37.2L209.55 35.300000000000004Z" fill="#69757C"/>
+      <text x="208.5" y="42.6" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">R<tspan dy="1.2" font-size="4.8" font-style="normal">4</tspan>
+      </text>
+      <g data-value="4">
+        <circle cx="190.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="190.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">4</text>
+      </g>
+      <g data-value="9">
+        <circle cx="202.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="202.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">9</text>
+      </g>
+      <g data-value="10">
+        <circle cx="214.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="214.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">10</text>
+      </g>
+      <g data-value="13">
+        <circle cx="226.5" cy="49.4" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+        <text x="226.5" y="51.37" font-size="5.7" fill="#252B2E" text-anchor="middle">13</text>
+      </g>
+    </g>
+    <path d="M31.5 54.5V56.8H90.5V54.5" stroke="#9CA6AB" stroke-width=".48" fill="none"/>
+    <path d="M61.0 56.8 L61.0 58.199999999999996" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M59.95 57.4L61.0 59.3L62.05 57.4Z" fill="#69757C"/>
+    <rect x="36.75" y="59.45" width="48.5" height="10.5" rx="1.25" fill="#fff" stroke="#AC6D0B" stroke-width="0.56" stroke-dasharray="1.8 1.2"/>
+    <text x="61" y="66.7" font-size="5.8" fill="#252B2E" text-anchor="middle">MergeGroup</text>
+    <path d="M61 70 L61 72.30000000000001" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M59.95 71.5L61 73.4L62.05 71.5Z" fill="#69757C"/>
+    <text x="61" y="78.95" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">Q<tspan dy="1.2" font-size="4.8" font-style="normal">1</tspan>
+    </text>
+    <g data-value="1">
+      <circle cx="19.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="19.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">1</text>
+    </g>
+    <g data-value="3">
+      <circle cx="31.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="31.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">3</text>
+    </g>
+    <g data-value="5">
+      <circle cx="43.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="43.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">5</text>
+    </g>
+    <g data-value="6">
+      <circle cx="55.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="55.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">6</text>
+    </g>
+    <g data-value="7">
+      <circle cx="67.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="67.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">7</text>
+    </g>
+    <g data-value="12">
+      <circle cx="79.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="79.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">12</text>
+    </g>
+    <g data-value="14">
+      <circle cx="91.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="91.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">14</text>
+    </g>
+    <g data-value="16">
+      <circle cx="103.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="103.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">16</text>
+    </g>
+    <path d="M149.5 54.5V56.8H208.5V54.5" stroke="#9CA6AB" stroke-width=".48" fill="none"/>
+    <path d="M179.0 56.8 L179.0 58.199999999999996" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M177.95 57.4L179.0 59.3L180.05 57.4Z" fill="#69757C"/>
+    <rect x="154.75" y="59.45" width="48.5" height="10.5" rx="1.25" fill="#fff" stroke="#AC6D0B" stroke-width="0.56" stroke-dasharray="1.8 1.2"/>
+    <text x="179" y="66.7" font-size="5.8" fill="#252B2E" text-anchor="middle">MergeGroup</text>
+    <path d="M179 70 L179 72.30000000000001" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M177.95 71.5L179 73.4L180.05 71.5Z" fill="#69757C"/>
+    <text x="179" y="78.95" font-size="6.0" fill="#252B2E" text-anchor="middle" font-style="italic">Q<tspan dy="1.2" font-size="4.8" font-style="normal">2</tspan>
+    </text>
+    <g data-value="2">
+      <circle cx="137.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="137.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">2</text>
+    </g>
+    <g data-value="4">
+      <circle cx="149.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="149.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">4</text>
+    </g>
+    <g data-value="8">
+      <circle cx="161.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="161.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">8</text>
+    </g>
+    <g data-value="9">
+      <circle cx="173.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="173.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">9</text>
+    </g>
+    <g data-value="10">
+      <circle cx="185.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="185.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">10</text>
+    </g>
+    <g data-value="11">
+      <circle cx="197.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="197.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">11</text>
+    </g>
+    <g data-value="13">
+      <circle cx="209.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="209.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">13</text>
+    </g>
+    <g data-value="15">
+      <circle cx="221.0" cy="85.7" r="4.46" fill="#fff" stroke="#485157" stroke-width="0.5"/>
+      <text x="221.0" y="87.67" font-size="5.7" fill="#252B2E" text-anchor="middle">15</text>
+    </g>
+    <path d="M61 90.8V93.1H179V90.8" stroke="#9CA6AB" stroke-width=".48" fill="none"/>
+    <path d="M120.0 93.1 L120.0 95.0" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M118.95 94.19999999999999L120.0 96.1L121.05 94.19999999999999Z" fill="#69757C"/>
+    <rect x="95.75" y="96.25" width="48.5" height="10.5" rx="1.25" fill="#fff" stroke="#AC6D0B" stroke-width="0.56" stroke-dasharray="1.8 1.2"/>
+    <text x="120" y="103.5" font-size="5.8" fill="#252B2E" text-anchor="middle">MergeGroup</text>
+    <text x="1.4" y="64.05" font-size="6.45" fill="#252B2E" text-anchor="start" font-weight="bold">Pass 1</text>
+    <text x="1.4" y="70.95" font-size="5.6" fill="#596168" text-anchor="start">4 → 2 runs</text>
+    <text x="1.4" y="100.85" font-size="6.45" fill="#252B2E" text-anchor="start" font-weight="bold">Pass 2</text>
+    <text x="1.4" y="107.75" font-size="5.6" fill="#596168" text-anchor="start">2 → 1 run</text>
+    <path d="M120 106.8 L120 109.65" stroke="#69757C" stroke-width="0.55" fill="none"/>
+    <path d="M118.95 108.85L120 110.75L121.05 108.85Z" fill="#69757C"/>
+    <path d="M29.2 112.65V110.85H232.7V112.65" stroke="#809086" stroke-width=".48" fill="none"/>
+    <text x="13.3" y="119.6" font-size="6.55" fill="#252B2E" text-anchor="middle">Π =</text>
+    <g data-value="1">
+      <circle cx="33.875" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="33.875" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">1</text>
+    </g>
+    <g data-value="2">
+      <circle cx="46.825" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="46.825" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">2</text>
+    </g>
+    <g data-value="3">
+      <circle cx="59.775000000000006" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="59.775000000000006" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">3</text>
+    </g>
+    <g data-value="4">
+      <circle cx="72.725" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="72.725" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">4</text>
+    </g>
+    <g data-value="5">
+      <circle cx="85.67500000000001" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="85.67500000000001" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">5</text>
+    </g>
+    <g data-value="6">
+      <circle cx="98.625" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="98.625" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">6</text>
+    </g>
+    <g data-value="7">
+      <circle cx="111.575" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="111.575" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">7</text>
+    </g>
+    <g data-value="8">
+      <circle cx="124.525" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="124.525" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">8</text>
+    </g>
+    <g data-value="9">
+      <circle cx="137.475" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="137.475" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">9</text>
+    </g>
+    <g data-value="10">
+      <circle cx="150.425" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="150.425" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">10</text>
+    </g>
+    <g data-value="11">
+      <circle cx="163.375" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="163.375" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">11</text>
+    </g>
+    <g data-value="12">
+      <circle cx="176.325" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="176.325" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">12</text>
+    </g>
+    <g data-value="13">
+      <circle cx="189.275" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="189.275" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">13</text>
+    </g>
+    <g data-value="14">
+      <circle cx="202.225" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="202.225" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">14</text>
+    </g>
+    <g data-value="15">
+      <circle cx="215.175" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="215.175" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">15</text>
+    </g>
+    <g data-value="16">
+      <circle cx="228.125" cy="117.6" r="4.46" fill="#DDEBDD" stroke="#4F6B56" stroke-width="0.5"/>
+      <text x="228.125" y="119.57" font-size="5.7" fill="#252B2E" text-anchor="middle">16</text>
+    </g>
+    <rect x="50" y="128.1" width="10.8" height="5.9" rx="1.05" fill="#FFE3AE" stroke="#AC6D0B" stroke-width="0.54"/>
+    <text x="64" y="132.95" font-size="5.75" fill="#252B2E" text-anchor="start">one LLM call</text>
+    <rect x="129" y="128.1" width="10.8" height="5.9" rx="1.05" fill="#fff" stroke="#AC6D0B" stroke-width="0.54" stroke-dasharray="1.6 1"/>
+    <text x="143" y="132.95" font-size="5.75" fill="#252B2E" text-anchor="start">group merger</text>
+  </g>
+</svg>

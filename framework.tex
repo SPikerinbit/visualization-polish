@@ -22,7 +22,7 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{fig/mechanisms/framework.pdf}
-  \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner selects the lowest estimated input cost for the requested output. Full and LIMIT may select different merge plans. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
+  \caption{Planning and execution for semantic \textsf{ORDER BY}. The planner uses the expected call and item-appearance counts to price each feasible plan. It selects the lowest estimated merge input cost for the requested output. Full ranking materializes each layer; \LIMIT~$K$ pulls rows from individual groups and stops at the requested prefix or at exhaustion.}
   \label{fig:framework}
 \end{figure*}
 
@@ -35,17 +35,17 @@
 \begin{algorithm}[t]
 \caption{External Merge Group via $k$-Way Merge}
 \label{alg:semantic_external_merge}
-\KwIn{rows $D$, capacity $m$, instruction $\phi$, merger \textsc{MergeGroup}}
+\KwIn{rows $D$, capacity $m$, instruction $\phi$, profile $(H,L)$, merge family $f$}
 \KwOut{sorted run $\Pi$}
 Assign temporary IDs; split $D$ into chunks $C_i$ of size $\le m$\;
 \lFor{$i=1,\ldots,r$ in parallel}{$R_i\gets\textsc{ListwiseRank}(C_i,\phi)$}
 $\mathcal L\gets[R_1,\ldots,R_r]$\;
-$k\gets\textsc{MergeCostModel}(|D|,m,\textsc{MergeGroup})$\;
+$(k,h)\gets\textsc{MergeCostModel}(\operatorname{lengths}(\mathcal L),m,H,L,f)$\;
 \tcp{Merge passes}
 \While{$|\mathcal L|>1$}{
   $\mathcal L_{\rm next}\gets[\,]$; split $\mathcal L$ into groups $G_j$ of $\le k$ runs\;
   \For{$j=1,\ldots,s$ in parallel}{
-    $Q_j\gets\textsc{MergeGroup}(G_j,\phi,k)$; append $Q_j$ to $\mathcal L_{\rm next}$\;
+    $Q_j\gets\textsc{MergeGroup}_f(G_j,\phi,h)$; append $Q_j$ to $\mathcal L_{\rm next}$\;
   }
   $\mathcal L\gets\mathcal L_{\rm next}$\;
 }
@@ -89,13 +89,13 @@ The operator selects the merge plan once. In each pass, it partitions the curren
 \begin{algorithm}[t]
 \caption{Sliding-Window Semantic $k$-Way Merge}
 \label{alg:sliding_window_kway_group_merge}
-\KwIn{runs $R_1,\ldots,R_k$, instruction $\phi$, capacity $m$}
+\KwIn{runs $R_1,\ldots,R_g$, instruction $\phi$, per-run quota $h$}
 \KwOut{merged run $\Pi$}
 $p_i\gets0$ for all $i$; $\Pi\gets[\,]$\;
 \While{some run is not exhausted}{
   $A\gets\{i:p_i<|R_i|\}$\;
   \lIf{$A=\{u\}$}{append $R_u[p_u:]$ to $\Pi$; \textbf{break}}
-  $h\gets\lfloor m/|A|\rfloor$; $B\gets[\,]$\;
+  $B\gets[\,]$\;
   \ForEach{$i\in A$}{
     $W_i\gets R_i[p_i:p_i+h]$; $b_i,e_i\gets |W_i|,0$; append $W_i$ to $B$\;
   }
@@ -113,7 +113,7 @@ $p_i\gets0$ for all $i$; $\Pi\gets[\,]$\;
 \begin{algorithm}[t]
 \caption{Segmented Loser Tree Merge}
 \label{alg:loser_tree_kway_group_merge}
-\KwIn{group $\mathcal G$ of sorted runs, instruction $\phi$}
+\KwIn{group $\mathcal G$ of sorted runs, instruction $\phi$, segment length $h$}
 \KwOut{merged run $\Pi$}
 $\Pi\gets[\,]$; build the binary loser tree $T$ over $\mathcal G$ with length $h$\;
 \lForEach{leaf $v$ in parallel}{$S_v\gets\textsc{FillLeaf}(v,h)$\nllabel{line:slt-init}}
@@ -238,10 +238,10 @@ The root stops at $K$ rows or when it runs out of input. For $K=3$ in Figure~\re
 \subsection{Full Ranking}
 \label{sec:cost-full}
 
-A larger fan-in $k$ can save a merge pass, but it also changes the number of items submitted in each call. SW resubmits items left in the window; LT resubmits the segments retained along a refresh path. Two plans with the same call count can therefore consume different numbers of input tokens. We refine the call-count proxy from Section~\ref{sec:prelim} by counting both calls and item appearances. Run generation is common to all plans, so only merge work enters plan selection.
+A larger fan-in $k$ can save a merge pass, but it also changes the number of items submitted in each call. SW resubmits items left in the window; LT resubmits the segments retained along a refresh path. Two plans with the same call count can therefore consume different numbers of input tokens. We refine the call-count proxy from Section~\ref{sec:prelim} by counting both calls and item appearances. For each candidate, we estimate this work under the requested execution mode and price it with two workload-specific token coefficients. Run generation is common to the candidate plans, so only merge work enters plan selection.
 
 \stitle{Pricing a request.}
-Using the query instruction and prompt template, we serialize samples of input items at several batch widths and count their input tokens. For a request containing $b$ items, we fit the count as $H+Lb$: $H$ estimates the fixed request overhead and $L$ the additional tokens per item. For a merge plan $\theta=(f,k,h)$ with family $f$, let $A$ denote the number of listwise calls and $b_j$ the width of call $j$. The total number of item appearances is $S=\sum_{j=1}^{A}b_j$, counting an item again whenever it is resubmitted. We estimate the merge input-token cost as
+Using the query instruction and prompt template, we serialize samples of input items at several batch widths and count their input tokens. For a request containing $b$ items, we fit the count as $H+Lb$: $H$ estimates the fixed token overhead per call and $L$ the mean additional tokens per item. For a merge plan $\theta=(f,k,h)$ with family $f$, let $A$ denote the number of listwise calls and $b_j$ the width of call $j$. The total number of item appearances is $S=\sum_{j=1}^{A}b_j$, counting an item again whenever it is resubmitted. We estimate the merge input-token cost as
 \begin{equation}
   \widehat C(\theta)=H\widehat{\mathbb E}[A]+L\widehat{\mathbb E}[S].
   \label{eq:merge-cost-model}
@@ -272,22 +272,12 @@ Figure~\ref{fig:framework} writes the capacity test as $b(k)h\leq m$. Here $b(k)
 \end{equation}
 For SW, one window must hold $h$ items from each of $k$ runs. For LT, one call must fit a replacement segment and the retained segments on the longest refresh path. We select the plan with the smallest estimate in Eq.~\eqref{eq:merge-cost-model}, searching within the requested family or across both families when the choice is open. If there is at most one initial run, no merge is needed.
 
-\stitle{Position-aware pricing.}
-Eq.~\eqref{eq:merge-cost-model} prices every appearance at the same mean length $L$. An item near the head of a run can appear in more prompts than one near its tail, so the cost of repeated appearances depends on where long items fall. The position-aware variant (v6) refines the mean-length model (v5) as follows. From the same simulations, let $W_b$ be the mean number of calls of width $b$, and $E_{ip}$ the mean number of appearances of position $p$ in initial run $i$. After run generation, let $s_{ip}$ be the token length of the actual item at that position and $B_b$ the template and formatting cost for width $b$. The position-aware estimate is
-\begin{equation}
-  \widehat C_{\mathrm{pos}}(\theta)=
-  \sum_{b=2}^{m}W_b B_b+
-  \sum_{i=1}^{r}\sum_{p=1}^{\ell_i}E_{ip}s_{ip}.
-  \label{eq:cost-position-aware}
-\end{equation}
-We precompute $W_b$ and $E_{ip}$; only the mapping from item lengths to run positions must wait for run generation.
-
 \subsection{\texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:cost-limit}
 
 Multiplying full-ranking cost by $K/n$ would discount initialization even though the first output still requires candidates from every run. Later outputs can trigger repeated refills in one subtree and none in another. A child's cost therefore depends on which items its parent consumes.
 
-We use the same rank assignments and token profile, but replay the producer tree under strict demand. Starting at the root, the simulation pulls only the items needed by the current window or segment. A child returns buffered items first and requests more input only when it must advance its merger. The simulation stops after the root returns $K$ items. Every call contributes its full width, even if some of its output is still buffered when execution stops. The resulting $(A_K,S_K)$ replace $(A,S)$ in Eq.~\eqref{eq:merge-cost-model}; position-aware pricing likewise uses the widths and exposures recorded up to this stopping point. For $0<K<n$, the planner searches $1\leq h\leq\min\{K,h_{\max}(f,k)\}$. For $K=0$, no merge is needed.
+We use the same rank assignments and token profile, but replay the producer tree under strict demand. Starting at the root, the simulation pulls only the items needed by the current window or segment. A child returns buffered items first and requests more input only when it must advance its merger. The simulation stops after the root returns $K$ items. Every call contributes its full width, even if some of its output is still buffered when execution stops. The resulting $(A_K,S_K)$ replace $(A,S)$ in Eq.~\eqref{eq:merge-cost-model}. For a positive prefix demand $K$, the planner searches $1\leq h\leq\min\{K,h_{\max}(f,k)\}$. An explicitly demand-driven plan with $K=n$ is still priced as a prefix plan. For $K=0$, no merge is needed.
 
 \stitle{An exact prefix case.}
 For a loser tree with $h=1$ and $1\leq K\leq\min_i\ell_i$, every replacement needed before termination is available from its source run. Initialization yields the first item. To produce each later item, LT refreshes the path of the preceding item. If the predecessor came from initial run $i$, let $(a_i,s_i)$ count the calls and item appearances along that path, across all merge groups from the run to the root. Under the finite interleaving model, each global position belongs to run $i$ with probability $\ell_i/n$. With initialization counts $(A_0,S_0)$, linearity of expectation gives
@@ -296,4 +286,4 @@ For a loser tree with $h=1$ and $1\leq K\leq\min_i\ell_i$, every replacement nee
   +(K-1)\sum_{i=1}^{r}\frac{\ell_i}{n}(a_i,s_i).
  \label{eq:cost-limit-single}
 \end{equation}
-Thus the mean-length model needs no sampling in this case. Other nontrivial prefix estimates and the position weights in Eq.~\eqref{eq:cost-position-aware} use finite-tree simulation.
+Thus the model needs no sampling in this case. Other nontrivial prefix estimates use finite-tree simulation.

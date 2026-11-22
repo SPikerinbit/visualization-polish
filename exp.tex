@@ -20,7 +20,7 @@ The quality and cost runs allow ten concurrent queries and count all input and o
 The three token columns sum the dataset means for Q9, TREC (DL20 and DL22), and BEIR (the other three datasets), respectively. Latency is the equally weighted mean of the six dataset means. The $Q$, $T$, and $L$ columns rank methods separately by quality, token use, and latency; the primary ranking criterion is the mean of the six within-dataset ranks.
 
 \stitle{Cost prediction (E2) and input size (E3).}
-E2 compares the mean-length and position-aware estimators against the same observed merge input token counts for fixed $(k,h)$ pairs. The two base workloads use 500 candidates: DL20 query 1109707 on 9B and TREC-COVID query 38 on 27B. Each covers both merge families under Full and \textsf{LIMIT}~10.
+E2 compares the merge input tokens predicted by the cost model with measured input tokens at the same fixed $(k,h)$ pairs. The two base workloads use 500 candidates: DL20 query 1109707 on 9B and TREC-COVID query 38 on 27B. Each covers both merge families under Full and \textsf{LIMIT}~10.
 Two further workloads vary the fixed prompt overhead for DL20 query 1109707: Full on 9B with 641 candidates, and \textsf{LIMIT}~2 on 27B with 500 candidates. Padding the instruction changes the per-call overhead while keeping the candidates fixed within each workload.
 E3 measures input tokens for run generation and merging as $n$ increases from 1,000 to 5,000 to 10,000 on the 9B DL20 workload. We hold five $(k,h)$ pairs per family fixed across sizes. All three inputs contain the BM25 top 1,000; the additional documents form nested samples. We evaluate four more LT configurations with high fan-in separately at the two larger sizes.
 

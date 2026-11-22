@@ -82,7 +82,25 @@ $\MergeGroup$ forwards singletons; Full materializes each pass, LIMIT pulls and 
 $\mathcal F$ is the feasible set; estimates use run lengths, token profile, mode and $K$.
 \textsc{HalvingTree} rounds the left size up; \textsc{Cut} takes maximal subtrees within the frontier bound.\par}
 
-The operator selects the merge plan once. In each pass, it partitions the current runs into consecutive groups of at most $k$ and merges each group into a single run. A group with one run passes through unchanged. In Full mode, groups in the same pass can run in parallel, and the next pass waits for their materialized outputs. In Figure~\ref{fig:alg1-full-trace}, four calls form four runs from $n=16$ rows with $m=4$. With $k=2$, the first pass merges $(R_1,R_2)$ and $(R_3,R_4)$, and the second pass merges their outputs.
+Algorithm~\ref{alg:semantic_external_merge} selects $(k,h)$ once
+from the initial run lengths and the token profile (line~4).
+In each Full pass, it partitions the current runs into consecutive
+groups of at most $k$ (line~6) and merges the groups in parallel
+(lines~7--8). A group with one run passes through unchanged. The next pass starts from the materialized outputs of
+the current pass.
+
+\begin{example}\label{ex:alg1}
+Figure~\ref{fig:alg1-full-trace} traces Algorithm~\ref{alg:semantic_external_merge}
+on $n=16$ items with batch size $m=4$. The row labels indicate
+the target order. Phase~1 partitions $D$ into
+$r=\lceil16/4\rceil=4$ chunks and sorts each chunk with one listwise
+call, yielding four runs $R_1$, $R_2$, $R_3$, and $R_4$
+(lines~1--3). Suppose the cost model selects fan-in $k=2$ (line~4).
+The merge takes two passes. Pass~1 groups $\{R_1,R_2\}$ and
+$\{R_3,R_4\}$ and merges the two groups in parallel into $Q_1$
+and $Q_2$ (lines~6--8). Pass~2 merges $\{Q_1,Q_2\}$ into
+$\Pi=[1,\ldots,16]$.
+\end{example}
 
 \suppressfloats[t]
 
@@ -139,7 +157,19 @@ SW submits the first few remaining rows of each active run in one call. Algorith
 \paragraph{Where to stop.}
 SW scans the ranked buffer $O$. It emits through the first position that consumes the last buffered row of a run with more rows to read. The next row from that run was not in the prompt and may come before the rest of $O$. A run that is fully buffered imposes no boundary; if none imposes a boundary, SW emits all of $O$. When the runs and the call agree on one order, every emitted row precedes all unread rows (Appendix~\ref{app:proof-sw}). SW removes the emitted rows and keeps the survivors in their existing buffer order.
 
-In Figure~\ref{fig:sw-mechanism}, four runs contribute two items each to a window of size eight. The first call places $1,2,3,4,5$ first. Item~5 consumes the last buffered item of $R_2$, but $R_2$ still holds~6. Emitting~7 from the same ranking would therefore skip~6. The second call includes~6 and emits through~10, where $R_4$ must be refilled. In the third call no run has unread input, so the remaining six items are all emitted.
+\begin{example}\label{ex:alg2}
+Figure~\ref{fig:sw-mechanism} illustrates a sliding-window merge of
+four sorted runs with batch capacity $m=8$ and a fixed per-run quota
+$h=2$. In Round~1, the first two rows of each run form the batch
+$B=[3,7,1,5,2,8,4,9]$. The listwise call returns
+$[1,2,3,4,5,7,8,9]$. The algorithm emits $[1,2,3,4,5]$ and stops:
+row~5 empties $R_2$'s window, and its next unread row,~6, may precede
+the remaining ranked rows. In Round~2, the retained rows $[7,8,9]$
+are ranked again with the new rows in $B=[7,12,6,14,8,11,9,10]$.
+The algorithm emits $[6,7,8,9,10]$ and stops when $R_4$'s window
+empties; $R_4$ still has row~13 to supply. In Round~3, every remaining
+row is buffered, so the algorithm emits all six rows $[11,\ldots,16]$.
+\end{example}
 
 \suppressfloats[t]
 
@@ -209,12 +239,36 @@ $\rho_B\gets$ rank map from $\textsc{ListwiseRank}(B,\phi)$\nllabel{line:repair-
 \Return{$tmp$}\;
 \end{algorithm}
 
-Figure~\ref{fig:pointer-mechanism}(a) illustrates the distinction for $h=2$. The ranked slots are $1_R,3_L,5_R,7_L$. The winner is $[1,3]$, but the pointer selects the right child: its second entry is~5, before the left slot's second entry~7. The node retains $[5,7]$. These rows came from different children; at the next replay they occupy one slot together. In Figure~\ref{fig:pointer-mechanism}(b), that retained segment occupies the left slot and the incoming $[6,14]$ occupies the right. The node forwards $[5,6]$, keeps $[7,14]$, and now points left.
+\begin{example}\label{ex:pointer}
+Figure~\ref{fig:pointer-mechanism} follows a node $P$ with $h=2$.
+At construction the slots hold $[3,7]$ (left) and $[1,5]$ (right).
+In the order $[1_R,3_L,5_R,7_L]$, the node forwards $[1,3]$ and
+retains $[5,7]$. The pointer goes right: the right slot reaches its
+second entry at row~5, even though the last winner,~3, came from the left. When the path is refreshed, the right child
+supplies $[6,14]$, and the stored loser $[5,7]$ occupies the left
+slot. The replay order is now $[5_L,6_R,7_L,14_R]$. The node
+forwards $[5,6]$ and retains $[7,14]$. The left slot reaches its
+second entry first, at row~7, so the pointer switches from right
+to left.
+\end{example}
 
 \paragraph{Refreshing one path.}
 After emitting the root winner, Algorithm~\ref{alg:refresh_loser_tree_path} follows the pointers to one leaf. It pulls that run's next segment and ranks it together with the losers stored on the path, using one call when there are at least two real rows. At most $d$ stored segments and one replacement segment enter the prompt, giving the capacity condition $(d+1)h\le m$. On the way back up, each match puts the incoming winner in the slot named by the old pointer and the stored loser in the other slot. It forwards a new winner and updates the loser and pointer. All other nodes keep their state. Even when calls disagree, the output restricted to any input run is a prefix of that run (Appendix~\ref{app:proof-inconsistent}).
 
-Figure~\ref{fig:lt-mechanism} traces one refresh on the same four runs as SW, with $h=2$. After the root emits $[1,2]$, the pointers lead to $R_2$. Its new segment $[6,14]$ joins $[5,7]$ and $[3,4]$, the two stored losers on the path. The repaired rank map orders these six rows as $[3,4,5,6,7,14]$. Two local replays produce the next root segment $[3,4]$ without another model call. The right subtree, which retains $[8,9]$, contributes no rows to this prompt.
+\begin{example}\label{ex:alg3seg}
+Figure~\ref{fig:lt-mechanism} illustrates a refresh in a segmented
+loser tree on the same four runs, with $m=8$ and $h=2$. In
+Figure~\ref{fig:lt-mechanism}(a), after the root emits $[1,2]$,
+the stored pointers lead from the root through its left child to
+$R_2$. The next segment from $R_2$, $[6,14]$, is ranked together
+with the stored losers $[3,4]$ and $[5,7]$ on that path. The right
+subtree retains $[8,9]$ and contributes no rows to this call. The resulting rank order
+is $[3,4,5,6,7,14]$ (Figure~\ref{fig:lt-mechanism}(b)). On the
+way back up, the lower match forwards $[5,6]$ and retains $[7,14]$.
+The root compares $[5,6]$ with its stored $[3,4]$ under the same
+rank order and emits $[3,4]$, without another listwise call
+(Figure~\ref{fig:lt-mechanism}(c)).
+\end{example}
 
 \begin{figure}[t]
 \centering
@@ -228,9 +282,24 @@ With $h=1$, each match keeps one loser and forwards one winner, and the pointer 
 
 \subsection{Demand-Driven Execution for \texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:topk}\label{sec:topk-exec}
-A prefix query may never read the tails of intermediate runs. We generate the initial runs as before, but each merge group now serves as a producer. A request consumes any pending output before advancing the merger. There is no background prefetch. SW requests rows from each child whose window is short. LT initially requests one segment per child, then refills only the leaf selected by its pointer path. A request for one row may still require a full batch from children. The limit counts rows returned by the root.
 
-The root stops at $K$ rows or when it runs out of input. For $K=3$ in Figure~\ref{fig:lt-mechanism}, it returns $[1,2]$ and only the first row of the next segment $[3,4]$, without another refresh. For a fixed plan and identical responses to corresponding listwise calls, this is the same prefix as in the materialized execution: each group consumes the same sequence from each child up to the point where demand stops (Appendix~\ref{app:proof-limit}). The cost model counts the calls actually reached by this execution.
+Stopping the final merge after $K$ outputs still drains every earlier group in Algorithm~\ref{alg:semantic_external_merge}. We keep Phase~1 unchanged. For a given merge plan, the same groups now advance only when the root needs more rows.
+
+A producer's \textsc{Next}$(c)$ returns up to $c$ rows in order
+and serves buffered output before doing more work. SW tops up
+short child windows to $h$. LT first pulls up to $h$ rows per
+child and thereafter refills along one pointer path. Neither
+prefetches. The output bound is at the root, not at the children:
+one more output may need an entire window or segment. For $K=3$
+in Figure~\ref{fig:lt-mechanism}, the root emits $[1,2]$, pulls
+$[6,14]$ from $R_2$ to compute $[3,4]$, and returns only~3.
+
+With fixed initial runs and a fixed plan, matching listwise
+responses make every pull return the same rows as a read from
+the materialized child. Induction over the merge tree gives
+the same first $\min(K,n)$ rows as Full
+(Appendix~\ref{app:proof-limit}). These rows are the true top $K$
+when the ranker respects one total order with fixed tie-breaking.
 
 \section{Token Cost Model}
 \label{sec:cost}
@@ -238,30 +307,28 @@ The root stops at $K$ rows or when it runs out of input. For $K=3$ in Figure~\re
 \subsection{Full Ranking}
 \label{sec:cost-full}
 
-A larger fan-in $k$ can save a merge pass, but it also changes the number of items submitted in each call. SW resubmits items left in the window; LT resubmits the segments retained along a refresh path. Two plans with the same call count can therefore consume different numbers of input tokens. We refine the call-count proxy from Section~\ref{sec:prelim} by counting both calls and item appearances. For each candidate, we estimate this work under the requested execution mode and price it with two workload-specific token coefficients. Run generation is common to the candidate plans, so only merge work enters plan selection.
+For a given fan-in $k$, SW and LT require the same number of merge passes. Their costs differ within a pass: SW resubmits the survivors of a window, whereas after initialization LT resubmits only the losers on the selected path. Even two plans making the same number of calls can thus submit different numbers of items. To choose a merge family $f$, fan-in $k$, and quota or segment length $h$, we refine the call-count proxy of Section~\ref{sec:prelim} to account for both sources of input-token cost. Run generation is common to the candidates and does not enter the comparison.
 
-\stitle{Pricing a request.}
-Using the query instruction and prompt template, we serialize samples of input items at several batch widths and count their input tokens. For a request containing $b$ items, we fit the count as $H+Lb$: $H$ estimates the fixed token overhead per call and $L$ the mean additional tokens per item. For a merge plan $\theta=(f,k,h)$ with family $f$, let $A$ denote the number of listwise calls and $b_j$ the width of call $j$. The total number of item appearances is $S=\sum_{j=1}^{A}b_j$, counting an item again whenever it is resubmitted. We estimate the merge input-token cost as
+\stitle{From merge work to input tokens.}
+Let $A$ be the number of listwise calls made by plan $\theta=(f,k,h)$ and $b_j$ the number of items in call $j$. Then $S=\sum_{j=1}^{A}b_j$ counts item appearances, including each resubmission. We serialize samples of the workload at several batch widths using the query instruction and prompt template. From the input-token counts we fit $H+Lb$ for a call of width $b$, where $H$ is the fixed overhead per call and $L$ the mean additional tokens per item. The estimated merge cost is
 \begin{equation}
   \widehat C(\theta)=H\widehat{\mathbb E}[A]+L\widehat{\mathbb E}[S].
   \label{eq:merge-cost-model}
 \end{equation}
-At these prices, saving one call offsets up to $H/L$ additional item appearances.
+Saving one call therefore offsets up to $H/L$ additional item appearances. The token profile $(H,L)$ prices the work; the execution mode determines which work to count.
 
-\stitle{Estimating full-merge work.}
-Let $\boldsymbol{\ell}=(\ell_1,\ldots,\ell_r)$ be the lengths of the initial runs, with $\sum_i\ell_i=n$. For a given $k$, these lengths determine the group sizes. They do not determine when a window must refill or which path a tree must refresh. We model the unknown interleaving by assigning ranks $1,\ldots,n$ uniformly without replacement to runs of the given lengths, then sorting each run internally.
-
-On one sampled assignment $\pi$, we replay the materialized passes using integer ranks for comparisons. If $\mathcal G_t$ is the set of non-singleton groups in pass $t$ and $(A_g,S_g)$ are the counts for group $g$, then
+\stitle{Counting work across full merge passes.}
+Let $\boldsymbol{\ell}=(\ell_1,\ldots,\ell_r)$ be the lengths of the nonempty initial runs, with $\sum_i\ell_i=n$. If $r\leq1$, no merge is needed. Otherwise, $k$ and $\boldsymbol{\ell}$ determine every group size but not which run will next need a refill. To estimate that work, we assign ranks $1,\ldots,n$ uniformly without replacement to runs of the given lengths and sort each run internally. On one such assignment $\pi$, we replay all materialized passes using integer ranks in place of listwise judgments. If $\mathcal G_t$ contains the non-singleton groups in pass $t$, the total work is
 \begin{equation}
   (A,S)_{\mathrm{full}}(\pi)=
   \sum_{t=1}^{\lceil\log_k r\rceil}
   \sum_{g\in\mathcal G_t}(A_g(\pi),S_g(\pi)).
   \label{eq:total-merge-cost}
 \end{equation}
-For SW, a ranked window of width $b$ contributes $(1,b)$; draining the last run requires no further call. For LT, we count the packed initialization calls and each subsequent ranked refresh at its actual width, even when a segment is only partially filled. Each pass receives the merged ranks from the preceding pass of the same sample. We average the counts over Monte Carlo samples and cache them by plan, run lengths, execution mode, and output demand. Because the counts are independent of $H$ and $L$, a new token profile can reprice the plans without simulation or ranking calls.
+Here $(A_g,S_g)$ counts calls and item appearances in group $g$. Each SW call on a window of width $b$ contributes $(1,b)$; forwarding the last run contributes neither. For LT, we count each packed initialization call and each ranked path refresh at its actual width, including partially filled segments. The merged runs of one pass supply the next: we do not resample their ranks between passes. We average the counts over Monte Carlo assignments and cache the resulting work estimates for each plan, run-length vector, call capacity, execution mode, and demand. A different token profile can price the same counts without rerunning the simulation.
 
-\stitle{Selecting a plan.}
-Figure~\ref{fig:framework} writes the capacity test as $b(k)h\leq m$. Here $b(k)=k$ for SW and $b(k)=1+\lceil\log_2 k\rceil$ for LT. We enumerate integer pairs $(k,h)$ with $2\leq k\leq r$ and $1\leq h\leq h_{\max}(f,k)$, where
+\stitle{Choosing $k$ and $h$.}
+For SW, a call must fit one window of up to $kh$ items. For LT, it must fit the replacement segment and one retained segment per match on the longest refresh path. Hence the capacity test $b(k)h\leq m$ in Figure~\ref{fig:framework} gives
 \begin{equation}
  h_{\max}(f,k)=
  \begin{cases}
@@ -270,20 +337,20 @@ Figure~\ref{fig:framework} writes the capacity test as $b(k)h\leq m$. Here $b(k)
  \end{cases}
  \label{eq:merge-capacity}
 \end{equation}
-For SW, one window must hold $h$ items from each of $k$ runs. For LT, one call must fit a replacement segment and the retained segments on the longest refresh path. We select the plan with the smallest estimate in Eq.~\eqref{eq:merge-cost-model}, searching within the requested family or across both families when the choice is open. If there is at most one initial run, no merge is needed.
+The bound need not be attained. A larger $h$ may reduce refills but submit more items per call. We enumerate integer pairs with $2\leq k\leq r$ and $1\leq h\leq h_{\max}(f,k)$, keeping $h$ fixed across all groups of a plan. We select the plan minimizing Eq.~\eqref{eq:merge-cost-model} within the specified family, or across both families if neither is specified.
 
 \subsection{\texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:cost-limit}
 
-Multiplying full-ranking cost by $K/n$ would discount initialization even though the first output still requires candidates from every run. Later outputs can trigger repeated refills in one subtree and none in another. A child's cost therefore depends on which items its parent consumes.
+Scaling the full cost by $K/n$ generally misprices a prefix. Even the first output requires candidates from every nonempty run. After initialization, one subtree can supply several successive winners before a sibling needs a refill. A child's cost therefore depends on which rows its parent consumes, not just on $K$ and the child's size.
 
-We use the same rank assignments and token profile, but replay the producer tree under strict demand. Starting at the root, the simulation pulls only the items needed by the current window or segment. A child returns buffered items first and requests more input only when it must advance its merger. The simulation stops after the root returns $K$ items. Every call contributes its full width, even if some of its output is still buffered when execution stops. The resulting $(A_K,S_K)$ replace $(A,S)$ in Eq.~\eqref{eq:merge-cost-model}. For a positive prefix demand $K$, the planner searches $1\leq h\leq\min\{K,h_{\max}(f,k)\}$. An explicitly demand-driven plan with $K=n$ is still priced as a prefix plan. For $K=0$, no merge is needed.
+We use the same rank assignments and token profile to replay the producer tree of Section~\ref{sec:topk-exec} until the root emits $K$ rows or exhausts the input. Each reached call contributes its full width, even when the final segment is truncated. No subsequent refresh is charged. We substitute the mean prefix counts $(\widehat{\mathbb E}[A_K],\widehat{\mathbb E}[S_K])$ for the full counts in Eq.~\eqref{eq:merge-cost-model} and choose the plan anew. For positive $K$ the search uses $1\leq h\leq\min\{K,h_{\max}(f,k)\}$; $K=0$ requires no merge. An explicitly demand-driven plan is priced this way even when $K=n$.
 
-\stitle{An exact prefix case.}
-For a loser tree with $h=1$ and $1\leq K\leq\min_i\ell_i$, every replacement needed before termination is available from its source run. Initialization yields the first item. To produce each later item, LT refreshes the path of the preceding item. If the predecessor came from initial run $i$, let $(a_i,s_i)$ count the calls and item appearances along that path, across all merge groups from the run to the root. Under the finite interleaving model, each global position belongs to run $i$ with probability $\ell_i/n$. With initialization counts $(A_0,S_0)$, linearity of expectation gives
+\stitle{Exact prefix cost for single-item LT.}
+Suppose $h=1$ and $1\leq K\leq\min_i\ell_i$. Initialization places one head from every run in the tree and yields the first root output at fixed cost $(A_0,S_0)$. Each of the remaining $K-1$ outputs requires replacing the preceding winner. Its source run still has a replacement, so only the source path matters: if the winner came from run $i$, let $(a_i,s_i)$ count calls and item appearances across the merge groups on its path to the root. Within each non-singleton group on the path, there is one call on the new head and its path opponents. Under uniform interleaving, each global position has source $i$ with probability $\ell_i/n$. By linearity of expectation,
 \begin{equation}
  (\mathbb E[A_K],\mathbb E[S_K])=(A_0,S_0)
   +(K-1)\sum_{i=1}^{r}\frac{\ell_i}{n}(a_i,s_i).
  \label{eq:cost-limit-single}
 \end{equation}
-Thus the model needs no sampling in this case. Other nontrivial prefix estimates use finite-tree simulation.
+This gives the exact expected work without assuming independent winners or sampling their paths. For other nontrivial prefixes, the planner uses the finite producer-tree simulation.

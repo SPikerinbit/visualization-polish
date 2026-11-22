@@ -1,22 +1,22 @@
-% Corpus sizes are source collection sizes, not per-query E1 input sizes.
+% The shared E1 retrieval bounds are protocol bounds, not per-dataset extrema.
 % E1 query counts: frozen experiment.yaml and paper-delivery readiness record.
 \begin{table}[t]
   \centering\small
-  \caption{Source collections and query counts for E1.}
+  \caption{E1 datasets and judged candidates ranked per query ($n$). For retrieval datasets, the table gives the shared input bounds.}
   \label{tab:datasets}
   \setlength{\tabcolsep}{3pt}
   \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llrlr@{}}
     \toprule
-    Suite & Dataset & $|D|$ & Domain & Queries \\
+    Suite & Dataset & $n$ & Domain & Queries \\
     \midrule
-    SemBench & Q9 & 1,375,738 & Movie reviews & 1 \\
+    SemBench & Q9 & 128 & Movie reviews & 1 \\
     \midrule
-    \multirow{2}{*}{TREC} & DL20 & 8,841,823 & Web passages & 30 \\
-                          & DL22 & 138,364,198 & Web passages & 30 \\
+    \multirow{2}{*}{TREC} & DL20 & 101--500 & Web passages & 30 \\
+                          & DL22 & 101--500 & Web passages & 30 \\
     \midrule
-    \multirow{3}{*}{BEIR} & TREC-COVID & 171,332 & Biomedical & 30 \\
-                         & DBpedia-Entity & 4,635,922 & Wikipedia & 30 \\
-                         & Robust04 & 528,155 & Newswire & 30 \\
+    \multirow{3}{*}{BEIR} & TREC-COVID & 101--500 & Biomedical & 30 \\
+                         & DBpedia-Entity & 101--500 & Wikipedia & 30 \\
+                         & Robust04 & 101--500 & Newswire & 30 \\
     \bottomrule
   \end{tabular*}
 \end{table}

@@ -5,14 +5,18 @@
 
 \stitle{Datasets.}
 The E1 workload fixes 151 queries across six datasets (Table~\ref{tab:datasets}). SemBench Q9~\cite{lao2026sembench} is a single query that ranks 128 reviews of one movie by sentiment; the original ratings supply the relevance grades. The other datasets contribute 30 queries each: the TREC Deep Learning passage tasks DL20~\cite{arxiv21trecdl20} and DL22~\cite{arxiv25trecdl22}, and three BEIR collections, TREC-COVID, DBpedia-Entity, and Robust04~\cite{arxiv21BEIR}.
-$|D|$ is the source collection size, before filtering by query. For the five retrieval datasets, each E1 input contains 101 to 500 judged candidates and at least two relevance grades. We stratify queries by candidate count and by the fraction of candidates in the most frequent grade. For pools larger than 500, we sample 500 candidates in proportion to the grade frequencies. For DL22, we first collapse the official document-equivalence classes.
+Table~\ref{tab:datasets} reports the input to each E1 sort. For the five retrieval datasets, let $J_q$ count the distinct judged candidates of query $q$ with available text. We select queries with $J_q>100$ and at least two relevance grades, and rank $n=\min(J_q,500)$ candidates per query. We stratify queries by candidate count and by the fraction of candidates in the most frequent grade. For pools larger than 500, we sample 500 candidates in proportion to the grade frequencies. For DL22, we first collapse the official document-equivalence classes.
 For the mechanism studies, we select three queries each from DL20 and TREC-COVID: one from each of three strata defined by mean candidate text length. These studies use BM25 candidate pools except where noted.
+
+\input{tables/datasets}
 
 \stitle{Methods and inference.}
 We compare SW and LT($h$) with four OrderByLLM methods (Pointwise, External Pointwise, External Bubble, and External Merge)~\cite{DBLP:journals/corr/abs-2509-00303}, ListK Sort and Tournament~\cite{DBLP:journals/corr/abs-2603-17223}, LOTUS Quicksort~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}, and Setwise Heap~\cite{DBLP:conf/sigir/ZhuangZKZ24}.
 Table~\ref{tab:ranking-algorithms} summarizes logical model calls for ten Full methods and nine for \textsf{LIMIT}~10. We omit ListK Sort from the latter comparison because its prefix-query counterpart, ListK Select, returns an unordered set.
-We serve both models with vLLM~\cite{kwon2023efficient}. For SW and LT, Qwen3.5-9B uses two-way tensor parallelism and a listwise capacity of $m=20$; Qwen3.8-27B uses four-way tensor parallelism and $m=22$. OrderByLLM and ListK use their native window size of 20. Setwise Heap compares a parent with two children using a single permutation of the candidates.
+We serve both models with vLLM~\cite{kwon2023efficient}. Qwen3.5-9B uses two-way tensor parallelism and Qwen3.8-27B uses four-way tensor parallelism. For SW and LT, we use default maximum batch sizes of $m=20$ for 9B and $m=22$ for 27B, based on pilot sweeps of ranking quality. OrderByLLM and ListK use their native window size of 20. Setwise Heap compares a parent with two children using a single permutation of the candidates.
 We run each fixed condition once at temperature zero with generation seed zero. For SW and LT, Full materializes each merge pass, whereas \textsf{LIMIT} pulls rows on demand without prefetching.
+
+\input{tables/algorithms}
 
 \stitle{End-to-end ranking (E1).}
 For Full, we compute Spearman's $\rho$ against the relevance grades, assigning tied grades their average rank. For \textsf{LIMIT}~10, we compute nDCG@10 with gain $2^g-1$ for grade $g$; the ideal order is over the candidates of the same query. All methods and both models use the same ten input permutations (seeds 0 through 9). For each permutation, we average quality over queries within each dataset. The table entries report mean $\pm$ standard deviation over these ten dataset means.
@@ -30,9 +34,6 @@ E4 and E5 use the 9B model. Let $U$ be the total number of input tokens, $Q$ the
 E4a compares caching on and off at $n=100$ and $500$, using the middle-length query from each of DL20 and TREC-COVID. For each comparison, we order the feasible $(k,h)$ pairs lexicographically and select eight at evenly spaced indices. Reported minima are over those eight configurations. For DL20 with $n=500$ and LT Full, E4b reprices seven of those configurations at $\beta\in\{0,.1,.25,.5,.75,.9,1\}$ using the same cache-on runs. E4c uses the fully judged E1 pools for all six mechanism queries and compares quality with equivalent total cost ($C_0+O$) under each cache setting.
 
 E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$, $200$, $300$, $400$, $490$, and $500$ and evaluate Full separately. Each family selects $(k,h)$ for each combination of query, output demand, and cache setting. We track $C_0$ and nDCG@10, assigning zero gain to unjudged candidates; the figure shows cost. Both \textsf{LIMIT}~500 and Full return all 500 rows, but only Full materializes each merge pass.
-
-\input{tables/datasets}
-\input{tables/algorithms}
 
 \noindent\textit{Layout review copy.} The results tables and plots contain illustrative values, not experimental measurements.
 % E1 through E5: results prose intentionally empty.

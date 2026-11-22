@@ -79,7 +79,7 @@ for i,length in enumerate([5.8,4.7,3.5]):
 ar(25,100.3,25,107.3,green,.56,1.65)
 t(29,104,'Requested output',8,'b');t(15,114,'Full Ranking or LIMIT K',7)
 rect(15,129,3.2,4.1,blue);rect(19.7,129,7.5,4.1,green2,green,.44)
-t(29,131,'Token profile',8,'b');t(15,141,'H: overhead; L: mean tokens/item',7)
+t(29,131,'Token profile',8,'b');t(15,141,'H: overhead; L: tokens/item',7)
 # Collect the four inputs before pointing to the feasible-plan set, not one example.
 for yy in [52,79,104,131]: ln([(107.5,yy),(110.8,yy)],green,.5)
 ln([(110.8,131),(110.8,27.3)],green,.54); ar(110.8,27.3,117.2,27.3,green,.65,2.65)
@@ -119,7 +119,7 @@ lt(195,2);lt(248,4);t(278,77,'…',9,'b',gray,'center')
 ln([(123,85),(123,88),(276,88),(276,85)],gray,.56);ar(199.5,88,199.5,94,gray,.65,2.4)
 rect(120,95.8,162,42,'#fbf6e9','none',0,2)
 t(201,104,'Estimated merge input tokens',8.2,'b',gold,'center')
-t(201,117,'H × mean calls  +  L × mean appearances',8.2,'b',black,'center')
+t(201,117,'H × calls  +  L × item appearances',9,'b',black,'center')
 t(201,130,'Select the plan with the lowest estimate.',7.5,'r',gray,'center')
 # Stage 3: both modes are tested against aligned layers and a common baseline.
 F,K=359,456

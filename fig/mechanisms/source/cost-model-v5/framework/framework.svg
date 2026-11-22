@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-22T11:15:19.361722</dc:date>
+    <dc:date>2026-11-22T10:40:20.995977</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -1602,7 +1602,7 @@ z
     <text style="font-weight: 700; font-size: 8px; font-family: 'Linux Libertine O'; text-anchor: start; fill: #202832" x="29" y="132.855625" transform="rotate(-0 29 132.855625)">Token profile</text>
    </g>
    <g id="text_16">
-    <text style="font-size: 7px; font-family: 'Linux Libertine O'; text-anchor: start; fill: #202832" x="15" y="142.623672" transform="rotate(-0 15 142.623672)">H: overhead; L: mean tokens/item</text>
+    <text style="font-size: 7px; font-family: 'Linux Libertine O'; text-anchor: start; fill: #202832" x="15" y="142.623672" transform="rotate(-0 15 142.623672)">H: overhead; L: tokens/item</text>
    </g>
    <g id="text_17">
     <text style="font-weight: 700; font-size: 8.3px; font-family: 'Linux Libertine O'; text-anchor: start; fill: #202832" x="120" y="28.909" transform="rotate(-0 120 28.909)">Feasible merge plans</text>
@@ -1653,7 +1653,7 @@ z
     <text style="font-weight: 700; font-size: 8.2px; font-family: 'Linux Libertine O'; text-anchor: middle; fill: #8a5a16" x="201" y="105.886" transform="rotate(-0 201 105.886)">Estimated merge input tokens</text>
    </g>
    <g id="text_33">
-    <text style="font-weight: 700; font-size: 8.2px; font-family: 'Linux Libertine O'; text-anchor: middle; fill: #202832" x="201" y="118.902016" transform="rotate(-0 201 118.902016)">H × mean calls  +  L × mean appearances</text>
+    <text style="font-weight: 700; font-size: 9px; font-family: 'Linux Libertine O'; text-anchor: middle; fill: #202832" x="201" y="119.087578" transform="rotate(-0 201 119.087578)">H × calls  +  L × item appearances</text>
    </g>
    <g id="text_34">
     <text style="font-size: 7.5px; font-family: 'Linux Libertine O'; text-anchor: middle; fill: #505c67" x="201" y="131.739648" transform="rotate(-0 201 131.739648)">Select the plan with the lowest estimate.</text>

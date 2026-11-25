@@ -1,0 +1,17 @@
+% Four independent PDF panels, factored axes, shared scale.
+\begingroup
+\setlength{\subfigtopskip}{0pt}
+\setlength{\subfigcapskip}{1pt}
+\setlength{\subfigbottomskip}{0pt}
+\leavevmode\vbox{\offinterlineskip
+  \hbox{%
+    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-a-sw-full.pdf}\label{fig:e4a-sw-full}}%
+    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-c-sw-limit10.pdf}\label{fig:e4a-sw-topk}}%
+  }%
+  \hbox{%
+    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-b-lt-full.pdf}\label{fig:e4a-lt-full}}%
+    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-d-lt-limit10.pdf}\label{fig:e4a-lt-topk}}%
+  }%
+  \hbox{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-color-key.pdf}}%
+}%
+\endgroup

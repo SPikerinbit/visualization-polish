@@ -44,7 +44,7 @@ Each initialization batch contains at most $\lfloor m/h\rfloor$ frontier blocks 
 \label{app:proof-limit}
 
 \begin{theorem}[Full ranking and LIMIT]
-Under a consistent oracle, Algorithm~\ref{alg:semantic_external_merge} returns the $\prec$-sorted permutation for Full ranking ($K=\infty$) and its first $\min(K,n)$ rows for \textsf{LIMIT}~$K$, for any feasible plan of the stated form.
+Under a consistent oracle, the Full driver in Algorithm~\ref{alg:semantic_external_merge} returns the $\prec$-sorted permutation. The demand-driven execution of Section~\ref{sec:topk-exec} returns its first $\min(K,n)$ rows for \textsf{LIMIT}~$K$.
 \end{theorem}
 \begin{proof}
 The phase-one calls produce sorted runs that partition the input by row identity. At each pass, the groups partition the current runs. The group lemmas and the singleton rule replace each group with its sorted union, preserving the partition and order invariant. Let $r_t$ be the number of runs after $t$ passes, with $r_0=r$. The recurrence $r_{t+1}=\lceil r_t/k\rceil$ gives $r_t=\lceil r/k^t\rceil$, so one sorted stream remains after $\lceil\log_k r\rceil$ passes when $r\ge1$. Empty inputs, zero demand, and a single initial run take the direct branches.
@@ -58,7 +58,7 @@ The prefix argument does not require a consistent oracle. Fix the initial runs a
 \label{app:proof-inconsistent}
 
 \begin{proposition}[Row identity and run order]
-If each call returns a permutation of its batch, both mergers preserve row identities: Full returns every input identity once, and \textsf{LIMIT} neither creates nor repeats an identity. In the LT group merger, every output prefix restricts to a prefix of every input run in its original order, even when rank calls disagree. The basic SW group merger does not have this run-prefix property.
+If each call returns a permutation of its batch, both implementations preserve row identities (SW retains unreturned rows by identity): Full returns every input identity once, and \textsf{LIMIT} neither creates nor repeats an identity. With run-order repair, every LT output prefix restricts to a prefix of every input run in its original order, even when rank calls disagree. The basic SW group merger does not have this run-prefix property.
 \end{proposition}
 \begin{proof}
 Both mergers move real rows without copying or dropping them. SW removes precisely the rows it emits and consumes at least one row in every nonempty round. In LT, replay partitions the real slots between the winner and loser. For termination we need only the exhaustion part of the slot invariant, not the ordering of the frontiers: initially a short slot means its child has ended. If exactly one slot is short, all entries of the full slot precede any padding, so the full slot is the one selected for refill and the short loser stays associated with the exhausted child. If both slots are full, the loser is full; if both are short, both children have ended. The condition is preserved on refill. Thus an empty winner implies no resident row and no unread child rows. By induction on height, a drained LT tree returns all its real rows. Physical groups have disjoint inputs, and partial output stops only at the root.

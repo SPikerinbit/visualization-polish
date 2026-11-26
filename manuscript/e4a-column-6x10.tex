@@ -1,17 +1,29 @@
-% Four independent PDF panels, factored axes, shared scale.
+% Independent vector panels. LaTeX owns the subfigure labels and captions.
 \begingroup
+
+% Center native captions under the colored grids, not the boxes including axes.
+\makeatletter
+\let\EfourOriginalCaption\@makesubfigurecaption
+\def\@makesubfigurecaption#1#2{\hbox{\kern5bp\EfourOriginalCaption{#1}{#2}\kern-5bp}}
+\makeatother
 \setlength{\subfigtopskip}{0pt}
 \setlength{\subfigcapskip}{1pt}
 \setlength{\subfigbottomskip}{0pt}
 \leavevmode\vbox{\offinterlineskip
-  \hbox{%
-    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-a-sw-full.pdf}\label{fig:e4a-sw-full}}%
-    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-c-sw-limit10.pdf}\label{fig:e4a-sw-topk}}%
+  \hbox to \linewidth{\hfil\includegraphics[width=\linewidth]{fig/experiments/fig08-cache-savings/fig08-cache-savings-color-key.pdf}\hfil}%
+  \kern2bp
+  \hbox to \linewidth{\hfil
+    \subfigure[SW, Full]{\includegraphics[width=.486\linewidth,trim=0bp 0bp 16bp 3.5bp,clip=false]{fig/experiments/fig08-cache-savings/fig08-cache-savings-a-sw-full.pdf}\label{fig:e4a-sw-full}}%
+    \hspace{3.5bp}%
+    \subfigure[SW, \textsf{LIMIT}~10]{\includegraphics[width=.486\linewidth,trim=0bp 0bp 16bp 3.5bp,clip=false]{fig/experiments/fig08-cache-savings/fig08-cache-savings-c-sw-limit10.pdf}\label{fig:e4a-sw-topk}}%
+    \hfil
   }%
-  \hbox{%
-    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-b-lt-full.pdf}\label{fig:e4a-lt-full}}%
-    \subfigure[]{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-d-lt-limit10.pdf}\label{fig:e4a-lt-topk}}%
+  \kern3bp
+  \hbox to \linewidth{\hfil
+    \subfigure[LT, Full]{\includegraphics[width=.486\linewidth,trim=0bp 0bp 16bp 3.5bp,clip=false]{fig/experiments/fig08-cache-savings/fig08-cache-savings-b-lt-full.pdf}\label{fig:e4a-lt-full}}%
+    \hspace{3.5bp}%
+    \subfigure[LT, \textsf{LIMIT}~10]{\includegraphics[width=.486\linewidth,trim=0bp 0bp 16bp 3.5bp,clip=false]{fig/experiments/fig08-cache-savings/fig08-cache-savings-d-lt-limit10.pdf}\label{fig:e4a-lt-topk}}%
+    \hfil
   }%
-  \hbox{\includegraphics{fig/experiments/fig08-cache-savings/fig08-cache-savings-color-key.pdf}}%
 }%
 \endgroup

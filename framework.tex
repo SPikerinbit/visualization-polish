@@ -89,8 +89,8 @@ $\mathcal F$ is the feasible set; estimates use run lengths, token profile, mode
 Algorithm~\ref{alg:semantic_external_merge} shows the Full driver. Its planner call (line~4) gives the fan-in $k$ for a supplied merger; the complete planner also chooses $h$ as described in Section~\ref{sec:cost}.
 In each Full pass, it partitions the current runs into consecutive
 groups of at most $k$ (line~6) and merges the groups in parallel
-(lines~7--8). A group with one run passes through unchanged. The next pass starts from the materialized outputs of
-the current pass.
+(lines~7--8). A singleton group passes through unchanged. The next pass reads the
+materialized outputs in group-index order.
 
 \begin{example}\label{ex:alg1}
 Figure~\ref{fig:alg1-full-trace} traces Algorithm~\ref{alg:semantic_external_merge}
@@ -286,7 +286,7 @@ With $h=1$, each match keeps one loser and forwards one winner, and the pointer 
 \subsection{Demand-Driven Execution for \texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:topk}\label{sec:topk-exec}
 
-Stopping the final merge after $K$ outputs still drains every earlier group in Algorithm~\ref{alg:semantic_external_merge}. We keep Phase~1 unchanged. For a given merge plan, the same groups now advance only when the root needs more rows.
+Applying a final limit to Algorithm~\ref{alg:semantic_external_merge} would still materialize every earlier pass. We keep run generation unchanged and let the root pull from its children. Each group does no further work until its parent asks again.
 
 A producer's \textsc{Next}$(c)$ returns up to $c$ rows in order
 and serves buffered output before doing more work. SW tops up
@@ -295,13 +295,13 @@ child and thereafter refills along one pointer path. In the evaluated execution 
 prefetches. The output bound is at the root, not at the children:
 one more output may need an entire window or segment. For $K=3$
 in Figure~\ref{fig:lt-mechanism}, the root emits $[1,2]$, pulls
-$[6,14]$ from $R_2$ to compute $[3,4]$, and returns only~3.
+$[6,14]$ from $R_2$ to compute $[3,4]$, and returns only row~3.
 
 With fixed initial runs and a fixed plan, matching listwise
 responses make every pull return the same rows as a read from
 the materialized child. Induction over the merge tree gives
 the same first $\min(K,n)$ rows as Full
-(Appendix~\ref{app:proof-limit}). These rows are the true top $K$
+(Appendix~\ref{app:proof-limit}). These rows are the true top $\min(K,n)$
 when the ranker respects one total order with fixed tie-breaking.
 
 \section{Token Cost Model}

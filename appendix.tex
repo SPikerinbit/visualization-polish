@@ -7,12 +7,12 @@ For the sortedness results, fix a strict total order $\prec$ on row identities f
 \label{app:proof-sw}
 
 \begin{lemma}[Safe window prefix]
-For runs sorted by $\prec$ and a consistent oracle, each round of Algorithm~\ref{alg:sliding_window_kway_group_merge} emits a nonempty prefix of the sorted union of the outstanding rows whenever any row remains. Its rank batch has at most $gh$ rows.
+For runs sorted by $\prec$ and a consistent oracle, each round of Algorithm~\ref{alg:sliding_window_kway_group_merge} emits a nonempty prefix of the sorted union of the outstanding rows whenever any row remains. The listed form ranks at most $|A|h\le m$ rows, where $A$ is the active set; the fixed-quota variants rank at most $gh$ rows for $g$ group inputs.
 \end{lemma}
 \begin{proof}
 After refill, the buffered rows from each run form a contiguous prefix of its remaining rows. This holds initially and will be preserved if a round removes a prefix from each run. For each run $u$ with an unread suffix, let $z_u$ be its last buffered row. Such a row exists because $h\ge1$ and refill reads until the quota is met or the source is exhausted. Let $j_u$ be the position of $z_u$ in the oracle order $O$. The round emits up to $t=\min_u j_u$, or all of $O$ if no unread suffix remains.
 
-Each emitted row occurs at or before $z_u$ in $O$ for every such $u$. Since every unread row of $u$ follows $z_u$ in $\prec$, no unread row precedes any emitted row. The emitted prefix also precedes all buffered survivors. Its restriction to each run is therefore a prefix, establishing the invariant for the next round. A fully exposed run, including a short final run, imposes no boundary. With a single live run, its buffer followed by its unread suffix is already in order. Each round with remaining rows makes progress, and each of the $g$ buffers holds at most $h$ rows.
+Each emitted row occurs at or before $z_u$ in $O$ for every such $u$. Since every unread row of $u$ follows $z_u$ in $\prec$, no unread row precedes any emitted row. The emitted prefix also precedes all buffered survivors. Its restriction to each run is therefore a prefix, establishing the invariant for the next round. A fully exposed run, including a short final run, imposes no boundary. With a single live run, its buffer followed by its unread suffix is already in order. Each round with remaining rows makes progress. In that round, each window contributes at most its quota $h$.
 \end{proof}
 
 \subsection{Segmented Loser-Tree Merge}
@@ -47,7 +47,7 @@ Each initialization batch contains at most $\lfloor m/h\rfloor$ frontier blocks 
 Under a consistent oracle, the Full driver in Algorithm~\ref{alg:semantic_external_merge} returns the $\prec$-sorted permutation. The demand-driven execution of Section~\ref{sec:topk-exec} returns its first $\min(K,n)$ rows for \textsf{LIMIT}~$K$.
 \end{theorem}
 \begin{proof}
-The phase-one calls produce sorted runs that partition the input by row identity. At each pass, the groups partition the current runs. The group lemmas and the singleton rule replace each group with its sorted union, preserving the partition and order invariant. Let $r_t$ be the number of runs after $t$ passes, with $r_0=r$. The recurrence $r_{t+1}=\lceil r_t/k\rceil$ gives $r_t=\lceil r/k^t\rceil$, so one sorted stream remains after $\lceil\log_k r\rceil$ passes when $r\ge1$. Empty inputs, zero demand, and a single initial run take the direct branches.
+The phase-one calls produce sorted runs that partition the input by row identity. At each pass, the groups partition the current runs. The group lemmas and the singleton rule replace each group with its sorted union, preserving the partition and order invariant. Let $r_t$ be the number of runs after $t$ passes, with $r_0=r$. The recurrence $r_{t+1}=\lceil r_t/k\rceil$ gives $r_t=\lceil r/k^t\rceil$, so one sorted stream remains after $\lceil\log_k r\rceil$ passes when $r\ge1$. An empty input or zero demand returns directly; a single initial run needs no merge.
 
 For demand-driven execution, fix a physical plan and consider any prefix request at a producer. By induction on the height of the physical merge tree, each child responds to a request for $q$ rows with the next $q$ rows, or all remaining rows if fewer remain. This contract collects partial deliveries until the demand is met or the child reports exhaustion. At the parent, each refill therefore receives the same next rows as it would from materialized input. Applying the group rule to these rows and keeping the unreturned portion of an emitted block gives the parent's next consecutive slice. Repeating this argument for successive requests yields the corresponding root prefix. The root need not ask for another block after it has returned $K$ rows.
 \end{proof}

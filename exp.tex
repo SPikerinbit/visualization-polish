@@ -1,43 +1,47 @@
 \section{Experimental Study}
 \label{sec:exp}
+
+Sections~\ref{sec:exp:setup}--\ref{sec:exp:protocols} detail our setup across five evaluation facets:
+\ding{172}~end-to-end quality, tokens, and latency on Full and \LIMIT~10 (Section~\ref{sec:exp:e1});
+\ding{173}~cost-model surface fidelity and planner regret across $(k,h)$ and header ratios (Section~\ref{sec:exp:e2});
+\ding{174}~scalability to $n{=}10{,}000$ (Section~\ref{sec:exp:scale});
+\ding{175}~KV prefix caching and discount $\beta$ sensitivity (Section~\ref{sec:exp:cache}); and
+\ding{176}~demand adaptation from small \LIMIT~$K$ to Full (Section~\ref{sec:exp:limit-sweep}).
+
 \subsection{Experimental Setup}
 \label{sec:exp:setup}
 
 \stitle{Datasets.}
-The E1 workload fixes 151 queries across six datasets (Table~\ref{tab:datasets}). SemBench Q9~\cite{lao2026sembench} is a single query that ranks 128 reviews of one movie by sentiment; the original ratings supply the relevance grades. The other datasets contribute 30 queries each: the TREC Deep Learning passage tasks DL20~\cite{arxiv21trecdl20} and DL22~\cite{arxiv25trecdl22}, and three BEIR collections, TREC-COVID, DBpedia-Entity, and Robust04~\cite{arxiv21BEIR}.
-Table~\ref{tab:datasets} reports the input to each E1 sort. For the five retrieval datasets, let $J_q$ count the distinct judged candidates of query $q$ with available text. We select queries with $J_q>100$ and at least two relevance grades, and rank $n=\min(J_q,500)$ candidates per query. We stratify queries by candidate count and by the fraction of candidates in the most frequent grade. For pools larger than 500, we sample 500 candidates in proportion to the grade frequencies. For DL22, we first collapse the official document-equivalence classes.
-Outside E1, candidate pools come from BM25 unless noted. We select three queries each from DL20 and TREC-COVID, one from each of three strata defined by mean candidate text length.
+E1 spans 151 queries over six benchmarks (Table~\ref{tab:datasets}): SemBench Movie Q9~\cite{lao2026sembench} (128 reviews of one movie ranked by sentiment against rating grades), plus 30 queries each from TREC DL20~\cite{arxiv21trecdl20}, DL22~\cite{arxiv25trecdl22}, and BEIR~\cite{arxiv21BEIR} (TREC-COVID, DBpedia-Entity, Robust04). For retrieval suites, let $J_q$ count distinct judged candidates with text for query $q$; we select queries with $J_q > 100$ and at least two grades, stratified by pool size and dominant-grade share, sampling $n = \min(J_q, 500)$ proportionally when $J_q > 500$ (collapsing official equivalence classes first on DL22). Outside E1, BM25 pools use three length-stratified queries each from DL20 and TREC-COVID unless noted.
 
 \input{tables/datasets}
 
-\stitle{Methods.}
-We compare SW and LT($h$) with four OrderByLLM methods (Pointwise, External Pointwise, External Bubble, and External Merge)~\cite{DBLP:journals/corr/abs-2509-00303}, ListK Sort and Tournament~\cite{DBLP:journals/corr/abs-2603-17223}, LOTUS Quicksort~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}, and Setwise Heap~\cite{DBLP:conf/sigir/ZhuangZKZ24}.
-Table~\ref{tab:ranking-algorithms} summarizes logical model calls for ten Full methods and nine for \textsf{LIMIT}~10. We omit ListK Sort from the latter comparison because its prefix-query counterpart, ListK Select, returns an unordered set.
-\stitle{Implementation details.}
-We serve both models with vLLM~\cite{kwon2023efficient}. Qwen3.5-9B uses two-way tensor parallelism and Qwen3.8-27B uses four-way tensor parallelism. For SW and LT, we use default maximum batch sizes of $m=20$ for 9B and $m=22$ for 27B, chosen with guidance from pilot sweeps. OrderByLLM and ListK use their native window size of 20. Setwise Heap compares a parent with two children using a single permutation of the candidates.
-We run each fixed condition once at temperature zero with generation seed zero. For SW and LT, Full materializes each merge pass, whereas \textsf{LIMIT} pulls rows on demand without prefetching.
+\stitle{Baselines and Operators.}
+We compare SW and LT($h$) against four OrderByLLM methods (Pointwise, External Pointwise, External Bubble, External Merge)~\cite{DBLP:journals/corr/abs-2509-00303}, ListK Sort and Tournament~\cite{DBLP:journals/corr/abs-2603-17223}, LOTUS Quicksort~\cite{DBLP:journals/pvldb/PatelJPGAGZ25}, and Setwise Heap~\cite{DBLP:conf/sigir/ZhuangZKZ24}. Table~\ref{tab:ranking-algorithms} summarizes logical calls for ten Full and nine \LIMIT~10 methods, omitting ListK Sort under \LIMIT~10 because ListK Select outputs an unordered set.
+
+\stitle{Implementation Details.}
+Both Qwen3.5-9B (2-way TP, default $m{=}20$) and Qwen3.8-27B (4-way TP, $m{=}22$ from pilot sweeps)~\cite{DBLP:journals/corr/abs-2505-09388} are served via vLLM~\cite{kwon2023efficient} at temperature zero and seed zero. OrderByLLM and ListK use window size $20$; Setwise Heap compares a parent with two children in one permutation. Full materializes each pass, while \LIMIT~$K$ pulls on demand without prefetching.
 
 \input{tables/algorithms}
 
 \subsection{Experiment-Specific Settings}
+\label{sec:exp:protocols}
+
 \stitle{End-to-end ranking (E1).}
-For Full, we compute Spearman's $\rho$ against the relevance grades, assigning tied grades their average rank. For \textsf{LIMIT}~10, we compute nDCG@10 with gain $2^g-1$ for grade $g$; the ideal order is over the candidates of the same query. All methods and both models use the same ten input permutations (seeds 0 through 9). For each permutation, we average quality over queries within each dataset. The table entries report mean $\pm$ standard deviation over these ten dataset means.
-The quality and cost runs allow ten concurrent queries and count all input and output tokens, including run generation. A separate latency run uses permutation seed zero, one active query, and up to 256 concurrent model requests. It measures elapsed time from profiling through planning, run generation, and merging until the result is returned.
-The three token columns sum the dataset means for Q9, TREC (DL20 and DL22), and BEIR (the other three datasets), respectively. Latency is the equally weighted arithmetic mean of the six dataset means. The $Q$, $T$, and $L$ columns rank methods separately by quality, token use, and latency; the primary ranking criterion is the mean of the six within-dataset ranks.
+Full uses Spearman's $\rho$ (midranks for ties) and \LIMIT~10 uses nDCG@10 (gain $2^g - 1$). Across ten shared input permutations (seeds $0$--$9$), we average quality over queries per dataset and report mean $\pm$ SD across the ten dataset means. Quality/token runs allow ten concurrent queries and count all Input + Output tokens (including Phase~1). Isolated latency uses seed~$0$, one active query, and up to 256 concurrent requests, timing profiling through output return. Token columns sum dataset means for Q9, TREC, and BEIR; latency averages all six datasets equally, and $Q$, $T$, $L$ rank methods by mean within-dataset rank.
 
 \stitle{Cost prediction (E2).}
-E2 compares the merge input tokens predicted by the cost model with measured input tokens at the same fixed $(k,h)$ pairs. The two base workloads use 500 candidates: DL20 query 1109707 on 9B and TREC-COVID query 38 on 27B. Each covers both merge families under Full and \textsf{LIMIT}~10. We compare the measured cost of the model's pick with the measured minimum over the same candidates. The relative gap measures the cost of the planner's decision; agreement between the predicted and measured surfaces measures prediction accuracy.
-Two further workloads vary the fixed prompt overhead for DL20 query 1109707: Full on 9B with 641 candidates, and \textsf{LIMIT}~2 on 27B with 500 candidates. Padding the instruction changes the per-call overhead while keeping the candidates fixed within each workload.
+E2 compares predicted and measured merge input tokens across fixed $(k,h)$ grids on two 500-candidate base workloads: DL20 (query 1109707, 9B) and TREC-COVID (query 38, 27B) under Full and \LIMIT~10. Surface agreement evaluates prediction accuracy; the gap between the planner's pick and the empirical grid minimum measures decision regret. Two padded-instruction workloads on DL20 query 1109707 (Full on 9B, $n{=}641$; \LIMIT~2 on 27B, $n{=}500$) vary fixed header $H$ at fixed item texts $L$.
+
 \stitle{Input size (E3).}
-E3 measures input tokens for run generation and merging as $n$ increases from 1,000 to 5,000 to 10,000 on the 9B DL20 workload. We hold five $(k,h)$ pairs per family fixed across sizes. All three inputs contain the BM25 top 1,000; the additional documents form nested samples. Figure~\ref{fig:e3-scale} connects the measured costs for the five pairs per size to guide the eye and shows the predicted costs as points; four supplementary LT pairs at the larger sizes are not shown.
+E3 scales $n$ across $1{,}000$, $5{,}000$, and $10{,}000$ on 9B DL20 using nested samples anchored at the BM25 top 1,000, holding five $(k,h)$ pairs per family fixed (Figure~\ref{fig:e3-scale}; four extra LT pairs at larger sizes are omitted from the plot).
 
 \Needspace{5\baselineskip}
 \stitle{Prefix caching (E4).}
-E4 and E5 use the 9B model. Let $U$ be the total number of input tokens, $Q$ the number of those tokens served from cache, and $O$ the number of output tokens. If a cached input token costs a fraction $\beta$ of an uncached token, the equivalent input cost is $C_\beta=U-(1-\beta)Q$. With caching off, $C_\beta=U$. With caching on, each sort starts with an empty cache namespace. We count eligible hits in the shared prompt prefix before the first candidate.
-E4a compares caching on and off at $n=100$ and $500$, using the middle-length query from each of DL20 and TREC-COVID. For each comparison, we order the feasible $(k,h)$ pairs lexicographically and select eight at evenly spaced indices. Reported minima are over those eight configurations. For DL20 with $n=500$ and LT Full, E4b reprices seven of those configurations at $\beta\in\{0,.1,.25,.5,.75,.9,1\}$ using the same cache-on runs. Figure~\ref{fig:e4a-c2} pools DL20 and COVID; uncolored grid cells are infeasible. The insets list picked and minimum-cost pairs separately for each query and cache setting. Savings are $100(1-\sum_q C_{0,q}^{\mathrm{On}}/\sum_q U_q^{\mathrm{Off}})$. Figure~\ref{fig:e4b-beta} shows five of the seven discounts; its diamonds evaluate model-selected pairs at measured cost.
+On 9B, with input tokens $U$, shared-prefix cache hits $Q$, and price factor $\beta \in [0,1]$, equivalent input cost is $C_\beta = U - (1-\beta)Q$ ($U$ when Off; isolated cold namespace per sort when On). E4a compares Off and On-cold ($\beta{=}0$) at $n \in \{100, 500\}$ on medium-length DL20 and COVID queries over eight evenly spaced $(k,h)$ pairs, pooling savings $100(1 - \sum_q C_{0,q}^{\mathrm{On}} / \sum_q U_q^{\mathrm{Off}})$ in Figure~\ref{fig:e4a-c2}. On DL20 ($n{=}500$, LT Full), E4b reprices seven configurations across $\beta \in \{0,.1,.25,.5,.75,.9,1\}$ (five shown in Figure~\ref{fig:e4b-beta}).
 
 \stitle{Output size (E5).}
-E5 uses the six BM25 pools at $n=500$. We vary $K$ over $10$, $20$, $50$, $100$, $200$, $300$, $400$, $490$, and $500$ and evaluate Full separately. Each family selects $(k,h)$ for each combination of query, output demand, and cache setting. We track $C_0$ and nDCG@10, assigning zero gain to unjudged candidates; the figure shows cost on separate Off and On-cold scales. Both \textsf{LIMIT}~500 and Full return all 500 rows, but only Full materializes each merge pass.
+Across the six BM25 pools at $n{=}500$ on 9B, E5 varies $K$ over $10, 20, 50, 100, 200, 300, 400, 490$, and $500$ alongside Full under Off and On-cold ($\beta{=}0$), selecting $(k,h)$ per demand and cache state to track $C_0$ and nDCG@10 (unjudged gain zero); comparing \LIMIT~500 with Full isolates pass-materialization overhead.
 
 \noindent\textit{Layout review copy.} The results tables and plots contain illustrative values, not experimental measurements.
 % E1 through E5: results prose intentionally empty.

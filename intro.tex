@@ -20,9 +20,4 @@ The key observation is that a run needs to supply only enough rows to determine 
 
 Figure~\ref{fig:framework} illustrates why one plan need not serve both queries. Given the same initial runs, the planner can choose different mergers, fan-ins, and segment lengths for Full and \LIMIT~$K$. It estimates the work of each feasible plan under the requested output demand and prices it using the query's prompt profile.
 
-\textbf{Contributions.}
-\begin{itemize}
-  \item \textbf{Multi-way listwise merge.} We develop a sliding-window merger with safe-prefix emission and a segmented loser tree with pointer-guided refresh. The same groups support materialized full ranking and demand-driven ordered prefixes. We establish correctness under a consistent ordering oracle.
-  \item \textbf{Demand-aware plan selection.} We estimate the calls and row appearances of each feasible merge plan by replaying its finite execution. A token profile fits the fixed request cost and per-row cost without labeled rankings or model generation. The planner chooses the family, fan-in, and quota or segment length for the requested demand.
-  \item \textbf{Evaluation.} We study end-to-end ranking quality, token use, and latency, and isolate plan selection, input scale, prefix caching, and the change from small limits to full ranking.
-\end{itemize}
+This paper makes two technical contributions. First, we develop sliding-window and segmented loser-tree mergers for listwise ranking (Section~\ref{sec:framework}). Both mergers support full ranking by materializing each layer and ordered prefixes by pulling rows on demand. We prove correctness under a consistent ordering oracle. Second, we develop a planner that replays feasible merge schedules to estimate model calls and row appearances (Section~\ref{sec:cost}). It converts those estimates into input-token costs and chooses the merger, fan-in, and window or segment size for the requested output. We evaluate ranking quality, token use, and latency, and examine plan selection across input sizes, cache settings, and output limits (Section~\ref{sec:exp}).

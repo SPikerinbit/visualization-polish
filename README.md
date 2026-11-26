@@ -4,7 +4,7 @@
 
 | 我要做什么 | 从这里开始 |
 | --- | --- |
-| 改引言、问题定义或算法 | [Introduction](inrto.tex) · [Preliminaries](problem%20statement.tex) · [多路归并、SW 与 LT](framework.tex) |
+| 改引言、问题定义或算法 | [Introduction](intro.tex) · [Preliminaries](problem%20statement.tex) · [多路归并、SW 与 LT](framework.tex) |
 | 改成本模型或推导 | [Token Cost Model](framework.tex) · [附录与证明](appendix.tex) |
 | 改实验设置或填写结果 | [实验章节：Experimental Setup、E1–E5 与图表引用](exp.tex) |
 | 改图注、换图或改表 | [机制图与伪代码](framework.tex) · [实验组图](manuscript/) · [主稿引用的图件](fig/) · [论文表格](tables/) |

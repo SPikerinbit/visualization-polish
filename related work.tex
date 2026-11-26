@@ -7,9 +7,9 @@ Unify organizes analytics over unstructured data as pipelines of semantic operat
 Other systems use inexpensive proxy models to reduce the number of LLM calls needed to evaluate semantic predicates~\cite{DBLP:journals/pacmmod/ZeighamiSP25,DBLP:journals/corr/abs-2509-12610,DBLP:journals/corr/abs-2601-05536}.
 A semantic predicate can be evaluated on one row at a time. Listwise \textsf{ORDER BY} also has to choose which rows to compare together and when to reuse the comparisons.
 
-\stitle{LLM ranking and external merge.}
-Pointwise ranking scores items independently~\cite{DBLP:conf/emnlp/DrozdovZD0RWAIM23,DBLP:conf/emnlp/SachanLJAYPZ22}, while pairwise methods aggregate comparisons between items~\cite{DBLP:conf/acl/LuoCH024,DBLP:conf/naacl/QinJHZWYSLLMWB24}.
-Listwise ranking orders a batch in one prompt; setwise ranking can select the best item from a batch~\cite{DBLP:conf/sigir/ZhuangZKZ24,DBLP:conf/emnlp/0001YMWRCYR23,DBLP:journals/corr/abs-2305-02156}.
-ListK uses listwise tournament and multi-pivot operators for selection and sorting~\cite{DBLP:journals/corr/abs-2603-17223}.
-Zhao et al. generate sorted runs and combine them by two-way external merge~\cite{DBLP:journals/corr/abs-2509-00303}.
-We retain the run-generation and merge passes of external sorting~\cite{DBLP:journals/csur/Graefe06}. Within each multi-way group, we reuse a ranked window or refresh a single tree path. The planner accounts for which rows are submitted again and how much each group must produce for a given output bound.
+\stitle{Listwise selection and merge.}
+ListK develops tournament and multi-pivot methods for listwise selection and sorting, and considers latency under a target recall~\cite{DBLP:journals/corr/abs-2603-17223}.
+OrderByLLM studies cost-based access-path selection and includes two-way external merge, with intermediate outputs capped at $K$ for \LIMIT~$K$~\cite{DBLP:journals/corr/abs-2509-00303}. We choose a physical plan inside a multi-way merge operator. The choice includes the merger, fan-in, and window quota or segment length. For a limit, the root pulls from children as needed.
+
+\stitle{Reuse of ranking judgments.}
+TBS stores accepted preferences in a directed acyclic graph and uses reachability to skip a batch when every pair is already ordered~\cite{akinola2026tbs}. The published schedule targets full ranking; its coverage threshold is not an ordered-prefix stopping rule. A batch that contains unresolved pairs may still include known pairs. Our merge groups reuse the order in their inputs, and LT leaves unaffected branches out of each refresh. The planner prices repeated row appearances as well as calls. TBS avoids cycles in the accepted preferences, while LT preserves the input-run order during a refresh. Neither constraint establishes that the model's judgments agree with the intended ranking.

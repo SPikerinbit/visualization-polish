@@ -8,7 +8,7 @@ A semantic \textsf{ORDER BY} operator returns a permutation $\Pi = [\pi_1, \cdot
 Unlike conventional \textsf{ORDER BY}, where the ordering key is a deterministic attribute value that can be compared directly by database engine, the semantic \textsf{ORDER BY},  defined through natural-language semantics, may depend on implicit notions such as relevance, helpfulness, specificity, sentiment, or evidential support, and therefore cannot be evaluated by a traditional comparator. We use a large language model (LLM) as an ordering oracle for this semantic relation. 
 
 This LLM-based formulation introduces three challenges for physical algorithm design. First, invoking an LLM is expensive in both latency and token cost, with latency dominating conventional in-memory computation. Second, each invocation can inspect only a bounded number of items due to the effective context length limit of LLMs. Third, the intrinsic uncertainty of LLM reasoning can violate antisymmetry and transitivity due to positional bias. 
-In this paper, we focus on designing efficient algorithms that minimize the number of LLM invocations with a principled model of the monetary token cost, while maintaining high ordering accuracy. 
+We design the merge operator to reduce input-token cost. We assess ranking quality separately because different call schedules can elicit different judgments. 
 
 
 
@@ -26,8 +26,7 @@ In this paper, we focus on designing efficient algorithms that minimize the numb
 Listwise methods~\cite{DBLP:conf/sigir/ZhuangZKZ24, DBLP:conf/emnlp/0001YMWRCYR23, DBLP:journals/corr/abs-2603-17223, DBLP:journals/corr/abs-2305-02156} submit a batch of items in a single prompt and ask the model to return their identifiers in sorted order, thereby amortizing one invocation over many comparisons.
 This paper adopts listwise prompting as the only LLM invocation primitive.
 Formally, $\textsc{ListwiseRank}(B,\phi)$ takes a batch $B$ of $m$ items, where $m$ is determined by the LLM's effective context window and item serialization length, and returns an ordered sequence $\mathcal{O}$ to be a permutation of $B$ under instruction $\phi$. Throughout this paper, we assume $m\ge 4$, the minimum listwise batch capacity required by our loser-tree construction.
-We use the total number of listwise invocations as the primary cost metric. Under a fixed prompt template and expected per-item serialization length, every listwise invocation accommodates at most $m$ items and outputs a permutation with a fixed token cost. 
-Therefore, different listwise calls have comparable token footprints, and call count serves as a linear proxy for the total monetary token cost. 
+Each request carries the instruction and the serialized items in its batch. With the same template and similar batch widths, call count is a useful cost proxy. During a merge, batch widths and the number of times an item is resubmitted can differ across plans. Section~\ref{sec:cost} models both sources of input-token cost.
 
 % \paragraph{Serialization and output repair}
 % Figure~\ref{fig:prompt} shows the prompt template. Each item is
@@ -77,5 +76,3 @@ Therefore, different listwise calls have comparable token footprints, and call c
 % $\textsc{ListwiseRank}(B,\phi)$.}
 % \label{fig:prompt}
 % \end{figure}
-
-

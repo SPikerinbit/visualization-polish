@@ -1,4 +1,4 @@
 \Needspace{5\baselineskip}
 \section{Conclusion}
 \label{sec:conclusion}
-We adapt external $k$-way merge to listwise ranking. SW keeps the rows it cannot yet emit and fills the resulting gaps from the input runs. LT($h$) keeps the losers in a tree and fetches the next segment along one path. The operator uses the same group mergers for materialized Full ranking and for \LIMIT~$K$, which pulls from its groups only as needed. The planner prices both calls and repeated row appearances when choosing the merge family, fan-in, and quota or segment length.
+A semantic sort must decide both what to rank in each call and how much of the order to produce. Our multi-way merge uses sliding windows or segmented loser trees to reuse the order in its input runs. Full drains these groups by pass; \LIMIT~$K$ pulls only as far as the root needs. The planner compares feasible groups and fan-ins by estimating both repeated prompt overhead and repeated row appearances for the requested output.

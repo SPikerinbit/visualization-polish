@@ -62,7 +62,7 @@ $k\gets\textsc{MergeCostModel}(|D|,m,\textsc{MergeGroup})$\;
 \section{Multi-way Merge Semantic \textsf{ORDER BY}}
 \label{sec:framework}
 
-A listwise call ranks at most $m$ rows under instruction $\phi$. If $n>m$, the operator cannot rank the entire input in one call. We use external merge sort~\cite{DBLP:journals/csur/Graefe06}: sort chunks to obtain runs, then merge the runs in groups of at most $k$. The question is which rows to send to the ranker during a merge. A call that sees only run heads can emit as little as one row. A larger call can emit more, but rows it does not emit may have to appear in later prompts.
+A listwise call ranks at most $m$ rows under instruction $\phi$. If $n>m$, the operator cannot rank the entire input in one call. We use external merge sort~\cite{DBLP:journals/csur/Graefe06}: sort chunks to obtain runs, then merge the runs in groups of at most $k$. The question is how much of each run the ranker must see to emit the next part of the order. Giving a call more rows can let it emit a longer prefix, but rows held back may appear in later prompts. SW and LT reuse different parts of the run order: SW retains a window of eligible rows, while LT keeps the results of unaffected matches out of the next refresh.
 
 The planner in Figure~\ref{fig:framework} uses the run lengths, call capacity $m$, requested output (Full or \LIMIT~$K$), and token profile. It chooses a plan $(f,k,h)$: the merge family $f$, the maximum fan-in $k$, and the per-run quota or segment length $h$. Sliding-window merge (SW) ranks a window across the active runs; segmented loser-tree merge (LT($h$)) ranks the rows needed to refresh one tree path at a time. The planner chooses the feasible plan with the lowest estimated merge input cost, either within a specified family or across both families (Section~\ref{sec:cost}).
 
@@ -286,7 +286,7 @@ With $h=1$, each match keeps one loser and forwards one winner, and the pointer 
 \subsection{Demand-Driven Execution for \texorpdfstring{\textsf{LIMIT}~$K$}{LIMIT K}}
 \label{sec:topk}\label{sec:topk-exec}
 
-Applying a final limit to Algorithm~\ref{alg:semantic_external_merge} would still materialize every earlier pass. We keep run generation unchanged and let the root pull from its children. Each group does no further work until its parent asks again.
+Applying a final limit to Algorithm~\ref{alg:semantic_external_merge} would still materialize every earlier pass. Capping every intermediate two-way merge at $K$~\cite{DBLP:journals/corr/abs-2509-00303} bounds each run, but one child may need to supply much less than another. We keep run generation unchanged and propagate demand from the root. A group resumes only when its parent needs more rows.
 
 A producer's \textsc{Next}$(c)$ returns up to $c$ rows in order
 and serves buffered output before doing more work. SW tops up
@@ -318,7 +318,7 @@ Let $A$ be the number of listwise calls made by plan $\theta=(f,k,h)$ and $b_j$ 
   \widehat C(\theta)=H\widehat{\mathbb E}[A]+L\widehat{\mathbb E}[S].
   \label{eq:merge-cost-model}
 \end{equation}
-Saving one call therefore offsets up to $H/L$ additional item appearances. The token profile $(H,L)$ prices the work; the execution mode determines which work to count.
+Saving one call offsets up to $H/L$ additional item appearances when $L>0$. Plans that avoid known comparisons and plans that minimize input tokens need not coincide. The token profile prices the work; the execution mode determines which work to count.
 
 \stitle{Counting work across full merge passes.}
 Let $\boldsymbol{\ell}=(\ell_1,\ldots,\ell_r)$ be the lengths of the nonempty initial runs, with $\sum_i\ell_i=n$. If $r\leq1$, no merge is needed. Otherwise, $k$ and $\boldsymbol{\ell}$ determine every group size but not which run will next need a refill. To estimate that work, we assign ranks $1,\ldots,n$ uniformly without replacement to runs of the given lengths and sort each run internally. On one such assignment $\pi$, we replay all materialized passes using integer ranks in place of listwise judgments. If $\mathcal G_t$ contains the non-singleton groups in pass $t$, the total work is

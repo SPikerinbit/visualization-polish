@@ -17,7 +17,7 @@
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{fig/framework/fig01-framework.pdf}
-  \caption{Cost-planned multi-way merge semantic \textsf{ORDER BY} on 54 SemBench Movie Q9 reviews ($m{=}6$, $r{=}9$ runs). Full ranking materializes each merge pass via $\mathrm{SW}(3,2)$; \LIMIT~3 pulls rows on demand from the root via single-pass $\mathrm{LT}(9,1)$.}
+  \caption{Cost-planned multi-way merge semantic \textsf{ORDER BY} on 54 SemBench Movie \Qnine{} reviews ($m{=}6$, $r{=}9$ runs). Full ranking materializes each merge pass via $\SW{}(3,2)$; \LIMIT~3 pulls rows on demand from the root via single-pass $\LT{}(9,1)$.}
   \label{fig:framework}
 \end{figure*}
 
@@ -58,12 +58,12 @@ $k\gets\textsc{MergeCostModel}(|D|,m,\textsc{MergeGroup})$\;
 \section{Multi-way Merge Semantic \textsf{ORDER BY}}
 \label{sec:framework}
 
-When $n > m$, no single listwise call can rank $D$. Following external merge sort~\cite{DBLP:journals/csur/Graefe06}, we sort disjoint chunks to obtain initial runs and merge them in groups of at most $k$ runs. Replacing a free scalar comparator with $\textsc{ListwiseRank}$ couples \emph{input scheduling} and \emph{output digestion}: supplying more rows $h$ per run lets one call emit a longer certified prefix, whereas uncertified rows remain resident and may re-enter later prompts. Prior two-way merge in OrderByLLM~\cite{DBLP:journals/corr/abs-2509-00303} corresponds to the single static point $\mathrm{SW}(k{=}2, h{=}\lfloor m/2\rfloor)$.
+When $n > m$, no single listwise call can rank $D$. Following external merge sort~\cite{DBLP:journals/csur/Graefe06}, we sort disjoint chunks to obtain initial runs and merge them in groups of at most $k$ runs. Replacing a free scalar comparator with $\textsc{ListwiseRank}$ couples \emph{input scheduling} and \emph{output digestion}: supplying more rows $h$ per run lets one call emit a longer certified prefix, whereas uncertified rows remain resident and may re-enter later prompts. Prior two-way merge in OrderByLLM~\cite{DBLP:journals/corr/abs-2509-00303} corresponds to the single static point $\SW{}(k{=}2, h{=}\lfloor m/2\rfloor)$.
 
-As shown in Figure~\ref{fig:framework}, our engine parameterizes merge plans by $\theta = (f, k, h)$: merger family $f \in \{\mathrm{SW}, \mathrm{LT}\}$, maximum fan-in $k$, and per-run quota or segment length $h$. Sliding-Window Merge (SW) ranks an active frontier across live runs; Segmented Loser-Tree Merge (LT($h$)) isolates off-path runs in a binary tournament tree and refreshes one root-to-leaf path per step. Using run lengths $\boldsymbol{\ell}$, capacity $m$, demand (Full or \LIMIT~$K$), and prompt profile $(H,L)$, the planner selects the feasible plan minimizing estimated merge input tokens (Section~\ref{sec:cost}).
+As shown in Figure~\ref{fig:framework}, our engine parameterizes merge plans by $\theta = (f, k, h)$: merger family $f \in \{\SW{}, \LT{}\}$, maximum fan-in $k$, and per-run quota or segment length $h$. Sliding-Window Merge (\SW) ranks an active frontier across live runs; Segmented Loser-Tree Merge (\LT($h$)) isolates off-path runs in a binary tournament tree and refreshes one root-to-leaf path per step. Using run lengths $\boldsymbol{\ell}$, capacity $m$, demand (Full or \LIMIT~$K$), and prompt profile $(H,L)$, the planner selects the feasible plan minimizing estimated merge input tokens (Section~\ref{sec:cost}).
 
 \begin{example}\label{ex:framework}
-Figure~\ref{fig:framework} sorts 54 SemBench Movie Q9 reviews~\cite{lao2026sembench} ($m{=}6$) from nine 6-row runs, illustrating three of the 20 feasible plans per demand. Pricing merge work selects two-pass $\mathrm{SW}(3,2)$ for Full (5,350 tokens), which materializes three first-layer groups before merging them, and single-pass $\mathrm{LT}(9,1)$ for \LIMIT~3 (589 tokens), which pulls lazily from all nine runs into one root group. Displayed rows follow reference-score order, breaking ties by fixture ID.
+Figure~\ref{fig:framework} sorts 54 SemBench Movie \Qnine{} reviews~\cite{lao2026sembench} ($m{=}6$) from nine 6-row runs, illustrating three of the 20 feasible plans per demand. Pricing merge work selects two-pass $\SW{}(3,2)$ for Full (5,350 tokens), which materializes three first-layer groups before merging them, and single-pass $\LT{}(9,1)$ for \LIMIT~3 (589 tokens), which pulls lazily from all nine runs into one root group. Displayed rows follow reference-score order, breaking ties by fixture ID.
 \end{example}
 
 \subsection{Run Generation and Multi-Way Group Merge}
@@ -126,10 +126,10 @@ $tmp\gets\textsc{BuildSubtree}(\textsc{Root}(T),\rho_0)$\;
 
 \subsection{Sliding-Window Merge}
 \label{sec:sw}
-SW ranks a frontier window drawn from all active runs. In Algorithm~\ref{alg:sliding_window_kway_group_merge}, lines~1--4 track cursors $p_i$, collect active runs $A$, and bypass LLM calls when a single run $u$ remains by appending $R_u[p_u:]$ directly. Lines~5--8 assemble and rank batch $B$: while line~5 shows adaptive quota $\lfloor m/|A|\rfloor$, costed $\mathrm{SW}(k,h)$ plans use the chosen fixed quota $h \le \lfloor m/k\rfloor$.
+\SW{} ranks a frontier window drawn from all active runs. In Algorithm~\ref{alg:sliding_window_kway_group_merge}, lines~1--4 track cursors $p_i$, collect active runs $A$, and bypass LLM calls when a single run $u$ remains by appending $R_u[p_u:]$ directly. Lines~5--8 assemble and rank batch $B$: while line~5 shows adaptive quota $\lfloor m/|A|\rfloor$, costed $\SW{}(k,h)$ plans use the chosen fixed quota $h \le \lfloor m/k\rfloor$.
 
 \stitle{Safe-prefix certification and survivor retention.}
-Scanning the ranked window $O$ (lines~9--11), SW emits through the first item $x$ that exhausts the buffered slice ($e_t = b_t$) of a run $t$ with unread items ($p_t + b_t < |R_t|$), since $t$'s next unread item could precede the remainder of $O$. Fully buffered runs impose no boundary; if none applies, all of $O$ is emitted. Under a consistent oracle, every emitted item precedes all unread suffixes and restricts to a prefix of each run, making cursor advances (line~12) exact (Lemma~\ref{lem:sw-safe}). Our implementation retains unreturned survivors by row identity, preserving permutation validity while allowing survivors to be re-ranked with fresh items when calls disagree (Proposition~\ref{prop:inconsistent}).
+Scanning the ranked window $O$ (lines~9--11), \SW{} emits through the first item $x$ that exhausts the buffered slice ($e_t = b_t$) of a run $t$ with unread items ($p_t + b_t < |R_t|$), since $t$'s next unread item could precede the remainder of $O$. Fully buffered runs impose no boundary; if none applies, all of $O$ is emitted. Under a consistent oracle, every emitted item precedes all unread suffixes and restricts to a prefix of each run, making cursor advances (line~12) exact (Lemma~\ref{lem:sw-safe}). Our implementation retains unreturned survivors by row identity, preserving permutation validity while allowing survivors to be re-ranked with fresh items when calls disagree (Proposition~\ref{prop:inconsistent}).
 
 \begin{example}\label{ex:alg2}
 Figure~\ref{fig:sw-mechanism} merges four runs under $m{=}8$ and $h{=}2$. Round~1 ranks $B=[3,7,1,5,2,8,4,9]$ into $[1,2,3,4,5,7,8,9]$ and stops after emitting $[1,2,3,4,5]$ because row~5 empties $R_2$'s window while unread row~6 may precede $[7,8,9]$. Round~2 re-ranks retained $[7,8,9]$ with fresh items in $B=[7,12,6,14,\allowbreak 8,11,9,10]$, emitting $[6,7,8,9,10]$ until $R_4$'s buffer empties with row~13 unread. Round~3 buffers all remaining items and emits $[11,\dots,16]$.
@@ -147,13 +147,13 @@ Figure~\ref{fig:sw-mechanism} merges four runs under $m{=}8$ and $h{=}2$. Round~
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig/mechanisms/fig04-segmented-loser-tree-refresh.pdf}
-\caption{Pointer-guided path refresh in LT($h$) ($k{=}4$, $m{=}8$, $h{=}2$): path collection, single ranking call, and bottom-up replay.}
+\caption{Pointer-guided path refresh in \LT($h$) ($k{=}4$, $m{=}8$, $h{=}2$): path collection, single ranking call, and bottom-up replay.}
 \label{fig:lt-mechanism}
 \end{figure}
 
 \subsection{Segmented Loser-Tree Merge}
 \label{sec:lt}
-In SW, depleting one run resubmits survivors from all $k$ runs. LT($h$) avoids off-path resubmissions via a binary tournament tree $T$ of depth $d = \lceil \log_2 g \rceil$ over the $g \le k$ runs: each internal node $v$ stores a losing segment $\mathit{Loser}(v)$ ($\le h$ rows) and a pointer $\mathit{Pointer}(v) \in \{v_L, v_R\}$ to the next refill child, forwarding an $h$-row winner upward.
+In \SW, depleting one run resubmits survivors from all $k$ runs. \LT($h$) avoids off-path resubmissions via a binary tournament tree $T$ of depth $d = \lceil \log_2 g \rceil$ over the $g \le k$ runs: each internal node $v$ stores a losing segment $\mathit{Loser}(v)$ ($\le h$ rows) and a pointer $\mathit{Pointer}(v) \in \{v_L, v_R\}$ to the next refill child, forwarding an $h$-row winner upward.
 
 \stitle{Halving-tree construction and packed initialization.}
 Algorithm~\ref{alg:loser_tree_kway_group_merge} recursively halves the $g$ runs (rounding the left size up) and fills up to $h$ rows per leaf (lines~1--\ref{line:slt-init}). While line~3 depicts a shared initial map $\rho_0$, in our implementation a single call suffices when $gh \le m$; when $gh > m$, the builder partitions the frontier into maximal subtrees of at most $\lfloor m/h \rfloor$ segments, ranks each batch, and replays its matches bottom-up until reaching the root. Every rank map $\rho$ is projected onto input-run order by repeatedly picking the highest-ranked available run head.
@@ -208,7 +208,7 @@ In Figure~\ref{fig:pointer-mechanism}, node $P$ ($h{=}2$) starts with $L=[3,7]$ 
 \end{example}
 
 \stitle{Pointer-guided path refresh and structural trade-offs.}
-After emitting the root segment (Algorithm~\ref{alg:loser_tree_kway_group_merge}, line~\ref{line:slt-emit}), Algorithm~\ref{alg:refresh_loser_tree_path} follows pointers to one leaf $u$ (lines~1--\ref{line:repair-descend}), pulls up to $h$ rows, and ranks them with path $\mathcal{P}$'s stored losers in one call when $|B|\ge 2$ (lines~4--\ref{line:repair-rank}), requiring $(d+1)h \le m$ while leaving off-path subtrees untouched. Bottom-up replay (lines~7--\ref{line:repair-replay}) places the incoming segment in the old pointer's slot and updates winners, losers, and pointers without extra calls (Lemma~\ref{lem:lt-tree}). At $h{=}1$, LT recovers a classical loser tree~\cite{DBLP:journals/csur/Graefe06} with zero intra-run pair redundancy and fan-in up to $2^{m-1}$; $h>1$ amortizes each call over $h$ outputs. Run-order projection further guarantees zero intra-run inversions even under conflicting calls (Proposition~\ref{prop:inconsistent}).
+After emitting the root segment (Algorithm~\ref{alg:loser_tree_kway_group_merge}, line~\ref{line:slt-emit}), Algorithm~\ref{alg:refresh_loser_tree_path} follows pointers to one leaf $u$ (lines~1--\ref{line:repair-descend}), pulls up to $h$ rows, and ranks them with path $\mathcal{P}$'s stored losers in one call when $|B|\ge 2$ (lines~4--\ref{line:repair-rank}), requiring $(d+1)h \le m$ while leaving off-path subtrees untouched. Bottom-up replay (lines~7--\ref{line:repair-replay}) places the incoming segment in the old pointer's slot and updates winners, losers, and pointers without extra calls (Lemma~\ref{lem:lt-tree}). At $h{=}1$, \LT{} recovers a classical loser tree~\cite{DBLP:journals/csur/Graefe06} with zero intra-run pair redundancy and fan-in up to $2^{m-1}$; $h>1$ amortizes each call over $h$ outputs. Run-order projection further guarantees zero intra-run inversions even under conflicting calls (Proposition~\ref{prop:inconsistent}).
 
 \begin{example}\label{ex:alg3seg}
 In Figure~\ref{fig:lt-mechanism} ($m{=}8$, $h{=}2$), after emitting $[1,2]$, pointers lead from the root through its left child to $R_2$ (a). Ranking $R_2$'s $[6,14]$ with path losers $[3,4]$ and $[5,7]$ yields $[3,4,5,6,7,14]$ while right-subtree $[8,9]$ stays out of the prompt (b). Bottom-up replay forwards $[5,6]$ (retaining $[7,14]$) at the left child and emits $[3,4]$ at the root without another call (c).
@@ -226,7 +226,7 @@ In Figure~\ref{fig:lt-mechanism} ($m{=}8$, $h{=}2$), after emitting $[1,2]$, poi
 
 Slicing Full output (as in blocking DAG schedules~\cite{akinola2026tbs}) pays all merge passes, while capping every intermediate two-way merge at $K$~\cite{DBLP:journals/corr/abs-2509-00303} over-materializes skewed subtrees. Without pre-built indices, zero-shot sorting must inspect all $n$ rows once ($\Omega(n/m)$ calls); we retain Phase-1 run generation and execute Phase~2 as a root-driven \emph{producer tree}.
 
-Each producer's $\textsc{Next}(c)$ serves buffered output before pulling upstream, without prefetching: SW tops up active windows to $h$, and LT pulls along one pointer path after initialization. The bound $K$ sits only at the root because one more output may require an entire child window or segment—for $K{=}3$ in Figure~\ref{fig:lt-mechanism}, the root emits $[1,2]$, pulls $[6,14]$ from $R_2$ to certify $[3,4]$, returns row~3, and halts. Under matching call responses, this yields the exact top-$\min(K,n)$ prefix of Full (Theorem~\ref{thm:full-limit}).
+Each producer's $\textsc{Next}(c)$ serves buffered output before pulling upstream, without prefetching: \SW{} tops up active windows to $h$, and \LT{} pulls along one pointer path after initialization. The bound $K$ sits only at the root because one more output may require an entire child window or segment—for $K{=}3$ in Figure~\ref{fig:lt-mechanism}, the root emits $[1,2]$, pulls $[6,14]$ from $R_2$ to certify $[3,4]$, returns row~3, and halts. Under matching call responses, this yields the exact top-$\min(K,n)$ prefix of Full (Theorem~\ref{thm:full-limit}).
 
 \section{Runtime Input-Token Cost Model}
 \label{sec:cost}
@@ -234,7 +234,7 @@ Each producer's $\textsc{Next}(c)$ serves buffered output before pulling upstrea
 \subsection{Full Ranking}
 \label{sec:cost-full}
 
-At fan-in $k$, SW and LT($h$) share the pass count $\lceil \log_k r \rceil$ but submit different item volumes: SW resubmits window survivors, whereas LT($h$) resubmits only path losers. Since Phase~1 is common to all merge plans, our planner models Phase-2 merge input tokens to choose $\theta = (f, k, h)$.
+At fan-in $k$, \SW{} and \LT($h$) share the pass count $\lceil \log_k r \rceil$ but submit different item volumes: \SW{} resubmits window survivors, whereas \LT($h$) resubmits only path losers. Since Phase~1 is common to all merge plans, our planner models Phase-2 merge input tokens to choose $\theta = (f, k, h)$.
 
 \stitle{Request--item token decomposition.}
 Let $A$ be the merge calls of $\theta$ and $b_j$ the width of call $j$, with item appearances $S = \sum_{j=1}^{A} b_j$. Sampling workload rows at several widths under $\phi$ and tokenizing locally—\emph{with zero LLM calls or labels}—fits $H + L b$ (header $H \ge 0$, per-item tokens $L > 0$), pricing merge input cost as
@@ -252,15 +252,15 @@ Given run lengths $\boldsymbol{\ell}$ ($\sum_{i=1}^r \ell_i = n$, $r > 1$), we p
   \sum_{g\in\mathcal G_t}(A_g(\pi),S_g(\pi)),
   \label{eq:total-merge-cost}
 \end{equation}
-charging $(1,b)$ per SW window or LT packed/refresh call of real width $b \ge 2$ and $(0,0)$ for single-run suffix appends, while feeding pass-$t$ outputs directly to pass $t+1$ without resampling. Averaging 16,384 Monte Carlo trials yields structural expectations $(\widehat{\mathbb E}[A], \widehat{\mathbb E}[S])$ cached by $\boldsymbol{\ell}$, $m$, $\theta$, mode, and $K$, repriced instantly for any $(H,L)$.
+charging $(1,b)$ per \SW{} window or \LT{} packed/refresh call of real width $b \ge 2$ and $(0,0)$ for single-run suffix appends, while feeding pass-$t$ outputs directly to pass $t+1$ without resampling. Averaging 16,384 Monte Carlo trials yields structural expectations $(\widehat{\mathbb E}[A], \widehat{\mathbb E}[S])$ cached by $\boldsymbol{\ell}$, $m$, $\theta$, mode, and $K$, repriced instantly for any $(H,L)$.
 
 \stitle{Choosing $(f,k,h)$.}
-Fitting $kh$ window items in SW or $1+\lceil\log_2 k\rceil$ path segments in LT gives
+Fitting $kh$ window items in \SW{} or $1+\lceil\log_2 k\rceil$ path segments in \LT{} gives
 \begin{equation}
  h_{\max}(f,k)=
  \begin{cases}
-   \lfloor m/k\rfloor, & f=\mathrm{SW},\\
-   \lfloor m/(1+\lceil\log_2 k\rceil)\rfloor, & f=\mathrm{LT}.
+   \lfloor m/k\rfloor, & f=\SW{},\\
+   \lfloor m/(1+\lceil\log_2 k\rceil)\rfloor, & f=\LT{}.
  \end{cases}
  \label{eq:merge-capacity}
 \end{equation}
@@ -271,8 +271,8 @@ Searching integers $2 \le k \le r$ and $1 \le h \le h_{\max}(f,k)$ selects the p
 
 Scaling Full cost by $K/n$ misprices prefixes: even $\pi_1$ must inspect all $r$ runs ($\ge \lceil(r-1)/(m-1)\rceil$ calls; Appendix~\ref{app:cost-results}), and later winners drain uneven subtrees. We replay the producer tree of Section~\ref{sec:topk-exec} on the same rank assignments until emitting $\min(K,n)$ rows, charging full widths for reached calls and substituting $(\widehat{\mathbb E}[A_K], \widehat{\mathbb E}[S_K])$ into Eq.~\eqref{eq:merge-cost-model} over $1 \le h \le \min\{K, h_{\max}(f,k)\}$.
 
-\stitle{Exact prefix cost for single-item LT.}
-When $f=\mathrm{LT}$, $h{=}1$, and $1 \le K \le \min_i \ell_i$, initialization emits $\pi_1$ at fixed cost $(A_0, S_0)$, and each of the next $K-1$ outputs refills the unique path from the previous winner's nonempty run $i$ at deterministic cost $(a_i, s_i)$. Since each global position comes from run $i$ with probability $\ell_i / n$, linearity of expectation gives the exact closed form
+\stitle{Exact prefix cost for single-item \LT.}
+When $f=\LT{}$, $h{=}1$, and $1 \le K \le \min_i \ell_i$, initialization emits $\pi_1$ at fixed cost $(A_0, S_0)$, and each of the next $K-1$ outputs refills the unique path from the previous winner's nonempty run $i$ at deterministic cost $(a_i, s_i)$. Since each global position comes from run $i$ with probability $\ell_i / n$, linearity of expectation gives the exact closed form
 \begin{equation}
  (\mathbb E[A_K],\mathbb E[S_K])=(A_0,S_0)
   +(K-1)\sum_{i=1}^{r}\frac{\ell_i}{n}(a_i,s_i),

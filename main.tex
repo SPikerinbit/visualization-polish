@@ -28,17 +28,19 @@
 \newcommand{\stitle}[1]{\vspace{1ex}\noindent\textbf{#1}}
 \newcommand{\cmark}{\ding{51}}
 % Dataset names.
-\newcommand{\Movies}{{\kw{Movies}}\xspace}
+\newcommand{\Qnine}{{\kw{Q9}}\xspace}
 \newcommand{\DLtwozero}{{\kw{DL20}}\xspace}
 \newcommand{\DLtwotwo}{{\kw{DL22}}\xspace}
-\newcommand{\FiQA}{{\kwnospace{FiQA}-\kw{2018}}\xspace}
+\newcommand{\COVIDshort}{{\kw{COVID}}\xspace}
 \newcommand{\COVID}{{\kwnospace{TREC}-\kw{COVID}}\xspace}
-\newcommand{\Touche}{{\kwnospace{Touche}-\kw{2020}}\xspace}
+\newcommand{\DBP}{{\kw{DBP}}\xspace}
+\newcommand{\DBpedia}{{\kwnospace{DBpedia}-\kw{Entity}}\xspace}
+\newcommand{\RzeroFour}{{\kw{R04}}\xspace}
+\newcommand{\RobustFour}{{\kw{Robust04}}\xspace}
 
 % Algorithm names and cost notation.
-\newcommand{\SD}{{\kw{SD}}\xspace}
-\newcommand{\LT}{{\kw{LT}}\xspace}
-\newcommand{\SLT}{{\kw{SLT}}\xspace}
+\newcommand{\SW}{\kwnospace{SW}}
+\newcommand{\LT}{\kwnospace{LT}}
 \newcommand{\Cost}{{\kw{Cost}}\xspace}
 \newcommand{\Pass}{{\kw{Pass}}\xspace}
 \newcommand{\Pcost}{{\kw{Pcost}}\xspace}
@@ -67,7 +69,7 @@
   \country{China}
 }
 \begin{abstract}
-Declarative semantic \textsf{ORDER BY} and \LIMIT~$K$ queries rank unstructured records under natural-language criteria. Because pointwise scoring lacks cross-record calibration and pairwise comparisons incur high per-request overhead, bounded listwise prompting—ranking up to $m$ items per call—serves as the core primitive for semantic sorting. Yet existing listwise schedules either expend slots on coarse pivot bucketing, lock external merge into static two-way materialization, or maintain a blocking preference graph that cannot stream certified \LIMIT~$K$ prefixes, relies on labeled batch-size sweeps, and leaves input tokens unoptimized. Viewing the bounded LLM as a black-box comparison oracle, we jointly optimize \emph{input scheduling} and \emph{output digestion} over sorted runs. We introduce \emph{Sliding-Window Merge} (SW), which certifies safe prefixes from a fixed-quota window while retaining survivors, and \emph{Segmented Loser-Tree Merge} (LT($h$)), which isolates losing segments in a tournament tree and refreshes one pointer-guided path per step. Both support pass-materialized Full ranking and root-driven demand-pull \LIMIT~$K$ execution. Without ground-truth labels or pilot calls, our runtime planner profiles fixed prompt headers ($H$) and per-item token costs ($L$), replays finite merge schedules, and selects $(f,k,h)$ across output demands and prefix-cache regimes.
+Declarative semantic \textsf{ORDER BY} and \LIMIT~$K$ queries rank unstructured records under natural-language criteria. Because pointwise scoring lacks cross-record calibration and pairwise comparisons incur high per-request overhead, bounded listwise prompting—ranking up to $m$ items per call—serves as the core primitive for semantic sorting. Yet existing listwise schedules either expend slots on coarse pivot bucketing, lock external merge into static two-way materialization, or maintain a blocking preference graph that cannot stream certified \LIMIT~$K$ prefixes, relies on labeled batch-size sweeps, and leaves input tokens unoptimized. Viewing the bounded LLM as a black-box comparison oracle, we jointly optimize \emph{input scheduling} and \emph{output digestion} over sorted runs. We introduce \emph{Sliding-Window Merge} (\SW), which certifies safe prefixes from a fixed-quota window while retaining survivors, and \emph{Segmented Loser-Tree Merge} (\LT($h$)), which isolates losing segments in a tournament tree and refreshes one pointer-guided path per step. Both support pass-materialized Full ranking and root-driven demand-pull \LIMIT~$K$ execution. Without ground-truth labels or pilot calls, our runtime planner profiles fixed prompt headers ($H$) and per-item token costs ($L$), replays finite merge schedules, and selects $(f,k,h)$ across output demands and prefix-cache regimes.
 \end{abstract}
 \maketitle
 %%% do not modify the following VLDB block %%

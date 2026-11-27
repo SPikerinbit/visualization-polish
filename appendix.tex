@@ -8,7 +8,7 @@ For Sections~\ref{app:proof-sw}--\ref{app:proof-limit}, fix a strict total order
 
 \begin{lemma}[Safe window prefix]
 \label{lem:sw-safe}
-For $\prec$-sorted runs and a consistent oracle, each round of Algorithm~\ref{alg:sliding_window_kway_group_merge} emits a nonempty prefix of the $\prec$-sorted union of unemitted rows whenever rows remain, ranking at most $|A|h \le m$ rows (adaptive) or $gh \le kh \le m$ rows (fixed-quota $\mathrm{SW}(k,h)$ on $g \le k$ runs).
+For $\prec$-sorted runs and a consistent oracle, each round of Algorithm~\ref{alg:sliding_window_kway_group_merge} emits a nonempty prefix of the $\prec$-sorted union of unemitted rows whenever rows remain, ranking at most $|A|h \le m$ rows (adaptive) or $gh \le kh \le m$ rows (fixed-quota $\SW{}(k,h)$ on $g \le k$ runs).
 \end{lemma}
 \begin{proof}
 Maintain the invariant that after refill, each active run $u$'s buffered slice $W_u$ is a contiguous prefix of its remaining rows. This holds at $p_u = 0$ and is preserved when removing a prefix per run. If $|A|=1$, the lone run's sorted suffix is appended without a call. Otherwise, for each $u \in A$ with unread items ($p_u + b_u < |R_u|$), let $z_u$ be its last buffered item ($b_u = h \ge 1$) at index $j_u$ in $O$. Emission stops at $t = \min_u j_u$, or drains $O$ if no unread suffix exists.
@@ -57,16 +57,16 @@ Phase~1 sorts disjoint chunks under $\prec$. By Lemmas~\ref{lem:sw-safe} and~\re
 
 \begin{proposition}[Row-identity and run-prefix guarantees]
 \label{prop:inconsistent}
-If every call returns a batch permutation, both SW and LT($h$) conserve row identities across Full and \LIMIT~$K$. With run-order projection, every LT($h$) output prefix restricts to an exact prefix of each Phase-1 run in original order; unprojected SW need not preserve run prefixes.
+If every call returns a batch permutation, both \SW{} and \LT($h$) conserve row identities across Full and \LIMIT~$K$. With run-order projection, every \LT($h$) output prefix restricts to an exact prefix of each Phase-1 run in original order; unprojected \SW{} need not preserve run prefixes.
 \end{proposition}
 \begin{proof}
-SW removes only emitted identities ($\ge 1$ per round), and LT replay partitions $L \uplus R$ disjointly. If one LT slot is short and one is full, real entries precede $+\infty$ padding, pointing $\mathit{Pointer}(v)$ to the full child so an empty root winner guarantees complete drainage. For any run $R$ in LT, all $R$-rows enter node $v$ via one child contiguously in run order; run-order projection admits only each run's earliest remaining item into $\rho$, so $Z[1..h]$ forwards only the next contiguous prefix of $R$ across all passes and root truncations. In SW with $R_1=(a_1,a_2,a_3,a_4)$, $R_2=(b_1,b_2)$, $h{=}2$, ranking $B$ as $(a_2,b_1,a_1,b_2)$ emits through $a_1$, so \LIMIT~$2$ outputs $(a_2,b_1)$ without $a_1$.
+\SW{} removes only emitted identities ($\ge 1$ per round), and \LT{} replay partitions $L \uplus R$ disjointly. If one \LT{} slot is short and one is full, real entries precede $+\infty$ padding, pointing $\mathit{Pointer}(v)$ to the full child so an empty root winner guarantees complete drainage. For any run $R$ in \LT, all $R$-rows enter node $v$ via one child contiguously in run order; run-order projection admits only each run's earliest remaining item into $\rho$, so $Z[1..h]$ forwards only the next contiguous prefix of $R$ across all passes and root truncations. In \SW{} with $R_1=(a_1,a_2,a_3,a_4)$, $R_2=(b_1,b_2)$, $h{=}2$, ranking $B$ as $(a_2,b_1,a_1,b_2)$ emits through $a_1$, so \LIMIT~$2$ outputs $(a_2,b_1)$ without $a_1$.
 \end{proof}
 
 \section{Additional Cost-Model Analysis}
 \label{app:cost-results}
 
-\subsection{Exact Expectation for Single-Item LT Prefixes}
+\subsection{Exact Expectation for Single-Item \LT{} Prefixes}
 \label{app:cost-exact}
 
 For positive run lengths $\boldsymbol{\ell}$, $h{=}1$, and $1 \le K \le \min_i \ell_i$, packed initialization installs all run heads and emits $\pi_1$ at fixed cost $(A_0, S_0)$. Without prefetching, step $j \in \{2,\dots,K\}$ replaces only $\pi_{j-1}$: since fewer than $K \le \min_i \ell_i$ rows have left each run, source run $i$ has a replacement and full path opponents, incurring deterministic path work $(a_i, s_i)$. Under uniform rank partitioning, rank $j{-}1$ comes from run $i$ with marginal probability $\ell_i / n$; linearity of expectation yields Eq.~\eqref{eq:cost-limit-single} without assuming independent winners. Once $K > \min_i \ell_i$ or $h > 1$, finite replay captures run exhaustion and segment boundaries.
@@ -74,7 +74,7 @@ For positive run lengths $\boldsymbol{\ell}$, $h{=}1$, and $1 \le K \le \min_i \
 \subsection{Rank-Skew Sensitivity of Sliding-Window Prefixes}
 \label{app:cost-skew}
 
-If the top $h$ window ranks fall in one unexhausted run, SW stops at $h$ outputs; balanced interleaving extends the safe prefix. Strong rank clustering can thus cause the uniform model to overestimate safe prefixes on short limits. Because later windows inherit surviving ranks, our simulator retains assigned integer ranks across rounds and passes rather than resampling; more Monte Carlo trials reduce sampling variance under uniform interleaving but do not remove prior mismatch on skewed workloads.
+If the top $h$ window ranks fall in one unexhausted run, \SW{} stops at $h$ outputs; balanced interleaving extends the safe prefix. Strong rank clustering can thus cause the uniform model to overestimate safe prefixes on short limits. Because later windows inherit surviving ranks, our simulator retains assigned integer ranks across rounds and passes rather than resampling; more Monte Carlo trials reduce sampling variance under uniform interleaving but do not remove prior mismatch on skewed workloads.
 
 \subsection{First-Row Certification Lower Bound}
 \label{app:cost-lowerbound}

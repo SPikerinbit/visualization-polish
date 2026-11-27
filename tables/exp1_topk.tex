@@ -2,34 +2,34 @@
 % LIMIT omits ListK Select; places are recomputed over the displayed methods.
 \begin{table*}[t]
 \centering
-\caption{End-to-end \LIMIT~$K{=}10$ prefix quality (nDCG@10), total tokens ($\times 10^{3}$), and isolated latency across six benchmarks.}
+\caption{End-to-end \LIMIT~$K{=}10$ prefix quality (nDCG@10$\uparrow$), total tokens ($\times 10^{3}\downarrow$), and isolated latency ($\text{s}\downarrow$) across six benchmarks.}
 \label{tab:exp1-limit}
 \begingroup
-\normalfont\rmfamily\fontsize{6.5}{8.2}\selectfont
-\renewcommand{\qpm}[2]{\mbox{\IfBeginWith{#1}{0.}{\StrGobbleLeft{#1}{1}}{#1}{\fontsize{5.3}{6.5}\selectfont\textpm\IfBeginWith{#2}{0.}{\StrGobbleLeft{#2}{1}}{#2}}}}
-\setlength{\tabcolsep}{0.15pt}
-\renewcommand{\arraystretch}{0.90}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l!{\hspace{1.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{1.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{1.35pt}}c!{\hspace{1.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{2.5pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{1.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c!{\hspace{1.35pt}}c!{\hspace{1.35pt}}c!{\hspace{0.35pt}}c!{\hspace{0.35pt}}c@{}}
+\normalfont\rmfamily\fontsize{6.4}{8.3}\selectfont
+\renewcommand{\qpm}[2]{\mbox{\IfBeginWith{#1}{0.}{\StrGobbleLeft{#1}{1}}{#1}\kern0.35pt{\normalfont\textcolor[HTML]{64748B}{\fontsize{4.8}{5.8}\selectfont\textpm\IfBeginWith{#2}{0.}{\StrGobbleLeft{#2}{1}}{#2}}}}}
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{0.96}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l!{\hspace{2.2pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{2.6pt}}c!{\hspace{1.5pt}}c!{\hspace{1.5pt}}c!{\hspace{2.4pt}}c!{\hspace{2.4pt}}c!{\hspace{1.1pt}}c!{\hspace{1.1pt}}c!{\hspace{3.6pt}\color[HTML]{CBD5E1}\vrule width 0.55pt\hspace{3.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{1.6pt}}c!{\hspace{2.6pt}}c!{\hspace{1.5pt}}c!{\hspace{1.5pt}}c!{\hspace{2.4pt}}c!{\hspace{2.4pt}}c!{\hspace{1.1pt}}c!{\hspace{1.1pt}}c@{}}
 \toprule
-& \multicolumn{13}{c}{\fontsize{7}{8}\selectfont\textbf{Qwen3.5-9B}} & \multicolumn{13}{c}{\fontsize{7}{8}\selectfont\textbf{Qwen3.8-27B}} \\
+& \multicolumn{13}{c}{\fontsize{7.2}{8.2}\selectfont\textbf{\textcolor[HTML]{1F5A8A}{Qwen3.5-9B}}} & \multicolumn{13}{c}{\fontsize{7.2}{8.2}\selectfont\textbf{\textcolor[HTML]{A63A50}{Qwen3.8-27B}}} \\
 \cmidrule(lr){2-14}\cmidrule(lr){15-27}
-Method & \multicolumn{6}{c}{nDCG@10} & \multicolumn{3}{c}{Tokens $\times 10^{3}$} & Lat. & \multicolumn{3}{c}{Rank} & \multicolumn{6}{c}{nDCG@10} & \multicolumn{3}{c}{Tokens $\times 10^{3}$} & Lat. & \multicolumn{3}{c}{Rank} \\
+\textbf{Method} & \multicolumn{6}{c}{nDCG@10$\uparrow$} & \multicolumn{3}{c}{Tokens ($\times 10^{3}$)$\downarrow$} & Lat.$\downarrow$ & \multicolumn{3}{c}{Rank$\downarrow$} & \multicolumn{6}{c}{nDCG@10$\uparrow$} & \multicolumn{3}{c}{Tokens ($\times 10^{3}$)$\downarrow$} & Lat.$\downarrow$ & \multicolumn{3}{c}{Rank$\downarrow$} \\
 \cmidrule(lr){2-7}\cmidrule(lr){8-10}\cmidrule(lr){12-14}\cmidrule(lr){15-20}\cmidrule(lr){21-23}\cmidrule(lr){25-27}
 & Q9 & DL20 & DL22 & COVID & DBP & R04 & Q9 & TREC & BEIR & s & $Q$ & $T$ & $L$ & Q9 & DL20 & DL22 & COVID & DBP & R04 & Q9 & TREC & BEIR & s & $Q$ & $T$ & $L$ \\
 \midrule
 Pointwise & \underline{\qpm{0.780}{0.012}} & \underline{\qpm{0.780}{0.012}} & \underline{\qpm{0.780}{0.012}} & \textbf{\qpm{0.800}{0.012}} & \textbf{\qpm{0.800}{0.012}} & \textbf{\qpm{0.800}{0.012}} & \textbf{1.70} & \textbf{3.43} & \textbf{5.22} & \textbf{2.05} & \textbf{1} & \textbf{1} & \textbf{1} & \underline{\qpm{0.800}{0.012}} & \underline{\qpm{0.800}{0.012}} & \underline{\qpm{0.800}{0.012}} & \textbf{\qpm{0.820}{0.012}} & \textbf{\qpm{0.820}{0.012}} & \textbf{\qpm{0.820}{0.012}} & \textbf{5.70} & \textbf{11.43} & \textbf{17.22} & \textbf{2.55} & \textbf{1} & \textbf{1} & \textbf{1} \\
-Ext. Pointwise & \textbf{\qpm{0.800}{0.013}} & \textbf{\qpm{0.800}{0.013}} & \textbf{\qpm{0.800}{0.013}} & \underline{\qpm{0.780}{0.013}} & \underline{\qpm{0.780}{0.013}} & \qpm{0.760}{0.013} & \underline{1.80} & \underline{3.63} & \underline{5.52} & \underline{2.45} & \underline{2} & \underline{2} & \underline{2} & \textbf{\qpm{0.820}{0.013}} & \textbf{\qpm{0.820}{0.013}} & \textbf{\qpm{0.820}{0.013}} & \underline{\qpm{0.800}{0.013}} & \underline{\qpm{0.800}{0.013}} & \qpm{0.780}{0.013} & \underline{5.80} & \underline{11.63} & \underline{17.52} & \underline{2.95} & \underline{2} & \underline{2} & \underline{2} \\
-Ext. Bubble & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.740}{0.014} & \underline{\qpm{0.780}{0.014}} & 1.90 & 3.83 & 5.82 & 2.85 & 3 & 3 & 3 & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.760}{0.014} & \underline{\qpm{0.800}{0.014}} & 5.90 & 11.83 & 17.82 & 3.35 & 3 & 3 & 3 \\
-Ext. Merge & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.760}{0.015} & \qpm{0.740}{0.015} & 2.00 & 4.03 & 6.12 & 3.25 & 4 & 4 & 4 & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.780}{0.015} & \qpm{0.760}{0.015} & 6.00 & 12.03 & 18.12 & 3.75 & 4 & 4 & 4 \\
+Ext.\ Point. & \textbf{\qpm{0.800}{0.013}} & \textbf{\qpm{0.800}{0.013}} & \textbf{\qpm{0.800}{0.013}} & \underline{\qpm{0.780}{0.013}} & \underline{\qpm{0.780}{0.013}} & \qpm{0.760}{0.013} & \underline{1.80} & \underline{3.63} & \underline{5.52} & \underline{2.45} & \underline{2} & \underline{2} & \underline{2} & \textbf{\qpm{0.820}{0.013}} & \textbf{\qpm{0.820}{0.013}} & \textbf{\qpm{0.820}{0.013}} & \underline{\qpm{0.800}{0.013}} & \underline{\qpm{0.800}{0.013}} & \qpm{0.780}{0.013} & \underline{5.80} & \underline{11.63} & \underline{17.52} & \underline{2.95} & \underline{2} & \underline{2} & \underline{2} \\
+Ext.\ Bubble & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.760}{0.014} & \qpm{0.740}{0.014} & \underline{\qpm{0.780}{0.014}} & 1.90 & 3.83 & 5.82 & 2.85 & 3 & 3 & 3 & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.780}{0.014} & \qpm{0.760}{0.014} & \underline{\qpm{0.800}{0.014}} & 5.90 & 11.83 & 17.82 & 3.35 & 3 & 3 & 3 \\
+Ext.\ Merge & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.740}{0.015} & \qpm{0.760}{0.015} & \qpm{0.740}{0.015} & 2.00 & 4.03 & 6.12 & 3.25 & 4 & 4 & 4 & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.760}{0.015} & \qpm{0.780}{0.015} & \qpm{0.760}{0.015} & 6.00 & 12.03 & 18.12 & 3.75 & 4 & 4 & 4 \\
 \midrule
 Tournament & \qpm{0.700}{0.017} & \qpm{0.700}{0.017} & \qpm{0.700}{0.017} & \qpm{0.700}{0.017} & \qpm{0.700}{0.017} & \qpm{0.700}{0.017} & 2.11 & 4.52 & 7.20 & 4.05 & 5 & 5 & 5 & \qpm{0.720}{0.017} & \qpm{0.720}{0.017} & \qpm{0.720}{0.017} & \qpm{0.720}{0.017} & \qpm{0.720}{0.017} & \qpm{0.720}{0.017} & 6.11 & 12.52 & 19.20 & 4.55 & 5 & 5 & 5 \\
 \midrule
-Lotus Quick & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & 3.70 & 7.43 & 11.22 & 4.45 & 6 & 6 & 6 & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & 7.70 & 15.43 & 23.22 & 4.95 & 6 & 6 & 6 \\
+LOTUS Quick & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & \qpm{0.680}{0.018} & 3.70 & 7.43 & 11.22 & 4.45 & 6 & 6 & 6 & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & \qpm{0.700}{0.018} & 7.70 & 15.43 & 23.22 & 4.95 & 6 & 6 & 6 \\
 \midrule
 Setwise Heap & \qpm{0.660}{0.019} & \qpm{0.660}{0.019} & \qpm{0.660}{0.019} & \qpm{0.660}{0.019} & \qpm{0.660}{0.019} & \qpm{0.660}{0.019} & 3.80 & 7.63 & 11.52 & 4.85 & 7 & 7 & 7 & \qpm{0.680}{0.019} & \qpm{0.680}{0.019} & \qpm{0.680}{0.019} & \qpm{0.680}{0.019} & \qpm{0.680}{0.019} & \qpm{0.680}{0.019} & 7.80 & 15.63 & 23.52 & 5.35 & 7 & 7 & 7 \\
 \midrule
-SW & \qpm{0.640}{0.020} & \qpm{0.630}{0.030} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & 3.90 & 7.83 & 11.82 & 5.25 & 8 & 8 & 8 & \qpm{0.660}{0.020} & \qpm{0.650}{0.030} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & 7.90 & 15.83 & 23.82 & 5.75 & 8 & 8 & 8 \\
-LT($h$) & \qpm{0.620}{0.021} & \qpm{0.630}{0.011} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & 4.00 & 8.03 & 12.12 & 5.65 & 9 & 9 & 9 & \qpm{0.640}{0.021} & \qpm{0.650}{0.011} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & 8.00 & 16.03 & 24.12 & 6.15 & 9 & 9 & 9 \\
+\rowcolor[HTML]{EEF4FA}\textbf{SW} & \qpm{0.640}{0.020} & \qpm{0.630}{0.030} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & \qpm{0.640}{0.020} & 3.90 & 7.83 & 11.82 & 5.25 & 8 & 8 & 8 & \qpm{0.660}{0.020} & \qpm{0.650}{0.030} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & \qpm{0.660}{0.020} & 7.90 & 15.83 & 23.82 & 5.75 & 8 & 8 & 8 \\
+\rowcolor[HTML]{EEF4FA}\textbf{LT($h$)} & \qpm{0.620}{0.021} & \qpm{0.630}{0.011} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & \qpm{0.620}{0.021} & 4.00 & 8.03 & 12.12 & 5.65 & 9 & 9 & 9 & \qpm{0.640}{0.021} & \qpm{0.650}{0.011} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & \qpm{0.640}{0.021} & 8.00 & 16.03 & 24.12 & 6.15 & 9 & 9 & 9 \\
 \bottomrule
 \end{tabular*}
 \endgroup

@@ -27,7 +27,23 @@
 \newcommand{\qpm}[2]{#1\,{\scriptsize$\pm$#2}}
 \newcommand{\stitle}[1]{\vspace{1ex}\noindent\textbf{#1}}
 \newcommand{\cmark}{\ding{51}}
-\input{sigmod-notation}
+% Dataset names.
+\newcommand{\Movies}{{\kw{Movies}}\xspace}
+\newcommand{\DLtwozero}{{\kw{DL20}}\xspace}
+\newcommand{\DLtwotwo}{{\kw{DL22}}\xspace}
+\newcommand{\FiQA}{{\kwnospace{FiQA}-\kw{2018}}\xspace}
+\newcommand{\COVID}{{\kwnospace{TREC}-\kw{COVID}}\xspace}
+\newcommand{\Touche}{{\kwnospace{Touche}-\kw{2020}}\xspace}
+
+% Algorithm names and cost notation.
+\newcommand{\SD}{{\kw{SD}}\xspace}
+\newcommand{\LT}{{\kw{LT}}\xspace}
+\newcommand{\SLT}{{\kw{SLT}}\xspace}
+\newcommand{\Cost}{{\kw{Cost}}\xspace}
+\newcommand{\Pass}{{\kw{Pass}}\xspace}
+\newcommand{\Pcost}{{\kw{Pcost}}\xspace}
+
+\input{command}
 \input{manuscript/experiment-layout}
 \begin{document}
 \title{Cost-effective Multi-way Merge Semantic ORDER BY}

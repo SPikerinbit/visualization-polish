@@ -1,0 +1,14 @@
+% Core type and local formatting helpers.
+\newcommand{\kw}[1]{{\ensuremath {\mathsf{#1}}}\xspace}
+\newcommand{\kwnospace}[1]{{\ensuremath {\mathsf{#1}}}}
+\newcommand{\etitle}[1]{\par\addvspace{1ex}\noindent\underline{\emph{#1}}}
+\newcommand{\algocomment}[1]{{\footnotesize $\rhd$ \emph{#1}}}
+\newcommand{\bigo}{\ensuremath{\mathcal{O}}}%
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newcommand{\xmark}{\ding{55}}%
+
+% Migrated passages use single-label lowercase section references, plus
+% capitalized figure/table references. Avoid enabling cleveref globally:
+% in this build it drops some existing amsmath labels under LaTeX 2026.
+\providecommand{\cref}[1]{\S\ref{#1}}
+\providecommand{\Cref}[1]{\autoref{#1}}
